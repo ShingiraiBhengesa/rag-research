@@ -119,17 +119,7 @@ rag-research/
 
 ---
 
-## Infrastructure & Setup
-
-### SLU Libra HPC Cluster
-
-| Resource | Specification |
-|----------|--------------|
-| GPU Nodes | 3x Dell R760xa, 2x NVIDIA L40s (40GB VRAM each) |
-| ML Nodes | 2x Dell R760xa, 4x NVIDIA H100 NVL (80GB VRAM each) |
-| Scheduler | Slurm |
-| OS | RedHat Enterprise Linux 9 |
-| Storage | 244TB shared home filesystem |
+## Setup
 
 ### Environment: Self-RAG
 
