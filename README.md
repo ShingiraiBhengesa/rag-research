@@ -1,4 +1,4 @@
- Overview
+ # Overview
 
 Retrieval-Augmented Generation (RAG) systems enhance language models by selectively retrieving external documents to ground their outputs in factual evidence. However, the mechanisms that govern *when* and *how* these systems retrieve information remain poorly understood, particularly under adversarial conditions.
 
