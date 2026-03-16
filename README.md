@@ -237,44 +237,6 @@ python ~/adaptive-rag/analysis/generate_plots.py
 | combined_fig2_retrieval_spectrum | Scatter plot: both systems on retrieval frequency vs gain axes | Systems occupy opposite regions of the retrieval behavior space |
 
 ---
-
-## Planned Attack Experiments
-
-### Attack 1: Retrieval Suppression on Self-RAG
-
-**Goal:** Craft adversarial inputs that flip the `[Retrieve]` token from Yes to No on retrieval-dependent queries (PopQA, TriviaQA).
-
-**Hypothesis:** If retrieval is suppressed on PopQA (where retrieval provides +26pp accuracy), we expect accuracy to collapse to near the no-retrieval baseline (~28.7%).
-
-**Approach:** Gradient-based perturbation of input tokens to shift `[Retrieve]` logit probabilities. Measure attack success rate and accuracy degradation.
-
-### Attack 2: Complexity Downgrade on Adaptive-RAG
-
-**Goal:** Add adversarial perturbations to multi-hop questions that cause the T5-Large classifier to predict route A (no retrieval) instead of route C (multi-step).
-
-**Hypothesis:** The classifier already achieves only 28% accuracy on route A, suggesting the decision boundary is fragile. Small perturbations should be sufficient to cause mis-routing.
-
-**Approach:** TextAttack-based word substitution attacks targeting the classifier's input. Measure how often complex queries get downgraded and the resulting accuracy impact.
-
-### Attack 3: Retrieval Forcing on Self-RAG (ARC-Challenge)
-
-**Goal:** Force Self-RAG to retrieve and trust irrelevant passages on ARC-Challenge, where retrieval already hurts performance.
-
-**Hypothesis:** Amplifying retrieval on a dataset where it is harmful will quantify the maximum damage from poor retrieval decisions.
-
-**Approach:** Manipulate `[IsRel]` token probabilities to force acceptance of low-relevance passages.
-
-### Tools & Frameworks
-
-| Tool | Purpose | Repository |
-|------|---------|------------|
-| PoisonedRAG | Corpus-level knowledge base poisoning | github.com/sleeepeer/PoisonedRAG |
-| TextAttack | Input-level text perturbation | github.com/QData/TextAttack |
-| Joint-GCG | Gradient-based adversarial suffix generation | — |
-| AgentPoison | Agent-targeted RAG poisoning | — |
-
----
-
 ## References
 
 1. Asai, A., Wu, Z., Wang, Y., Sil, A., & Hajishirzi, H. (2024). Self-RAG: Learning to Retrieve, Generate and Critique through Self-Reflection. *ICLR 2024* (Oral, Top 1%).
