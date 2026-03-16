@@ -1,0 +1,5 @@
+Dataset,Task Type,Adaptive,Always Retrieve,No Retrieval
+PopQA,Long-tail QA,54.9,54.9,28.7
+TriviaQA,Open-domain QA,66.2,66.2,50.3
+PubHealth,Fact verification,72.1,71.7,70.1
+ARC-C,Science reasoning,67.2,67.2,67.4
