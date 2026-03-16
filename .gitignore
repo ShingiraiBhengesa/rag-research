@@ -1,4 +1,4 @@
-# Model weights (too large for GitHub)
+# Model weights
 *.bin
 *.safetensors
 *.pt
