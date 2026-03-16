@@ -1,0 +1,5 @@
+Dataset,Total Questions,Retrieved,Skipped,Retrieval %,Accuracy Gain (pp),Decision Quality
+PopQA,1399,1399,0,100.0,+26.2,Correct
+TriviaQA,7313,7313,0,100.0,+15.8,Correct
+PubHealth,987,932,55,94.4,+2.0,Correct
+ARC-C,1172,1172,0,100.0,-0.3,Neutral
