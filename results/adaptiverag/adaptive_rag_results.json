@@ -1,0 +1,28 @@
+{
+  "model": "flan_t5_xxl",
+  "classifier": "t5-large",
+  "best_epoch": 30,
+  "datasets": {
+    "musique": {
+      "adaptive": 21.4,
+      "no_retrieval": 4.0,
+      "single_step": 15.8,
+      "multi_step": 19.2,
+      "n": 500
+    },
+    "hotpotqa": {
+      "adaptive": 45.6,
+      "no_retrieval": 18.4,
+      "single_step": 39.6,
+      "multi_step": 49.4,
+      "n": 500
+    },
+    "2wikimultihopqa": {
+      "adaptive": 51.2,
+      "no_retrieval": 25.6,
+      "single_step": 46.2,
+      "multi_step": 62.6,
+      "n": 500
+    }
+  }
+}
