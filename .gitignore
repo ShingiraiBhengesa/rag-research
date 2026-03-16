@@ -1,0 +1,17 @@
+# Model weights (too large for GitHub)
+*.bin
+*.safetensors
+*.pt
+*.pth
+
+# Large data files
+*.tsv.gz
+*.tar
+raglab_data/
+hf_data/
+
+# Temp files
+*_tmp
+__pycache__/
+*.pyc
+.cache/
