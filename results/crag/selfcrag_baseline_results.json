@@ -1,0 +1,21 @@
+{
+  "experiment": "Self-CRAG Baseline Evaluation",
+  "date": "2026-04-07",
+  "description": "Self-RAG inference on CRAG-corrected documents",
+  "results": {
+    "popqa": {
+      "selfcrag_adaptive": 60.8,
+      "selfcrag_always_retrieve": 60.8,
+      "note": "Adaptive and always_retrieve identical - Self-RAG retrieves 100% even with corrected docs"
+    }
+  },
+  "comparison": {
+    "vanilla_rag": 54.5,
+    "self_rag": 54.9,
+    "crag": 59.7,
+    "self_crag": 60.8,
+    "improvement_over_rag": 6.3,
+    "improvement_over_selfrag": 5.9,
+    "improvement_over_crag": 1.1
+  }
+}
