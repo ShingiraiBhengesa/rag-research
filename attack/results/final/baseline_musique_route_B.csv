@@ -1,0 +1,84 @@
+idx,qid,predicted_route,actual_route,question,gold_answer,system_answer,latency_ms,num_sources,exact_match,loose_match
+1,2hop__20059_236755,B,B,What is a notable work from the person who said the term 'intellectual property' operates as a catch-all,GNU Manifesto,Free Software Foundation,4704.0,5,False,False
+2,2hop__50910_177869,B,B,Who married the publisher of abolitionist newspaper The North Star?,Helen Pitts Douglass,Doris Nolan,4217.2,15,False,False
+3,2hop__39420_39345,B,B,When did the president of Notre Dame in 2012 begin his tenure?,2005,"July 1, 2005",3858.3,3,False,True
+4,2hop__763380_74735,B,B,What song did Paul McCartney write for the person who performed Too Late for Goodbyes?,``Hey Jude '',Woman,8748.9,13,False,False
+5,2hop__35566_17873,B,B,What happened to Buckingham after the departure of the queen who Martha Ann Ricks presented the famed Liberian coffee tree to?,"palace was seldom used, even neglected",Buckingham Palace remained shuttered for most of the year,7289.3,10,False,False
+6,2hop__88834_356793,B,B,Who is the father of Nim's actress in Return to Nim's Island?,Steve Irwin,Edmund,8002.0,14,False,False
+7,2hop__249867_557232,B,B,Which country is the Desert Forest Golf Club located in?,Maricopa County,United States,10371.2,15,False,False
+8,3hop1__786632_831637_91775,B,B,"What does seal stand for in the U.S. military branch that operates destroyers, as well as the USS Edsall?","Sea, Air, and Land","Sea, Air, and Land",9259.7,15,True,True
+9,3hop1__836699_15840_36002,B,B,What were the Genesis's advantages over the platform of the game Nightshade?,built on 16-bit architectures and offered improved graphics and sound,16 - bit home video game console,8656.8,15,False,False
+10,3hop2__89048_228_66294,B,B,Who played who sang is she really going out with him in the who influenced Beyonce movie?,Lawrence Hilton - Jacobs,Joe Jackson,10592.6,15,False,False
+11,2hop__998_25839,B,B,What is the maximum load drawn by the 1.0 and 2.0 versions of the device that replaced FireWire in later iPods?,five unit loads,500 mA,10032.4,2,False,False
+12,2hop__789398_74735,B,B,What song did Paul McCartney write for the performer of Valotte?,``Hey Jude '',Hey Jude,7227.7,13,True,False
+13,2hop__511454_120259,B,B,When was Lady Godiva's birthplace abolished?,918,1832,7527.0,15,False,False
+14,3hop1__88707_91850_685675,B,B,On what team was the player who hit the first home run at the new location of NY Yankees home games?,New York Yankees,New York Yankees,10314.0,10,True,True
+15,2hop__24648_192417,B,B,What is the league of the Carolina Panthers an example of?,sports league,National Football League,9431.4,11,False,False
+16,3hop1__409517_547811_41132,B,B,How many times did the plague occur in the birth city of the composer of Scanderbeg?,22,22,8721.5,15,True,True
+17,2hop__157602_21567,B,B,"In the 14th century, who introduced a system of musical notation used in the area where 3% of Turkey is located?",John Kukuzelis,John Kukuzelis,10125.7,11,True,True
+18,2hop__89991_58067,B,B,Who was honored with the highest award in India before becoming president?,A.P.J. Abdul Kalam,Sarvepalli Radhakrishnan,10068.2,8,False,False
+19,3hop1__178435_547811_41132,B,B,How many times did plague occur in the birthplace of the composer of Gloria in D Major?,22,2,9406.2,15,False,False
+20,2hop__75714_21969,B,B,When was the first governor general of India impeached?,1786,1788,8717.5,5,False,False
+21,2hop__6750_6733,B,B,To what division of languages does one with an innovative form belong?,Eastern block,Austronesian,9027.2,14,False,False
+22,2hop__29873_679424,B,B,In which country is the province where Serbian and Croatian languages are both official?,SR Serbia,Serbia,8726.8,8,False,False
+23,2hop__864201_80026,B,B,Who played the character with the same name as the Volcano Girls performer in Willy Wonka and the Chocolate Factory?,Julie Dawn Cole,Peter Ostrum,9245.9,8,False,False
+24,3hop2__125104_90098_10557,B,B,What was where the last name sylvester comes from of who was Rotrude's father's era later known as?,Medieval Latin,"Latin adjective silvestris meaning wooded ''or wild'', which derives from the noun silva meaning woodland ''",9628.9,15,False,False
+25,2hop__7046_44085,B,B,What was the old show that was named after a character that Walt Disney created in 1928 called?,The Mickey Mouse Club,The Mickey Mouse Club,7451.0,10,True,True
+26,3hop1__109185_720914_41132,B,B,How many times did the plague occur in the place of death of the creator of La Schiavona?,22,22,9423.8,7,True,True
+27,2hop__5190_64006,B,B,By approximately what percentage did the Black Death reduce the population of the region that the Soviet Union feared invasion from?,30% to 65%,30%,9311.0,8,False,False
+28,2hop__160092_80144,B,B,"In 1990, who became the president of the country that Germany invaded?",Lech Wałęsa,George H. W. Bush,7523.7,11,False,False
+29,3hop2__132957_132967_40768,B,B,"When did the maker of the Acura Legend, the company that built Daihatsu Boon, and Nissan open US assembly plants?",1981,1981,10102.5,13,True,True
+30,2hop__25797_990,B,B,Which iPod generation introduced compatibility with the industry standard connection that was first widely used at version 1.1?,third generation,third generation,7264.5,6,True,True
+31,2hop__13106_158105,B,B,Which two features were played up the Microsoft executive who announced IPTV in 2007?,ease of use and enhanced support for Plug and Play,IPTV on Xbox 360,7821.6,14,False,False
+32,2hop__50199_59409,B,B,Who was the person talking at the beginning of Thriller by Fall Out Boy talking about in Song Cry?,three different relationships he had in the past,Pete Wentz,9257.0,14,False,False
+33,2hop__92385_2072,B,B,What is the public library system called in the place where the Cosbys live in New York?,Brooklyn Public Library,Queens Borough Public Library,12147.3,13,False,False
+34,2hop__159816_37168,B,B,According to QS World University Rankings where does the university where Hawass graduated rank?,551-600,551-600,8969.3,15,True,True
+35,2hop__85931_108632,B,B,Who created the main character of The Godfather?,Mario Puzo,Mario Puzo,9027.9,13,True,True
+36,2hop__160292_23241,B,B,"According to Pew, in 2010, what percent of Nigeria's population practiced the religion of most of the workers?",48.8 percent,49.3 percent,9191.4,9,False,False
+37,2hop__153573_44085,B,B,What was the show named after the character featured in the video game Mickey's Safari in Letterland?,The Mickey Mouse Club,The Mickey Rooney Show,8633.9,13,False,False
+38,2hop__431934_30351,B,B,Who did Hayek work for after being hired by the author of Human Action?,the Austrian government,Austrian government,9572.7,4,True,False
+39,3hop1__30240_740597_41132,B,B,How many times did plague occur in the birthplace of the person who used the spice route that the Ottoman Empire controlled?,22,2,7396.6,2,False,False
+40,3hop1__408237_400692_51423,B,B,What is the name of the castle in the birthplace of Harmony's performer?,Casa Loma,Katzenstein Castle,7753.0,14,False,False
+41,2hop__194532_57594,B,B,What gun does the director of Pollock use in Westworld?,LeMat revolver,Thompson submachine gun,10116.1,15,False,False
+42,3hop1__695430_831637_91775,B,B,What does SEAL stand for in the military group that is part of the branch that operates the USS Chillicothe?,"Sea, Air, and Land","Sea, Air, and Land",9734.0,12,True,True
+43,2hop__10620_49084,B,B,Who plays the legendary figure featured in Historia Regum Britanniae in the show Once Upon a Time?,Liam Thomas Garrigan,Liam Garrigan,8491.2,15,False,False
+44,3hop2__132957_295815_40768,B,B,"When did the maker of the Acura Legend, the manufacturer of Toyopet Master, and Nissan open US assembly plants?",1981,1981,9488.4,12,True,True
+45,2hop__25788_25855,B,B,Drives attached via an industry standard connector remain powered when the computer is off using what Dell feature?,PowerShare,PowerEdge,10702.3,6,False,False
+46,3hop2__132957_133292_40768,B,B,When did Nissan along with the creator of the Hino Dutro and the maker of the Acura Legend open US assembly plants?,1981,1981,9153.3,13,True,True
+47,2hop__818302_25719,B,B,At the end of which year did the tribes from the location of the Lusatia invade the Roman Empire?,406,400,8927.3,10,False,False
+48,2hop__557496_57594,B,B,What gun does Amy Madigan's spouse used in westworld?,LeMat revolver,Thompson submachine gun,11315.0,15,False,False
+49,2hop__373759_136043,B,B,What is the performer of Heartbeat named after?,Natalie Albino,Leo Janáek,9405.7,15,False,False
+50,2hop__87580_7298,B,B,"Along with the person who played Andy's brother in The Office, what notable pop artist started his career in adult contemporary radio?",Michael Bublé,Michael Bublé,9095.8,1,True,True
+51,2hop__85958_87295,B,B,What character does the person who played Eliza Doolittle in My Fair Lady play in The Princess Diaries?,Queen dowager Clarisse Renaldi,Princess Leah,7564.8,6,False,False
+52,2hop__82910_75184,B,B,Who played the girlfriend of Alex P. Keaton's actor on Family Ties in Back to the Future?,Claudia Wells,Jennifer Parker,10290.6,6,False,False
+53,2hop__93145_54024,B,B,"Which king, who was England's rule in 1616, translated the Bible?",King James I of England,King James I,7235.3,8,False,False
+54,2hop__657913_88628,B,B,Who did the producer of Big Jim McLain play in True Grit?,U.S. Marshal Rooster Cogburn,Frank Ross,8789.9,14,False,False
+55,3hop2__57186_89048_66294,B,B,who played who sang is she really going out with him in the who sang she's out of my life movie?,Lawrence Hilton - Jacobs,Joe Jackson,10362.9,15,False,False
+56,3hop1__346812_15840_36014,B,B,What was Nintendo's limit on games per developer per year on the platform that plays Drac's Night Out?,five,five,9293.1,13,True,True
+57,3hop1__312146_720914_41132,B,B,How many times did plague occur in the place where Vanity's creator died?,22,22,9158.5,15,True,True
+58,3hop1__765847_831637_91775,B,B,What does SEAL stand for in the branch of military that operates USS Mahan?,"Sea, Air, and Land","Sea, Air, and Land",12987.4,13,True,True
+59,3hop1__691197_15840_36002,B,B,What were the Genesis's advantages over the console whose three letter abbreviation stood for the full console name and also featured the game Yoshi?,built on 16-bit architectures and offered improved graphics and sound,"much larger library of games, and lower price point",8929.3,15,False,False
+60,4hop3__373866_5189_38229_86687,B,B,A group of nations of which the People's Socialist Republic of Albania was a member was controlled by one country. When did that country agree to a unified Germany inside of the organization Eisenhower would not discuss during the campaign?,May 1990,1945,10278.2,10,False,False
+61,2hop__771477_149987,B,B,Which mythological tradition has the group of heroes that includes Aegialeus?,Greek mythology,Greek,9618.4,13,False,False
+62,2hop__47257_43786,B,B,Where is the base of the newspaper saying if you find yourself in a hole stop digging?,"Washington, D.C.",The Washington Post,10750.5,15,False,False
+63,3hop1__320697_547811_41132,B,B,How many times did plague occur in the birth city of the composer of Nulla in mundo pax sincera?,22,2,9464.9,15,False,False
+64,2hop__82713_84616,B,B,What did the actress in My Fair Lady win a Tony for?,for Best Performance by a Leading Actress in a Play in Ondine,West Side Story,10563.1,11,False,False
+65,2hop__754826_7292,B,B,"Which artist was featured on smooth jazz stations, along with Kenny G and the performer of Saxophonic?",George Benson,George Benson,7338.0,15,True,True
+66,2hop__73717_653666,B,B,Who was the mother of the person who found the sacred writings that became the Book of Mormon?,Lucy Mack Smith,Madeleine Sophie Barat,7172.7,14,False,False
+67,2hop__161872_21567,B,B,Who in the14th century introduced musical notation used where Jack later participated in a covert mission?,John Kukuzelis,John Kukuzelis,7318.2,12,True,True
+68,2hop__389778_78303,B,B,"What was the cast member of Missing in Action's name in Walker, Texas Ranger?",Cordell Walker,Chuck Norris,10473.7,12,False,False
+69,2hop__852657_155922,B,B,Into what harbour does the river Lennox Bridge in Parramatta crosses flow?,Sydney Harbour,Sydney Harbour,9367.1,15,True,True
+70,2hop__176_51164,B,B,When was the signing of the treaty named for the city where Beyoncé got pregnant?,"September 3, 1783","March 10, 1779",12013.2,7,False,False
+71,3hop1__818422_160545_60577,B,B,Where did they film The Beach in the country where Beatrice Heuser was born?,Ko Phi Phi Leh,Koh Phi Phi,9032.4,13,False,False
+72,2hop__857585_14251,B,B,What line by the Southern Roses cast member is believed to have started the Archie nickname?,"""Archibald, certainly not!""","""I'm no fool; but I think that in that line the rose is red for the first time in English poetry for a hundred years. ''(Four in America)",9801.6,14,False,False
+73,2hop__217011_80026,B,B,Who played the character in Willy Wonka and the Chocolate Factory that the performer of Victrola was named after?,Julie Dawn Cole,Peter Ostrum,10510.0,7,False,False
+74,2hop__96411_159054,B,B,What was the story of the character from The Bourne Deception based on?,the novel of the same name by Robert Ludlum,Thomas Bourne,9523.2,12,False,False
+75,2hop__669837_31270,B,B,How far from Nashville in miles is the place of death of Felix Ives Batson?,45,0,9764.1,15,False,False
+76,2hop__780652_93362,B,B,What film features Anil Devgan's sibling?,Yeh Raaste Hain Pyaar Ke,Jeepers Creepers,10455.8,15,False,False
+77,2hop__159741_40169,B,B,When did a storm disperse the fleet led by the English king who trusted William de Longchamp?,1191,May 1216,7299.9,13,False,False
+78,2hop__530579_13529,B,B,When was the father of Diego Sinagra signed by Barcelona?,June 1982,1982,8841.6,7,False,False
+79,2hop__38828_89399,B,B,Who voices the character in Spongebob Squarepants who is named after a glowing species found in some beaches in Portugal?,Mr. Lawrence,Tom Kenny,10534.3,8,False,False
+80,3hop1__649930_15840_36002,B,B,What were the Genesis' advantages over the platform of Colorful Dragon?,built on 16-bit architectures and offered improved graphics and sound,16 - bit home video game console,9693.5,14,False,False
+81,2hop__59612_42352,B,B,How many people were in British Colonies where does the london broil cut come from ?,2 million,"Between 1945 and 1965, the number of people under British rule outside the UK itself fell from 700 million to five million, three million of whom were in Hong Kong.",9844.9,10,False,False
+82,2hop__61714_89309,B,B,What was the date that Pam got married in The Office?,"October 8, 2009",Niagara,9829.3,8,False,False
+83,2hop__43776_162341,B,B,What other recognition did the Oscar winner for Best Actor in 2006 receive?,nominated for an Academy Award for Best Supporting Actor,Golden Globe Award nominations,9606.8,14,False,False

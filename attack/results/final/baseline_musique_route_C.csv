@@ -1,0 +1,409 @@
+idx,qid,predicted_route,actual_route,question,gold_answer,system_answer,latency_ms,num_sources,exact_match,loose_match
+1,2hop__511176_22458,C,C,What does the acronym of the organization Danish Football Union is part of stand for?,International Federation of Association Football,UEFA,22708.6,10,False,False
+2,2hop__373544_80420,C,C,Who was the first African American student at the university Robert Khayat was educated at?,James Howard Meredith,Robert Robinson Taylor,26551.8,15,False,False
+3,3hop1__454441_55349_651302,C,C,What is the birthplace of the man who does the voice of Stan on the series that includes the episode The Hobbit?,Denver,New York City,28612.3,15,False,False
+4,4hop1__668178_765799_282674_759393,C,C,What is the seat of the county sharing a border with the county where Don Werner was born?,Green Bay,Green Bay,35319.7,11,True,True
+5,4hop1__199881_378185_282674_759393,C,C,What is the seat of the county sharing a border with the county in which Miller Electric is headquartered?,Green Bay,Hughesville,28474.9,10,False,False
+6,2hop__358270_108549,C,C,Who wrote the TV Series containing the Finale episodes?,Alfred Gough,Max Mutchnick and David Kohan,38482.8,13,False,False
+7,2hop__496961_554601,C,C,What's the place of birth of the former member of The Sunnyboys?,Kingscliff,"Kingscliff, New South Wales",17712.5,12,False,True
+8,2hop__388467_110882,C,C,What is the birth date of the By Your Side performer?,1 January 1986,1 January 1986,17787.9,11,True,True
+9,3hop1__847420_720378_15538,C,C,"When did the state, that contains the county where Elmo is found, reinstate the death penalty?",1984,1984,26588.5,15,True,True
+10,2hop__623501_297043,C,C,What watercourse is the river on which the Lostock Dam is located the mouth of?,Hunter River,Hunter River,33196.8,15,True,True
+11,2hop__606439_127399,C,C,"What year did the group that performed From Them, Through Us, to You form?",2005,2005,18247.6,10,True,True
+12,4hop1__146971_698949_157828_162309,C,C,When did the country that has the same co-official language as that of the movie about the city where Petar Trifunović died send an independent team to the Olympics?,2016,1920,21344.8,10,False,False
+13,3hop2__72083_92991_76291,C,C,When did the party that gained control of Congress in the midterm elections in 1946 take control of the government branch that determines the rules of the US House?,January 2015,1948,17675.9,10,False,False
+14,2hop__135029_712629,C,C,"Who is the spouse of Prince Edward, Earl of Wessex's mother?",Philip Mountbatten,Queen Elizabeth II,24445.0,12,False,False
+15,2hop__284789_52835,C,C,Who wrote Turn Me On by the performer who also did Sinkin' Soon?,John D. Loudermilk,John D. Loudermilk,28619.1,13,True,True
+16,2hop__36269_73244,C,C,Where is the origin of the river that Orlam clans crossed to migrate to Namibia?,Thaba Putsoa,Thaba Putsoa,18267.0,12,True,True
+17,2hop__107185_64006,C,C,As a result of the black death it is estimated that the population of the country for Bâton à feu was reduced by how much?,30% to 65%,30% to 65%,19994.6,7,True,True
+18,2hop__703767_37168,C,C,Where does the employer of Hasan Hanafi rank according to QS World University Rankings?,551-600,551-600,29443.7,14,True,True
+19,2hop__6827_75783,C,C,When was countrywide bought by the company that bought FleetBoston Financial?,"July 1, 2008",2008,33102.1,11,False,False
+20,3hop1__831499_228453_10972,C,C,When did the city where the headquarters of Barton Premium Blend's manufacturer is located elect its first black mayor?,1970s,2017,29825.3,15,False,False
+21,2hop__551235_310309,C,C,Who is the child of the creator of A Distinguished Member of the Humane Society?,Edwin Landseer Lutyens,George Landseer,22128.5,12,False,False
+22,3hop1__241001_568433_51423,C,C,What is the name of the castle in the headquarters of the company that employs Arna Selznick?,Casa Loma,Marksburg Castle,28625.2,15,False,False
+23,2hop__156700_63853,C,C,What is the source of the river of which Kraai River is a tributary?,Thaba Putsoa,Thaba Putsoa,20446.3,11,True,True
+24,2hop__75781_512508,C,C,What was the person who provided evidence to suggest the existence of the neutron a participant of?,Manhattan Project,TRIUMF,23887.9,10,False,False
+25,2hop__30905_189318,C,C,Where did the person who sponsored the resolution to reopen trade with Vietnam along with Kerry go to college?,National War College,Harvard University,28077.3,15,False,False
+26,4hop1__152146_5274_458768_33637,C,C,How many ethnic minorities were looked at differently in the city where the headquarters of the only group larger than Långa nätter's record label is located?,two,2,21141.2,11,False,False
+27,3hop1__480375_709625_84283,C,C,Who is the owner of the record label of the Please Remember Me performer?,Warner Music Group,Evan Newman,29810.9,15,False,False
+28,3hop2__668732_467331_162182,C,C,"In what region of the country containing An Phú, is the city with the Zone 5 Military Museum located?",South Central Coast,Mekong Delta,26424.2,11,False,False
+29,4hop1__58323_375563_161848_61344,C,C,What continent is the country located near the country of citizenship of The Book Thief's author part of?,submerged continent of Zealandia,Africa,29936.6,11,False,False
+30,2hop__72660_319330,C,C,Who is the child of the first person who gave in person state of the union?,Jessie Woodrow Wilson,John Adams,35789.8,15,False,False
+31,3hop2__782397_223623_162182,C,C,In what region of Phu Luong's country is John Phan's birthplace located?,South Central Coast,Sn La Province,19429.6,15,False,False
+32,2hop__536283_67465,C,C,When did the performer of Watching Movies release Best Day Ever?,"March 11, 2011","March 11, 2011",15530.3,9,True,True
+33,4hop3__238811_88460_30152_20999,C,C,New coins by the Somali Muslim Ajuran Empire were a proclamation of independence from a nation. How were the people of that nation expelled from country that borders Thailand and Ban Nampo village's country?,The dynasty regrouped and defeated the Portuguese,Portuguese,26190.5,13,False,False
+34,2hop__15416_58040,C,C,What is the highest city in the state where Dell ranks sixth by revenue?,Fort Davis,San Antonio,14983.4,11,False,False
+35,3hop1__662618_339990_54675,C,C,What mountain can you see from Portland in the state where Fishing Creek Confederacy is located?,Tualatin Mountains,Mount Katahdin,60321.2,15,False,False
+36,2hop__149710_108549,C,C,Who is the show Hawkgirl is from by?,Alfred Gough,Sahar Biniaz,26771.5,15,False,False
+37,3hop1__104762_24918_24991,C,C,What went down after the Soviet president visiting the country of citizenship of Yasyn Khamid while the protests were taking place departed from the Kremlin?,Soviet flag,the Soviet flag,20109.3,12,True,True
+38,3hop1__21282_692112_236857,C,C,In what country is women's football played in the country where the German chancellor criticized by The Sun held citizenship?,GDR,Gambia,49249.5,12,False,False
+39,2hop__30390_92972,C,C,What was an economic effect of the war during which Hayek started working on Abuse of Reason?,much of the European industrial infrastructure had been destroyed,"the major participants threw their entire economic, industrial, and scientific capabilities behind the war effort, blurring the distinction between civilian and military resources",25301.3,14,False,False
+40,2hop__147171_27537,C,C,Why did Roncalli leave the place where Francesco Fontebasso resided when he died?,for the conclave in Rome,As part of that change,55965.5,11,False,False
+41,3hop1__707569_228453_10972,C,C,When did the headquarters city of the Fireball Cinnamon Whiskey manufacturer elect its first black mayor?,1970s,1970s,20750.5,13,True,True
+42,2hop__43283_86694,C,C,Who has the most wins in the league that wins the All Star Game more often?,New York Yankees,The New York Yankees,21949.0,14,True,True
+43,3hop1__446612_160545_34751,C,C,What year did the country where Ercole Manfredi was born form an alliance with Japan?,1941,1900,19497.1,13,False,False
+44,2hop__682872_516436,C,C,What field does the author of Parallel Worlds work in?,physic,science,23218.5,14,False,False
+45,2hop__143650_152023,C,C,What label was responsible for who sang or played Delta Hardware?,Kicking Mule Records,Real World Records,30480.8,15,False,False
+46,3hop2__6989_37759_74563,C,C,"When did the religious order that founded Harvard College, arrive in the region of the U.S. served by the Rainbow Times?",1630,1636,55833.6,11,False,False
+47,2hop__658472_5385,C,C,How many people work at the school where Gene Ball was educated?,"11,900","58,590",24872.9,15,False,False
+48,3hop2__92991_38242_76291,C,C,"When did the party that had majorities in Congress prior to the 1954 elections, take control of the organization that determines the rules of the US house and US senate?",January 2015,1954,23940.9,14,False,False
+49,2hop__853227_68633,C,C,Arthur Marryatt is a member of a sports association that has who as president?,Thomas Bach,Rosamunde Carey,20015.6,11,False,False
+50,4hop2__9988_158279_70784_79935,C,C,"When was the region that lies to the north of what used to be known as the ""Near East"" and the location of the final destination of exported crops created?",1930,1924,20681.2,6,False,False
+51,3hop1__652852_2053_5289,C,C,"What UK label was purchased by the company that, along with the distributor of The Cube, and ABC, is the other major New York-based broadcaster?",Oriole Records.,Cargo Records,23329.6,8,False,False
+52,3hop1__379231_40769_64047,C,C,When did the luxury division of the manufacturer change the body style of RX 350?,Sales began worldwide in April 2012,March 2012,43825.6,7,False,False
+53,3hop2__88342_93066_47738,C,C,When did the team that won the AL East in 2017 last play in the event after which the MLB MVP is awarded?,the 2009 season,2016,15496.8,7,False,False
+54,3hop1__516535_834494_34088,C,C,Where are NASCAR races held in the city in the same county as Allen?,Tucson Raceway Park,Indianapolis 500,23224.3,15,False,False
+55,2hop__451574_120065,C,C,What year did Ludwig Friedrich Otto Baumgarten-Crusius's birthplace end?,1738,1715,15500.4,7,False,False
+56,4hop1__152562_5274_458768_33632,C,C,"What day is the feast held, in the city that holds the headquarters of the only music company that is larger than the record label of Vilaiyaadu Mankatha?",May 4,6 August,20316.4,12,False,False
+57,3hop1__131829_39743_24526,C,C,"What is the average winter daytime temperature in the region containing Richmond, in the state where WXBX is located?",upper 40s–lower 50s °F,37.9 °F,21583.3,11,False,False
+58,2hop__632870_22402,C,C,How many students attend where Andre Dreiding is employed?,"nearly 25,000","75,000",19217.2,13,False,False
+59,2hop__135668_561444,C,C,"Who is daughter to the third Rebbe of Chabad Lubavitch, named after his father?",Dovber Schneuri,Chaya Mushka Schneersohn,21439.3,9,False,False
+60,4hop3__531933_836463_161616_77103,C,C,When did the city where Souvenir's performer was born become the capitol of the state Knowles was from?,1839,1843,18990.0,12,False,False
+61,3hop1__516535_834494_33939,C,C,"In 1900, what was the population of the city in the same county as Allen?","7,531",0,15561.6,11,False,False
+62,3hop1__671542_665330_47686,C,C,Where do greyhound buses leave from in the city where the performer of Darlings formed?,Toronto Coach Terminal,Greyhound Terminal,19083.3,15,False,False
+63,2hop__814856_110882,C,C,What is the Smile performer's birthday?,1 January 1986,"March 16, 2010",18301.6,12,False,False
+64,2hop__109242_113442,C,C,On what date did the creator of The Blind Girl die?,13 August 1896,13 August 1896,20025.0,15,True,True
+65,2hop__748615_123956,C,C,On what date did Battle of the birth place of Marzuki Alie end?,15 February 1942,27 December 1939,18864.0,7,False,False
+66,4hop2__161602_426860_88460_21034,C,C,What year did the country that is the natural boundary between where tournament was hosted and where That Dam is located host the ASEAN Conference?,hosted the summit in 2014,2017,19300.6,15,False,False
+67,2hop__860241_766393,C,C,What award was received by the person who authored Missing Person?,Nobel Prize in Literature,Prix Goncourt,19810.9,11,False,False
+68,3hop1__398232_326948_78782,C,C,Who was the British general in the battle named after the birth city of the person who recorded Mother-in-Law?,General Edward Pakenham,Edward Pakenham,20131.1,15,False,False
+69,2hop__71715_50429,C,C,What is the population of the state where Dukes of Hazzard took place?,"10,310,371 (2016 est.)","79,590",54702.4,12,False,False
+70,3hop1__106042_64399_52278,C,C,Who controlled the holy land where the brand of Christianity practiced in the country where Vasilopita is lasted up until the 7th century?,Roman then Byzantine,Byzantines,29448.7,11,False,False
+71,3hop1__106094_443779_52195,C,C,Who is the president of the newly declared independent country part of the Commission of Truth and Friendship with the country that made Arisan!??,Francisco Guterres,Francisco Guterres,19825.1,14,True,True
+72,2hop__71755_463572,C,C,What is the record label for the singer who originally sang You Belong To Me.,MGM Records,Epic,18756.4,12,False,False
+73,2hop__829474_123956,C,C,On what date was the battle where Muhammad Shobran was born?,15 February 1942,"March 15, 1206",15615.2,10,False,False
+74,2hop__144784_623159,C,C,The city where Dmitry Borisovich was born is located where in Russia?,Yaroslavl Oblast,Yaroslavl Oblast,16232.6,11,True,True
+75,3hop1__527372_339990_54675,C,C,"What mountains can you see from Portland, in the state with the county that contains Fester Hollow?",Tualatin Mountains,Multnomah,21456.6,14,False,False
+76,3hop1__178435_547811_80702,C,C,What is the name of the famous bridge in the birthplace of Gloria in D Major's composer?,Rialto Bridge,George D. Stuart Bridge,52785.7,11,False,False
+77,2hop__20256_71302,C,C,"In The Godfather, who does the actor producing the Freddie Mercury film play?",Vito Corleone,Vito Corleone,23631.2,14,True,True
+78,2hop__731584_700117,C,C,In which county is the city to which KKVU is licensed to broadcast?,Berrien County,Missoula County,15922.0,11,False,False
+79,3hop2__304722_526346_63959,C,C,When was the last time the sports team having Trevor Dark as a member beat the winner of 1894–95 FA Cup?,1 December 2010,1902,16037.0,6,False,False
+80,4hop1__44149_32392_823060_610794,C,C,What county is the city that shares a border with the state capital of the state where the RBC Heritage Golf Tournament is played in?,Richland County,Columbia County,27877.5,15,False,False
+81,2hop__244193_461106,C,C,What movement does the creator of the Washington Monument belong to?,Greek Revival,Colonial Revival,23067.3,15,False,False
+82,4hop1__145494_698949_157828_162309,C,C,When did the country whose co-official language was used in the movie named after the place where Bela Linder died first attend the Olympics games as an independent team?,2016,2008,27601.8,6,False,False
+83,3hop1__222497_309482_89834,C,C,When did the merchant of the city where the composer of Al gran sole carico d'amore takes place?,16th - century,1899,16014.7,7,False,False
+84,2hop__335899_124498,C,C,Who is the father of the performer of Qui de noux deux?,Louis Chedid,Louis Chedid,15403.7,11,True,True
+85,4hop3__373866_5189_31809_86687,C,C,A country was in effective control of both political and military functions of the organization the People's Socialist Republic of Albania belonged. When did this country agree to a unified Germany inside the organization that killed Gaddafi's grandsons?,May 1990,23 May 1949,19889.9,15,False,False
+86,3hop1__53690_161697_85460,C,C,What is the average salary of a working citizen of the same nationality as the author of The Feminine Mystique?,"$59,039","$17,590",20126.3,10,False,False
+87,2hop__498251_126089,C,C,Who was in charge of the area where Laren is located?,Johan Remkes,Johan Remkes,34043.0,13,True,True
+88,2hop__445963_6063,C,C,What is the population of Francis Watson's birthplace?,"4,255","4,255",19207.6,14,True,True
+89,2hop__567588_67465,C,C,When did the performer of Goosebumpz release best day ever?,"March 11, 2011","March 11, 2011",15496.7,11,True,True
+90,2hop__32887_235620,C,C,Who fathered Emperor Ai of the Chinese dynasty with the oldest remaining wooden buildings?,Emperor Zhaozong of Tang,Emperor Zhaozong of Tang,44902.0,13,True,True
+91,3hop1__315504_629431_64412,C,C,When did the place where Mater et Magistra's author died become its own country?,11 February 1929,1946,21859.3,15,False,False
+92,2hop__24976_161105,C,C,By how many votes did the person the organizers wanted to arrest survive impeachment?,72,a single vote,59574.9,7,False,False
+93,3hop2__127483_76623_10557,C,C,What was the language Auctor comes from during the era of the king who was crowned emperor of the west in 800 CE?,Medieval Latin,Latin,21395.7,11,False,False
+94,2hop__55463_19033,C,C,Where did the wrestler who has won the most intercontinental championships win in 2008?,Great American Bash,WrestleMania 33,18155.8,6,False,False
+95,2hop__499577_617190,C,C,Who is the spouse of the child of Peter Andreas Heiberg?,Johanne Luise Heiberg,Gyllembourg-Ehrensvärd,28212.3,13,False,False
+96,3hop1__639955_834494_34099,C,C,How long are the council terms of the city that shares a county with Helvetia?,four-year,four-year terms,23737.6,14,False,True
+97,3hop1__136129_87694_64412,C,C,When did the place where the head of the catholic region named after the same saint as the Dakovo Cathedral become its own country?,11 February 1929,1878,19340.6,7,False,False
+98,2hop__75207_365216,C,C,"In which province is San Clemente, from the country where Fuser and Alberto meet the indigenous couple who were traveling to look for work?",Talca Province,Talca Province,19772.4,11,True,True
+99,2hop__159903_154896,C,C,In what year did the insurgency start in the part of the country it is about?,27 April 2009,2009,23818.0,10,False,False
+100,2hop__197470_271394,C,C,Where was Tyler MacDuff's child educated?,Blair High School,Blair International Baccalaureate School,19918.3,15,False,False
+101,2hop__131818_161450,C,C,Where is the Voshmgir District located?,in the north-east of the country south of the Caspian Sea,"Aqqala County, Golestan Province, Iran",19676.8,10,False,False
+102,2hop__821197_368148,C,C,In which county is Southern Maryland Electric Cooperative headquartered?,Charles County,Charles County,19759.3,14,True,True
+103,4hop1__130276_59747_211319_557671,C,C,Which county shares a border with the county where the most populous city in the state where Redan High School is located?,Presque Isle County,DeKalb County,60035.8,13,False,False
+104,2hop__789565_416401,C,C,Who is the child of Empress Dowager Huang's child?,Wang Jipeng,Wang Yanjun,28172.1,12,False,False
+105,3hop1__489567_443779_52195,C,C,Who is the president of the newly declared independent country that is part of the commission of Truth and Friendship with the country where Inierie is located?,Francisco Guterres,Francisco Guterres,19725.9,14,True,True
+106,3hop2__145209_20335_9331,C,C,"What dissolved the privileges of the birth empire of Alexey Brodovitch, the kingdom acquiring some Thuringian territory or Habsburg Monarchy?",March Constitution of Poland,Habsburg Monarchy,48597.3,10,False,False
+107,4hop3__373573_132409_223216_35031,C,C,The band Pathology formed in a city whose urban area ranks where by size among the urban areas of the state where the Still Swingin' song's band formed?,third-largest,third-largest,24681.8,15,True,True
+108,4hop1__814776_765799_282674_759393,C,C,What is the seat of the county sharing a border with the county where Western Islands is headquartered?,Green Bay,Greenville,14854.9,11,False,False
+109,2hop__310456_846599,C,C,Who is the child of the person who followed Tihomir of Serbia?,Saint Sava,Stefan tiljanovi,23446.0,14,False,False
+110,3hop1__106688_160713_77246,C,C,"What is the Arabic dictionary meaning, of the word for the majority religion in the part of British India, that became India when the country that released Mushkil was created?",the country of India,difficult,20407.1,7,False,False
+111,2hop__39231_17335,C,C,When did the person who took over the territory and made it part of their empire die?,323 BC,7 August 1585,20221.3,13,False,False
+112,3hop1__857_846_7874,C,C,What is the name of the major basketball team from the city where the Yongle emperor greeted the person to whom the edict was addressed?,Jiangsu Nangang Basketball Club,Brooklyn Nets,27803.1,15,False,False
+113,2hop__374495_68633,C,C,Who is the president of the organization that Avery Brundage is a member of?,Thomas Bach,Thomas Bach,20789.3,13,True,True
+114,4hop1__105401_17130_70784_79935,C,C,When was the region that lies to the north of the region where Strangers No More took place and the Persian Gulf created?,1930,"2,500 year celebration of the Persian Empire",20928.0,13,False,False
+115,3hop1__226638_538202_84283,C,C,Who is the owner of the record label that Just Got Started Lovin' You's performer belong to?,Warner Music Group,Warner Music Group,19248.9,12,True,True
+116,2hop__72487_510545,C,C,Who is the spouse of the actor that plays vision in avengers age of ultron?,Jennifer Connelly,Kristen Stewart,27682.6,11,False,False
+117,3hop1__106042_64399_53006,C,C,"What is the great mosque constructed at the site of the old temple in the city originating christianity in Rome, Egypt, Judea and the country for Vasilopita?",Al - Aqsa Mosque,Al-Aqsa Mosque,20656.0,14,False,False
+118,2hop__83405_158262,C,C,When did the president of the Confederate States of America end his fight in the Mexican-American war?,1848,1848,19160.4,13,True,True
+119,4hop1__606685_508773_85832_745702,C,C,Whose father was a navigator who explored the east coast of the continental region where Sergio Villanueva would later be born?,Sebastian Cabot,Sebastian Cabot,33839.6,13,True,True
+120,3hop1__128865_30587_83479,C,C,What was Germany's main goal in the battle of the ocean region adjacent to the city where WIOD is licensed?,to stem the flow of merchant shipping that enabled Britain to keep fighting,to destroy British shipping,24602.0,15,False,False
+121,4hop2__567956_14670_8987_8974,C,C,"A country's military branch, which in the US contains the Air Defense Artillery, was unprepared for the invasion of the country that experienced a normalization period. The unprepared country was the only communist country to have an embassy where?",Alfredo Stroessner's Paraguay,"Washington, D.C.",23403.0,15,False,False
+122,4hop1__88342_75218_128008_87812,C,C,When is the opening day of the league in which the team with the most games in the series after which the MLB MVP is awarded plays?,"Thursday, March 29",March 29,19683.0,9,False,False
+123,4hop1__94201_642284_131926_89261,C,C,Where does the body of water by the city where the Southeast Library designer died empty into the Gulf of Mexico?,the Mississippi River Delta,the Yucatán Channel,24425.3,10,False,False
+124,4hop3__193820_466199_695123_72134,C,C,When did the town WIZE is licensed in become capitol of the state where Brantley York was born?,1839,1840,19298.0,11,False,False
+125,3hop1__305566_568433_51423,C,C,What is the name of the castle in the city where the headquarters of the production company of A Cosmic Christmas is located?,Casa Loma,Sherwana Castle,24571.9,13,False,False
+126,4hop2__71753_648517_70784_61381,C,C,When was the region that lies to the north of the region Israel is located and where the Battle of Qurah and Umm al Maradim is took place established?,1932,1832,16460.9,6,False,False
+127,2hop__723404_58556,C,C,The owner of IPLEDGE has a food safety system know as what?,Food Safety Modernization Act (FSMA),FDA Food Safety Modernization Act,57828.7,10,False,False
+128,3hop1__483634_720378_15538,C,C,When was the death penalty reinstated in the state that contains the county where Howard Mill is located?,1984,1984,16849.4,10,True,True
+129,2hop__434218_29898,C,C,Which affiliate left the employer of Don Newman due to an agreement with CHBC?,CFJC-TV in Kamloops,CFJC-TV,32316.3,14,False,False
+130,2hop__693157_131890,C,C,What is the body of water by the area where Athlete was formed?,River Thames,Thames,19639.5,10,False,False
+131,4hop1__842143_153080_159767_81096,C,C,Who won the 1993 Indy Car Race in the largest city of the state containing the city where the performer of the album Mingus Three is from?,Mario Andretti,Michael Andretti,24748.0,9,False,False
+132,4hop1__370129_621192_10659_42311,C,C,"What is the largest medical school in the nation where, along with the country of citizenship of the mother of Marie Antoinette, many expelled French Jews relocated?",Medical University of Warsaw,St. John's Medical College,16001.1,11,False,False
+133,2hop__203955_25719,C,C,At the end of which year did the tribes from where the Michelsberg culture is from invade the Roman Empire?,406,390 BC,19701.3,9,False,False
+134,3hop1__19768_19788_19761,C,C,Which missionary helped spread the religion widely practiced in region having the second largest rain-forest in the world?,The Sufi missionaries,Shaykh Sufi,45175.7,15,False,False
+135,4hop1__570103_49925_13759_736921,C,C,Where is the district that the person who wanted to reform and address Brian Nobles's religion preached a sermon on Marian devotion before his death located?,Saxony-Anhalt,"east of Saxony-Anhalt, Germany",20477.4,15,False,True
+136,3hop1__19768_19788_15107,C,C,What percentage of Eritrea is estimated to adhere to the religion widely practiced in the region with the 2nd largest rain-forest in the world?,48%,50%,16822.6,9,False,False
+137,2hop__412633_15781,C,C,"Who, along with the author of An Essay on the History of Civil Society, criticized the idea of social contract theorists?",David Hume,David Hume,23592.7,13,True,True
+138,2hop__326404_120065,C,C,When did Charles Frederick II's birthplace fall?,1738,14 December 1761,15444.8,9,False,False
+139,2hop__61714_52026,C,C,What episode in the office did Pam get married to her spouse?,``Niagara '',Niagara,19646.3,14,True,False
+140,4hop2__160585_14670_8987_8974,C,C,Hana Mandlikova was born in Country A that invaded Country B because the military branch the Air Defense Artillery is part of was unprepared. Country B was the only communist country to have an embassy where?,Alfredo Stroessner's Paraguay,Vienna,19820.7,15,False,False
+141,4hop1__152146_5274_458768_33677,C,C,When was the most recent Bicycle Friendly Community Award given to the city where the headquarters of the only group larger than Långa nätter's record label is located?,2013,2013,16393.8,11,True,True
+142,3hop2__127483_79978_10557,C,C,"What was the form of the language that the last name Sylvester comes from, used in the era of the man crowned Roman Emperor in AD 800, later known as?",Medieval Latin,Classical Latin,28792.4,15,False,False
+143,2hop__580231_162399,C,C,When did the father of Dahyabhai Patel die?,15 December 1950,15 December 1950,15530.9,7,True,True
+144,2hop__166820_52835,C,C,"Who wrote turn me on, which was performed by the person who also performed Chasing Pirates?",John D. Loudermilk,John D. Loudermilk,19855.2,12,True,True
+145,2hop__68322_510545,C,C,Who is the spouse of the actor that plays Jarvis in the Avengers Age of Ultron?,Jennifer Connelly,Natasha Romanova,27482.4,12,False,False
+146,2hop__673655_316668,C,C,What instrument is played by the person from The Blackout All-Stars?,conga,congas,51205.0,15,False,True
+147,2hop__3737_13529,C,C,When was the footballer who decided not to be a torchbearer because of the controversy signed by Barcelona?,June 1982,1973,45853.5,7,False,False
+148,2hop__81268_85407,C,C,What was the 2018 population of the Italian city that's underwater?,"260,897","79,590",23196.4,15,False,False
+149,4hop1__94201_642284_131926_13165,C,C,What treaty ceded territory to the US extending west to the body of water by the city where the designer of Southeast Library died?,Treaty of Paris,Adams -- Ons Treaty,70379.0,12,False,False
+150,2hop__818692_113442,C,C,What date did the creator of Autumn Leaves die?,13 August 1896,13 August 1896,19575.3,11,True,True
+151,2hop__731228_609866,C,C,What district is the headquarter of Julia's House located?,East Dorset,Bukomansimbi District,19245.3,12,False,False
+152,3hop1__617062_127905_48717,C,C,Who was the second pick in the 1999 draft of the league Jim Wilson played in?,Josh Beckett,Chris Webber,22647.0,15,False,False
+153,3hop1__823336_228453_10972,C,C,When did the city where the manufacturer of Ten High is headquartered elect its first black mayor?,1970s,1970s,20131.8,13,True,True
+154,4hop1__726675_508773_85832_745702,C,C,Who is the child of the Italian navigator who explored the eastern coast of the continent César Gaytan was born in for the English?,Sebastian Cabot,Sebastian Cabot,15092.0,9,True,True
+155,3hop1__106313_443779_52195,C,C,Who is president of the newly declared independent country that is part of the Commission of Truth and Friendship with the country where Opor originated?,Francisco Guterres,Francisco Guterres,20251.6,15,True,True
+156,3hop1__390489_502967_84283,C,C,Who is the owner of the record label of the performer of Flamenco a Go-Go?,Warner Music Group,Leonardo Cola,15100.0,11,False,False
+157,3hop1__145194_160545_34751,C,C,What year did the country where Siddhi Savetsila was born form an alliance with Japan?,1941,1932,16400.9,10,False,False
+158,3hop1__475351_160713_77246,C,C,"In the Arabic dictionary, what's the meaning of the word for the majority religion in the area of British India that became India when Dourkhan's country was created?",the country of India,,23449.5,10,False,False
+159,3hop2__304722_398767_63959,C,C,When was the last time Johnny Newman's team beat the 1894–95 FA Cup winner?,1 December 2010,1956,27267.1,13,False,False
+160,3hop1__622497_160088_85460,C,C,What is the average salary of a working person with the same nationality as the producer of The Wild Women of Chastity Gulch?,"$59,039","$90,000",23892.4,8,False,False
+161,3hop2__855821_223623_162182,C,C,In what region of the country where Lam Dong is located is John Phan's birthplace?,South Central Coast,Central Vietnam,19445.7,11,False,False
+162,2hop__223655_463572,C,C,"What record label released the debut album of the artist behind the 1993 album ""Let There be Love"".",MGM Records,Cavity Search,45339.6,9,False,False
+163,3hop1__398232_326948_10972,C,C,When did the place of birth of the performer of Mother-in-Law elect its first black Mayor?,1970s,1970s,16886.3,12,True,True
+164,2hop__543853_124498,C,C,Who is the father of the Labo M performer?,Louis Chedid,Louis Chedid,23479.7,13,True,True
+165,2hop__804417_126089,C,C,Who was in charge of the place where Bergen is located?,Johan Remkes,Indre Arna,53907.1,11,False,False
+166,2hop__57209_67668,C,C,"The actor who plays Barney in ""How I Met Your Mother"" plays what character in Batman Under the Red Hood?",Nightwing / Dick Grayson,Jason Todd,19714.9,15,False,False
+167,3hop1__157807_19788_15107,C,C,What percentage of Eritrea is estimated to adhere to the religion widely practiced in the region that the tentacled snake is native to?,48%,50%,15942.9,9,False,False
+168,2hop__44652_165532,C,C,Who is the spouse of the actor who played Zeb in How the West was Won?,Sherry Boucher,Dani Jonas,18718.0,12,False,False
+169,2hop__150866_11402,C,C,"According to the agency that published U.S. and World Population Clock, what is the total area in square miles?",17.037 square miles,601.11 square miles,16902.3,8,False,False
+170,4hop3__275416_24325_156850_10557,C,C,"Despite being located in East Belgium, the Carnival of the birth place of Guido Maus harks purely to an area. What was the language having the same name as this area of the era with Fastrada's spouse's name later known as?",Medieval Latin,German,16337.3,11,False,False
+171,2hop__763840_144857,C,C,What city was the author of Neighbors born in?,Clatskanie,Norphlet,45725.8,11,False,False
+172,3hop1__374018_160713_77246,C,C,What is the meaning of the word that is also the majority religion in India when the country where Dubbi is located was created in the Arabic dictionary?,the country of India,a place where something is done,21653.7,11,False,False
+173,2hop__475808_74481,C,C,"In The Godfather Part II, who did the producer of Mistress play?",Vito Corleone,Vito Corleone,23610.2,15,True,True
+174,3hop1__715607_792411_51423,C,C,What is the name of the castle in the city where the performer of A Collection 1984–1989 was born?,Casa Loma,Peqin Castle,15486.2,12,False,False
+175,2hop__504464_708278,C,C,Who was the company preceding Metalmark Capital named after?,Harold Stanley,Harold Stanley,23315.2,15,True,True
+176,2hop__132469_533882,C,C,Which company followed the company that made AAM-N-4 Oriole?,Martin Marietta,Lockheed Corporation,20300.9,13,False,False
+177,3hop1__532517_214799_259594,C,C,What country has the border troops of the country of the literature of the country of Karl Maron citizenship?,GDR,Russia,27193.7,14,False,False
+178,4hop1__56270_53706_795904_580996,C,C,What shares a border with the city where the person who went to the state where the 951 area code is used during the gold rush works?,Rio Linda,Estcourt Station,16777.8,9,False,False
+179,2hop__280583_229757,C,C,Who is the spouse of the creator of The Mighty B?,Will Arnett,Will Arnett,15656.6,11,True,True
+180,3hop1__458916_665330_51423,C,C,What is the name of the castle in the city where the performers of Spirit If.. became a band?,Casa Loma,Katzenstein Castle,27438.8,10,False,False
+181,2hop__135652_669373,C,C,Who is the employer of the physicist who Mach number is named after?,Charles University,Jakob Ackeret,16787.7,8,False,False
+182,4hop1__51465_53706_795904_580996,C,C,What shares a border with the city where the person who went to the state where most billionaires in America live during the gold rush works?,Rio Linda,San Francisco,24335.8,13,False,False
+183,4hop3__316459_41402_599212_13584,C,C,"A country gained control of Florida after the war in which Charles Edward Nugent saw action. Besides being in different parts of that country, what other differences are there between Real Madrid and Hostafrancs's city's team?",two cities,The most recent club other than Real Madrid and Barcelona to win the league is Atlético Madrid in the 2013 -- 14 season.,33911.2,11,False,False
+184,4hop2__161602_426860_88460_18966,C,C,Who brought the language Hokkien to the country between the country that hosted the tournament and the country where That Dam is from?,Han Chinese emigrants,Singaporeans,32318.1,15,False,False
+185,4hop2__161602_474028_88460_18966,C,C,Who brought the language Hokkien to the country on the natural boundary between the country that hosted the tournament and the country where A Don is from?,Han Chinese emigrants,Chinese immigrants,35338.7,15,False,False
+186,2hop__77878_189357,C,C,Where was the first woman appointed to the Supreme Court educated?,Stanford University,Najand Institute of Higher Education,24441.3,15,False,False
+187,2hop__394720_120259,C,C,When was the kingdom that Heptarchy was part of abolished?,918,757,23003.3,14,False,False
+188,2hop__809785_606637,C,C,What record label does the performer of Adventures in Your Own Backyard belong to?,Secret City Records,Dynamic,19501.9,14,False,False
+189,4hop3__839787_88460_30152_20999,C,C,How were the same people who the Somali Muslim Ajuran Empire declared independence from expelled from the natural boundary between Thailand and the country where Sepon mine is found?,The dynasty regrouped and defeated the Portuguese,"several million Muslims died in the Balkans, with the expulsion of a similar number",22637.2,11,False,False
+190,3hop1__84887_538202_84283,C,C,Who is the owner of the record label that the singer of I just got started lovin you belongs to?,Warner Music Group,Universal Music Group,18588.2,15,False,False
+191,3hop1__637555_339990_15538,C,C,When did the state where Copake Lake is located reinstate the death penalty?,1984,1984,19866.2,15,True,True
+192,4hop3__322354_466199_695123_72134,C,C,"When did the city that WIZE is licensed to broadcast to, become the capital of the state, that contains the county where the Battle of Rich Mountain occurred?",1839,1861,18689.5,15,False,False
+193,2hop__398344_54166,C,C,Who many players can play in the game based on the show that Steven the Sword Fighter is part of?,seven,two,55243.5,15,False,False
+194,3hop1__837871_831637_91775,C,C,What does seal stand for in the operator of the list of destroyer classes of the operator of the USS Tringa seals?,"Sea, Air, and Land",SEAL,24880.4,14,False,False
+195,3hop1__210639_147339_47686,C,C,Where do Greyhound buses leave from in the city where the creator of Scene in the Northwest: Portrait of John Henry Lefroy lived when he died?,Toronto Coach Terminal,Philadelphia Greyhound Terminal,19173.7,14,False,False
+196,2hop__685280_510757,C,C,The Unwinding author volunteered for which organisation?,Peace Corps,Puerto Rican Volunteers Corps,16038.0,11,False,False
+197,3hop1__751782_2053_5289,C,C,"What UK label was bought by the broadcast company that, along with ABC and the original network of Undercovers, is one of the major broadcasters based in New York?",Oriole Records.,Island Records,19409.4,7,False,False
+198,2hop__123545_47134,C,C,Who is the mascot of the university related to Randy Conrads?,Benny Beaver,Benny Beaver,24311.2,14,True,True
+199,2hop__48776_807969,C,C,What team does the 2018 PFA player of the year play for?,Egypt national football team,Liverpool,18520.6,8,False,False
+200,3hop1__273571_834494_34088,C,C,Where does the administrative territorial entity that contains the administrative territorial entity that contains summit hold NASCAR races?,Tucson Raceway Park,Talladega Superspeedway,23813.1,15,False,False
+201,2hop__538735_3299,C,C,What season was the performer of Addicted a part of?,season five,2007,19166.0,6,False,False
+202,2hop__607517_161450,C,C,Where is the province containing Bandar-e Gaz County located?,in the north-east of the country south of the Caspian Sea,north-east of the country south of the Caspian Sea,15507.6,12,False,False
+203,2hop__73719_510545,C,C,Who is the spouse of the actor who plays Jarvis in Iron Man?,Jennifer Connelly,Gwyneth Paltrow,23165.9,13,False,False
+204,4hop3__773800_152874_161616_77103,C,C,When did the city the 2010 Sony Ericsson Open – Men's Singles winner is from become the capitol of the state Knowles is from?,1839,1843,19035.0,14,False,False
+205,4hop2__161602_474028_88460_86452,C,C,When did Burma change its name to the country that is the natural boundary between the country that hosted the tournament and the country where A Don is located?,1989,1989,19826.4,15,True,True
+206,4hop1__58323_375563_161848_28750,C,C,Where was Popper's academic appointment in the country near the country of citizenship of the person who wrote The Book Thief?,Canterbury University College of the University of New Zealand,Groningen,58661.3,10,False,False
+207,2hop__46065_417697,C,C,Mohamed Atta's car made by the car manufacturer owning the naming rights to titans stadium is a type of what?,Nissan Altima,pickup truck,20247.0,13,False,False
+208,3hop1__9285_5188_63702,C,C,"When did the country where the top-ranking Warsaw Pact operatives originated, despite its being headquartered in the nation known as the nobilities commonwealth, become allies with the US?",June 1941,1954,23932.5,14,False,False
+209,3hop1__351696_42197_18397,C,C,Where did the person who argued that the country where Ural Oblast is located had become an imperialist power declare he would intervene in the Korean conflict?,the Politburo,UN conference,16312.9,11,False,False
+210,3hop1__131783_131926_90707,C,C,Where does the body of water by the city where The Minikahda Club is located and the Ohio River meet?,"at the city of Cairo, Illinois","Cairo, Illinois",32107.2,15,False,False
+211,2hop__557284_160249,C,C,Which years did the war with Antigone's spouse occur?,323–272 BC,295–272 BC,15667.1,11,False,False
+212,3hop1__131820_59747_90139,C,C,"Which star of the Real Housewives show, set in the largest city by population in the state where WEKL is located, is married to an NFL player?",Kim Zolciak,Lisa Vanderpump,20230.2,13,False,False
+213,2hop__363214_590899,C,C,The city that Psycho Donuts is located in is in which county?,Santa Clara County,Santa Clara County,15671.9,12,True,True
+214,4hop1__436202_378185_282674_759393,C,C,What is the seat of the county sharing a border with the county in which J.P. Hayes was born?,Green Bay,Winfield,22891.2,15,False,False
+215,2hop__635185_141338,C,C,What company is the employer of Marie Rutkoski part of?,City University of New York,City University of New York,20020.6,15,True,True
+216,4hop3__638064_88460_30152_20999,C,C,How were people from whom new coins were a proclamation of independence by the Somali Muslim Ajuran Empire expelled from the natural boundary between Thailand and Hiam district's country?,The dynasty regrouped and defeated the Portuguese,forced,21470.1,10,False,False
+217,3hop1__783711_503371_21711,C,C,When was the Palau de la Generalitat in the city where Martin of the region where Urries is located constructed?,built in the 15th century,15th century,19103.6,15,False,False
+218,2hop__73760_712629,C,C,Who is the spouse of the individual who lives in the houses in Windsor Castle?,Philip Mountbatten,Queen Elizabeth II,29614.7,6,False,False
+219,3hop1__365934_87694_64412,C,C,When did the location of the head of the catholic religion with a basilica named after the same saint as Mantua Cathedral become its own country?,11 February 1929,1878,15825.6,6,False,False
+220,3hop2__304722_230978_63959,C,C,When was the last time the team Matthew Webb was a member of beat the winner of the 1894-95 FA Cup?,1 December 2010,1995,20345.5,13,False,False
+221,3hop2__30152_105895_20999,C,C,What forced the departure from the country responsible for Phoe Pyonn Cho of the people once defied by new coinage?,The dynasty regrouped and defeated the Portuguese,the 8888 Uprising,25539.5,11,False,False
+222,4hop1__15567_59747_211319_557671,C,C,Which county shares a border with the county where the most populous city in the state that sentenced Demarcus Sears to death is located?,Presque Isle County,Buncombe County,20332.1,13,False,False
+223,3hop1__389069_132457_51423,C,C,What is the name of the castle in the city where the performer of Sleep is the Enemy was formed?,Casa Loma,Mearns Castle,20744.6,15,False,False
+224,2hop__135651_669373,C,C,Which university employed the person that Mach bands are named after?,Charles University,Charles University in Prague,19257.0,9,False,True
+225,3hop1__140514_2053_5289,C,C,"What UK label was bought by the company which, along with ABC and the network which hosts Hero High, is the other major broadcaster based in NY?",Oriole Records.,Virgin Records UK,23676.0,13,False,False
+226,2hop__89403_122023,C,C,Which university educated the scientist who developed an explanation for the photoelectric effect?,Luitpold Gymnasium,"University of California, Berkeley",23961.0,15,False,False
+227,4hop1__21282_692112_214799_259594,C,C,What is the abbreviation for Angela Merkel's original home country that once had border troops called the Deutsche Grenzpolizei?,GDR,GER,15972.9,9,False,False
+228,4hop3__130404_29339_508306_70744,C,C,"Who has more national championships, the university where Fort Hill is, or the university in the state where Edwards won the primary, along with winning in the state containing WDXQ?",University of South Carolina,University of North Carolina at Chapel Hill,20694.6,14,False,False
+229,3hop1__765565_326948_86925,C,C,What is the symbols of the Saints from the place where Here Come the Girl's performer was born called?,fleur - de-lis,Saints of the City,20029.8,14,False,False
+230,4hop1__264443_49925_13759_736921,C,C,Where is the district that the person who wanted to reform and address Edward Egan's religion preached a sermon on Marian devotion before his death located?,Saxony-Anhalt,"east of Saxony-Anhalt, Germany",19990.0,15,False,True
+231,2hop__370911_589237,C,C,Who is the spouse of the Redcap cast member?,Sheila Hancock,Cathy,19125.5,10,False,False
+232,4hop1__61681_53706_795904_580996,C,C,What city shares a border with the city where a person went to work during the gold rush in the biggest state in the USA by population?,Rio Linda,Sacramento,26768.1,15,False,False
+233,3hop1__145411_443779_52195,C,C,Who is the president of the newly declared independent country that is part of the Commission of Truth and Friendship with the country where Sumardi was born?,Francisco Guterres,Francisco Guterres,23857.9,15,True,True
+234,2hop__678516_179720,C,C,Who was married to the creator of Ruby Loftus Screwing a Breech Ring?,Harold Knight,Ruby Loftus,15880.8,8,False,False
+235,2hop__53937_92673,C,C,Where is the place where Rudolph the red-nosed reindeer lives on the world map?,latitude 90 ° North,North Pole,48705.3,14,False,False
+236,4hop1__161605_32392_823060_610794,C,C,What county is the city that shares a border with the state capital of the state where Darlington County located in?,Richland County,York County,52819.3,12,False,False
+237,3hop2__20335_8533_9331,C,C,"What dissolved the privileges of the empire using Pan-Slavism as a political tool, the kingdom acquiring some Thuringian territory or Habsburg Monarchy?",March Constitution of Poland,the Habsburg Monarchy,19284.6,9,False,False
+238,3hop2__140194_49541_51068,C,C,"Who is the actress who plays the role of the Queen of England in 1890, on the network that aired The Dinosaurs!?",Jenna - Louise Coleman,Joan Rivers,60387.7,12,False,False
+239,4hop1__37608_32392_823060_610794,C,C,Which county has the location that shares a border with the city that became the state capital of where Representative Thomas Tucker was from?,Richland County,Anderson County,16975.7,10,False,False
+240,2hop__466700_214359,C,C,"Who is one of the members of the music group that performed ""Good Little Girls""?",Aaron Benward,Aaron Benward,23060.9,14,True,True
+241,4hop3__160230_470287_128875_72134,C,C,When did the town WLUJ is licensed in become capitol of the state in which a statue of a Latin mother goddess is located?,1839,"February 25, 1837",19242.3,12,False,False
+242,4hop3__129754_29339_508306_70744,C,C,"Who has more national championships than the school with Fort Hill or the facility in the location Edwards won the primary, but not the state with the 404 area code?",University of South Carolina,Edwards,20969.1,9,False,False
+243,2hop__864101_135373,C,C,What is the body of water that St. Matthew Island located in named after?,Vitus Bering,Bering Sea,28568.4,15,False,False
+244,2hop__156658_155922,C,C,What body of water does the river that Toongabbie Creek flows into flow into?,Sydney Harbour,Sydney Harbour,19212.7,15,True,True
+245,2hop__505860_650613,C,C,Where was the author of Hannibal and Scipio educated at?,Exeter College,"Exeter College, Oxford",25506.6,15,False,True
+246,3hop2__573858_613770_7713,C,C,How long had China Sunergy's headquarters location been the capitol city of the area where Guangling District was located?,about 400 years,from the 3rd century AD to 1949,24970.3,15,False,False
+247,3hop1__337705_132457_51423,C,C,What is the name of the castle in the city where the performer of Never Too Loud was formed?,Casa Loma,Peqin Castle,19972.1,15,False,False
+248,2hop__91713_289940,C,C,What team is the player who led the league in sacks in 2017 a member of?,New England Patriots,Baltimore Brigade,25821.6,15,False,False
+249,2hop__21104_16254,C,C,"By 1931, what percentage of the world's Jews were the group that represents at least 70% of Jews worldwide?",92 percent,92,32624.5,10,False,False
+250,2hop__61714_80069,C,C,When does Pam and the person Pam marries on The Office get together?,in the fourth season,Niagara,22579.4,14,False,False
+251,2hop__135993_160249,C,C,In which years did the war with the person who the Ioannina National Airport is name after occur?,323–272 BC,280 BC,19241.7,15,False,False
+252,2hop__776377_857193,C,C,What is the mouth of watercourse for the body of water where Bartram's Covered Bridge is located?,Delaware River,Delaware River,28537.7,15,True,True
+253,3hop1__68802_89752_75165,C,C,How many people live in the largest state of the region where The Family Stone takes place?,"1,335,907","79,590,790",23514.9,15,False,False
+254,2hop__34595_160249,C,C,In which years did the war with the military leader from which the term Pyrrhic victory comes occur?,323–272 BC,280 BC,17147.8,10,False,False
+255,2hop__826864_17335,C,C,When did the owner of Bucephalus die?,323 BC,326 BC,15834.4,11,False,False
+256,2hop__135822_46621,C,C,When was the star to which Solgränd is named after discovered to be the center of the solar system?,as early as the 3rd century BC,1705,19216.9,14,False,False
+257,2hop__435184_84856,C,C,When does the new season of the show starring the cast member of Pizza Man start?,"January 20, 2017","January 25, 2018",19526.4,9,False,False
+258,2hop__82270_177869,C,C,Who is the spouse of the first nominated African American presidential candidate?,Helen Pitts Douglass,Shirley Chisholm,27524.7,13,False,False
+259,2hop__693444_220151,C,C,Who is the spouse of Young Man Luther's author?,Joan Erikson,Joan Erikson,16647.6,10,True,True
+260,3hop1__63037_567566_84283,C,C,Who is the owner of the record label that singer of the theme song from the movie Arthur belongs to?,Warner Music Group,RCA Records,23612.6,15,False,False
+261,2hop__640262_122868,C,C,What university did the author of 1967: The Last Good Year attend?,University of British Columbia,University of British Columbia,19575.5,15,True,True
+262,4hop1__341156_49925_13759_736921,C,C,"In what German state is the district where the man, who wanted the religion underlying Daraga Church to reform, preached a sermon on Marian devotion?",Saxony-Anhalt,Saxony-Anhalt,16612.2,10,True,True
+263,4hop3__39836_29339_508306_70744,C,C,Who won more national championships between the university featuring Fort Hill and the university of the state where Edwards won the primary besides the state where the Richmond Braves moved?,University of South Carolina,Clemson University,25026.2,15,False,False
+264,3hop1__353661_629431_124169,C,C,When did the Governorship end of the city where the author of Sacerdotii Nostri Primordia died?,1952,1879,19282.3,15,False,False
+265,3hop1__139862_2053_52946,C,C,"When is Celebrity Big Brother coming to the network which, along with ABC and the network which broadcasted Highway to Heaven, is the other major broadcaster based in NY?","February 7, 2018","February 7, 2018",21136.2,11,True,True
+266,4hop3__257340_88460_30152_20999,C,C,How were the same people who the Somali Muslim Ajuran Empire declared independence from expelled from the natural boundary between Thailand and the country where Khong Island is found?,The dynasty regrouped and defeated the Portuguese,used airplanes to bomb the Dervish capital of Taleex,24056.8,13,False,False
+267,3hop1__465684_160545_60577,C,C,Where did they film The Beach in the country where Bodindecha died?,Ko Phi Phi Leh,Koh Phi Phi,19829.8,15,False,False
+268,2hop__142621_225454,C,C,What is the record label of the co-writer and recording artist of Permission to Fly?,Hollywood Records,Hollywood Records,20965.2,14,True,True
+269,3hop2__93066_88342_47738,C,C,When did the team that won the AL East in 2017 last play in the series of games that the MLB MVP award is given after?,the 2009 season,2005,26300.2,15,False,False
+270,2hop__819974_129669,C,C,In which state is Póvoa de Santa Iria's municipality located?,Lisbon District,Portugal,19991.3,14,False,False
+271,2hop__817096_15463,C,C,What company merged in 2002 with the CEMM developer?,Hewlett Packard,Hewlett Packard,20200.8,15,True,True
+272,3hop1__389761_567566_84283,C,C,Who owns the record label of the Another Page performer?,Warner Music Group,Universal Music Group,21404.3,15,False,False
+273,2hop__472486_97805,C,C,Which war did the operator of the Fabian Wrede-class training ship serve in?,Winter War,World War II,23547.3,7,False,False
+274,4hop3__857_846_326964_7713,C,C,How long had the city where the Yongle emperor greeted the person to whom the edict was addressed been the capitol of Yaxing Coach's headquarters location?,about 400 years,0,16482.6,11,False,False
+275,3hop1__354480_834494_34099,C,C,How long are the city council terms in the city that is in the same county as Eric Marcus Municipal Airport?,four-year,two-year,19969.4,12,False,False
+276,3hop2__304722_667199_63959,C,C,When was the last time the team that Malcolm Briggs was a member of beat the 1894-95 FA cup winner?,1 December 2010,1976,15426.5,6,False,False
+277,2hop__106864_80460,C,C,What was the 2017 population of the country where Bedari was made?,207.77 million people,207.77 million,15899.7,10,False,False
+278,2hop__557411_652060,C,C,Who is the spouse of the creator of The Nanny Reunion: A Nosh to Remember?,Peter Marc Jacobson,Fran Drescher,22930.3,8,False,False
+279,3hop2__159979_30587_44003,C,C,Where does the ocean adjacent to Miami meet the ocean basin at where the tropical Storm Allison ended up?,through the Florida Straits,Biscayne Bay,20120.4,15,False,False
+280,4hop2__161324_14670_8987_8974,C,C,The military group of which the Air Defense Artillery is a branch was unprepared for the invasion of the territory the Nazis occupied. The country of this group was the only communist country to have an embassy where?,Alfredo Stroessner's Paraguay,Berlin,20478.1,15,False,False
+281,3hop1__135659_87694_124169,C,C,"When was the end of the Governor of the city containing the head of Catholicism, and the Basilica named for the saint who the Mantua Cathedral is also named for?",1952,1952,19282.1,15,True,True
+282,3hop1__23058_20608_36327,C,C,What did Bloomberg name the country formerly known as the region where the Spanish and Portuguese took most of their slaves from?,top emerging market economy in Africa,Mali,20486.9,14,False,False
+283,3hop1__131783_131926_89261,C,C,Where does the body of water by the city where The Minikahda Club empty into the Gulf of Mexico?,the Mississippi River Delta,Minnesota River,34623.3,15,False,False
+284,2hop__230022_68489,C,C,Who did the actor who played Michael Knight play on Young and Restless?,Snapper Foster,Cane Ashby,23717.6,15,False,False
+285,3hop1__102087_214799_259594,C,C,"What is the three letter abbreviation for the country, which maintains border troops, that claims Bernd Baumgart as a citizen?",GDR,GER,16258.9,9,False,False
+286,4hop1__343844_17130_70784_61381,C,C,When was the country established that lies immediately north of the Persian Gulf and the region where the country containing Urim is located?,1932,1832,15166.3,6,False,False
+287,2hop__701895_752697,C,C,What administrative territorial entity is the owner of Ciudad Deportiva located?,Tamaulipas,Nuevo Laredo Municipality,22737.3,11,False,False
+288,3hop1__862117_792411_51423,C,C,What is the name of the castle found in the birthplace of the performer of The Speckless Sky?,Casa Loma,Salzburg Castle,50592.7,11,False,False
+289,3hop1__458916_665330_47686,C,C,Where do greyhound buses leave from in the city where the performer of Spirit If... was formed?,Toronto Coach Terminal,"Hibbing, Minnesota",20339.1,15,False,False
+290,3hop1__462960_160545_62931,C,C,Where was the film The Beach filmed in the country where Pao Sarasin was born?,island Koh Phi Phi,Koh Phi Phi,19352.0,15,False,False
+291,3hop1__161433_33952_34099,C,C,How long are the council terms in the second largest city in the US state focused by the cross-border transactions committee of the Department of Real Estate?,four-year,four-year,20362.0,15,True,True
+292,3hop1__131783_131926_87157,C,C,What is the direction of flow of the body of water by the city where The Minikahda Club is located?,rises in northern Minnesota and meanders slowly southwards,northwest to southeast,52999.7,15,False,False
+293,2hop__301011_820181,C,C,Which county is the birth place of Keith Sebelius located at?,Norton County,Norton County,19664.2,13,True,True
+294,4hop2__161602_426860_88460_21062,C,C,Are there any cruise travel destinations for the country lying between the country hosting the tournament and the country having That Dam?,It is not possible for foreigners to go to/from Myanmar by sea or river.,yes,19231.4,13,False,False
+295,2hop__84937_21969,C,C,When was Q1 who was impeached in england for acts committed as governor general of india impeached?,1786,14 February 1788,19497.5,10,False,False
+296,2hop__80860_510545,C,C,Who is the spouse of the person who voices Jarvis in the Avengers Age of Ultron?,Jennifer Connelly,Natasha Romanova,23358.8,15,False,False
+297,2hop__29606_600504,C,C,What field of work was the person who discovered the mathematical relationship between peaks and curves of light at different temperatures in?,physic,physics,16068.8,8,False,True
+298,2hop__848156_130869,C,C,What state contains the place where Fatata te Miti is displayed?,"Washington, D.C.",Washington,26637.4,15,False,False
+299,2hop__706637_93362,C,C,"What is the movie starring Preity Zinta, Madhuri Dixit and the spouse of Kajol?",Yeh Raaste Hain Pyaar Ke,Har Dil Jo Pyar Karega,19756.1,9,False,False
+300,4hop3__387712_132409_146285_35031,C,C,Where does the city where Alexander Golitzen died rank in the top five largest urban areas of the state where the band that Jacoby Shaddix is a member of formed?,third-largest,third,15872.9,12,False,False
+301,4hop3__175072_88460_30152_20999,C,C,How were the same people who the Somali Muslim Ajuran Empire declared independence from expelled from the natural boundary between Thailand and the country Setthathirath is a citizen of?,The dynasty regrouped and defeated the Portuguese,by the Thai military,26320.3,15,False,False
+302,4hop1__130508_32392_823060_610794,C,C,In which county is the city sharing a border with the capitol of the state where Borough House Plantation is located?,Richland County,St. Joseph County,15277.9,6,False,False
+303,3hop1__818422_160545_34751,C,C,What year did the country where the place of birth of Beatrice Heuser is located form an alliance with Japan?,1941,1945,14841.0,7,False,False
+304,4hop1__638706_765799_282674_759393,C,C,What is the seat of the county sharing a border with the county where Tenement was founded?,Green Bay,Winona,20148.8,13,False,False
+305,4hop1__88342_49853_128008_86588,C,C,What's the longest homer in the history of the league where the team with the most titles from the event after which they give out the MLB MVP award plays?,582 feet (177 m),a 460-foot home run,20178.2,15,False,False
+306,3hop1__558449_503371_21711,C,C,When was the Palau de la Generalitat built in the city in which died the man called Martin of the region of Spain where Malanquilla is located?,built in the 15th century,between 1886 and 1888,15472.0,11,False,False
+307,2hop__463884_807572,C,C,What county is the Ira C. Allen Mansion located in?,Monmouth County,Rutland County,22473.9,15,False,False
+308,2hop__6827_79845,C,C,How many atms does the bank that bought FleetBoston Financial has are there?,"15,900",774,23838.9,14,False,False
+309,2hop__86689_728109,C,C,What team drafted the winner of the NBA scoring title this year?,Oklahoma City Thunder,Golden State Warriors,22662.9,14,False,False
+310,2hop__10114_599630,C,C,Where in Zhejiang is the city where Protestants are especially notable?,Yongjia County,Wenzhou,19715.1,10,False,False
+311,3hop1__354480_834494_34109,C,C,What is the administrative territorial entity that contains the location of Eric Marcus Municipal Airport PBS station?,KUAT-TV 6,Pima County,15572.0,9,False,False
+312,2hop__85455_158105,C,C,Which two features were played up the person who had the biggest net worth in 2017?,ease of use and enhanced support for Plug and Play,"Bill or Melinda Gates must be alive and active in its administration; it must continue to qualify as a charity; and each year it must give away an amount equal to the previous year's Berkshire gift, plus an additional amount equal to 5 percent of net assets",17332.1,10,False,False
+313,2hop__55966_162341,C,C,What kind of recognition did the actor who played the game maker in hunger games receive?,nominated for an Academy Award for Best Supporting Actor,best supporting actor,29762.7,7,False,False
+314,2hop__92716_319330,C,C,Who was the child of the person who started the State of the Union address?,Jessie Woodrow Wilson,Jessie Woodrow Wilson Sayre,28212.7,14,False,True
+315,2hop__822965_165304,C,C,Who is the child of the actor who is a cast member of Love in Pawn?,Kim Braden,Chumlee,20375.9,7,False,False
+316,2hop__157737_46621,C,C,When was the celestial body that all objects focus on according to Kepler's laws discovered to be the center of the solar system?,as early as the 3rd century BC,1609,16213.9,10,False,False
+317,2hop__311694_129669,C,C,In which state is Vera Barbosa's place of birth located?,Lisbon District,Portugal,20370.9,11,False,False
+318,2hop__131061_54221,C,C,How early can you buy alcohol in the state encompassing Tracy-Causer Block?,5am,21,15682.4,10,False,False
+319,2hop__92900_512508,C,C,The person credited with the discovery of the neutron is a participant in what project?,Manhattan Project,Tube Alloys project,25196.8,15,False,False
+320,4hop1__749363_49925_13759_736921,C,C,In what state is the district where the man who wanted to reform the religion practiced by Innocenzo Ferrieri preached a sermon on Marian devotion?,Saxony-Anhalt,New York,20029.4,15,False,False
+321,2hop__815205_590407,C,C,Where is the headquarters of the organization that the Office of Science Education is a part of?,Bethesda,"Washington, D.C.",16082.0,11,False,False
+322,3hop1__662413_42197_18397,C,C,Where did the arguer that Kirill Eskov's country of citizenship had become an imperialist power declare he would intervene in the Korean conflict?,the Politburo,UN conference,15919.0,12,False,False
+323,2hop__83938_5666,C,C,Who was the first president in the country where the Kamchatka Peninsula is located?,Yeltsin,Boris Yeltsin,19027.3,14,False,True
+324,4hop2__71753_685934_70784_61381,C,C,When was the region that lies to the north of where Israel is located and where The World is located established?,1932,1949,15857.0,7,False,False
+325,3hop1__742780_567566_84283,C,C,Who owns the record label where the singer of All Right records?,Warner Music Group,Universal Music Group,23643.5,15,False,False
+326,2hop__6827_86319,C,C,Who is the CEO of FleetBoston Financial's purchaser?,Brian Thomas Moynihan,Brian Moynihan,23552.1,12,False,False
+327,3hop1__36497_78276_68042,C,C,When did the majority party of the branch of government that the President calls to support appointments to the USAF gain control in the House?,the 2010 election,2006,23959.0,15,False,False
+328,3hop2__92991_38326_76291,C,C,When did the party Harlan and Stewart were affiliated with gain control of the body which determines rules of the US House and US Senate?,January 2015,November 2016,22740.8,15,False,False
+329,4hop3__152056_698586_1926_54362,C,C,Who burned down the death city of the artist responsible for Dunn Dunn in the war after which the first time black people declined in living in NYC?,Confederate Gen. John Bell Hood,the United States,29087.3,13,False,False
+330,2hop__685930_110949,C,C,What is the date of birth for the performer of Hits?,11 September 1962,born 4 September 1946,15528.7,12,False,False
+331,3hop1__773623_87694_124169,C,C,On what date did Governor of the location of the Basilica named after the same saint as Đakovo Cathedral and the head of the catholic religion end?,1952,1 January 1892,61629.1,7,False,False
+332,2hop__24973_5674,C,C,Who suspended the party that would have maintained power if the treaty was signed in the Russian Soviet Federative Socialist Republic?,Yeltsin,President Yeltsin,25311.4,13,False,True
+333,2hop__403580_37168,C,C,"According to QS World University Rankings, what is the ranking of the place that employed Said Ashour?",551-600,551-600,15621.9,8,True,True
+334,4hop1__88342_49853_128008_46748,C,C,"What is the longest win streak, in the history of the league, that includes the team with the most titles, from the event preceding the awarding of the MLB MVP?",26,73,19972.6,10,False,False
+335,2hop__81379_84616,C,C,For what did the singer of the original version of Moon River win a Tony award?,for Best Performance by a Leading Actress in a Play in Ondine,Best Performance by a Leading Actress in a Play,16855.7,10,False,False
+336,2hop__61714_53995,C,C,When do Pam and Pam's spouse on The Office end up together?,"during the highly anticipated, hour long episode, ``Niagara ''",In Season 6,20148.8,7,False,False
+337,3hop1__398232_326948_59893,C,C,When were the monuments built in the Mother-in-Law performer's birthplace?,"1884,",1890,15342.6,11,False,False
+338,2hop__20256_74481,C,C,The Freddie Mercury film's producer played who in Godfather 2?,Vito Corleone,Vito Corleone,49072.1,13,True,True
+339,4hop2__9988_158279_70784_61381,C,C,When was the region immediately north of the region prevailing with the disgrace of the Near East and the final destination for the export crops established?,1932,Middle East,20073.1,14,False,False
+340,2hop__424294_19033,C,C,Where did the author of A Lion's Tale: Around the World in Spandex win in 2008?,Great American Bash,2008 AFL Grand Final,33109.5,15,False,False
+341,2hop__29349_92763,C,C,What is the enrollment where the first debate between Kerry and Bush took place?,"16,801","60,435",19790.0,15,False,False
+342,4hop1__324759_378185_282674_759393,C,C,What is the capital of the county that shares a border with the county where Pierce Manufacturing's headquarters are located?,Green Bay,Green Bay,23598.7,15,True,True
+343,3hop1__654651_55349_651302,C,C,What is the place of birth of who does the voice of stan on the series that Insecurity is part of?,Denver,Stockholm,19098.2,11,False,False
+344,4hop2__71753_158279_70784_79935,C,C,When was the region immediately north of the region where Israel is located and the final destination for the export crops created?,1930,1890,15069.0,6,False,False
+345,4hop1__151903_5274_458768_33633,C,C,When did the explorer reach the city where the only group larger than the record label of The Lost Trident Sessions is headquartered?,"August 3, 1769",,15066.2,11,False,False
+346,2hop__50432_56873,C,C,When did the team that won the 1959 fa cup final beating luton town 2-1 win the fa cup?,1898 and 1959,1960,16216.5,8,False,False
+347,2hop__13986_161674,C,C,What month did the person with whom Henry fought a short war in 1183 go away from the holy land?,October,June,15792.7,11,False,False
+348,3hop1__423001_503371_21711,C,C,When was the Palau de la Generalitat constructed in the city where Martin of the region of Pedrola died?,built in the 15th century,15th century,19279.7,14,False,False
+349,4hop1__567737_141375_458768_33633,C,C,When did the explorer reach the headquarters location of the group Study in Brown's record label is part of?,"August 3, 1769",12 March 1488,15498.3,12,False,False
+350,4hop1__455862_508773_85832_745702,C,C,Whose navigator father explored the east coast of the region where Ignacio Esparza was later born?,Sebastian Cabot,Henry de Puyjalon,54140.3,12,False,False
+351,3hop1__103881_443779_52195,C,C,Who is the president of the newly declared independent country that is part of the Commission of Truth and Friendship with the country that Tony Gunawan is from?,Francisco Guterres,Francisco Guterres,18946.5,14,True,True
+352,2hop__552607_126089,C,C,Who was in charge of the province which contains Zeevang?,Johan Remkes,Johan Remkes,30959.5,13,True,True
+353,4hop3__220945_88460_30152_20999,C,C,How were the same people who the Somali Muslim Ajuran Empire declared independence from expelled from the natural boundary between Thailand and the country where Nam Theun is found?,The dynasty regrouped and defeated the Portuguese,artificially and some might say arbitrarily partitioned by the former imperial powers,27251.1,14,False,False
+354,2hop__575797_91104,C,C,What is the experimental satellite that was the forerunner to communication satellite of the operator of INSAT-4CR called?,ATS - 6 (Applications Technology Satellite - 6),INSAT-4C,19737.6,8,False,False
+355,3hop1__604991_339990_15538,C,C,When did the state that Frozen Run is located in reinstate the death penalty?,1984,1984,21292.1,15,True,True
+356,3hop2__69814_76873_64554,C,C,"After the war that provides the setting for Memoirs of a Geisha, a conflict in which Germany was divided into two countries, developed between the U.S. and what nation?",Union of Soviet Socialist Republics,the USSR,19008.8,10,False,False
+357,3hop2__304722_372858_63959,C,C,When was the last time Gary Rowett's team beat the 1894-95 FA Cup winner?,1 December 2010,1913–14,19625.2,8,False,False
+358,4hop3__577443_88460_30152_20999,C,C,How were people from whom new coins were a proclamation of independence by the Somali Muslim Ajuran Empire expelled from the natural boundary between Thailand and Tham Pha's country?,The dynasty regrouped and defeated the Portuguese,forced,25894.8,10,False,False
+359,2hop__175168_110222,C,C,When was the creator of The Painter's Studio born?,10 June 1819,10 June 1819,16059.6,11,True,True
+360,3hop1__220023_503371_21711,C,C,When was the Palau de la Generalitat constructed in the city where Martin from the region where Trasobares is located died?,built in the 15th century,15th century,19862.9,15,False,False
+361,4hop1__638988_17130_70784_61381,C,C,When was the region immediately north of the region where the country in which Aluf can be found is located and the Persian Gulf established?,1932,6th century BC,24460.0,13,False,False
+362,3hop1__743797_443779_52195,C,C,"Who is the president of the newly declared independent country, that established the Timor Leste Commission of Truth and Friendship with the country where the Alas is found?",Francisco Guterres,Francisco Guterres,16699.9,11,True,True
+363,2hop__77518_548781,C,C,Where was the president born on the fourth of July born?,Plymouth Notch,"Springfield, Massachusetts",23228.2,13,False,False
+364,4hop1__814349_624859_355213_203322,C,C,What county shares a border with the county where She Did It's performer was born?,Cabarrus County,Suffolk County,23225.8,15,False,False
+365,4hop2__105527_14670_8987_8529,C,C,"A country's military branch, the equivalent of which in the US contains the Air Defense Artillery, was unprepared for the invasion of the country that developed the ZH-29. When was the word ""Slavs"" used in the national anthem of the unprepared country?",1943–1992,1939–1945,17085.7,10,False,False
+366,2hop__149983_108549,C,C,Who wrote the fictional work Doctor Fate exists in?,Alfred Gough,Agatha Christie,23974.1,13,False,False
+367,3hop2__89854_36497_76291,C,C,When did the majority party in the House of Representatives take control of the body which the President calls on for support in his USAF appointments?,January 2015,2010,15535.2,9,False,False
+368,2hop__590631_110882,C,C,What is the date of birth for the performer of Unbreakable?,1 January 1986,1 January 1986,18980.5,11,True,True
+369,3hop1__142044_538202_84283,C,C,Who is the owner of the record label of the performer responsible for the album Just Got Started Lovin' You?,Warner Music Group,Warner Music Group,19341.5,13,True,True
+370,2hop__31091_31122,C,C,"What century did the author of ""Treatise Concerning the Principles of Human Knowldege"" live in?",18th,eighteenth,19169.1,14,False,False
+371,3hop1__228_237521_291682,C,C,Who is the wife of the man who produced the documentary of the pop star who influenced Beyonce?,Liza Minnelli,Yvette Prieto,27287.6,15,False,False
+372,2hop__5658_161105,C,C,By how many votes did the signer of the decree suspending the Communist Party of the Russian SFSR survive impeachment?,72,72,16036.0,6,True,True
+373,3hop1__103890_10659_67187,C,C,"Who was the first elected president of the country where, along with the nation where Ágnes Konkoly is from, many expelled French Jews relocated to?",Gabriel Narutowicz,Charles de Gaulle,15909.6,10,False,False
+374,3hop2__92991_27069_76291,C,C,When did the party Oklahoma's US Senators come from take control of the body determining the rules of the US House and US Senate?,January 2015,2013,16182.7,11,False,False
+375,2hop__85325_88165,C,C,Who did the person who married their half sister in the bible marry after the death of sarah?,Keturah,Keturah,32277.4,10,True,True
+376,3hop1__241085_42197_18397,C,C,Where did the arguer that Yekaterina Fesenko's country of citizenship had become an imperialist power declare he would intervene in the Korean conflict?,the Politburo,the UN conference,16554.6,12,False,False
+377,3hop1__135392_87694_64412,C,C,When did the location of the basilica which is named for the same saint that the Bremen Cathedral is named for become a country?,11 February 1929,1848,20504.5,14,False,False
+378,3hop1__672543_503371_21711,C,C,"When was the Palau de la Generalitat built in the place of death of Martin, of the region containing Piedratajada?",built in the 15th century,15th century,24556.1,11,False,False
+379,3hop2__79978_90098_10557,C,C,What was the language from which the last name Sylvester originates during the era of the person crowned new Roman emperor in 800 A.D. later known as?,Medieval Latin,Latin,19505.1,15,False,False
+380,3hop1__38738_78276_68042,C,C,"When did the political party that holds the majority in the political body that passed a bill giving regulators discretion to prohibit proprietary trades, gain control of the House?",the 2010 election,2010,20460.8,15,False,False
+381,2hop__31995_8583,C,C,Who did the Slavs have contact with in the country that Steven Spielberg's grandparents were from?,Iranic Sarmatians and the Germanic Goths,Iranic Sarmatians and the Germanic Goths,21464.7,14,True,True
+382,2hop__198459_61845,C,C,Who has played for both West Ham Ajax and the team that Adam Hammill is on?,Mido,Tante Leen,29919.4,12,False,False
+383,2hop__557743_92763,C,C,What is the enrollment at Henry Latimer's alma mater?,"16,801","60,435",19264.7,15,False,False
+384,2hop__749997_96912,C,C,Who gives out the prize named after the author of Lectures on Jurisprudence?,University of Cambridge,Royal Society of Chemistry,16300.9,11,False,False
+385,2hop__132472_120537,C,C,When was the company that makes ALARM abolished?,30 November 1999,30 November 1999,18509.6,12,True,True
+386,2hop__279729_20057,C,C,Who founded what Robert J Chassell is a member of?,Richard Stallman,Richard Stallman,16147.1,12,True,True
+387,2hop__274529_5385,C,C,How many people work in the school where Ross Porter was educated?,"11,900",26,24720.6,15,False,False
+388,2hop__259228_793698,C,C,Where is Ulrich Walter's employer headquartered?,Cologne,Munich,23402.9,15,False,False
+389,2hop__820739_250752,C,C,Who is the sibling of the screenwriter of War of the Coprophages?,Glen Morgan,Lawrence Kasdan,26604.5,8,False,False
+390,4hop2__5206_14670_8987_8529,C,C,"When was ""Slavs"" used in the national anthem of the country whose military having the Air Defense Artillery was unprepared for the invasion of the country conquered by the Pact?",1943–1992,1939–1945,16756.2,10,False,False
+391,4hop1__408432_32392_823060_610794,C,C,In which county is the city sharing a border with the capitol of the state where WYFG is located?,Richland County,Hunt County,16000.4,9,False,False
+392,2hop__367336_97805,C,C,Which war did the operator of the Finnish coastal defence ship Ilmarinen serve in?,Winter War,Winter War,22160.7,10,True,True
+393,2hop__71871_494136,C,C,Who is the spouse of the actor playing Bart's father in I can only imagine?,Meg Ryan,Priscilla Shirer,45416.7,11,False,False
+394,4hop1__711307_49925_13759_736921,C,C,"The German priest, who wanted Jean Hengen's religious denomination to reform, preached a sermon on Marian devotion a month before his death in what German state?",Saxony-Anhalt,Saxony-Anhalt,19287.6,15,True,True
+395,4hop3__439878_88460_30152_20999,C,C,How were people from whom new coins were a proclamation of independence by the Somali Muslim Ajuran Empire expelled from the natural boundary between Thailand and Ban Kenpha's country?,The dynasty regrouped and defeated the Portuguese,forced,29317.0,11,False,False
+396,2hop__108336_772156,C,C,Where did the creator of the Allegory of Isabella d'Este's Coronation die?,Mantua,Mantua,34888.3,14,True,True
+397,2hop__179322_83289,C,C,"Who stars in the video ""One Last Time"" by the performer of Baby I?",Matt Bennett,Matt Bennett,16057.7,10,True,True
+398,4hop1__105401_17130_70784_61381,C,C,When was the region immediately north of the region of the country in Strangers No More and the Persian Gulf established?,1932,1890,20625.1,13,False,False
+399,3hop1__843207_755530_88011,C,C,Where is the Bridge of Sighs located in the place of death of Sonata pian'e forte's composer?,passes over the Rio di Palazzo,Venice,19397.1,14,False,False
+400,2hop__133241_33564,C,C,In what era was the company known as the manufacturer of Agni-V founded?,From the 1950s to the 1970s,1960s,19841.1,13,False,False
+401,3hop1__689538_547811_80702,C,C,What is the name of the famous bridge in the city where the composer of La costanza trionfante degl'amori e de gl'odii was born?,Rialto Bridge,Ponte Vecchio,24100.6,14,False,False
+402,2hop__742831_156034,C,C,Of which river is the river Kichi Sipi Bridge crosses a tributary?,Hudson's Bay,Nelson River,15762.0,10,False,False
+403,2hop__507528_139339,C,C,What was the director of Lisa Picard is Famous nominated for?,Academy Award for Best Live Action Short Film,Academy Award for Best Live Action Short Film,15746.6,12,True,True
+404,4hop2__161602_426860_88460_126088,C,C,Who was in charge in the country that is the natural boundary between the country that hosted the tournament and the country where That Dam is located?,Thein Sein,Idi Amin,19488.4,13,False,False
+405,2hop__757497_78606,C,C,"In Grown Ups, who plays the wife of the actor who produced The Chosen One?",Joyce Van Patten,Maya Rudolph,18838.0,11,False,False
+406,2hop__669456_108549,C,C,Who wrote the show that Jimmy Olsen works for?,Alfred Gough,Frank Whaley,23838.3,11,False,False
+407,3hop1__857_846_7769,C,C,How many square miles is the city where the Yongle emperor greeted the person to whom the edict was addressed?,"2,548 sq mi",601.11 square miles,16135.0,9,False,False
+408,2hop__53175_548781,C,C,What is the birth place of the US president with whose election the republican ascendancy of the 1920's began?,Plymouth Notch,"Washington, D.C.",23047.0,15,False,False

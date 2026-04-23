@@ -1,0 +1,10 @@
+idx,qid,predicted_route,actual_route,question,gold_answer,system_answer,latency_ms,num_sources,exact_match,loose_match
+1,4hop1__813171_153080_159767_81096,A,A,Who won the Indy car race in the largest city and capitol of the state where the Changes Two performer is from?,Mario Andretti,Chip Ganassi,6429.2,0,False,False
+2,2hop__442516_595885,A,A,Which country has a body of water that was inspiration for the name of the Mara Region?,Tanzania,Tanzania,4683.2,0,True,True
+3,2hop__6735_6733,A,A,To what division does the language that comprises the standard pronunciation of Catalan belong?,Eastern block,Catalan dialect,4532.4,0,False,False
+4,4hop1__708184_153080_33897_81096,A,A,Who won the Indy Car Race in the largest populated city of the state where the performer of The Black Saint and the Sinner Lady is from?,Mario Andretti,Chip Ganassi Racing,7858.4,0,False,False
+5,4hop1__802394_153080_33897_81096,A,A,Who won the Indy Car Race in the largest populated city of the state where the performer of Mingus Plays Piano is from?,Mario Andretti,Chip Ganassi,6609.8,0,False,False
+6,4hop3__316459_41402_146223_13584,A,A,"Besides areas of the country gaining control of Florida after the conflict Charles Edmund Nugent participated in, what other differences exist between where Simon Sabiani died and Real Madrid?",two cities,the city is located in the north of the country and the team is located in the south,5020.9,0,False,False
+7,4hop1__726152_153080_159767_81096,A,A,Who won the Indy car race in the largest city and capital of the state where the performer of Tijuana Moods was born?,Mario Andretti,Michael Andretti,7443.8,0,False,False
+8,2hop__39954_80940,A,A,What is the largest national park in the country where hunters are estimated to spend fifty to one hundred times that of the average ecotourist?,Ruaha National Park,Yellowstone National Park,5332.6,0,False,False
+9,4hop1__342858_131850_33952_34088,A,A,Where does the second largest city in the state where Yuma's Library District is located hold NASCAR races?,Tucson Raceway Park,Las Vegas Motor Speedway,7541.4,0,False,False
