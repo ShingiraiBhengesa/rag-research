@@ -1,0 +1,46 @@
+{
+  "n_samples": 500,
+  "class_distribution": {
+    "A": 9,
+    "B": 83,
+    "C": 408
+  },
+  "cross_validation": {
+    "mean_accuracy": 0.998,
+    "std_accuracy": 0.0040000000000000036,
+    "fold_accuracies": [
+      0.99,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "training_accuracy": 1.0,
+  "confusion_matrix": [
+    [
+      9,
+      0,
+      0
+    ],
+    [
+      0,
+      83,
+      0
+    ],
+    [
+      0,
+      0,
+      408
+    ]
+  ],
+  "feature_names": [
+    "latency_ms",
+    "log_latency_ms",
+    "num_sources",
+    "answer_length_chars",
+    "answer_length_words"
+  ],
+  "max_depth": 4,
+  "decision_tree_text": "|--- num_sources <= 0.50\n|   |--- class: A\n|--- num_sources >  0.50\n|   |--- log_latency_ms <= 9.54\n|   |   |--- class: B\n|   |--- log_latency_ms >  9.54\n|   |   |--- num_sources <= 6.50\n|   |   |   |--- class: C\n|   |   |--- num_sources >  6.50\n|   |   |   |--- class: C\n"
+}
