@@ -1,0 +1,415 @@
+{
+  "phase1": {
+    "label": "Phase 1 (n=53)",
+    "total": 53,
+    "by_route": {
+      "A": {
+        "n": 1,
+        "successes": 1,
+        "rate": 1.0,
+        "ci_95": [
+          1.0,
+          1.0
+        ],
+        "outcome_counts": {
+          "success_same_route_A": 1
+        },
+        "successful_swaps": {
+          "country -> state": 1
+        },
+        "mean_queries_to_success": 2.0,
+        "mean_candidates_generated": 28.0,
+        "mean_filtered_sim": 0.0,
+        "mean_filtered_ppl": 0.0
+      },
+      "B": {
+        "n": 22,
+        "successes": 13,
+        "rate": 0.5909090909090909,
+        "ci_95": [
+          0.36363636363636365,
+          0.7727272727272727
+        ],
+        "outcome_counts": {
+          "success_same_route_B": 11,
+          "failure_B": 9,
+          "success_flip_B_to_C": 2
+        },
+        "successful_swaps": {
+          "occur -> happen": 2,
+          "stand -> base": 1,
+          "player -> participant": 1,
+          "introduced -> present": 1,
+          "show -> display": 1,
+          "place -> post": 1,
+          "maker -> manufacturer": 1,
+          "connection -> connexion": 1,
+          "created -> make": 1,
+          "work -> run": 1,
+          "SEAL -> sealskin": 1,
+          "person -> individual": 1
+        },
+        "mean_queries_to_success": 4.153846153846154,
+        "mean_candidates_generated": 34.18181818181818,
+        "mean_filtered_sim": 2.1818181818181817,
+        "mean_filtered_ppl": 11.545454545454545
+      },
+      "C": {
+        "n": 30,
+        "successes": 11,
+        "rate": 0.36666666666666664,
+        "ci_95": [
+          0.2,
+          0.5333333333333333
+        ],
+        "outcome_counts": {
+          "success_same_route_C": 10,
+          "failure_C": 19,
+          "success_flip_C_to_B": 1
+        },
+        "successful_swaps": {
+          "seat -> place": 1,
+          "state -> province": 1,
+          "result -> outcome": 1,
+          "source -> beginning": 1,
+          "wins -> winnings": 1,
+          "die -> go": 1,
+          "president -> chairwoman": 1,
+          "father -> founder": 1,
+          "area -> country": 1,
+          "president -> chairman": 1,
+          "owner -> proprietor": 1
+        },
+        "mean_queries_to_success": 2.5454545454545454,
+        "mean_candidates_generated": 25.966666666666665,
+        "mean_filtered_sim": 3.2666666666666666,
+        "mean_filtered_ppl": 11.5
+      }
+    },
+    "overall": {
+      "successes": 25,
+      "n": 53,
+      "rate": 0.4716981132075472,
+      "ci_95": [
+        0.33962264150943394,
+        0.6037735849056604
+      ]
+    }
+  },
+  "phase2": {
+    "label": "Phase 2 (n=54, Route C continuation)",
+    "total": 54,
+    "by_route": {
+      "C": {
+        "n": 54,
+        "successes": 27,
+        "rate": 0.5,
+        "ci_95": [
+          0.37037037037037035,
+          0.6296296296296297
+        ],
+        "outcome_counts": {
+          "success_same_route_C": 25,
+          "failure_C": 27,
+          "success_flip_C_to_B": 2
+        },
+        "successful_swaps": {
+          "president -> chairman": 3,
+          "father -> forefather": 1,
+          "death -> expiry": 1,
+          "Bicycle -> wheel": 1,
+          "die -> go": 1,
+          "child -> youngster": 1,
+          "place -> spot": 1,
+          "spouse -> partner": 1,
+          "related -> pertain": 1,
+          "change -> exchange": 1,
+          "members -> appendage": 1,
+          "mouth -> backtalk": 1,
+          "Celebrity -> fame": 1,
+          "record -> disk": 1,
+          "end -> terminal": 1,
+          "terms -> footing": 1,
+          "capital -> Washington": 1,
+          "president -> chairwoman": 1,
+          "state -> country": 1,
+          "owner -> proprietor": 1
+        },
+        "mean_queries_to_success": 3.2222222222222223,
+        "mean_candidates_generated": 26.38888888888889,
+        "mean_filtered_sim": 3.1666666666666665,
+        "mean_filtered_ppl": 7.092592592592593
+      }
+    },
+    "overall": {
+      "successes": 27,
+      "n": 54,
+      "rate": 0.5,
+      "ci_95": [
+        0.37037037037037035,
+        0.6296296296296297
+      ]
+    }
+  },
+  "phase3": {
+    "label": "Phase 3 (n=39, extended budget)",
+    "total": 39,
+    "by_route": {
+      "B": {
+        "n": 9,
+        "successes": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "outcome_counts": {
+          "failure_B": 9
+        },
+        "successful_swaps": {},
+        "mean_queries_to_success": 0.0,
+        "mean_candidates_generated": 27.77777777777778,
+        "mean_filtered_sim": 3.5555555555555554,
+        "mean_filtered_ppl": 23.88888888888889
+      },
+      "C": {
+        "n": 30,
+        "successes": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.0
+        ],
+        "outcome_counts": {
+          "failure_C": 30
+        },
+        "successful_swaps": {},
+        "mean_queries_to_success": 0.0,
+        "mean_candidates_generated": 23.166666666666668,
+        "mean_filtered_sim": 4.6,
+        "mean_filtered_ppl": 16.066666666666666
+      }
+    },
+    "overall": {
+      "successes": 0,
+      "n": 39,
+      "rate": 0.0,
+      "ci_95": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "combined_p1_p2": {
+    "label": "Combined Phase 1+2",
+    "total": 107,
+    "by_route": {
+      "A": {
+        "n": 1,
+        "successes": 1,
+        "rate": 1.0,
+        "ci_95": [
+          1.0,
+          1.0
+        ],
+        "outcome_counts": {
+          "success_same_route_A": 1
+        },
+        "successful_swaps": {
+          "country -> state": 1
+        },
+        "mean_queries_to_success": 2.0,
+        "mean_candidates_generated": 28.0,
+        "mean_filtered_sim": 0.0,
+        "mean_filtered_ppl": 0.0
+      },
+      "B": {
+        "n": 22,
+        "successes": 13,
+        "rate": 0.5909090909090909,
+        "ci_95": [
+          0.36363636363636365,
+          0.7727272727272727
+        ],
+        "outcome_counts": {
+          "success_same_route_B": 11,
+          "failure_B": 9,
+          "success_flip_B_to_C": 2
+        },
+        "successful_swaps": {
+          "occur -> happen": 2,
+          "stand -> base": 1,
+          "player -> participant": 1,
+          "introduced -> present": 1,
+          "show -> display": 1,
+          "place -> post": 1,
+          "maker -> manufacturer": 1,
+          "connection -> connexion": 1,
+          "created -> make": 1,
+          "work -> run": 1,
+          "SEAL -> sealskin": 1,
+          "person -> individual": 1
+        },
+        "mean_queries_to_success": 4.153846153846154,
+        "mean_candidates_generated": 34.18181818181818,
+        "mean_filtered_sim": 2.1818181818181817,
+        "mean_filtered_ppl": 11.545454545454545
+      },
+      "C": {
+        "n": 84,
+        "successes": 38,
+        "rate": 0.4523809523809524,
+        "ci_95": [
+          0.34523809523809523,
+          0.5595238095238095
+        ],
+        "outcome_counts": {
+          "success_same_route_C": 35,
+          "failure_C": 46,
+          "success_flip_C_to_B": 3
+        },
+        "successful_swaps": {
+          "president -> chairman": 4,
+          "die -> go": 2,
+          "president -> chairwoman": 2,
+          "owner -> proprietor": 2,
+          "seat -> place": 1,
+          "state -> province": 1,
+          "result -> outcome": 1,
+          "source -> beginning": 1,
+          "wins -> winnings": 1,
+          "father -> founder": 1,
+          "area -> country": 1,
+          "father -> forefather": 1,
+          "death -> expiry": 1,
+          "Bicycle -> wheel": 1,
+          "child -> youngster": 1,
+          "place -> spot": 1,
+          "spouse -> partner": 1,
+          "related -> pertain": 1,
+          "change -> exchange": 1,
+          "members -> appendage": 1
+        },
+        "mean_queries_to_success": 3.026315789473684,
+        "mean_candidates_generated": 26.238095238095237,
+        "mean_filtered_sim": 3.2023809523809526,
+        "mean_filtered_ppl": 8.666666666666666
+      }
+    },
+    "overall": {
+      "successes": 52,
+      "n": 107,
+      "rate": 0.48598130841121495,
+      "ci_95": [
+        0.3925233644859813,
+        0.5794392523364486
+      ]
+    }
+  },
+  "all_phases": {
+    "label": "All phases",
+    "total": 146,
+    "by_route": {
+      "A": {
+        "n": 1,
+        "successes": 1,
+        "rate": 1.0,
+        "ci_95": [
+          1.0,
+          1.0
+        ],
+        "outcome_counts": {
+          "success_same_route_A": 1
+        },
+        "successful_swaps": {
+          "country -> state": 1
+        },
+        "mean_queries_to_success": 2.0,
+        "mean_candidates_generated": 28.0,
+        "mean_filtered_sim": 0.0,
+        "mean_filtered_ppl": 0.0
+      },
+      "B": {
+        "n": 31,
+        "successes": 13,
+        "rate": 0.41935483870967744,
+        "ci_95": [
+          0.25806451612903225,
+          0.5806451612903226
+        ],
+        "outcome_counts": {
+          "success_same_route_B": 11,
+          "failure_B": 18,
+          "success_flip_B_to_C": 2
+        },
+        "successful_swaps": {
+          "occur -> happen": 2,
+          "stand -> base": 1,
+          "player -> participant": 1,
+          "introduced -> present": 1,
+          "show -> display": 1,
+          "place -> post": 1,
+          "maker -> manufacturer": 1,
+          "connection -> connexion": 1,
+          "created -> make": 1,
+          "work -> run": 1,
+          "SEAL -> sealskin": 1,
+          "person -> individual": 1
+        },
+        "mean_queries_to_success": 4.153846153846154,
+        "mean_candidates_generated": 32.32258064516129,
+        "mean_filtered_sim": 2.5806451612903225,
+        "mean_filtered_ppl": 15.129032258064516
+      },
+      "C": {
+        "n": 114,
+        "successes": 38,
+        "rate": 0.3333333333333333,
+        "ci_95": [
+          0.24561403508771928,
+          0.42105263157894735
+        ],
+        "outcome_counts": {
+          "success_same_route_C": 35,
+          "failure_C": 76,
+          "success_flip_C_to_B": 3
+        },
+        "successful_swaps": {
+          "president -> chairman": 4,
+          "die -> go": 2,
+          "president -> chairwoman": 2,
+          "owner -> proprietor": 2,
+          "seat -> place": 1,
+          "state -> province": 1,
+          "result -> outcome": 1,
+          "source -> beginning": 1,
+          "wins -> winnings": 1,
+          "father -> founder": 1,
+          "area -> country": 1,
+          "father -> forefather": 1,
+          "death -> expiry": 1,
+          "Bicycle -> wheel": 1,
+          "child -> youngster": 1,
+          "place -> spot": 1,
+          "spouse -> partner": 1,
+          "related -> pertain": 1,
+          "change -> exchange": 1,
+          "members -> appendage": 1
+        },
+        "mean_queries_to_success": 3.026315789473684,
+        "mean_candidates_generated": 25.42982456140351,
+        "mean_filtered_sim": 3.5701754385964914,
+        "mean_filtered_ppl": 10.614035087719298
+      }
+    },
+    "overall": {
+      "successes": 52,
+      "n": 146,
+      "rate": 0.3561643835616438,
+      "ci_95": [
+        0.2808219178082192,
+        0.4383561643835616
+      ]
+    }
+  }
+}
