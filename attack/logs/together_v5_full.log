@@ -1,0 +1,154 @@
+nohup: ignoring input
+[rephraser] Together AI, model=meta-llama/Llama-3.3-70B-Instruct-Turbo, sleep=0.5s
+[classifier] loading on cpu...
+/home/sbhengesa/.conda/envs/adaptiverag/lib/python3.8/site-packages/torch/cuda/__init__.py:497: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+/home/sbhengesa/.conda/envs/adaptiverag/lib/python3.8/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+You are using the default legacy behaviour of the <class 'transformers.models.t5.tokenization_t5.T5Tokenizer'>. This is expected, and simply means that the `legacy` (previous) behavior will be used so nothing changes for you. If you want to use the new behaviour, set `legacy=False`. This should only be set if you understand what it means, and thoroughly read the reason why this was added as explained in https://github.com/huggingface/transformers/pull/24565
+[surface] loading on cpu...
+[nli] loading cross-encoder/nli-deberta-v3-base on cpu, threshold=0.65
+
+[run] 107 victims, n_per_prompt=10, device=cpu, sim>=0.85, ppl<=300.0, nli>=0.65, model=meta-llama/Llama-3.3-70B-Instruct-Turbo
+From v4.47 onwards, when a model cache is to be returned, `generate` will return a `Cache` instance instead by default (as opposed to the legacy tuple of tuples format). If you want to keep returning the legacy format, please set `return_legacy_cache=True`.
+  [1/107] qid=2hop__442516_595885  base=A  gen=3  pass_strict=3  flips=3  wall=20.9s
+  [2/107] qid=3hop1__786632_831637_91775  base=B  gen=5  pass_strict=5  flips=1  wall=26.5s
+  [3/107] qid=2hop__789398_74735  base=B  gen=2  pass_strict=2  flips=1  wall=22.3s
+  [4/107] qid=3hop1__88707_91850_685675  base=B  gen=1  pass_strict=1  flips=1  wall=16.3s
+  [5/107] qid=3hop1__409517_547811_41132  base=B  gen=2  pass_strict=2  flips=2  wall=16.5s
+  [6/107] qid=2hop__157602_21567  base=B  gen=3  pass_strict=3  flips=2  wall=17.8s
+  [7/107] qid=2hop__7046_44085  base=B  gen=1  pass_strict=1  flips=0  wall=19.5s
+  [8/107] qid=3hop1__109185_720914_41132  base=B  gen=2  pass_strict=2  flips=1  wall=20.6s
+  [9/107] qid=3hop2__132957_132967_40768  base=B  gen=3  pass_strict=1  flips=0  wall=19.5s
+  [10/107] qid=2hop__25797_990  base=B  gen=1  pass_strict=1  flips=0  wall=21.1s
+  [11/107] qid=2hop__159816_37168  base=B  gen=1  pass_strict=1  flips=1  wall=13.5s
+  [12/107] qid=2hop__85931_108632  base=B  gen=2  pass_strict=2  flips=0  wall=15.0s
+  [13/107] qid=2hop__431934_30351  base=B  gen=3  pass_strict=3  flips=2  wall=14.0s
+  [14/107] qid=3hop1__695430_831637_91775  base=B  gen=2  pass_strict=2  flips=0  wall=16.7s
+  [15/107] qid=3hop2__132957_295815_40768  base=B  gen=2  pass_strict=1  flips=0  wall=17.9s
+  [16/107] qid=3hop2__132957_133292_40768  base=B  gen=2  pass_strict=1  flips=0  wall=15.4s
+  [17/107] qid=2hop__87580_7298  base=B  gen=3  pass_strict=0  flips=0  wall=18.7s
+  [18/107] qid=3hop1__346812_15840_36014  base=B  gen=5  pass_strict=5  flips=0  wall=16.5s
+  [19/107] qid=3hop1__312146_720914_41132  base=B  gen=2  pass_strict=2  flips=1  wall=16.3s
+  [20/107] qid=3hop1__765847_831637_91775  base=B  gen=1  pass_strict=1  flips=0  wall=14.9s
+  [21/107] qid=2hop__754826_7292  base=B  gen=2  pass_strict=1  flips=1  wall=23.4s
+  [22/107] qid=2hop__161872_21567  base=B  gen=4  pass_strict=3  flips=1  wall=16.9s
+  [23/107] qid=2hop__852657_155922  base=B  gen=2  pass_strict=2  flips=2  wall=14.3s
+  [24/107] qid=4hop1__668178_765799_282674_759393  base=C  gen=1  pass_strict=1  flips=0  wall=16.1s
+  [25/107] qid=2hop__388467_110882  base=C  gen=1  pass_strict=0  flips=0  wall=14.2s
+  [26/107] qid=3hop1__847420_720378_15538  base=C  gen=5  pass_strict=5  flips=0  wall=16.1s
+  [27/107] qid=2hop__623501_297043  base=C  gen=7  pass_strict=4  flips=0  wall=26.4s
+  [28/107] qid=2hop__606439_127399  base=C  gen=3  pass_strict=2  flips=0  wall=16.5s
+  [29/107] qid=2hop__284789_52835  base=C  gen=4  pass_strict=3  flips=0  wall=23.8s
+  [30/107] qid=2hop__36269_73244  base=C  gen=1  pass_strict=1  flips=0  wall=12.8s
+  [31/107] qid=2hop__107185_64006  base=C  gen=2  pass_strict=2  flips=1  wall=15.4s
+  [32/107] qid=2hop__703767_37168  base=C  gen=5  pass_strict=4  flips=0  wall=17.2s
+  [33/107] qid=2hop__156700_63853  base=C  gen=2  pass_strict=1  flips=0  wall=13.8s
+  [34/107] qid=2hop__536283_67465  base=C  gen=4  pass_strict=2  flips=0  wall=16.3s
+  [35/107] qid=3hop1__104762_24918_24991  base=C  gen=4  pass_strict=4  flips=0  wall=24.4s
+  [36/107] qid=3hop1__707569_228453_10972  base=C  gen=4  pass_strict=3  flips=0  wall=23.2s
+  [37/107] qid=2hop__43283_86694  base=C  gen=3  pass_strict=1  flips=0  wall=24.1s
+  [38/107] qid=2hop__109242_113442  base=C  gen=3  pass_strict=3  flips=0  wall=21.0s
+  [39/107] qid=3hop1__106094_443779_52195  base=C  gen=2  pass_strict=2  flips=0  wall=15.7s
+  [40/107] qid=2hop__144784_623159  base=C  gen=4  pass_strict=4  flips=0  wall=19.0s
+  [41/107] qid=2hop__20256_71302  base=C  gen=5  pass_strict=2  flips=0  wall=16.0s
+  [42/107] qid=2hop__335899_124498  base=C  gen=1  pass_strict=1  flips=0  wall=14.1s
+  [43/107] qid=2hop__498251_126089  base=C  gen=1  pass_strict=1  flips=0  wall=14.9s
+  [44/107] qid=2hop__445963_6063  base=C  gen=1  pass_strict=1  flips=0  wall=13.9s
+  [45/107] qid=2hop__567588_67465  base=C  gen=4  pass_strict=0  flips=0  wall=16.1s
+  [46/107] qid=2hop__32887_235620  base=C  gen=2  pass_strict=0  flips=0  wall=13.9s
+  [47/107] qid=2hop__75207_365216  base=C  gen=3  pass_strict=3  flips=0  wall=18.0s
+  [48/107] qid=2hop__821197_368148  base=C  gen=2  pass_strict=1  flips=0  wall=10.5s
+  [49/107] qid=3hop1__489567_443779_52195  base=C  gen=2  pass_strict=2  flips=0  wall=15.0s
+  [50/107] qid=4hop3__373573_132409_223216_35031  base=C  gen=5  pass_strict=3  flips=0  wall=18.5s
+  [51/107] qid=2hop__374495_68633  base=C  gen=4  pass_strict=3  flips=0  wall=12.1s
+  [52/107] qid=3hop1__226638_538202_84283  base=C  gen=3  pass_strict=2  flips=0  wall=21.7s
+  [53/107] qid=2hop__83405_158262  base=C  gen=2  pass_strict=2  flips=0  wall=14.4s
+  [54/107] qid=4hop1__606685_508773_85832_745702  base=C  gen=2  pass_strict=2  flips=0  wall=14.0s
+  [55/107] qid=3hop1__483634_720378_15538  base=C  gen=4  pass_strict=4  flips=0  wall=16.6s
+  [56/107] qid=2hop__412633_15781  base=C  gen=4  pass_strict=4  flips=0  wall=15.6s
+  [57/107] qid=2hop__61714_52026  base=C  gen=4  pass_strict=0  flips=0  wall=12.6s
+  [58/107] qid=4hop1__152146_5274_458768_33677  base=C  gen=1  pass_strict=1  flips=0  wall=15.1s
+  [59/107] qid=2hop__580231_162399  base=C  gen=2  pass_strict=2  flips=0  wall=11.2s
+  [60/107] qid=2hop__166820_52835  base=C  gen=3  pass_strict=0  flips=0  wall=14.9s
+  [61/107] qid=2hop__818692_113442  base=C  gen=2  pass_strict=2  flips=0  wall=15.9s
+  [62/107] qid=3hop1__823336_228453_10972  base=C  gen=3  pass_strict=3  flips=0  wall=15.4s
+  [63/107] qid=4hop1__726675_508773_85832_745702  base=C  gen=1  pass_strict=1  flips=0  wall=16.0s
+  [64/107] qid=3hop1__106313_443779_52195  base=C  gen=1  pass_strict=1  flips=0  wall=13.9s
+  [65/107] qid=3hop1__398232_326948_10972  base=C  gen=3  pass_strict=3  flips=0  wall=14.4s
+  [66/107] qid=2hop__543853_124498  base=C  gen=2  pass_strict=2  flips=0  wall=11.6s
+  [67/107] qid=2hop__475808_74481  base=C  gen=3  pass_strict=0  flips=0  wall=12.0s
+  [68/107] qid=2hop__504464_708278  base=C  gen=5  pass_strict=0  flips=0  wall=10.2s
+  [69/107] qid=2hop__280583_229757  base=C  gen=2  pass_strict=2  flips=0  wall=11.0s
+  [70/107] qid=3hop1__637555_339990_15538  base=C  gen=5  pass_strict=5  flips=0  wall=13.2s
+  [71/107] qid=2hop__123545_47134  base=C  gen=2  pass_strict=1  flips=0  wall=10.5s
+  [72/107] qid=4hop2__161602_474028_88460_86452  base=C  gen=2  pass_strict=2  flips=0  wall=11.3s
+  [73/107] qid=2hop__363214_590899  base=C  gen=5  pass_strict=5  flips=0  wall=11.5s
+  [74/107] qid=2hop__635185_141338  base=C  gen=4  pass_strict=3  flips=0  wall=11.6s
+  [75/107] qid=3hop1__145411_443779_52195  base=C  gen=1  pass_strict=1  flips=0  wall=11.6s
+  [76/107] qid=2hop__466700_214359  base=C  gen=4  pass_strict=3  flips=0  wall=11.4s
+  [77/107] qid=2hop__156658_155922  base=C  gen=1  pass_strict=1  flips=0  wall=14.7s
+  [78/107] qid=2hop__776377_857193  base=C  gen=2  pass_strict=2  flips=0  wall=12.8s
+  [79/107] qid=2hop__693444_220151  base=C  gen=2  pass_strict=2  flips=0  wall=15.9s
+  [80/107] qid=2hop__640262_122868  base=C  gen=1  pass_strict=1  flips=0  wall=12.8s
+  [81/107] qid=4hop1__341156_49925_13759_736921  base=C  gen=6  pass_strict=4  flips=0  wall=21.4s
+  [82/107] qid=3hop1__139862_2053_52946  base=C  gen=1  pass_strict=0  flips=0  wall=16.8s
+  [83/107] qid=2hop__142621_225454  base=C  gen=2  pass_strict=2  flips=0  wall=18.8s
+  [84/107] qid=2hop__817096_15463  base=C  gen=1  pass_strict=1  flips=0  wall=22.7s
+  [85/107] qid=3hop1__135659_87694_124169  base=C  gen=3  pass_strict=3  flips=0  wall=29.2s
+  [86/107] qid=3hop1__161433_33952_34099  base=C  gen=1  pass_strict=1  flips=0  wall=27.1s
+  [87/107] qid=2hop__301011_820181  base=C  gen=1  pass_strict=1  flips=0  wall=20.2s
+  [88/107] qid=2hop__403580_37168  base=C  gen=4  pass_strict=4  flips=0  wall=21.2s
+  [89/107] qid=2hop__20256_74481  base=C  gen=4  pass_strict=4  flips=3  wall=18.2s
+  [90/107] qid=4hop1__324759_378185_282674_759393  base=C  gen=4  pass_strict=1  flips=0  wall=29.4s
+  [91/107] qid=3hop1__103881_443779_52195  base=C  gen=2  pass_strict=2  flips=0  wall=18.8s
+  [92/107] qid=2hop__552607_126089  base=C  gen=1  pass_strict=1  flips=0  wall=16.8s
+  [93/107] qid=3hop1__604991_339990_15538  base=C  gen=6  pass_strict=6  flips=0  wall=25.5s
+  [94/107] qid=2hop__175168_110222  base=C  gen=2  pass_strict=2  flips=0  wall=24.6s
+  [95/107] qid=3hop1__743797_443779_52195  base=C  gen=3  pass_strict=3  flips=0  wall=31.7s
+  [96/107] qid=2hop__590631_110882  base=C  gen=2  pass_strict=1  flips=0  wall=27.3s
+  [97/107] qid=3hop1__142044_538202_84283  base=C  gen=1  pass_strict=1  flips=0  wall=28.4s
+  [98/107] qid=2hop__5658_161105  base=C  gen=1  pass_strict=1  flips=0  wall=25.5s
+  [99/107] qid=2hop__85325_88165  base=C  gen=4  pass_strict=3  flips=2  wall=21.7s
+  [100/107] qid=2hop__31995_8583  base=C  gen=2  pass_strict=2  flips=1  wall=19.3s
+  [101/107] qid=2hop__132472_120537  base=C  gen=2  pass_strict=2  flips=0  wall=25.3s
+  [102/107] qid=2hop__279729_20057  base=C  gen=1  pass_strict=0  flips=0  wall=27.8s
+  [103/107] qid=2hop__367336_97805  base=C  gen=1  pass_strict=1  flips=0  wall=23.4s
+  [104/107] qid=4hop1__711307_49925_13759_736921  base=C  gen=2  pass_strict=2  flips=1  wall=46.5s
+  [105/107] qid=2hop__108336_772156  base=C  gen=2  pass_strict=2  flips=0  wall=18.6s
+  [106/107] qid=2hop__179322_83289  base=C  gen=2  pass_strict=2  flips=0  wall=23.4s
+  [107/107] qid=2hop__507528_139339  base=C  gen=2  pass_strict=0  flips=0  wall=21.1s
+
+=== SUMMARY ===
+{
+  "n_victims": 107,
+  "n_any_strict_pass": 96,
+  "n_any_flip": 18,
+  "flip_rate": 0.1682,
+  "strict_pass_rate": 0.8972,
+  "flips_by_actual_route": {
+    "A": 1,
+    "B": 12,
+    "C": 5
+  },
+  "flips_by_style": {
+    "embed": 18
+  },
+  "aggregate_rejection_counts": {
+    "surface": 30,
+    "qform": 0,
+    "qual": 0,
+    "entity": 22,
+    "cat_desc": 0,
+    "nli": 13
+  },
+  "n_per_prompt": 10,
+  "sim_threshold": 0.85,
+  "ppl_threshold": 300.0,
+  "nli_threshold": 0.65,
+  "device": "cpu",
+  "rephraser": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+  "wall_total_s": 1938.0
+}
+
+Wrote results/attacks/whitebox_complexity_together_v5_full/attack_v2_n107.jsonl and results/attacks/whitebox_complexity_together_v5_full/summary_n107.json

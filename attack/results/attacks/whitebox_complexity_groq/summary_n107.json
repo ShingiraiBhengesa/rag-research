@@ -1,0 +1,23 @@
+{
+  "n_victims": 107,
+  "n_any_filter_pass": 44,
+  "n_any_flip": 20,
+  "flip_rate": 0.1869,
+  "filter_pass_rate": 0.4112,
+  "flips_by_actual_route": {
+    "A": 1,
+    "B": 17,
+    "C": 2
+  },
+  "flips_by_style": {
+    "inflate": 11,
+    "deflate": 2,
+    "embed": 7
+  },
+  "n_per_prompt": 4,
+  "sim_threshold": 0.85,
+  "ppl_threshold": 200.0,
+  "device": "cpu",
+  "rephraser": "llama-3.3-70b-versatile",
+  "wall_total_s": 3766.4
+}
