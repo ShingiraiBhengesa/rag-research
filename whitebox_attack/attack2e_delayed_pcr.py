@@ -1,13 +1,13 @@
 """
-attack2e_delayed_pcr.py — Attack A: Delayed Premature Completion Rate (PCR), steps 1–3.
+attack2e_delayed_pcr.py — Wrong Gap Assessment: PCR@1/2/3 multi-step premature completion rollout.
 
 Motivation
 ----------
-attack2_gap_assessment.py measures only the *immediate* next decision (step 1).
-An agent that resists premature closure at step 1 may still collapse within
-the next one or two search rounds — especially if its second or third search
+attack2_gap_assessment.py measures only the *immediate* next decision (WGAR@1, step 1).
+A Researcher Agent that resists premature closure at step 1 may still call ResearchComplete
+within the next one or two search rounds — especially if its second or third search
 returns an uninformative result that accumulates evidence of "nothing new to find."
-This script extends the measurement to a 3-step rollout (PCR@1, PCR@2, PCR@3).
+This script extends the measurement to a controlled 3-step rollout (PCR@1, PCR@2, PCR@3).
 
 Rollout mechanics
 -----------------

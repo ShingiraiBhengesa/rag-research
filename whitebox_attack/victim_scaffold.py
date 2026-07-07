@@ -1,5 +1,5 @@
 """
-victim_scaffold.py — Faithful simulation of the Open Deep Research agent's decision point.
+victim_scaffold.py — Faithful simulation of the Open Deep Research Researcher Agent's decision point.
 
 Role in the attack pipeline
 ---------------------------
@@ -10,7 +10,7 @@ attack2e_delayed_pcr.py) import this module exclusively — no attack script bui
 own prompt or scoring logic — so the adversarial measurement is guaranteed to use the
 exact same prompt text and tool schema as the real agent.
 
-Key functions used by Attack A
+Key functions used by Wrong Gap Assessment
 -------------------------------
 build_branch_tokens   : one-time setup that locates the token where the tavily_search
                         and ResearchComplete continuations first diverge. Enables the

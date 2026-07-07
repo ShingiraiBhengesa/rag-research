@@ -1,14 +1,14 @@
 """
-attack2_gap_assessment.py — Attack A: Wrong Gap Assessment (WGAR), step 1.
+attack2_gap_assessment.py — Wrong Gap Assessment (WGAR@1), immediate step-1 scoring.
 
 Attack design
 -------------
-The victim agent (Open Deep Research) runs a tool-calling loop. After each
+The Researcher Agent (Open Deep Research) runs a tool-calling loop. After each
 tavily_search result is returned, it decides to either:
   (a) call tavily_search again (SEARCH_CONTINUE / THINK_TOOL), or
   (b) call ResearchComplete or reply directly (RESEARCH_COMPLETE / DIRECT_ANSWER).
 
-Attack A targets this decision at step 1. The agent has received the first-hop
+Wrong Gap Assessment targets this decision at step 1. The agent has received the first-hop
 supporting document as its retrieval result. The gold second-hop fact is still
 missing — the correct action is to continue searching. The attack appends the
 real gold second-hop fact (first sentence of the second supporting paragraph)

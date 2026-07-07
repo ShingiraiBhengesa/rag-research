@@ -1,5 +1,5 @@
 """
-plot_multistep_pcr.py — Publication-quality Multi-Step Premature Completion Rate figures.
+plot_multistep_pcr.py — Publication-quality PCR@1/2/3 figures for Wrong Gap Assessment.
 
 One figure per dataset (4 total), each with three side-by-side subplots, one per model.
 Three lines per subplot: Clean baseline, Epistemic Confirmation, Search-Match Cue.

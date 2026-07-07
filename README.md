@@ -1,8 +1,8 @@
-# Adversarial Attacks on Retrieve-vs-Finish Decisions in Agentic RAG
+# Wrong Gap Assessment: A White-Box Tool-Calling Attack on Agentic RAG
 
-This project studies a novel adversarial attack surface in **agentic Retrieval-Augmented Generation (RAG)** systems: the *retrieve-vs-finish* decision boundary. In a tool-calling research agent, the model must decide at each step whether to issue another search or terminate with an answer. We show that a single poisoned document injected into the first retrieval step can cause the agent to terminate search prematurely — before gathering the evidence needed to correctly answer a multi-hop question.
+This project studies a white-box tool-calling attack on agentic RAG. The attack targets the Researcher Agent's decision about whether to continue gathering evidence or terminate the research loop with `ResearchComplete`. **Wrong Gap Assessment** appends a real second-hop fact and a short gap-closure cue to the first retrieved observation, causing the agent to wrongly believe the evidence gap is closed.
 
-The victim system is [Open Deep Research](open_deep_research/), a fully open-source agentic RAG system that runs a tool-calling loop over `tavily_search`, `think_tool`, and `ResearchComplete`.
+The Researcher Agent is part of [Open Deep Research](open_deep_research/) (ODR), an open-source agentic RAG system that runs a tool-calling loop over `tavily_search`, `think_tool`, and `ResearchComplete`.
 
 ---
 
@@ -10,15 +10,24 @@ The victim system is [Open Deep Research](open_deep_research/), a fully open-sou
 
 ### Setting
 
-Multi-hop questions require at least two retrieval steps for a correct answer. Open Deep Research runs iteratively: at each step the model sees the conversation history plus the latest tool result, then picks its next action. The attack targets the **step-1 control decision** — the first time the model chooses between searching again and declaring the question answered.
+Multi-hop questions require at least two retrieval steps for a correct answer. Open Deep Research runs iteratively: at each step the Researcher Agent sees the conversation history plus the latest tool result, then picks its next action (continue searching or call `ResearchComplete`). Wrong Gap Assessment targets the step-1 control decision — the first time the agent evaluates whether the evidence gap is closed.
+
+Two evaluation modes:
+
+| Mode | Metric | Description |
+|---|---|---|
+| **WGAR@1** | Wrong Gap Assessment Rate at step 1 | Did the agent call `ResearchComplete` immediately after the patched observation? |
+| **PCR@k** | Premature Completion Rate within k steps | Did the agent call `ResearchComplete` within the first k steps of a 3-step controlled rollout? |
+
+PCR@k is a controlled 3-step rollout using a neutral placeholder (`"No new relevant information was found."`) for follow-up search results. It is not a live-web deployment evaluation.
 
 ### Threat Model
 
-White-box adversary with **read access to model weights**. No gradient computation — all scoring uses teacher-forced log-probability margin at the divergence token of a shared-prefix decode (`whitebox_attack/victim_scaffold.py`).
+White-box means controlled evaluator access to the benchmark, the supporting passages, and the local model. The attack does not modify model weights, prompt, tool schema, hidden reasoning, or `think_tool` output. The manipulation happens only at the retrieved-observation level — the text string returned to the agent after its first `tavily_search` call is patched before it enters the agent's context.
 
 ### The Attack — Wrong Gap Assessment
 
-A real second-hop fact (the first sentence of the second supporting passage) is appended to the first retrieved document, together with a short rhetorical cue designed to make the model believe its evidence gap is already closed.
+A real second-hop fact (the first sentence of the second supporting passage) is appended to the first retrieved observation, together with a short gap-closure cue. The cue is designed to make the Researcher Agent believe the evidence gap is already closed.
 
 | Cue | Suffix appended after the second-hop fact |
 |---|---|
@@ -27,20 +36,11 @@ A real second-hop fact (the first sentence of the second supporting passage) is 
 
 The injected fact is real, not fabricated — attack success cannot be attributed to the agent correctly detecting a false claim. It is purely cue-driven.
 
-### Evaluation Modes
-
-| Mode | Metric | Description |
-|---|---|---|
-| **WGAR@1** | Wrong Gap Assessment Rate at step 1 | Did the agent terminate immediately after the poisoned observation? |
-| **PCR@k** | Premature Completion Rate within k steps | Did the agent terminate within the first k steps of a 3-step rollout? |
-
-PCR@k uses a neutral placeholder (`"No new relevant information was found."`) for follow-up search results, simulating realistic no-result continuations without a live search backend.
-
 ---
 
 ## Key Results
 
-### WGAR@1 — Immediate step-1 premature completion
+### WGAR@1 — Immediate wrong gap assessment at step 1
 
 | Model | Condition | HotpotQA | 2WikiMHQA | MuSiQue | MultiHopRAG |
 |---|---|---|---|---|---|
@@ -51,9 +51,9 @@ PCR@k uses a neutral placeholder (`"No new relevant information was found."`) fo
 | Llama-3.1-8B | Epistemic Confirmation | **0.00%** | **0.00%** | **0.00%** | **0.00%** |
 | Llama-3.1-8B | Search-Match Cue | **0.00%** | **0.00%** | **0.00%** | **0.00%** |
 
-Llama-3.1-8B is immune at step 1 under both cues.
+Llama-3.1-8B has 0% WGAR@1 across all datasets under both cues, but this step-1 robustness does not survive the multi-step rollout (see PCR@3 below).
 
-### PCR@1/2/3 — Multi-step rollout results
+### PCR@1/2/3 — Multi-step premature completion rollout
 
 #### HotpotQA
 
@@ -111,7 +111,7 @@ Llama-3.1-8B is immune at step 1 under both cues.
 | Llama-3.1-8B | Epistemic Confirmation | 0.00% | 19.77% | 37.47% |
 | Llama-3.1-8B | Search-Match Cue | 0.00% | 9.20% | 24.37% |
 
-**Core finding:** vulnerability is a rollout-level property, not a step-1 property. Llama-3.1-8B's step-1 immunity does not survive a 3-step rollout — PCR@3 reaches 75–89% on HotpotQA and 2WikiMHQA under both cues.
+**Core finding:** The vulnerability is rollout-level, not only step-1. Llama-3.1-8B has 0% WGAR@1 across all datasets under both cues, but reaches high PCR@3 on HotpotQA, 2WikiMultiHopQA, and MuSiQue.
 
 ---
 
@@ -119,16 +119,16 @@ Llama-3.1-8B is immune at step 1 under both cues.
 
 ```
 rag-research/
-├── open_deep_research/          # Victim system — Open Deep Research agentic RAG
+├── open_deep_research/          # Victim system — Open Deep Research Researcher Agent
 │   ├── src/open_deep_research/  # Core agent: deep_researcher.py, configuration.py,
 │   │                            #   state.py, prompts.py, utils.py
 │   ├── src/security/auth.py     # Auth handler for LangGraph deployment
 │   ├── pyproject.toml           # Package definition
 │   └── langgraph.json           # LangGraph entrypoint config
 │
-├── whitebox_attack/             # White-box attack implementation
-│   ├── attack2_gap_assessment.py   # WGAR@1 — immediate step-1 scoring
-│   ├── attack2e_delayed_pcr.py     # PCR@1/2/3 — multi-step rollout
+├── whitebox_attack/             # Wrong Gap Assessment — white-box attack implementation
+│   ├── attack2_gap_assessment.py   # WGAR@1 — immediate wrong gap assessment at step 1
+│   ├── attack2e_delayed_pcr.py     # PCR@1/2/3 — multi-step premature completion rollout
 │   ├── victim_scaffold.py          # White-box primitives (branch_margin, rollout_n_steps)
 │   ├── data_utils.py               # Dataset loaders + banned-vocab filters
 │   ├── jsonl_logging.py            # Append-only JSONL schema
@@ -143,7 +143,7 @@ rag-research/
     └── figures/                 # 4 publication-quality PNGs (300 DPI)
 ```
 
-> **Planned extension:** a `blackbox_attack/` directory will follow the same interface — replacing `victim_scaffold.py`'s white-box scoring with API-based observation of the agent's tool choices, while reusing `data_utils.py`, `jsonl_logging.py`, `metrics.py`, and the JSONL schema unchanged.
+> **Planned extension:** a `blackbox_attack/` directory will follow the same interface — replacing `victim_scaffold.py`'s white-box scoring with API-based observation of the Researcher Agent's tool choices, while reusing `data_utils.py`, `jsonl_logging.py`, `metrics.py`, and the JSONL schema unchanged.
 
 ---
 
