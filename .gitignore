@@ -17,9 +17,6 @@ __pycache__/
 .cache/
 eval_data/
 
-# Archived attack scripts and results (exploratory experiments not in final paper)
-open_deep_research/attacks/archive/
-
 # Singularity/Apptainer container images (large binary files)
 *.sif
 
@@ -30,6 +27,17 @@ build/
 
 # SLURM job logs (per-run stdout/stderr, not part of the codebase)
 open_deep_research/logs/
+whitebox_attack/logs/
+
+# Archived / superseded attack scripts (exploratory work not in final paper)
+whitebox_attack/archive/
 
 # Claude Code internal metadata
 .claude/
+
+# Cluster-only directories (large data / code not needed for paper reproducibility)
+adaptive-rag/
+attack/
+results/
+scripts/
+self-rag/

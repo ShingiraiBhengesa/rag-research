@@ -1,2 +1,0 @@
-{"qid": "2hop__442516_595885", "label": "HALLUCINATED", "judge_response": "HALLUCINATED: The rephrased question introduces \"Lake Mara\", a specific entity not mentioned in the original question.", "style": "deflate"}
-{"qid": "2hop__87580_7298", "label": "CLEAN", "judge_response": "CLEAN: The rephrased question adds more details about the television series and the pop artist, but it does not introduce any new entities or change the core of the question, making it a verbose but faithful rephrasing.", "style": "inflate"}

@@ -1,5 +1,0 @@
-Dataset,Adaptive Correct,Adaptive Wrong,Both Correct,Adaptive Wrong but NoRet Correct,Adaptive Correct but NoRet Wrong,Both Wrong
-PopQA,768,631,356,45,412,586
-TriviaQA,4838,2475,3263,416,1575,2059
-PubHealth,712,275,624,68,88,207
-ARC-C,787,385,759,31,28,354
