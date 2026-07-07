@@ -16,3 +16,20 @@ __pycache__/
 *.pyc
 .cache/
 eval_data/
+
+# Archived attack scripts and results (exploratory experiments not in final paper)
+open_deep_research/attacks/archive/
+
+# Singularity/Apptainer container images (large binary files)
+*.sif
+
+# Python build artifacts
+*.egg-info/
+dist/
+build/
+
+# SLURM job logs (per-run stdout/stderr, not part of the codebase)
+open_deep_research/logs/
+
+# Claude Code internal metadata
+.claude/
