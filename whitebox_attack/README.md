@@ -93,11 +93,14 @@ to simulate realistic no-result follow-ups without a live search backend.
 
 ### WGAR@1 — Immediate step-1 premature completion
 
-| Model | HotpotQA | 2WikiMHQA | MuSiQue | MultiHopRAG |
-|---|---|---|---|---|
-| Qwen2.5-7B | 18–25% | 9–11% | 11–13% | 7–10% |
-| Qwen2.5-14B | 33–41% | 33–37% | 17% | 8–12% |
-| Llama-3.1-8B | **0%** | **0%** | **0%** | **0%** |
+| Model | Condition | HotpotQA | 2WikiMHQA | MuSiQue | MultiHopRAG |
+|---|---|---|---|---|---|
+| Qwen2.5-7B | Epistemic Confirmation | 18.13% | 9.46% | 11.06% | 9.95% |
+| Qwen2.5-7B | Search-Match Cue | 24.65% | 11.25% | 12.56% | 6.71% |
+| Qwen2.5-14B | Epistemic Confirmation | 33.33% | 32.99% | 16.79% | 12.13% |
+| Qwen2.5-14B | Search-Match Cue | 41.39% | 36.83% | 17.04% | 8.01% |
+| Llama-3.1-8B | Epistemic Confirmation | **0.00%** | **0.00%** | **0.00%** | **0.00%** |
+| Llama-3.1-8B | Search-Match Cue | **0.00%** | **0.00%** | **0.00%** | **0.00%** |
 
 Llama-3.1-8B is immune at step 1 under both cues.
 
