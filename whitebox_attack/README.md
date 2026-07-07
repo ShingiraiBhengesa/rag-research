@@ -103,65 +103,61 @@ Llama-3.1-8B is immune at step 1 under both cues.
 
 ### PCR@1/2/3 — Full multi-step rollout results
 
-Net@k = PCR@k(attacked) − PCR@k(clean). Net@k is a **conservative underestimate**:
-the neutral placeholder inflates the clean baseline (even without an attack, repeated
-uninformative searches gradually bias the agent toward termination).
-
 #### HotpotQA
 
-| Model | Condition | PCR@1 | PCR@2 | PCR@3 | Net@2 | Net@3 |
-|---|---|---|---|---|---|---|
-| Qwen2.5-7B | Clean baseline | 0.00% | 17.65% | 22.25% | — | — |
-| Qwen2.5-7B | Epistemic Confirmation | 18.13% | 73.37% | 75.07% | +55.7pp | +52.8pp |
-| Qwen2.5-7B | Search-Match Cue | 24.65% | 69.69% | 70.25% | +52.0pp | +48.0pp |
-| Qwen2.5-14B | Clean baseline | 0.00% | 7.46% | 13.18% | — | — |
-| Qwen2.5-14B | Epistemic Confirmation | 33.33% | 52.50% | 55.28% | +45.0pp | +42.1pp |
-| Qwen2.5-14B | Search-Match Cue | 41.39% | 57.50% | 60.28% | +50.0pp | +47.1pp |
-| Llama-3.1-8B | Clean baseline | 0.00% | 24.04% | 33.71% | — | — |
-| Llama-3.1-8B | Epistemic Confirmation | 0.00% | **71.50%** | **88.50%** | +47.5pp | +54.8pp |
-| Llama-3.1-8B | Search-Match Cue | 0.00% | **70.25%** | **86.50%** | +46.2pp | +52.8pp |
+| Model | Condition | PCR@1 | PCR@2 | PCR@3 |
+|---|---|---|---|---|
+| Qwen2.5-7B | Clean baseline | 0.00% | 17.65% | 22.25% |
+| Qwen2.5-7B | Epistemic Confirmation | 18.13% | 73.37% | 75.07% |
+| Qwen2.5-7B | Search-Match Cue | 24.65% | 69.69% | 70.25% |
+| Qwen2.5-14B | Clean baseline | 0.00% | 7.46% | 13.18% |
+| Qwen2.5-14B | Epistemic Confirmation | 33.33% | 52.50% | 55.28% |
+| Qwen2.5-14B | Search-Match Cue | 41.39% | 57.50% | 60.28% |
+| Llama-3.1-8B | Clean baseline | 0.00% | 24.04% | 33.71% |
+| Llama-3.1-8B | Epistemic Confirmation | 0.00% | **71.50%** | **88.50%** |
+| Llama-3.1-8B | Search-Match Cue | 0.00% | **70.25%** | **86.50%** |
 
 #### 2WikiMultiHopQA
 
-| Model | Condition | PCR@1 | PCR@2 | PCR@3 | Net@2 | Net@3 |
-|---|---|---|---|---|---|---|
-| Qwen2.5-7B | Clean baseline | 0.00% | 5.13% | 17.41% | — | — |
-| Qwen2.5-7B | Epistemic Confirmation | 9.46% | 63.17% | 65.22% | +58.0pp | +47.8pp |
-| Qwen2.5-7B | Search-Match Cue | 11.25% | 62.15% | 65.98% | +57.0pp | +48.6pp |
-| Qwen2.5-14B | Clean baseline | 0.00% | 0.89% | 6.03% | — | — |
-| Qwen2.5-14B | Epistemic Confirmation | 32.99% | 52.43% | 59.34% | +51.5pp | +53.3pp |
-| Qwen2.5-14B | Search-Match Cue | 36.83% | 53.20% | 55.75% | +52.3pp | +49.7pp |
-| Llama-3.1-8B | Clean baseline | 0.00% | 4.05% | 8.11% | — | — |
-| Llama-3.1-8B | Epistemic Confirmation | 0.00% | **68.22%** | **87.86%** | +64.2pp | +79.8pp |
-| Llama-3.1-8B | Search-Match Cue | 0.00% | **58.91%** | **78.81%** | +54.9pp | +70.7pp |
+| Model | Condition | PCR@1 | PCR@2 | PCR@3 |
+|---|---|---|---|---|
+| Qwen2.5-7B | Clean baseline | 0.00% | 5.13% | 17.41% |
+| Qwen2.5-7B | Epistemic Confirmation | 9.46% | 63.17% | 65.22% |
+| Qwen2.5-7B | Search-Match Cue | 11.25% | 62.15% | 65.98% |
+| Qwen2.5-14B | Clean baseline | 0.00% | 0.89% | 6.03% |
+| Qwen2.5-14B | Epistemic Confirmation | 32.99% | 52.43% | 59.34% |
+| Qwen2.5-14B | Search-Match Cue | 36.83% | 53.20% | 55.75% |
+| Llama-3.1-8B | Clean baseline | 0.00% | 4.05% | 8.11% |
+| Llama-3.1-8B | Epistemic Confirmation | 0.00% | **68.22%** | **87.86%** |
+| Llama-3.1-8B | Search-Match Cue | 0.00% | **58.91%** | **78.81%** |
 
 #### MuSiQue
 
-| Model | Condition | PCR@1 | PCR@2 | PCR@3 | Net@2 | Net@3 |
-|---|---|---|---|---|---|---|
-| Qwen2.5-7B | Clean baseline | 0.00% | 9.86% | 11.47% | — | — |
-| Qwen2.5-7B | Epistemic Confirmation | 11.06% | 42.46% | 44.22% | +32.6pp | +32.8pp |
-| Qwen2.5-7B | Search-Match Cue | 12.56% | 41.46% | 42.21% | +31.6pp | +30.7pp |
-| Qwen2.5-14B | Clean baseline | 0.00% | 2.74% | 5.94% | — | — |
-| Qwen2.5-14B | Epistemic Confirmation | 16.79% | 24.06% | 30.83% | +21.3pp | +24.9pp |
-| Qwen2.5-14B | Search-Match Cue | 17.04% | 24.81% | 33.33% | +22.1pp | +27.4pp |
-| Llama-3.1-8B | Clean baseline | 0.00% | 12.44% | 17.11% | — | — |
-| Llama-3.1-8B | Epistemic Confirmation | 0.00% | **59.61%** | **75.91%** | +47.2pp | +58.8pp |
-| Llama-3.1-8B | Search-Match Cue | 0.00% | **52.80%** | **68.61%** | +40.4pp | +51.5pp |
+| Model | Condition | PCR@1 | PCR@2 | PCR@3 |
+|---|---|---|---|---|
+| Qwen2.5-7B | Clean baseline | 0.00% | 9.86% | 11.47% |
+| Qwen2.5-7B | Epistemic Confirmation | 11.06% | 42.46% | 44.22% |
+| Qwen2.5-7B | Search-Match Cue | 12.56% | 41.46% | 42.21% |
+| Qwen2.5-14B | Clean baseline | 0.00% | 2.74% | 5.94% |
+| Qwen2.5-14B | Epistemic Confirmation | 16.79% | 24.06% | 30.83% |
+| Qwen2.5-14B | Search-Match Cue | 17.04% | 24.81% | 33.33% |
+| Llama-3.1-8B | Clean baseline | 0.00% | 12.44% | 17.11% |
+| Llama-3.1-8B | Epistemic Confirmation | 0.00% | **59.61%** | **75.91%** |
+| Llama-3.1-8B | Search-Match Cue | 0.00% | **52.80%** | **68.61%** |
 
 #### MultiHopRAG
 
-| Model | Condition | PCR@1 | PCR@2 | PCR@3 | Net@2 | Net@3 |
-|---|---|---|---|---|---|---|
-| Qwen2.5-7B | Clean baseline | 0.00% | 11.74% | 22.80% | — | — |
-| Qwen2.5-7B | Epistemic Confirmation | 9.95% | 57.87% | 63.19% | +46.1pp | +40.4pp |
-| Qwen2.5-7B | Search-Match Cue | 6.71% | 53.70% | 58.80% | +42.0pp | +36.0pp |
-| Qwen2.5-14B | Clean baseline | 0.00% | 2.23% | 6.70% | — | — |
-| Qwen2.5-14B | Epistemic Confirmation | 12.13% | 20.14% | 26.77% | +17.9pp | +20.1pp |
-| Qwen2.5-14B | Search-Match Cue | 8.01% | 18.54% | 24.03% | +16.3pp | +17.3pp |
-| Llama-3.1-8B | Clean baseline | 0.00% | 1.57% | 6.73% | — | — |
-| Llama-3.1-8B | Epistemic Confirmation | 0.00% | 19.77% | 37.47% | +18.2pp | +30.7pp |
-| Llama-3.1-8B | Search-Match Cue | 0.00% | 9.20% | 24.37% | +7.6pp | +17.6pp |
+| Model | Condition | PCR@1 | PCR@2 | PCR@3 |
+|---|---|---|---|---|
+| Qwen2.5-7B | Clean baseline | 0.00% | 11.74% | 22.80% |
+| Qwen2.5-7B | Epistemic Confirmation | 9.95% | 57.87% | 63.19% |
+| Qwen2.5-7B | Search-Match Cue | 6.71% | 53.70% | 58.80% |
+| Qwen2.5-14B | Clean baseline | 0.00% | 2.23% | 6.70% |
+| Qwen2.5-14B | Epistemic Confirmation | 12.13% | 20.14% | 26.77% |
+| Qwen2.5-14B | Search-Match Cue | 8.01% | 18.54% | 24.03% |
+| Llama-3.1-8B | Clean baseline | 0.00% | 1.57% | 6.73% |
+| Llama-3.1-8B | Epistemic Confirmation | 0.00% | 19.77% | 37.47% |
+| Llama-3.1-8B | Search-Match Cue | 0.00% | 9.20% | 24.37% |
 
 **Core finding:** vulnerability is a rollout-level property, not a step-1 property.
 Llama's step-1 immunity does not survive a 3-step rollout — PCR@3 reaches 75–89%
