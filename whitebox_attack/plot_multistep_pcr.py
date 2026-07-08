@@ -114,86 +114,67 @@ DATASET_FILES = {
 }
 
 # ── Label placement ───────────────────────────────────────────────────────────
-# Thresholds in percentage-point units.
-_TIGHT = 5.0   # almost certain overlap at any single-direction offset
-_CLOSE = 10.0  # risk of overlap; wider stagger needed
+# Thresholds in percentage-point units. Wider than before to catch close pairs
+# earlier and push them onto a full diagonal, giving more breathing room.
+_TIGHT = 7.0
+_CLOSE = 14.0
 
 
 def _offsets(v_clean, v_epist, v_smatch):
-    """
-    Return (off_clean, off_epist, off_smatch) as (dx, dy) in offset points.
+    """Return (off_clean, off_epist, off_smatch) as (dx, dy) offset points.
 
-    Core strategy: rank conditions by value at this step, then assign
-    diagonal offsets so no two label boxes can overlap regardless of
-    how similar the values are.
-
-    For close pairs the key invariant is: one label goes upper-left,
-    the other goes lower-right.  The combined dx+dy separation is far
-    larger than any single label box, so overlap is impossible.
+    Ranks the three values high→low, then assigns offsets so no two label
+    boxes overlap. Close pairs always get a full diagonal split (upper-left /
+    lower-right) so the combined separation exceeds any single label box.
     """
     vals = [v_clean, v_epist, v_smatch]
-    # rank indices high → low
     hi, md, lo = sorted(range(3), key=lambda i: -vals[i])
 
-    d_hi_md = vals[hi] - vals[md]   # gap between highest and middle
-    d_md_lo = vals[md] - vals[lo]   # gap between middle and lowest
-    d_hi_lo = vals[hi] - vals[lo]   # total range
+    d_hi_md = vals[hi] - vals[md]
+    d_md_lo = vals[md] - vals[lo]
+    d_hi_lo = vals[hi] - vals[lo]
 
     off = [None, None, None]
 
-    # ── All three bunched together ────────────────────────────────────────────
-    if d_hi_lo < _TIGHT:
-        # Fan upward: left / center-high / right
+    if d_hi_lo < _TIGHT:                      # all three bunched — fan
+        off[hi] = (-28, 18)
+        off[md] = (  0, 28)
+        off[lo] = ( 28, 18)
+    elif d_hi_md < _TIGHT:                    # top two very close — diagonal
+        off[hi] = (-24, 17)
+        off[md] = ( 26, -17)
+        off[lo] = (  0, -20)
+    elif d_hi_md < _CLOSE:                    # top two moderately close
         off[hi] = (-22, 15)
-        off[md] = (  0, 24)
-        off[lo] = ( 22, 15)
-
-    # ── Highest two very close; lowest isolated below ─────────────────────────
-    elif d_hi_md < _TIGHT:
-        off[hi] = (-18, 13)   # upper-left
-        off[md] = ( 20, -13)  # lower-right  ← diagonal guarantees separation
-        off[lo] = (  0, -16)  # below
-
-    # ── Highest two moderately close ─────────────────────────────────────────
-    elif d_hi_md < _CLOSE:
-        off[hi] = (-16, 12)
-        off[md] = ( 18, -11)
-        off[lo] = (  0, -16)
-
-    # ── Lowest two very close; highest isolated above ─────────────────────────
-    elif d_md_lo < _TIGHT:
-        off[hi] = (  0, 13)
-        off[md] = (-18, -13)  # lower-left
-        off[lo] = ( 20, -13)  # lower-right ← diagonal
-
-    # ── Lowest two moderately close ──────────────────────────────────────────
-    elif d_md_lo < _CLOSE:
-        off[hi] = (  0, 13)
-        off[md] = (-16, -11)
-        off[lo] = ( 18, -11)
-
-    # ── All well separated ────────────────────────────────────────────────────
-    else:
-        off[hi] = (  0,  12)
-        off[md] = ( 16,   6)
-        off[lo] = (  0, -16)
+        off[md] = ( 24, -14)
+        off[lo] = (  0, -20)
+    elif d_md_lo < _TIGHT:                    # bottom two very close — diagonal
+        off[hi] = (  0, 18)
+        off[md] = (-24, -17)
+        off[lo] = ( 26, -17)
+    elif d_md_lo < _CLOSE:                    # bottom two moderately close
+        off[hi] = (  0, 18)
+        off[md] = (-22, -14)
+        off[lo] = ( 24, -14)
+    else:                                     # all well separated
+        off[hi] = (  0, 17)
+        off[md] = ( 22,  7)
+        off[lo] = (  0, -20)
 
     return (off[0], off[1], off[2])
 
 
 def _ha(dx):
-    """Horizontal alignment matched to label direction."""
-    if dx < -4:
-        return "right"
-    if dx >  4:
-        return "left"
+    if dx < -5: return "right"
+    if dx >  5: return "left"
     return "center"
 
 
 # ── Figure builder ────────────────────────────────────────────────────────────
 
 def plot_dataset(dataset_name, dataset_data):
-    fig, axes = plt.subplots(1, 3, figsize=(16, 6), sharey=True)
+    # Wider figure (20 in) gives each panel ~6.5 in — enough room for labels.
+    fig, axes = plt.subplots(1, 3, figsize=(20, 6.5), sharey=True)
     fig.patch.set_facecolor("white")
 
     legend_handles = []
@@ -204,28 +185,29 @@ def plot_dataset(dataset_name, dataset_data):
         mdata = dataset_data[model]
 
         ax.set_axisbelow(True)
-        ax.grid(True, axis="y", linestyle="--", linewidth=0.6,
-                color="#cccccc", alpha=0.75)
+        ax.grid(True, axis="y", linestyle="--", linewidth=0.5,
+                color="#d5d5d5", alpha=0.9)
         ax.grid(False, axis="x")
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
         ax.spines["left"].set_color("#cccccc")
         ax.spines["bottom"].set_color("#cccccc")
 
-        # Draw lines
         for cond_name, color, ls in CONDITIONS:
             ys = mdata[cond_name]
+            lw = 1.8 if ls == "--" else 2.4
+            alpha = 0.70 if ls == "--" else 1.0
             line, = ax.plot(
                 STEPS, ys,
-                color=color, linestyle=ls, linewidth=2.5,
-                marker="o", markersize=6,
+                color=color, linestyle=ls, linewidth=lw, alpha=alpha,
+                marker="o", markersize=7.5,
                 markerfacecolor=color, markeredgewidth=0,
                 zorder=3, label=cond_name,
             )
             if col == 0:
                 legend_handles.append(line)
 
-        # Value labels — one call per data point
+        # Value labels — 1 decimal place, larger offsets for breathing room
         for si, step in enumerate(STEPS):
             vc = mdata["Clean baseline"][si]
             ve = mdata["Epistemic Confirmation"][si]
@@ -238,54 +220,57 @@ def plot_dataset(dataset_name, dataset_data):
                 (ve, C_EPIST,  dxe, dye),
                 (vs, C_SMATCH, dxs, dys),
             ]:
+                # Labels below the 0% axis collide with x-tick text — push to upper-left
+                if val < 5.0 and dy < 0:
+                    dx, dy = -28, 14
                 ax.annotate(
-                    f"{val:.2f}%",
+                    f"{val:.1f}%",
                     xy=(step, val),
                     xytext=(dx, dy),
                     textcoords="offset points",
                     ha=_ha(dx), va="center",
-                    fontsize=7.5, fontweight="bold",
+                    fontsize=8.5, fontweight="bold",
                     color=color,
                 )
 
-        # Axes
-        ax.set_xlim(0.6, 3.4)
-        ax.set_ylim(0, 100)
+        # Wider x/y bounds give labels room at the edges
+        ax.set_xlim(0.45, 3.65)
+        ax.set_ylim(-4, 106)
         ax.set_xticks(STEPS)
-        ax.set_xticklabels(STEP_LABELS, fontsize=10)
-        ax.set_xlabel("Decision step", fontsize=11, labelpad=6)
+        ax.set_xticklabels(STEP_LABELS, fontsize=12)
+        ax.set_xlabel("Decision step", fontsize=12, labelpad=8)
         ax.yaxis.set_major_locator(mticker.MultipleLocator(20))
-        ax.yaxis.set_minor_locator(mticker.MultipleLocator(10))
-        ax.tick_params(axis="both", labelsize=10)
+        ax.tick_params(axis="both", labelsize=11, which="both", length=3)
+        ax.tick_params(axis="y", which="minor", length=0)
 
         if col == 0:
-            ax.set_ylabel("Premature Completion Rate (%)", fontsize=11, labelpad=8)
+            ax.set_ylabel("Premature Completion Rate (%)", fontsize=12, labelpad=10)
 
-        ax.set_title(model, fontsize=13, fontweight="bold", pad=10)
+        ax.set_title(model, fontsize=14, fontweight="bold", pad=14)
 
-    # Shared legend
+    # Legend with generous spacing so it doesn't crowd the panels
     fig.legend(
         handles=legend_handles,
         labels=[c[0] for c in CONDITIONS],
         loc="upper center",
         ncol=3,
-        bbox_to_anchor=(0.5, 0.995),
-        fontsize=11,
+        bbox_to_anchor=(0.5, 0.975),
+        fontsize=12,
         frameon=False,
-        handlelength=2.2,
-        handletextpad=0.6,
-        columnspacing=2.0,
+        handlelength=2.6,
+        handletextpad=0.8,
+        columnspacing=3.0,
     )
 
-    # Dataset super-title and footer
-    fig.suptitle(dataset_name, fontsize=14, fontweight="bold", y=1.04)
+    fig.suptitle(dataset_name, fontsize=16, fontweight="bold", y=1.04)
     fig.text(
-        0.5, -0.03,
-        "Three-step rollout: Clean baseline vs. two chosen attacks",
-        ha="center", va="bottom", fontsize=9, color="#777777",
+        0.5, -0.01,
+        "Three-step controlled rollout — Clean baseline vs. Epistemic Confirmation vs. Search-Match Cue",
+        ha="center", va="bottom", fontsize=10, color="#777777",
     )
 
-    fig.tight_layout(rect=[0, 0.01, 1, 0.92])
+    fig.tight_layout(rect=[0, 0.04, 1, 0.91])
+    plt.subplots_adjust(wspace=0.28)
 
     out = os.path.join(OUT_DIR, DATASET_FILES[dataset_name])
     fig.savefig(out, dpi=300, bbox_inches="tight", facecolor="white")
