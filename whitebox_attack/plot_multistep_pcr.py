@@ -1,110 +1,48 @@
 """
-plot_multistep_pcr.py — Publication-quality PCR@1/2/3 figures for Wrong Gap Assessment.
+plot_multistep_pcr.py — PCR@1–10 figures for Wrong Gap Assessment (reads live JSONL).
 
 One figure per dataset (4 total), each with three side-by-side subplots, one per model.
 Three lines per subplot: Clean baseline, Epistemic Confirmation, Search-Match Cue.
-Value labels on every point with diagonal stagger so no two labels overlap.
+Value labels at step 1 (inline, diagonal stagger) and step 10 (right-side end-of-line).
 
-Output: ../whitebox_results/figures/<dataset>_multistep_pcr_by_model.png  (300 DPI)
+Reads from:
+  ../whitebox_results/s1_attack2e_pcr10_{qwen7b,qwen14b,llama8b}.jsonl
+
+Output:
+  ../whitebox_results/figures/<dataset>_multistep_pcr_by_model.png  (300 DPI)
 """
 
 import os
+import json
+import collections
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
-# ── Output directory ──────────────────────────────────────────────────────────
-_HERE   = os.path.dirname(os.path.abspath(__file__))
-OUT_DIR = os.path.join(_HERE, "..", "whitebox_results", "figures")
+# ── Paths ──────────────────────────────────────────────────────────────────────
+_HERE       = os.path.dirname(os.path.abspath(__file__))
+RESULTS_DIR = os.path.join(_HERE, "..", "whitebox_results")
+OUT_DIR     = os.path.join(RESULTS_DIR, "figures")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# ── Palette ───────────────────────────────────────────────────────────────────
-C_CLEAN  = "#555555"
-C_EPIST  = "#0066cc"
-C_SMATCH = "#d62728"
-
-STEPS       = [1, 2, 3]
-STEP_LABELS = ["Step 1", "Step 2", "Step 3"]
-MODELS      = ["Qwen2.5-7B", "Qwen2.5-14B", "Llama-3.1-8B"]
-
-# ── Hardcoded PCR@1 / PCR@2 / PCR@3 values (%) ───────────────────────────────
-DATA = {
-    "HotpotQA": {
-        "Qwen2.5-7B": {
-            "Clean baseline":         [ 0.00, 17.65, 22.25],
-            "Epistemic Confirmation": [18.13, 73.37, 75.07],
-            "Search-Match Cue":       [24.65, 69.69, 70.25],
-        },
-        "Qwen2.5-14B": {
-            "Clean baseline":         [ 0.00,  7.46, 13.18],
-            "Epistemic Confirmation": [33.33, 52.50, 55.28],
-            "Search-Match Cue":       [41.39, 57.50, 60.28],
-        },
-        "Llama-3.1-8B": {
-            "Clean baseline":         [ 0.00, 24.04, 33.71],
-            "Epistemic Confirmation": [ 0.00, 71.50, 88.50],
-            "Search-Match Cue":       [ 0.00, 70.25, 86.50],
-        },
-    },
-    "2WikiMultiHopQA": {
-        "Qwen2.5-7B": {
-            "Clean baseline":         [ 0.00,  5.13, 17.41],
-            "Epistemic Confirmation": [ 9.46, 63.17, 65.22],
-            "Search-Match Cue":       [11.25, 62.15, 65.98],
-        },
-        "Qwen2.5-14B": {
-            "Clean baseline":         [ 0.00,  0.89,  6.03],
-            "Epistemic Confirmation": [32.99, 52.43, 59.34],
-            "Search-Match Cue":       [36.83, 53.20, 55.75],
-        },
-        "Llama-3.1-8B": {
-            "Clean baseline":         [ 0.00,  4.05,  8.11],
-            "Epistemic Confirmation": [ 0.00, 68.22, 87.86],
-            "Search-Match Cue":       [ 0.00, 58.91, 78.81],
-        },
-    },
-    "MuSiQue": {
-        "Qwen2.5-7B": {
-            "Clean baseline":         [ 0.00,  9.86, 11.47],
-            "Epistemic Confirmation": [11.06, 42.46, 44.22],
-            "Search-Match Cue":       [12.56, 41.46, 42.21],
-        },
-        "Qwen2.5-14B": {
-            "Clean baseline":         [ 0.00,  2.74,  5.94],
-            "Epistemic Confirmation": [16.79, 24.06, 30.83],
-            "Search-Match Cue":       [17.04, 24.81, 33.33],
-        },
-        "Llama-3.1-8B": {
-            "Clean baseline":         [ 0.00, 12.44, 17.11],
-            "Epistemic Confirmation": [ 0.00, 59.61, 75.91],
-            "Search-Match Cue":       [ 0.00, 52.80, 68.61],
-        },
-    },
-    "MultiHopRAG": {
-        "Qwen2.5-7B": {
-            "Clean baseline":         [ 0.00, 11.74, 22.80],
-            "Epistemic Confirmation": [ 9.95, 57.87, 63.19],
-            "Search-Match Cue":       [ 6.71, 53.70, 58.80],
-        },
-        "Qwen2.5-14B": {
-            "Clean baseline":         [ 0.00,  2.23,  6.70],
-            "Epistemic Confirmation": [12.13, 20.14, 26.77],
-            "Search-Match Cue":       [ 8.01, 18.54, 24.03],
-        },
-        "Llama-3.1-8B": {
-            "Clean baseline":         [ 0.00,  1.57,  6.73],
-            "Epistemic Confirmation": [ 0.00, 19.77, 37.47],
-            "Search-Match Cue":       [ 0.00,  9.20, 24.37],
-        },
-    },
+JSONL_SOURCES = {
+    "Qwen2.5-7B":   os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_qwen7b.jsonl"),
+    "Qwen2.5-14B":  os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_qwen14b.jsonl"),
+    "Llama-3.1-8B": os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_llama8b.jsonl"),
 }
 
-CONDITIONS = [
-    ("Clean baseline",         C_CLEAN,  "--"),
-    ("Epistemic Confirmation", C_EPIST,  "-"),
-    ("Search-Match Cue",       C_SMATCH, "-"),
-]
+# Dataset key in JSONL → display name
+DATASET_MAP = {
+    "hotpot":      "HotpotQA",
+    "2wiki":       "2WikiMultiHopQA",
+    "musique":     "MuSiQue",
+    "multihoprag": "MultiHopRAG",
+}
+
+MODELS   = list(JSONL_SOURCES.keys())
+DATASETS = list(DATASET_MAP.values())
+STEPS    = list(range(1, 11))   # [1 … 10]
 
 DATASET_FILES = {
     "HotpotQA":        "hotpotqa_multistep_pcr_by_model.png",
@@ -113,55 +51,97 @@ DATASET_FILES = {
     "MultiHopRAG":     "multihoprag_multistep_pcr_by_model.png",
 }
 
-# ── Label placement ───────────────────────────────────────────────────────────
-# Thresholds in percentage-point units. Wider than before to catch close pairs
-# earlier and push them onto a full diagonal, giving more breathing room.
+# ── Palette ───────────────────────────────────────────────────────────────────
+C_CLEAN  = "#555555"
+C_EPIST  = "#0066cc"
+C_SMATCH = "#d62728"
+
+CONDITIONS = [
+    ("Clean baseline",         C_CLEAN,  "--"),
+    ("Epistemic Confirmation", C_EPIST,  "-"),
+    ("Search-Match Cue",       C_SMATCH, "-"),
+]
+
+COND_KEYS = {
+    "clean":                  "Clean baseline",
+    "epistemic_confirmation": "Epistemic Confirmation",
+    "search_match_cue":       "Search-Match Cue",
+}
+
+
+def _pcr_field(k):
+    return "wrong_gap_assessment_success" if k == 1 else f"delayed_pcr_at_{k}"
+
+
+# ── Data loading ──────────────────────────────────────────────────────────────
+
+def load_data():
+    """Aggregate JSONL into nested dict: data[dataset][model][condition] = [pct@1..@10]"""
+    acc = collections.defaultdict(list)   # (ds, model, cond, k) -> [bool]
+
+    for model_label, path in JSONL_SOURCES.items():
+        if not os.path.exists(path):
+            print(f"  WARNING: {path} not found — {model_label} will be zeros")
+            continue
+        with open(path) as fh:
+            for raw in fh:
+                raw = raw.strip()
+                if not raw:
+                    continue
+                row = json.loads(raw)
+                if not row.get("eligible"):
+                    continue
+                cond_key = row.get("condition")
+                if cond_key not in COND_KEYS:
+                    continue
+                ds_raw = row.get("dataset", "")
+                ds = DATASET_MAP.get(ds_raw)
+                if ds is None:
+                    continue
+                for k in STEPS:
+                    val = row.get(_pcr_field(k))
+                    if val is not None:
+                        acc[(ds, model_label, cond_key, k)].append(bool(val))
+
+    data = {}
+    for ds in DATASETS:
+        data[ds] = {}
+        for model in MODELS:
+            data[ds][model] = {}
+            for cond_key, cond_label in COND_KEYS.items():
+                series = []
+                for k in STEPS:
+                    lst = acc[(ds, model, cond_key, k)]
+                    series.append(100.0 * sum(lst) / len(lst) if lst else 0.0)
+                data[ds][model][cond_label] = series
+    return data
+
+
+# ── Step-1 label stagger (same logic as before) ───────────────────────────────
 _TIGHT = 7.0
 _CLOSE = 14.0
 
 
-def _offsets(v_clean, v_epist, v_smatch):
-    """Return (off_clean, off_epist, off_smatch) as (dx, dy) offset points.
-
-    Ranks the three values high→low, then assigns offsets so no two label
-    boxes overlap. Close pairs always get a full diagonal split (upper-left /
-    lower-right) so the combined separation exceeds any single label box.
-    """
-    vals = [v_clean, v_epist, v_smatch]
+def _offsets(vc, ve, vs_val):
+    vals = [vc, ve, vs_val]
     hi, md, lo = sorted(range(3), key=lambda i: -vals[i])
-
     d_hi_md = vals[hi] - vals[md]
     d_md_lo = vals[md] - vals[lo]
     d_hi_lo = vals[hi] - vals[lo]
-
     off = [None, None, None]
-
-    if d_hi_lo < _TIGHT:                      # all three bunched — fan
-        off[hi] = (-28, 18)
-        off[md] = (  0, 28)
-        off[lo] = ( 28, 18)
-    elif d_hi_md < _TIGHT:                    # top two very close — diagonal
-        off[hi] = (-24, 17)
-        off[md] = ( 26, -17)
-        off[lo] = (  0, -20)
-    elif d_hi_md < _CLOSE:                    # top two moderately close
-        off[hi] = (-22, 15)
-        off[md] = ( 24, -14)
-        off[lo] = (  0, -20)
-    elif d_md_lo < _TIGHT:                    # bottom two very close — diagonal
-        off[hi] = (  0, 18)
-        off[md] = (-24, -17)
-        off[lo] = ( 26, -17)
-    elif d_md_lo < _CLOSE:                    # bottom two moderately close
-        off[hi] = (  0, 18)
-        off[md] = (-22, -14)
-        off[lo] = ( 24, -14)
-    else:                                     # all well separated
-        off[hi] = (  0, 17)
-        off[md] = ( 22,  7)
-        off[lo] = (  0, -20)
-
-    return (off[0], off[1], off[2])
+    if d_hi_lo < _TIGHT:
+        off[hi] = (-28, 18); off[md] = (0, 28);  off[lo] = (28, 18)
+    elif d_hi_md < _TIGHT:
+        off[hi] = (-24, 17); off[md] = (26, -17); off[lo] = (0, -20)
+    elif d_hi_md < _CLOSE:
+        off[hi] = (-22, 15); off[md] = (24, -14); off[lo] = (0, -20)
+    elif d_md_lo < _TIGHT:
+        off[hi] = (0, 18);   off[md] = (-24, -17); off[lo] = (26, -17)
+    elif d_md_lo < _CLOSE:
+        off[hi] = (0, 18);   off[md] = (-22, -14); off[lo] = (24, -14)
+    else:
+        off[hi] = (0, 17);   off[md] = (22, 7);    off[lo] = (0, -20)
+    return off[0], off[1], off[2]
 
 
 def _ha(dx):
@@ -173,10 +153,8 @@ def _ha(dx):
 # ── Figure builder ────────────────────────────────────────────────────────────
 
 def plot_dataset(dataset_name, dataset_data):
-    # Wider figure (20 in) gives each panel ~6.5 in — enough room for labels.
     fig, axes = plt.subplots(1, 3, figsize=(20, 6.5), sharey=True)
     fig.patch.set_facecolor("white")
-
     legend_handles = []
 
     for col, model in enumerate(MODELS):
@@ -185,59 +163,64 @@ def plot_dataset(dataset_name, dataset_data):
         mdata = dataset_data[model]
 
         ax.set_axisbelow(True)
-        ax.grid(True, axis="y", linestyle="--", linewidth=0.5,
-                color="#d5d5d5", alpha=0.9)
+        ax.grid(True, axis="y", linestyle="--", linewidth=0.5, color="#d5d5d5", alpha=0.9)
         ax.grid(False, axis="x")
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
         ax.spines["left"].set_color("#cccccc")
         ax.spines["bottom"].set_color("#cccccc")
 
-        for cond_name, color, ls in CONDITIONS:
-            ys = mdata[cond_name]
+        lines_dict = {}
+        for cond_label, color, ls in CONDITIONS:
+            ys = mdata[cond_label]
             lw = 1.8 if ls == "--" else 2.4
             alpha = 0.70 if ls == "--" else 1.0
             line, = ax.plot(
                 STEPS, ys,
                 color=color, linestyle=ls, linewidth=lw, alpha=alpha,
-                marker="o", markersize=7.5,
+                marker="o", markersize=5.5,
                 markerfacecolor=color, markeredgewidth=0,
-                zorder=3, label=cond_name,
+                zorder=3, label=cond_label,
             )
+            lines_dict[cond_label] = (line, ys)
             if col == 0:
                 legend_handles.append(line)
 
-        # Value labels — 1 decimal place, larger offsets for breathing room
-        for si, step in enumerate(STEPS):
-            vc = mdata["Clean baseline"][si]
-            ve = mdata["Epistemic Confirmation"][si]
-            vs = mdata["Search-Match Cue"][si]
+        # Step-1 inline labels (diagonal stagger)
+        vc1 = mdata["Clean baseline"][0]
+        ve1 = mdata["Epistemic Confirmation"][0]
+        vs1 = mdata["Search-Match Cue"][0]
+        (dxc, dyc), (dxe, dye), (dxs, dys) = _offsets(vc1, ve1, vs1)
+        for val, color, dx, dy in [(vc1, C_CLEAN, dxc, dyc),
+                                    (ve1, C_EPIST, dxe, dye),
+                                    (vs1, C_SMATCH, dxs, dys)]:
+            if val < 5.0 and dy < 0:
+                dx, dy = -28, 14
+            ax.annotate(f"{val:.1f}%", xy=(1, val), xytext=(dx, dy),
+                        textcoords="offset points",
+                        ha=_ha(dx), va="center",
+                        fontsize=8.5, fontweight="bold", color=color)
 
-            (dxc, dyc), (dxe, dye), (dxs, dys) = _offsets(vc, ve, vs)
+        # Step-10 end-of-line labels, stacked vertically to avoid pile-up
+        step10_vals = [
+            (mdata["Clean baseline"][9],         C_CLEAN),
+            (mdata["Epistemic Confirmation"][9],  C_EPIST),
+            (mdata["Search-Match Cue"][9],        C_SMATCH),
+        ]
+        # Sort by value to assign dy offsets cleanly (highest gets top spot)
+        step10_sorted = sorted(enumerate(step10_vals), key=lambda x: -x[1][0])
+        dy_slots = [18, 0, -18]   # upper / middle / lower
+        for rank, (orig_i, (val, color)) in enumerate(step10_sorted):
+            dy = dy_slots[rank]
+            ax.annotate(f"{val:.1f}%", xy=(10, val), xytext=(32, dy),
+                        textcoords="offset points",
+                        ha="left", va="center",
+                        fontsize=8.5, fontweight="bold", color=color)
 
-            for val, color, dx, dy in [
-                (vc, C_CLEAN,  dxc, dyc),
-                (ve, C_EPIST,  dxe, dye),
-                (vs, C_SMATCH, dxs, dys),
-            ]:
-                # Labels below the 0% axis collide with x-tick text — push to upper-left
-                if val < 5.0 and dy < 0:
-                    dx, dy = -28, 14
-                ax.annotate(
-                    f"{val:.1f}%",
-                    xy=(step, val),
-                    xytext=(dx, dy),
-                    textcoords="offset points",
-                    ha=_ha(dx), va="center",
-                    fontsize=8.5, fontweight="bold",
-                    color=color,
-                )
-
-        # Wider x/y bounds give labels room at the edges
-        ax.set_xlim(0.45, 3.65)
+        ax.set_xlim(0.3, 12.2)
         ax.set_ylim(-4, 106)
         ax.set_xticks(STEPS)
-        ax.set_xticklabels(STEP_LABELS, fontsize=12)
+        ax.set_xticklabels([str(s) for s in STEPS], fontsize=11)
         ax.set_xlabel("Decision step", fontsize=12, labelpad=8)
         ax.yaxis.set_major_locator(mticker.MultipleLocator(20))
         ax.tick_params(axis="both", labelsize=11, which="both", length=3)
@@ -248,7 +231,6 @@ def plot_dataset(dataset_name, dataset_data):
 
         ax.set_title(model, fontsize=14, fontweight="bold", pad=14)
 
-    # Legend with generous spacing so it doesn't crowd the panels
     fig.legend(
         handles=legend_handles,
         labels=[c[0] for c in CONDITIONS],
@@ -265,7 +247,7 @@ def plot_dataset(dataset_name, dataset_data):
     fig.suptitle(dataset_name, fontsize=16, fontweight="bold", y=1.04)
     fig.text(
         0.5, -0.01,
-        "Three-step controlled rollout — Clean baseline vs. Epistemic Confirmation vs. Search-Match Cue",
+        "Ten-step controlled rollout — Clean baseline vs. Epistemic Confirmation vs. Search-Match Cue",
         ha="center", va="bottom", fontsize=10, color="#777777",
     )
 
@@ -280,7 +262,9 @@ def plot_dataset(dataset_name, dataset_data):
 
 
 if __name__ == "__main__":
+    print(f"Loading data from {RESULTS_DIR} ...\n")
+    DATA = load_data()
     print(f"Output → {OUT_DIR}\n")
-    for ds_name, ds_data in DATA.items():
-        plot_dataset(ds_name, ds_data)
+    for ds_name in DATASETS:
+        plot_dataset(ds_name, DATA[ds_name])
     print("\nDone.")

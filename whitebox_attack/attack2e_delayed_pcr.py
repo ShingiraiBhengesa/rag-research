@@ -1,5 +1,5 @@
 """
-attack2e_delayed_pcr.py — Wrong Gap Assessment: PCR@1/2/3 multi-step premature completion rollout.
+attack2e_delayed_pcr.py — Wrong Gap Assessment: PCR@1–10 multi-step premature completion rollout.
 
 Motivation
 ----------
@@ -7,11 +7,11 @@ attack2_gap_assessment.py measures only the *immediate* next decision (WGAR@1, s
 A Researcher Agent that resists premature closure at step 1 may still call ResearchComplete
 within the next one or two search rounds — especially if its second or third search
 returns an uninformative result that accumulates evidence of "nothing new to find."
-This script extends the measurement to a controlled 3-step rollout (PCR@1, PCR@2, PCR@3).
+This script extends the measurement to a controlled 10-step rollout (PCR@1 … PCR@10).
 
 Rollout mechanics
 -----------------
-The simulated tool loop runs for up to N_STEPS=3 decisions per example:
+The simulated tool loop runs for up to N_STEPS=10 decisions per example:
   - think_tool turns: the model's own reflection text is echoed back verbatim
     as the tool result, matching the real agent loop's think_tool behavior.
   - tavily_search turns: a fixed neutral placeholder ("No new relevant
@@ -38,12 +38,20 @@ numbers understate, not overstate, the attack's impact.
 
 Metrics
 -------
-  wrong_gap_assessment_success  = PCR@1: premature at step 1 (same as WGAR@1)
-  delayed_pcr_at_2              = PCR@2: premature at any of steps {1, 2}
-  delayed_pcr_at_3              = PCR@3: premature at any of steps {1, 2, 3}
+  wrong_gap_assessment_success  = PCR@1:  premature at step 1 (same as WGAR@1)
+  delayed_pcr_at_2              = PCR@2:  premature at any of steps {1, 2}
+  delayed_pcr_at_3              = PCR@3:  premature at any of steps {1, 2, 3}
+  delayed_pcr_at_4 … at_10     = PCR@4–10: cumulative through each step
 
-All three are cumulative (once premature, always counted as premature for
-subsequent k), and the rollout stops as soon as a PREMATURE decision is reached.
+All are cumulative (once premature, always counted for subsequent k), and the
+rollout stops as soon as a PREMATURE decision is reached — so examples that go
+premature at step 1 cost one forward pass, not 10.
+
+Per-step tool trace
+-------------------
+  tool_trace_clean   list[str]  — decision label at each step for the clean rollout
+  tool_trace_attack  list[str]  — decision label at each step for the attacked rollout
+  Decision labels: RESEARCH_COMPLETE | SEARCH_CONTINUE | THINK_TOOL | DIRECT_ANSWER | OTHER
 
 Cue families
 ------------
@@ -64,6 +72,7 @@ WB_STAGE     : stage label written to every log row (e.g. "S1")
 import os
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
+import json
 
 from data_utils import (
     load_retrieval_control_pool, is_ascii, phrase_valid,
@@ -76,7 +85,7 @@ MODEL_ID    = os.environ.get("WB_MODEL", "Qwen/Qwen2.5-7B-Instruct")
 DEVICE      = "cuda"
 N_SAMPLE    = int(os.environ.get("N_SAMPLE", "20"))
 DATASET_SRC = os.environ.get("DATASET_SRC", "all")
-N_STEPS     = 3
+N_STEPS     = 10
 
 RUN_ID      = os.environ.get("WB_RUN_ID", "default")
 STAGE       = os.environ.get("WB_STAGE", "S1")
@@ -130,42 +139,54 @@ def log_row(**kw):
                  attack="WrongGapAssessment", method="WrongGapAssessment_DelayedPCR", **kw)
 
 
+K_LIST = list(range(1, N_STEPS + 1))   # [1, 2, …, 10]
+
+
+def pcr_kwargs(decisions, prefix=""):
+    """Return dict of all PCR fields for a decision trace."""
+    out = {"wrong_gap_assessment_success": pcr_at_k(decisions, 1)}
+    for k in range(2, N_STEPS + 1):
+        out[f"delayed_pcr_at_{k}"] = pcr_at_k(decisions, k)
+    return out
+
+
 if __name__ == "__main__":
-    print(f"\n=== Attack A DelayedPCR -- {len(EXAMPLES)} examples x {len(FAMILIES)} cues "
-          f"x {N_STEPS} rollout steps ===", flush=True)
-    per_cue      = {f: {"pcr1": [], "pcr2": [], "pcr3": []} for f in FAMILIES}
-    clean_totals = {"pcr1": [], "pcr2": [], "pcr3": []}
+    print(f"\n=== WrongGapAssessment PCR@1-{N_STEPS} -- {len(EXAMPLES)} examples x "
+          f"{len(FAMILIES)} cues x {N_STEPS} rollout steps ===", flush=True)
+
+    per_cue      = {f: {k: [] for k in K_LIST} for f in FAMILIES}
+    clean_totals = {k: [] for k in K_LIST}
 
     for idx, ex in enumerate(EXAMPLES):
         name, topic, body, source = ex["name"], ex["topic"], ex["body"], ex["source"]
 
-        # Roll the CLEAN (unattacked) body out to N_STEPS to establish the
-        # baseline drift caused by the placeholder search stub alone.
-        # This baseline is subtracted when reporting Net@k (see module docstring).
+        # Clean rollout — establishes placeholder-drift baseline (see module docstring)
         clean_decisions, clean_gens, _ = vs.rollout_n_steps(
             model, tok, DEVICE, topic, body, n_steps=N_STEPS)
-        clean_d  = clean_decisions[0]
-        clean_p1 = pcr_at_k(clean_decisions, 1)
-        clean_p2 = pcr_at_k(clean_decisions, 2)
-        clean_p3 = pcr_at_k(clean_decisions, 3)
+        clean_d   = clean_decisions[0]
+        clean_pcr = pcr_kwargs(clean_decisions)
 
+        trace_str = " → ".join(clean_decisions)
         print(f"\n{'='*80}\n[{source}] {name}: {topic!r}", flush=True)
-        print(f"  clean: decisions={clean_decisions} pcr@1={clean_p1} @2={clean_p2} @3={clean_p3}",
-              flush=True)
+        print(f"  clean ({len(clean_decisions)} steps): {trace_str}", flush=True)
+        print(f"  clean PCR@1={clean_pcr['wrong_gap_assessment_success']}  "
+              f"@3={clean_pcr.get('delayed_pcr_at_3')}  "
+              f"@10={clean_pcr.get('delayed_pcr_at_10')}", flush=True)
 
         eligible = clean_d in CONTINUE
         log_row(dataset=source, example_id=name, question=topic, condition="clean",
-                eligible=eligible, ineligibility_reason=(None if eligible else "clean_already_premature"),
+                eligible=eligible,
+                ineligibility_reason=(None if eligible else "clean_already_premature"),
                 clean_observation=body, clean_next_action=clean_d,
-                wrong_gap_assessment_success=clean_p1,
-                delayed_pcr_at_2=clean_p2, delayed_pcr_at_3=clean_p3,
-                raw_generation_clean=clean_gens[0], parse_error=(clean_d == "OTHER"),
-                notes=f"clean_decision_trace={clean_decisions}")
+                tool_trace_clean=clean_decisions,
+                raw_generation_clean=clean_gens[0],
+                parse_error=(clean_d == "OTHER"),
+                **clean_pcr)
 
         if eligible:
-            clean_totals["pcr1"].append(clean_p1)
-            clean_totals["pcr2"].append(clean_p2)
-            clean_totals["pcr3"].append(clean_p3)
+            for k in K_LIST:
+                field = "wrong_gap_assessment_success" if k == 1 else f"delayed_pcr_at_{k}"
+                clean_totals[k].append(clean_pcr[field])
 
         if not eligible:
             print("  NOT ELIGIBLE (clean already premature) -- skipping", flush=True)
@@ -184,44 +205,47 @@ if __name__ == "__main__":
             patched = body + " " + cue_text
             decisions, gens, _ = vs.rollout_n_steps(
                 model, tok, DEVICE, topic, patched, n_steps=N_STEPS)
+            atk_pcr = pcr_kwargs(decisions)
 
-            p1 = pcr_at_k(decisions, 1)
-            p2 = pcr_at_k(decisions, 2)
-            p3 = pcr_at_k(decisions, 3)
-            per_cue[cue_name]["pcr1"].append(p1)
-            per_cue[cue_name]["pcr2"].append(p2)
-            per_cue[cue_name]["pcr3"].append(p3)
+            for k in K_LIST:
+                field = "wrong_gap_assessment_success" if k == 1 else f"delayed_pcr_at_{k}"
+                per_cue[cue_name][k].append(atk_pcr[field])
 
-            print(f"  {cue_name:<28} decisions={decisions} pcr@1={p1} @2={p2} @3={p3}", flush=True)
+            trace_str = " → ".join(decisions)
+            print(f"  {cue_name:<28} ({len(decisions)} steps): {trace_str}", flush=True)
+            print(f"    PCR@1={atk_pcr['wrong_gap_assessment_success']}  "
+                  f"@3={atk_pcr.get('delayed_pcr_at_3')}  "
+                  f"@10={atk_pcr.get('delayed_pcr_at_10')}", flush=True)
+
             log_row(dataset=source, example_id=name, question=topic,
                     perturbation_family=cue_name, condition=cue_name,
-                    eligible=True, clean_observation=body, attacked_observation=patched,
+                    eligible=True,
+                    clean_observation=body, attacked_observation=patched,
                     perturbation=cue_text,
                     perturbation_tokens=len(tok(cue_text, add_special_tokens=False).input_ids),
                     clean_next_action=clean_d, attack_next_action=decisions[0],
                     strict_success=(decisions[0] in STRICT),
-                    inclusive_success=p1,
-                    wrong_gap_assessment_success=p1,
-                    delayed_pcr_at_2=p2, delayed_pcr_at_3=p3,
-                    raw_generation_attack=gens[0], parse_error=(decisions[0] == "OTHER"),
-                    notes=f"decision_trace={decisions} clean_p2={clean_p2} clean_p3={clean_p3}")
+                    inclusive_success=atk_pcr["wrong_gap_assessment_success"],
+                    tool_trace_clean=clean_decisions,
+                    tool_trace_attack=decisions,
+                    raw_generation_attack=gens[0],
+                    parse_error=(decisions[0] == "OTHER"),
+                    **atk_pcr)
 
-    n_clean = len(clean_totals["pcr1"])
-    cb1 = 100 * sum(clean_totals["pcr1"]) / n_clean if n_clean else 0.0
-    cb2 = 100 * sum(clean_totals["pcr2"]) / n_clean if n_clean else 0.0
-    cb3 = 100 * sum(clean_totals["pcr3"]) / n_clean if n_clean else 0.0
-    print(f"\n{'='*80}\n=== ATTACK A DELAYED-PCR SUMMARY ===", flush=True)
-    print(f"  {'CLEAN BASELINE':<28} n={n_clean}  PCR@1={cb1:.1f}%  PCR@2={cb2:.1f}%  PCR@3={cb3:.1f}%",
-          flush=True)
+    n_clean = len(clean_totals[1])
+    print(f"\n{'='*80}\n=== WRONG GAP ASSESSMENT PCR@1-{N_STEPS} SUMMARY ===", flush=True)
+    cb = {}
+    for k in K_LIST:
+        cb[k] = 100 * sum(clean_totals[k]) / n_clean if n_clean else 0.0
+    print(f"  {'CLEAN BASELINE':<28} n={n_clean}  " +
+          "  ".join(f"PCR@{k}={cb[k]:.1f}%" for k in [1, 3, 5, 10]), flush=True)
     for cue_name in FAMILIES:
         d = per_cue[cue_name]
-        n = len(d["pcr1"])
+        n = len(d[1])
         if n == 0:
             print(f"  {cue_name:<28} n=0", flush=True)
             continue
-        r1 = 100 * sum(d["pcr1"]) / n
-        r2 = 100 * sum(d["pcr2"]) / n
-        r3 = 100 * sum(d["pcr3"]) / n
-        print(f"  {cue_name:<28} n={n}  PCR@1={r1:.1f}%  "
-              f"PCR@2={r2:.1f}% (Net@2={r2-cb2:+.1f}pp)  "
-              f"PCR@3={r3:.1f}% (Net@3={r3-cb3:+.1f}pp)", flush=True)
+        rates = {k: 100 * sum(d[k]) / n for k in K_LIST}
+        print(f"  {cue_name:<28} n={n}  " +
+              "  ".join(f"PCR@{k}={rates[k]:.1f}% (Net={rates[k]-cb[k]:+.1f}pp)"
+                        for k in [1, 3, 5, 10]), flush=True)

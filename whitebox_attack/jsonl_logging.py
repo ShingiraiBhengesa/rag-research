@@ -58,6 +58,8 @@ SCHEMA_FIELDS = [
     # Attack 2 (Wrong Gap Assessment) fields
     "clean_reflection", "attack_reflection", "wrong_gap_assessment_success",
     "delayed_pcr_at_2", "delayed_pcr_at_3",
+    "delayed_pcr_at_4", "delayed_pcr_at_5", "delayed_pcr_at_6",
+    "delayed_pcr_at_7", "delayed_pcr_at_8", "delayed_pcr_at_9", "delayed_pcr_at_10",
     "J_reflect_clean", "J_reflect_attack", "delta_J_reflect",
     "clean_search_count_after_obs", "attack_search_count_after_obs", "search_suppression",
     "tool_trace_clean", "tool_trace_attack", "tool_trajectory_divergence",

@@ -4,7 +4,7 @@
 #SBATCH --gres=gpu:nvidia_h100_nvl:1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=80G
-#SBATCH --time=20:00:00
+#SBATCH --time=30:00:00
 #SBATCH --output=/home/sbhengesa/rag-research/whitebox_attack/logs/s1_a2e_q14b_%j.out
 #SBATCH --error=/home/sbhengesa/rag-research/whitebox_attack/logs/s1_a2e_q14b_%j.err
 set -uo pipefail
@@ -19,5 +19,5 @@ export WB_MODEL=Qwen/Qwen2.5-14B-Instruct
 export N_SAMPLE=450
 export DATASET_SRC=all
 cd /home/sbhengesa/rag-research/whitebox_attack
-WB_LOG_PATH=/home/sbhengesa/rag-research/whitebox_results/s1_attack2e_delayed_pcr_qwen14b.jsonl python attack2e_delayed_pcr.py
+WB_LOG_PATH=/home/sbhengesa/rag-research/whitebox_results/s1_attack2e_pcr10_qwen14b.jsonl python attack2e_delayed_pcr.py
 echo "=== DONE rc=$? $(date) ==="
