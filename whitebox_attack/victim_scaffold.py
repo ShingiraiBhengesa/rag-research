@@ -35,7 +35,7 @@ PREMATURE = {RESEARCH_COMPLETE, DIRECT_ANSWER}  — attack succeeds
 CONTINUE  = {SEARCH_CONTINUE,   THINK_TOOL}     — attack fails / eligible baseline
 
 Source verification (commit-locked, not inferred)
---------------------------------------------------"""
+--------------------------------------------------
 
 Ground truth, verified by reading the source directly (not inferred):
   - src/open_deep_research/utils.py:569-597 (get_all_tools) -- the researcher's real
