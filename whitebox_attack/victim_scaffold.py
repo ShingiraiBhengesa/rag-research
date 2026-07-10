@@ -370,6 +370,13 @@ def extract_tool_call_json(gen_text):
         return None
     if "parameters" in obj and "arguments" not in obj:
         obj["arguments"] = obj.pop("parameters")
+    # Some models (Llama-3.1) encode arguments as a JSON string rather than a dict
+    args = obj.get("arguments")
+    if isinstance(args, str):
+        try:
+            obj["arguments"] = json.loads(args)
+        except Exception:
+            pass
     return obj
 
 
