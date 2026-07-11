@@ -444,7 +444,8 @@ def j_reflect_content_margin_msgs(model, tok, device, msgs, resolved_text, missi
 
 
 def rollout_n_steps(model, tok, device, topic, observation, n_steps=3, sys_prompt=None,
-                     placeholder_result="No new relevant information was found."):
+                     placeholder_result="No new relevant information was found.",
+                     search_fn=None):
     """Generalizes rollout_to_decision: continues the simulated tool loop for up to
     n_steps decisions instead of stopping at the first non-THINK_TOOL one. think_tool
     turns echo their own reflection back as the tool result (same as
@@ -473,11 +474,13 @@ def rollout_n_steps(model, tok, device, topic, observation, n_steps=3, sys_promp
                 {"role": "tool", "content": reflection},
             ]
         else:  # SEARCH_CONTINUE
-            query = extract_next_query(gen) or [topic]
+            query = extract_next_query(gen) or topic
+            query_str = query[0] if isinstance(query, list) else query
+            search_result = search_fn(query_str) if search_fn is not None else placeholder_result
             msgs = msgs + [
                 {"role": "assistant", "content": "", "tool_calls": [
-                    {"type": "function", "function": {"name": "tavily_search", "arguments": {"queries": [query] if isinstance(query, str) else query}}}
+                    {"type": "function", "function": {"name": "tavily_search", "arguments": {"queries": [query_str]}}}
                 ]},
-                {"role": "tool", "content": placeholder_result},
+                {"role": "tool", "content": search_result},
             ]
     return decisions, gens, msgs
