@@ -380,11 +380,24 @@ def extract_tool_call_json(gen_text):
     return obj
 
 
+def _safe_args(call):
+    """Return call['arguments'] as a dict, handling the Llama-3.1 pattern where
+    arguments may still be a JSON string after extract_tool_call_json (e.g. when
+    the embedded JSON is malformed and json.loads raised there)."""
+    args = call.get("arguments", {})
+    if isinstance(args, str):
+        try:
+            args = json.loads(args)
+        except Exception:
+            return {}
+    return args if isinstance(args, dict) else {}
+
+
 def extract_next_query(gen_text):
     """If the parsed tool call is tavily_search, return its first queries[] string."""
     call = extract_tool_call_json(gen_text)
     if call and call.get("name") == "tavily_search":
-        qs = call.get("arguments", {}).get("queries")
+        qs = _safe_args(call).get("queries")
         if qs:
             return qs[0]
     return None
@@ -394,7 +407,7 @@ def extract_reflection(gen_text):
     """If the parsed tool call is think_tool, return its reflection string."""
     call = extract_tool_call_json(gen_text)
     if call and call.get("name") == "think_tool":
-        return call.get("arguments", {}).get("reflection")
+        return _safe_args(call).get("reflection")
     return None
 
 
