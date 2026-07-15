@@ -135,6 +135,56 @@ TOOLS = [
 ]
 
 
+# ── Model-family helpers ───────────────────────────────────────────────────────
+
+def _model_family(tok):
+    name = (getattr(tok, "name_or_path", "") or "").lower()
+    if "gemma" in name:
+        return "gemma"
+    if "gpt-oss" in name or "gpt_oss" in name:
+        return "gpt_oss"
+    return "default"
+
+
+def _gemma_tool_system_content():
+    """Tool schema injected as a system message for Gemma, which ignores tools=.
+    Instructs the model to output <tool_call> JSON so parse_decision works as-is."""
+    tool_list = "\n".join(json.dumps(t["function"], indent=2) for t in TOOLS)
+    return (
+        "You have access to the following tools. When you call a tool, respond with "
+        "ONLY a <tool_call> block containing a JSON object with \"name\" and "
+        "\"arguments\" keys — no other text.\n\nAvailable tools:\n" + tool_list
+    )
+
+
+def _apply_chat_template(tok, msgs, *, add_generation_prompt, tokenize=False):
+    """Model-aware apply_chat_template wrapper.
+    - default (Qwen, Llama): standard tok.apply_chat_template with tools=TOOLS.
+    - gpt_oss: same — template already handles TypeScript-style tool rendering.
+    - gemma: apply_chat_template ignores tools=; inject tool definitions as a system
+      message and remap tool/tool_calls fields to plain text so the template can render
+      them."""
+    if _model_family(tok) == "gemma":
+        tool_sys_content = _gemma_tool_system_content()
+        adapted = []
+        for m in msgs:
+            role = m.get("role")
+            if role == "system":
+                adapted.append({"role": "system", "content": m["content"] + "\n\n" + tool_sys_content})
+            elif role == "assistant" and m.get("tool_calls"):
+                tc = m["tool_calls"][0]["function"]
+                call_json = json.dumps({"name": tc["name"], "arguments": tc.get("arguments", {})})
+                adapted.append({"role": "assistant", "content": f"<tool_call>\n{call_json}\n</tool_call>"})
+            elif role == "tool":
+                adapted.append({"role": "user", "content": f"<tool_response>{m['content']}</tool_response>"})
+            else:
+                adapted.append(m)
+        if not any(m["role"] == "system" for m in msgs):
+            adapted = [{"role": "system", "content": tool_sys_content}] + adapted
+        return tok.apply_chat_template(adapted, add_generation_prompt=add_generation_prompt, tokenize=tokenize)
+    return tok.apply_chat_template(msgs, tools=TOOLS, add_generation_prompt=add_generation_prompt, tokenize=tokenize)
+
+
 def render_system_prompt(date_str=None, mcp_prompt=""):
     if date_str is None:
         date_str = datetime.date.today().strftime("%a %b %d, %Y")
@@ -235,7 +285,7 @@ def generate_next_tool(model, tok, device, topic, observation, max_new_tokens=96
 
 
 def prompt_ids_from_msgs(tok, device, msgs):
-    prompt_str = tok.apply_chat_template(msgs, tools=TOOLS, add_generation_prompt=True, tokenize=False)
+    prompt_str = _apply_chat_template(tok, msgs, add_generation_prompt=True)
     return tok(prompt_str, return_tensors="pt", add_special_tokens=False).input_ids.to(device)
 
 
@@ -274,13 +324,23 @@ def rollout_to_decision(model, tok, device, topic, observation, max_think_steps=
 
 
 def parse_decision(gen_text):
+    # GPT-OSS: <|start|>assistant to=functions.NAME<|channel|>...<|message|>ARGS<|call|>
+    if "functions.ResearchComplete" in gen_text:
+        return "RESEARCH_COMPLETE"
+    if "functions.tavily_search" in gen_text:
+        return "SEARCH_CONTINUE"
+    if "functions.think_tool" in gen_text:
+        return "THINK_TOOL"
+    # Qwen / Llama / Gemma: "name": "NAME" inside <tool_call> block or raw JSON
     if '"name": "ResearchComplete"' in gen_text:
         return "RESEARCH_COMPLETE"
     if '"name": "tavily_search"' in gen_text:
         return "SEARCH_CONTINUE"
     if '"name": "think_tool"' in gen_text:
         return "THINK_TOOL"
-    if "<tool_call>" not in gen_text and gen_text.strip():
+    # Direct answer: no tool-call marker from any known format
+    no_marker = "<tool_call>" not in gen_text and "<|call|>" not in gen_text
+    if no_marker and gen_text.strip():
         return "DIRECT_ANSWER"
     return "OTHER"
 
@@ -348,19 +408,30 @@ def j_query_margin(model, tok, device, topic, observation, gold_query_text, dist
 
 
 def extract_tool_call_json(gen_text):
-    """Parse the first <tool_call>{...}</tool_call> block's JSON object out of a
-    generated continuation, returning {"name":..., "arguments":...} or None.
-    Falls back to Llama-3.1's raw (unwrapped) tool-call format -- e.g.
-    {"name": "tavily_search", "parameters": {"queries": [...]}}<|eom_id|> -- which has
-    no <tool_call> tags and uses "parameters" instead of "arguments"; normalized to
-    "arguments" so callers (extract_next_query, extract_reflection) don't need to care
-    which chat template produced the call."""
+    """Parse the tool call from generated text.  Handles three formats:
+    1. Qwen/Gemma: <tool_call>{"name":..., "arguments":{...}}</tool_call>
+    2. Llama-3.1:  raw {"name":..., "parameters":{...}}<|eom_id|> (no wrapping tags)
+    3. GPT-OSS:    <|start|>assistant to=functions.NAME<|channel|>...<|message|>ARGS<|call|>
+    Returns {"name": ..., "arguments": {...}} or None."""
+    # Format 3 — GPT-OSS
+    m_gptoss = re.search(
+        r'assistant to=functions\.(\S+?)<\|channel\|>[^<]*<\|message\|>(.*?)<\|call\|>',
+        gen_text, re.DOTALL,
+    )
+    if m_gptoss:
+        name, args_str = m_gptoss.group(1), m_gptoss.group(2).strip()
+        try:
+            return {"name": name, "arguments": json.loads(args_str)}
+        except Exception:
+            return {"name": name, "arguments": {}}
+    # Format 1 — <tool_call> wrapper (Qwen, Gemma)
     m = re.search(r"<tool_call>\s*(\{.*?\})\s*</tool_call>", gen_text, re.DOTALL)
     if m:
         try:
             return json.loads(m.group(1))
         except Exception:
             return None
+    # Format 2 — Llama-3.1 raw JSON
     m2 = re.search(r'\{\s*"name"\s*:\s*"(?:tavily_search|think_tool|ResearchComplete)"', gen_text)
     if not m2:
         return None
@@ -370,7 +441,6 @@ def extract_tool_call_json(gen_text):
         return None
     if "parameters" in obj and "arguments" not in obj:
         obj["arguments"] = obj.pop("parameters")
-    # Some models (Llama-3.1) encode arguments as a JSON string rather than a dict
     args = obj.get("arguments")
     if isinstance(args, str):
         try:

@@ -62,6 +62,8 @@ JSONL_SOURCES = {
     "Qwen2.5-7B":   os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_qwen7b.jsonl"),
     "Qwen2.5-14B":  os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_qwen14b.jsonl"),
     "Llama-3.1-8B": os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_llama8b.jsonl"),
+    "GPT-OSS-120B": os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_gptoss120b.jsonl"),
+    "Gemma-3-27B":  os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_gemma27b.jsonl"),
 }
 
 DATASET_MAP = {
@@ -199,14 +201,19 @@ def _annotate_step1(ax, mdata):
 
 
 # ── Figure builder ─────────────────────────────────────────────────────────────
-def plot_dataset(dataset_name, dataset_data):
-    fig, axes = plt.subplots(1, 3, figsize=(18, 5.2), sharey=True)
+def plot_dataset(dataset_name, dataset_data, active_models=None):
+    if active_models is None:
+        active_models = MODELS
+    n_models = len(active_models)
+    fig, axes = plt.subplots(1, n_models, figsize=(6 * n_models, 5.2), sharey=True)
+    if n_models == 1:
+        axes = [axes]
     fig.patch.set_facecolor(C_SURF)
 
     legend_handles = []
     legend_labels  = []
 
-    for col, model in enumerate(MODELS):
+    for col, model in enumerate(active_models):
         ax = axes[col]
         ax.set_facecolor(C_SURF)
         mdata = dataset_data[model]
@@ -282,8 +289,12 @@ def plot_dataset(dataset_name, dataset_data):
 if __name__ == "__main__":
     print(f"Loading data from {RESULTS_DIR} …\n")
     DATA = load_data()
+    # Only include models whose JSONL file exists (keeps figures clean until new results arrive)
+    active_models = [m for m in MODELS if os.path.exists(JSONL_SOURCES[m])]
+    print(f"Active models: {active_models}")
     print(f"Output → {OUT_DIR}\n")
     for ds_name in DATASETS:
         print(f"  {ds_name}")
-        plot_dataset(ds_name, DATA[ds_name])
+        ds_data = {m: DATA[ds_name][m] for m in active_models}
+        plot_dataset(ds_name, ds_data, active_models)
     print("\nDone.")

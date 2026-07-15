@@ -42,6 +42,7 @@ from search_utils import ddg_search
 
 MODEL_ID    = os.environ.get("WB_MODEL", "Qwen/Qwen2.5-7B-Instruct")
 DEVICE      = "cuda"
+DEVICE_MAP  = os.environ.get("WB_DEVICE_MAP", DEVICE)   # set "auto" for models >80 GB
 N_SAMPLE    = int(os.environ.get("N_SAMPLE", "20"))
 DATASET_SRC = os.environ.get("DATASET_SRC", "all")
 N_STEPS     = 10
@@ -86,7 +87,7 @@ print(f"=== loaded {len(EXAMPLES)} examples ===", flush=True)
 
 print("=== loading", MODEL_ID, "===", flush=True)
 tok   = AutoTokenizer.from_pretrained(MODEL_ID)
-model = AutoModelForCausalLM.from_pretrained(MODEL_ID, torch_dtype=torch.bfloat16, device_map=DEVICE)
+model = AutoModelForCausalLM.from_pretrained(MODEL_ID, torch_dtype=torch.bfloat16, device_map=DEVICE_MAP)
 model.eval()
 for p in model.parameters():
     p.requires_grad_(False)

@@ -29,6 +29,8 @@ JSONL_SOURCES = {
     "Qwen2.5-7B":   os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_qwen7b.jsonl"),
     "Qwen2.5-14B":  os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_qwen14b.jsonl"),
     "Llama-3.1-8B": os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_llama8b.jsonl"),
+    "GPT-OSS-120B": os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_gptoss120b.jsonl"),
+    "Gemma-3-27B":  os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_gemma27b.jsonl"),
 }
 
 DATASET_MAP = {
@@ -145,6 +147,8 @@ LATEX_MODEL_DISPLAY = {
     "Qwen2.5-7B":   r"Qwen2.5-7B",
     "Qwen2.5-14B":  r"Qwen2.5-14B",
     "Llama-3.1-8B": r"Llama-3.1-8B",
+    "GPT-OSS-120B": r"GPT-OSS-120B",
+    "Gemma-3-27B":  r"Gemma-3-27B",
 }
 
 def make_latex_per_dataset(rates, counts):
