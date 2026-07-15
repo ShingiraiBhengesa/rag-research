@@ -12,7 +12,7 @@ echo "=== NODE: $(hostname) JOB: $SLURM_JOB_ID $(date) ==="
 nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv | tail -2
 source $(conda info --base)/etc/profile.d/conda.sh
 conda activate whitebox
-pip install -q duckduckgo-search "kernels>=0.12.0"
+pip install -q duckduckgo-search "kernels==0.15.2"
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export WB_STAGE=S1
 export WB_RUN_ID=$SLURM_JOB_ID
