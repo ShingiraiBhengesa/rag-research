@@ -2,14 +2,24 @@
 plot_multistep_pcr.py — PCR@1–10 figures for Wrong Gap Assessment (reads live JSONL).
 
 One figure per dataset (4 total), each with three side-by-side subplots, one per model.
-Three lines per subplot: Clean baseline, Epistemic Confirmation, Search-Match Cue.
-Value labels at step 1 (inline, diagonal stagger) and step 10 (right-side end-of-line).
+Three lines per subplot: Clean baseline (dashed gray), Epistemic Confirmation (blue),
+Search-Match Cue (red). End-of-line labels at step 10; step-1 attack labels when
+conditions diverge from zero.
+
+Palette (reference palette.md, light mode):
+  Clean baseline : #898781  muted gray  — reference line, labeled directly
+  Epistemic Conf : #2a78d6  blue slot 1 — CVD-validated categorical
+  Search-Match   : #e34948  red  slot 6 — CVD-validated categorical
 
 Reads from:
   ../whitebox_results/s1_attack2e_pcr10_{qwen7b,qwen14b,llama8b}.jsonl
 
-Output:
+Output (per dataset):
   ../whitebox_results/figures/<dataset>_multistep_pcr_by_model.png  (300 DPI)
+
+Regenerate:
+  cd whitebox_attack/
+  conda run -n whitebox python plot_multistep_pcr.py
 """
 
 import os
@@ -19,6 +29,28 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+
+# ── Publication-quality rcParams ───────────────────────────────────────────────
+matplotlib.rcParams.update({
+    "font.family":        "sans-serif",
+    "font.size":          11,
+    "axes.labelsize":     12,
+    "axes.titlesize":     13,
+    "xtick.labelsize":    10.5,
+    "ytick.labelsize":    10.5,
+    "legend.fontsize":    11,
+    "axes.linewidth":     0.8,
+    "xtick.major.size":   0,      # no x tick marks (step numbers are clear enough)
+    "ytick.major.size":   3.5,
+    "ytick.major.width":  0.8,
+    "ytick.minor.size":   0,
+    "axes.axisbelow":     True,
+    "grid.linewidth":     0.7,
+    "grid.color":         "#e1e0d9",   # reference palette hairline
+    "axes.spines.top":    False,
+    "axes.spines.right":  False,
+    "savefig.dpi":        300,
+})
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 _HERE       = os.path.dirname(os.path.abspath(__file__))
@@ -32,7 +64,6 @@ JSONL_SOURCES = {
     "Llama-3.1-8B": os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_llama8b.jsonl"),
 }
 
-# Dataset key in JSONL → display name
 DATASET_MAP = {
     "hotpot":      "HotpotQA",
     "2wiki":       "2WikiMultiHopQA",
@@ -42,24 +73,26 @@ DATASET_MAP = {
 
 MODELS   = list(JSONL_SOURCES.keys())
 DATASETS = list(DATASET_MAP.values())
-STEPS    = list(range(1, 11))   # [1 … 10]
+STEPS    = list(range(1, 11))
 
 DATASET_FILES = {
-    "HotpotQA":        "hotpotqa_multistep_pcr_by_model.png",
-    "2WikiMultiHopQA": "2wikimultihopqa_multistep_pcr_by_model.png",
-    "MuSiQue":         "musique_multistep_pcr_by_model.png",
-    "MultiHopRAG":     "multihoprag_multistep_pcr_by_model.png",
+    "HotpotQA":        "hotpotqa_multistep_pcr_by_model",
+    "2WikiMultiHopQA": "2wikimultihopqa_multistep_pcr_by_model",
+    "MuSiQue":         "musique_multistep_pcr_by_model",
+    "MultiHopRAG":     "multihoprag_multistep_pcr_by_model",
 }
 
-# ── Palette ───────────────────────────────────────────────────────────────────
-C_CLEAN  = "#555555"
-C_EPIST  = "#0066cc"
-C_SMATCH = "#d62728"
+# ── Palette ────────────────────────────────────────────────────────────────────
+C_CLEAN  = "#898781"   # muted gray  — reference line (labeled directly for identity)
+C_EPIST  = "#2a78d6"   # blue slot 1 — CVD adj ΔE 55.8 vs red, well above ≥12 target
+C_SMATCH = "#e34948"   # red  slot 6
+C_SURF   = "#ffffff"   # chart surface — used as marker ring to create visual gap
 
 CONDITIONS = [
-    ("Clean baseline",         C_CLEAN,  "--"),
-    ("Epistemic Confirmation", C_EPIST,  "-"),
-    ("Search-Match Cue",       C_SMATCH, "-"),
+    # (label,              color,    linestyle, linewidth, markersize, zorder, alpha)
+    ("Clean baseline",         C_CLEAN,  "--", 1.5, 6.5, 2, 0.80),
+    ("Epistemic Confirmation", C_EPIST,  "-",  2.2, 8.0, 4, 1.00),
+    ("Search-Match Cue",       C_SMATCH, "-",  2.2, 8.0, 3, 1.00),
 ]
 
 COND_KEYS = {
@@ -73,12 +106,10 @@ def _pcr_field(k):
     return "wrong_gap_assessment_success" if k == 1 else f"delayed_pcr_at_{k}"
 
 
-# ── Data loading ──────────────────────────────────────────────────────────────
-
+# ── Data loading ───────────────────────────────────────────────────────────────
 def load_data():
-    """Aggregate JSONL into nested dict: data[dataset][model][condition] = [pct@1..@10]"""
-    acc = collections.defaultdict(list)   # (ds, model, cond, k) -> [bool]
-
+    """Return data[dataset][model][condition] = [pct@1 … @10]."""
+    acc = collections.defaultdict(list)
     for model_label, path in JSONL_SOURCES.items():
         if not os.path.exists(path):
             print(f"  WARNING: {path} not found — {model_label} will be zeros")
@@ -94,8 +125,7 @@ def load_data():
                 cond_key = row.get("condition")
                 if cond_key not in COND_KEYS:
                     continue
-                ds_raw = row.get("dataset", "")
-                ds = DATASET_MAP.get(ds_raw)
+                ds = DATASET_MAP.get(row.get("dataset", ""))
                 if ds is None:
                     continue
                 for k in STEPS:
@@ -109,162 +139,151 @@ def load_data():
         for model in MODELS:
             data[ds][model] = {}
             for cond_key, cond_label in COND_KEYS.items():
-                series = []
-                for k in STEPS:
-                    lst = acc[(ds, model, cond_key, k)]
-                    series.append(100.0 * sum(lst) / len(lst) if lst else 0.0)
-                data[ds][model][cond_label] = series
+                data[ds][model][cond_label] = [
+                    100.0 * sum(acc[(ds, model, cond_key, k)]) / len(acc[(ds, model, cond_key, k)])
+                    if acc[(ds, model, cond_key, k)] else 0.0
+                    for k in STEPS
+                ]
     return data
 
 
-# ── Step-1 label stagger (same logic as before) ───────────────────────────────
-_TIGHT = 7.0
-_CLOSE = 14.0
+# ── Step-10 end-of-line labels ─────────────────────────────────────────────────
+def _annotate_step10(ax, mdata):
+    entries = [
+        (mdata["Clean baseline"][9],         C_CLEAN),
+        (mdata["Epistemic Confirmation"][9],  C_EPIST),
+        (mdata["Search-Match Cue"][9],        C_SMATCH),
+    ]
+    ranked = sorted(range(3), key=lambda i: -entries[i][0])
+    # Three vertical slots: highest gets +20pt, middle 0, lowest −20pt
+    dy_slots = [20, 0, -20]
+    for rank, i in enumerate(ranked):
+        val, color = entries[i]
+        ax.annotate(
+            f"{val:.0f}%",
+            xy=(10, val), xytext=(31, dy_slots[rank]),
+            textcoords="offset points",
+            ha="left", va="center",
+            fontsize=9, fontweight="semibold", color=color,
+        )
 
 
-def _offsets(vc, ve, vs_val):
-    vals = [vc, ve, vs_val]
-    hi, md, lo = sorted(range(3), key=lambda i: -vals[i])
-    d_hi_md = vals[hi] - vals[md]
-    d_md_lo = vals[md] - vals[lo]
-    d_hi_lo = vals[hi] - vals[lo]
-    off = [None, None, None]
-    if d_hi_lo < _TIGHT:
-        off[hi] = (-28, 18); off[md] = (0, 28);  off[lo] = (28, 18)
-    elif d_hi_md < _TIGHT:
-        off[hi] = (-24, 17); off[md] = (26, -17); off[lo] = (0, -20)
-    elif d_hi_md < _CLOSE:
-        off[hi] = (-22, 15); off[md] = (24, -14); off[lo] = (0, -20)
-    elif d_md_lo < _TIGHT:
-        off[hi] = (0, 18);   off[md] = (-24, -17); off[lo] = (26, -17)
-    elif d_md_lo < _CLOSE:
-        off[hi] = (0, 18);   off[md] = (-22, -14); off[lo] = (24, -14)
-    else:
-        off[hi] = (0, 17);   off[md] = (22, 7);    off[lo] = (0, -20)
-    return off[0], off[1], off[2]
+# ── Step-1 inline labels (attack conditions only, skip if at zero) ─────────────
+def _annotate_step1(ax, mdata):
+    THRESH = 1.0  # skip if < 1 % — avoids "0%" clutter for Llama and clean baseline
+    ve = mdata["Epistemic Confirmation"][0]
+    vs = mdata["Search-Match Cue"][0]
+
+    to_label = [(v, c) for v, c in [(ve, C_EPIST), (vs, C_SMATCH)] if v >= THRESH]
+    if not to_label:
+        return
+
+    if len(to_label) == 1:
+        val, col = to_label[0]
+        ax.annotate(
+            f"{val:.0f}%", xy=(1, val), xytext=(-26, 5),
+            textcoords="offset points", ha="right", va="center",
+            fontsize=9, fontweight="semibold", color=col, clip_on=False,
+        )
+        return
+
+    # Two non-zero attack labels — sort hi/lo and stagger
+    (v_hi, c_hi), (v_lo, c_lo) = sorted(to_label, key=lambda x: -x[0])
+    dy_hi, dy_lo = (14, -14) if abs(v_hi - v_lo) < 6.0 else (6, -6)
+    ax.annotate(f"{v_hi:.0f}%", xy=(1, v_hi), xytext=(-26, dy_hi),
+                textcoords="offset points", ha="right", va="center",
+                fontsize=9, fontweight="semibold", color=c_hi, clip_on=False)
+    ax.annotate(f"{v_lo:.0f}%", xy=(1, v_lo), xytext=(-26, dy_lo),
+                textcoords="offset points", ha="right", va="center",
+                fontsize=9, fontweight="semibold", color=c_lo, clip_on=False)
 
 
-def _ha(dx):
-    if dx < -5: return "right"
-    if dx >  5: return "left"
-    return "center"
-
-
-# ── Figure builder ────────────────────────────────────────────────────────────
-
+# ── Figure builder ─────────────────────────────────────────────────────────────
 def plot_dataset(dataset_name, dataset_data):
-    fig, axes = plt.subplots(1, 3, figsize=(20, 6.5), sharey=True)
-    fig.patch.set_facecolor("white")
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5.2), sharey=True)
+    fig.patch.set_facecolor(C_SURF)
+
     legend_handles = []
+    legend_labels  = []
 
     for col, model in enumerate(MODELS):
         ax = axes[col]
-        ax.set_facecolor("white")
+        ax.set_facecolor(C_SURF)
         mdata = dataset_data[model]
 
-        ax.set_axisbelow(True)
-        ax.grid(True, axis="y", linestyle="--", linewidth=0.5, color="#d5d5d5", alpha=0.9)
-        ax.grid(False, axis="x")
-        ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
-        ax.spines["left"].set_color("#cccccc")
-        ax.spines["bottom"].set_color("#cccccc")
+        # Spines — keep left + bottom, style to match reference palette chrome
+        ax.spines["left"].set_color("#c3c2b7")
+        ax.spines["bottom"].set_color("#c3c2b7")
 
-        lines_dict = {}
-        for cond_label, color, ls in CONDITIONS:
+        # Grid: horizontal only
+        ax.yaxis.grid(True)
+        ax.xaxis.grid(False)
+
+        # Data range — extra right margin for step-10 labels
+        ax.set_xlim(0.3, 12.8)
+        ax.set_ylim(-3, 104)
+        ax.set_xticks(STEPS)
+        ax.set_xticklabels([str(s) for s in STEPS])
+        ax.yaxis.set_major_locator(mticker.MultipleLocator(20))
+        ax.tick_params(axis="y", color="#c3c2b7")
+        ax.tick_params(axis="x", length=0)
+
+        # Plot lines
+        for cond_label, color, ls, lw, ms, zorder, alpha in CONDITIONS:
             ys = mdata[cond_label]
-            lw = 1.8 if ls == "--" else 2.4
-            alpha = 0.70 if ls == "--" else 1.0
             line, = ax.plot(
                 STEPS, ys,
-                color=color, linestyle=ls, linewidth=lw, alpha=alpha,
-                marker="o", markersize=5.5,
-                markerfacecolor=color, markeredgewidth=0,
-                zorder=3, label=cond_label,
+                color=color, linestyle=ls, linewidth=lw,
+                alpha=alpha, zorder=zorder,
+                marker="o", markersize=ms,
+                markerfacecolor=color,
+                markeredgecolor=C_SURF,   # 2px surface ring per mark spec
+                markeredgewidth=2.0,
             )
-            lines_dict[cond_label] = (line, ys)
             if col == 0:
                 legend_handles.append(line)
+                legend_labels.append(cond_label)
 
-        # Step-1 inline labels (diagonal stagger)
-        vc1 = mdata["Clean baseline"][0]
-        ve1 = mdata["Epistemic Confirmation"][0]
-        vs1 = mdata["Search-Match Cue"][0]
-        (dxc, dyc), (dxe, dye), (dxs, dys) = _offsets(vc1, ve1, vs1)
-        for val, color, dx, dy in [(vc1, C_CLEAN, dxc, dyc),
-                                    (ve1, C_EPIST, dxe, dye),
-                                    (vs1, C_SMATCH, dxs, dys)]:
-            if val < 5.0 and dy < 0:
-                dx, dy = -28, 14
-            ax.annotate(f"{val:.1f}%", xy=(1, val), xytext=(dx, dy),
-                        textcoords="offset points",
-                        ha=_ha(dx), va="center",
-                        fontsize=8.5, fontweight="bold", color=color)
+        # Annotations
+        _annotate_step1(ax, mdata)
+        _annotate_step10(ax, mdata)
 
-        # Step-10 end-of-line labels, stacked vertically to avoid pile-up
-        step10_vals = [
-            (mdata["Clean baseline"][9],         C_CLEAN),
-            (mdata["Epistemic Confirmation"][9],  C_EPIST),
-            (mdata["Search-Match Cue"][9],        C_SMATCH),
-        ]
-        # Sort by value to assign dy offsets cleanly (highest gets top spot)
-        step10_sorted = sorted(enumerate(step10_vals), key=lambda x: -x[1][0])
-        dy_slots = [18, 0, -18]   # upper / middle / lower
-        for rank, (orig_i, (val, color)) in enumerate(step10_sorted):
-            dy = dy_slots[rank]
-            ax.annotate(f"{val:.1f}%", xy=(10, val), xytext=(32, dy),
-                        textcoords="offset points",
-                        ha="left", va="center",
-                        fontsize=8.5, fontweight="bold", color=color)
-
-        ax.set_xlim(0.3, 12.2)
-        ax.set_ylim(-4, 106)
-        ax.set_xticks(STEPS)
-        ax.set_xticklabels([str(s) for s in STEPS], fontsize=11)
-        ax.set_xlabel("Decision step", fontsize=12, labelpad=8)
-        ax.yaxis.set_major_locator(mticker.MultipleLocator(20))
-        ax.tick_params(axis="both", labelsize=11, which="both", length=3)
-        ax.tick_params(axis="y", which="minor", length=0)
-
+        # Labels
+        ax.set_xlabel("Decision step", labelpad=7)
         if col == 0:
-            ax.set_ylabel("Premature Completion Rate (%)", fontsize=12, labelpad=10)
+            ax.set_ylabel("Premature Completion Rate (%)", labelpad=8)
+        ax.set_title(model, pad=11, fontweight="semibold")
 
-        ax.set_title(model, fontsize=14, fontweight="bold", pad=14)
-
+    # Figure-level legend below the subplots
     fig.legend(
         handles=legend_handles,
-        labels=[c[0] for c in CONDITIONS],
-        loc="upper center",
+        labels=legend_labels,
+        loc="lower center",
+        bbox_to_anchor=(0.5, -0.06),
         ncol=3,
-        bbox_to_anchor=(0.5, 0.975),
-        fontsize=12,
         frameon=False,
         handlelength=2.6,
         handletextpad=0.8,
         columnspacing=3.0,
+        fontsize=11,
     )
 
-    fig.suptitle(dataset_name, fontsize=16, fontweight="bold", y=1.04)
-    fig.text(
-        0.5, -0.01,
-        "Ten-step controlled rollout — Clean baseline vs. Epistemic Confirmation vs. Search-Match Cue",
-        ha="center", va="bottom", fontsize=10, color="#777777",
-    )
+    fig.suptitle(dataset_name, fontsize=15, fontweight="bold", y=1.03)
 
-    fig.tight_layout(rect=[0, 0.04, 1, 0.91])
-    plt.subplots_adjust(wspace=0.28)
+    plt.tight_layout(rect=[0, 0.0, 1, 1])
+    plt.subplots_adjust(wspace=0.22)
 
-    out = os.path.join(OUT_DIR, DATASET_FILES[dataset_name])
-    fig.savefig(out, dpi=300, bbox_inches="tight", facecolor="white")
-    plt.close(fig)
+    out = os.path.join(OUT_DIR, DATASET_FILES[dataset_name] + ".png")
+    fig.savefig(out, dpi=300, bbox_inches="tight", facecolor=C_SURF)
     print(f"  saved: {out}")
-    return out
+    plt.close(fig)
 
 
 if __name__ == "__main__":
-    print(f"Loading data from {RESULTS_DIR} ...\n")
+    print(f"Loading data from {RESULTS_DIR} …\n")
     DATA = load_data()
     print(f"Output → {OUT_DIR}\n")
     for ds_name in DATASETS:
+        print(f"  {ds_name}")
         plot_dataset(ds_name, DATA[ds_name])
     print("\nDone.")

@@ -17,9 +17,11 @@ Two evaluation modes:
 | Mode | Metric | Description |
 |---|---|---|
 | **WGAR@1** | Wrong Gap Assessment Rate at step 1 | Did the agent call `ResearchComplete` immediately after the patched observation? |
-| **PCR@k** | Premature Completion Rate within k steps | Did the agent call `ResearchComplete` within the first k steps of a 3-step controlled rollout? |
+| **PCR@k** | Premature Completion Rate within k steps | Did the agent call `ResearchComplete` within the first k steps of a 10-step rollout? |
 
-PCR@k is a controlled 3-step rollout using a neutral placeholder (`"No new relevant information was found."`) for follow-up search results. It is not a live-web deployment evaluation.
+PCR@k uses real DuckDuckGo search results for follow-up steps (cached by query hash for
+determinism). Both clean and attack rollouts use the same search function, making the comparison
+fully symmetric.
 
 ### Threat Model
 
@@ -44,74 +46,75 @@ The injected fact is real, not fabricated — attack success cannot be attribute
 
 | Model | Condition | HotpotQA | 2WikiMHQA | MuSiQue | MultiHopRAG |
 |---|---|---|---|---|---|
-| Qwen2.5-7B | Epistemic Confirmation | 18.13% | 9.46% | 11.06% | 9.95% |
-| Qwen2.5-7B | Search-Match Cue | 24.65% | 11.25% | 12.56% | 6.71% |
-| Qwen2.5-14B | Epistemic Confirmation | 33.33% | 32.99% | 16.79% | 12.13% |
-| Qwen2.5-14B | Search-Match Cue | 41.39% | 36.83% | 17.04% | 8.01% |
-| Llama-3.1-8B | Epistemic Confirmation | **0.00%** | **0.00%** | **0.00%** | **0.00%** |
-| Llama-3.1-8B | Search-Match Cue | **0.00%** | **0.00%** | **0.00%** | **0.00%** |
+| Qwen2.5-7B | Epistemic Confirmation | 21.7% | 11.3% | 11.5% | 14.6% |
+| Qwen2.5-7B | Search-Match Cue | 24.2% | 11.6% | 13.5% | 11.3% |
+| Qwen2.5-14B | Epistemic Confirmation | 34.6% | 31.0% | 16.9% | 15.3% |
+| Qwen2.5-14B | Search-Match Cue | 39.7% | 33.8% | 17.9% | 14.1% |
+| Llama-3.1-8B | Epistemic Confirmation | **0.0%** | **0.0%** | **0.0%** | **0.0%** |
+| Llama-3.1-8B | Search-Match Cue | **0.0%** | **0.0%** | **0.0%** | **0.0%** |
 
-Llama-3.1-8B has 0% WGAR@1 across all datasets under both cues, but this step-1 robustness does not survive the multi-step rollout (see PCR@3 below).
+Llama-3.1-8B has 0% WGAR@1 across all datasets under both cues, but this step-1 robustness does not survive the multi-step rollout.
 
-### PCR@1/2/3 — Multi-step premature completion rollout
+### PCR@k — Multi-step premature completion rollout (all 10 steps)
 
 #### HotpotQA
 
-| Model | Condition | PCR@1 | PCR@2 | PCR@3 |
-|---|---|---|---|---|
-| Qwen2.5-7B | Clean baseline | 0.00% | 17.65% | 22.25% |
-| Qwen2.5-7B | Epistemic Confirmation | 18.13% | 73.37% | 75.07% |
-| Qwen2.5-7B | Search-Match Cue | 24.65% | 69.69% | 70.25% |
-| Qwen2.5-14B | Clean baseline | 0.00% | 7.46% | 13.18% |
-| Qwen2.5-14B | Epistemic Confirmation | 33.33% | 52.50% | 55.28% |
-| Qwen2.5-14B | Search-Match Cue | 41.39% | 57.50% | 60.28% |
-| Llama-3.1-8B | Clean baseline | 0.00% | 24.04% | 33.71% |
-| Llama-3.1-8B | Epistemic Confirmation | 0.00% | **71.50%** | **88.50%** |
-| Llama-3.1-8B | Search-Match Cue | 0.00% | **70.25%** | **86.50%** |
+| Model | Condition | @1 | @2 | @3 | @4 | @5 | @6 | @7 | @8 | @9 | @10 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen2.5-7B | Clean baseline | 0.0 | 18.4 | 22.3 | 44.8 | 53.2 | 78.8 | 85.2 | 92.8 | 94.6 | 96.7 |
+| Qwen2.5-7B | Epistemic Confirmation | 21.7 | 74.4 | 75.5 | 82.1 | 84.0 | 92.3 | 94.6 | 97.4 | 97.4 | 98.3 |
+| Qwen2.5-7B | Search-Match Cue | 24.2 | 70.1 | 70.4 | 82.9 | 84.0 | 92.3 | 94.0 | 96.9 | 97.4 | 97.7 |
+| Qwen2.5-14B | Clean baseline | 0.0 | 5.8 | 8.8 | 12.8 | 17.8 | 24.2 | 36.5 | 45.2 | 51.5 | 55.5 |
+| Qwen2.5-14B | Epistemic Confirmation | 34.6 | 50.0 | 50.6 | 54.5 | 61.2 | 67.3 | 72.1 | 75.1 | 77.9 | 79.9 |
+| Qwen2.5-14B | Search-Match Cue | 39.7 | 54.5 | 57.0 | 60.6 | 64.0 | 68.7 | 73.2 | 77.1 | 80.7 | 83.5 |
+| Llama-3.1-8B | Clean baseline | 0.0 | 21.3 | 32.4 | 50.3 | 55.1 | 83.4 | 85.8 | 94.8 | 96.0 | 98.0 |
+| Llama-3.1-8B | Epistemic Confirmation | 0.0 | 72.4 | **89.7** | 92.2 | 92.5 | 96.5 | 96.5 | 98.5 | 98.7 | 99.2 |
+| Llama-3.1-8B | Search-Match Cue | 0.0 | 69.7 | **86.0** | 92.0 | 92.5 | 96.2 | 96.5 | 99.5 | 99.5 | 99.7 |
 
 #### 2WikiMultiHopQA
 
-| Model | Condition | PCR@1 | PCR@2 | PCR@3 |
-|---|---|---|---|---|
-| Qwen2.5-7B | Clean baseline | 0.00% | 5.13% | 17.41% |
-| Qwen2.5-7B | Epistemic Confirmation | 9.46% | 63.17% | 65.22% |
-| Qwen2.5-7B | Search-Match Cue | 11.25% | 62.15% | 65.98% |
-| Qwen2.5-14B | Clean baseline | 0.00% | 0.89% | 6.03% |
-| Qwen2.5-14B | Epistemic Confirmation | 32.99% | 52.43% | 59.34% |
-| Qwen2.5-14B | Search-Match Cue | 36.83% | 53.20% | 55.75% |
-| Llama-3.1-8B | Clean baseline | 0.00% | 4.05% | 8.11% |
-| Llama-3.1-8B | Epistemic Confirmation | 0.00% | **68.22%** | **87.86%** |
-| Llama-3.1-8B | Search-Match Cue | 0.00% | **58.91%** | **78.81%** |
+| Model | Condition | @1 | @2 | @3 | @4 | @5 | @6 | @7 | @8 | @9 | @10 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen2.5-7B | Clean baseline | 0.0 | 5.6 | 16.6 | 45.0 | 59.1 | 86.8 | 90.4 | 98.2 | 98.4 | 98.4 |
+| Qwen2.5-7B | Epistemic Confirmation | 11.3 | 63.8 | 65.0 | 80.2 | 81.7 | 96.1 | 96.4 | 99.0 | 99.0 | 99.0 |
+| Qwen2.5-7B | Search-Match Cue | 11.6 | 60.4 | 62.0 | 78.1 | 80.2 | 95.6 | 95.9 | 98.5 | 98.7 | 99.0 |
+| Qwen2.5-14B | Clean baseline | 0.0 | 0.9 | 2.2 | 5.6 | 17.0 | 32.1 | 44.9 | 54.5 | 60.0 | 64.1 |
+| Qwen2.5-14B | Epistemic Confirmation | 31.0 | 53.3 | 55.4 | 58.5 | 65.9 | 73.8 | 79.0 | 82.6 | 85.9 | 88.7 |
+| Qwen2.5-14B | Search-Match Cue | 33.8 | 52.3 | 53.8 | 57.2 | 62.3 | 71.5 | 76.9 | 80.3 | 82.8 | 85.4 |
+| Llama-3.1-8B | Clean baseline | 0.0 | 4.1 | 9.1 | 35.4 | 41.3 | 83.0 | 84.6 | 96.4 | 96.6 | 98.0 |
+| Llama-3.1-8B | Epistemic Confirmation | 0.0 | 68.9 | **87.2** | 91.4 | 93.2 | 97.9 | 98.7 | 99.5 | 99.5 | 100.0 |
+| Llama-3.1-8B | Search-Match Cue | 0.0 | 61.4 | **79.6** | 86.9 | 88.3 | 96.9 | 97.7 | 99.0 | 99.0 | 99.7 |
 
 #### MuSiQue
 
-| Model | Condition | PCR@1 | PCR@2 | PCR@3 |
-|---|---|---|---|---|
-| Qwen2.5-7B | Clean baseline | 0.00% | 9.86% | 11.47% |
-| Qwen2.5-7B | Epistemic Confirmation | 11.06% | 42.46% | 44.22% |
-| Qwen2.5-7B | Search-Match Cue | 12.56% | 41.46% | 42.21% |
-| Qwen2.5-14B | Clean baseline | 0.00% | 2.74% | 5.94% |
-| Qwen2.5-14B | Epistemic Confirmation | 16.79% | 24.06% | 30.83% |
-| Qwen2.5-14B | Search-Match Cue | 17.04% | 24.81% | 33.33% |
-| Llama-3.1-8B | Clean baseline | 0.00% | 12.44% | 17.11% |
-| Llama-3.1-8B | Epistemic Confirmation | 0.00% | **59.61%** | **75.91%** |
-| Llama-3.1-8B | Search-Match Cue | 0.00% | **52.80%** | **68.61%** |
+| Model | Condition | @1 | @2 | @3 | @4 | @5 | @6 | @7 | @8 | @9 | @10 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen2.5-7B | Clean baseline | 0.0 | 9.8 | 10.8 | 34.6 | 38.9 | 79.6 | 83.5 | 92.9 | 95.0 | 97.3 |
+| Qwen2.5-7B | Epistemic Confirmation | 11.5 | 44.9 | 45.9 | 65.6 | 67.3 | 90.0 | 91.5 | 96.0 | 96.5 | 97.0 |
+| Qwen2.5-7B | Search-Match Cue | 13.5 | 43.1 | 43.4 | 63.8 | 65.6 | 87.0 | 89.3 | 95.5 | 96.8 | 97.5 |
+| Qwen2.5-14B | Clean baseline | 0.0 | 2.5 | 4.8 | 8.7 | 16.4 | 26.9 | 39.0 | 48.7 | 55.6 | 59.9 |
+| Qwen2.5-14B | Epistemic Confirmation | 16.9 | 23.1 | 25.6 | 31.8 | 39.1 | 45.5 | 52.7 | 60.0 | 65.7 | 69.7 |
+| Qwen2.5-14B | Search-Match Cue | 17.9 | 24.9 | 27.6 | 33.3 | 39.3 | 47.3 | 52.2 | 61.4 | 66.4 | 70.6 |
+| Llama-3.1-8B | Clean baseline | 0.0 | 14.0 | 19.2 | 47.9 | 50.3 | 84.6 | 85.5 | 96.4 | 96.9 | 98.7 |
+| Llama-3.1-8B | Epistemic Confirmation | 0.0 | 60.7 | **74.5** | 85.4 | 87.6 | 94.4 | 95.1 | 98.8 | 99.0 | 99.5 |
+| Llama-3.1-8B | Search-Match Cue | 0.0 | 54.6 | **70.4** | 81.8 | 83.3 | 95.1 | 95.9 | 99.5 | 99.5 | 99.8 |
 
 #### MultiHopRAG
 
-| Model | Condition | PCR@1 | PCR@2 | PCR@3 |
-|---|---|---|---|---|
-| Qwen2.5-7B | Clean baseline | 0.00% | 11.74% | 22.80% |
-| Qwen2.5-7B | Epistemic Confirmation | 9.95% | 57.87% | 63.19% |
-| Qwen2.5-7B | Search-Match Cue | 6.71% | 53.70% | 58.80% |
-| Qwen2.5-14B | Clean baseline | 0.00% | 2.23% | 6.70% |
-| Qwen2.5-14B | Epistemic Confirmation | 12.13% | 20.14% | 26.77% |
-| Qwen2.5-14B | Search-Match Cue | 8.01% | 18.54% | 24.03% |
-| Llama-3.1-8B | Clean baseline | 0.00% | 1.57% | 6.73% |
-| Llama-3.1-8B | Epistemic Confirmation | 0.00% | 19.77% | 37.47% |
-| Llama-3.1-8B | Search-Match Cue | 0.00% | 9.20% | 24.37% |
+| Model | Condition | @1 | @2 | @3 | @4 | @5 | @6 | @7 | @8 | @9 | @10 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen2.5-7B | Clean baseline | 0.0 | 9.9 | 18.2 | 38.1 | 59.2 | 80.7 | 87.4 | 94.8 | 96.9 | 98.4 |
+| Qwen2.5-7B | Epistemic Confirmation | 14.6 | 57.6 | 62.8 | 77.7 | 88.3 | 96.1 | 97.1 | 97.4 | 97.7 | 98.7 |
+| Qwen2.5-7B | Search-Match Cue | 11.3 | 60.5 | 63.1 | 77.0 | 85.8 | 94.2 | 96.1 | 96.8 | 97.1 | 97.7 |
+| Qwen2.5-14B | Clean baseline | 0.0 | 2.4 | 4.9 | 12.0 | 26.9 | 43.3 | 59.6 | 71.6 | 79.8 | 86.4 |
+| Qwen2.5-14B | Epistemic Confirmation | 15.3 | 21.4 | 24.0 | 31.3 | 44.1 | 60.7 | 70.3 | 78.6 | 85.6 | 87.9 |
+| Qwen2.5-14B | Search-Match Cue | 14.1 | 20.4 | 24.0 | 30.4 | 39.6 | 54.0 | 68.7 | 79.6 | 85.3 | 89.1 |
+| Llama-3.1-8B | Clean baseline | 0.0 | 2.0 | 7.4 | 35.1 | 43.1 | 79.8 | 84.9 | 94.4 | 95.5 | 98.2 |
+| Llama-3.1-8B | Epistemic Confirmation | 0.0 | 19.4 | 43.4 | 67.0 | 71.2 | 92.9 | 94.8 | 98.4 | 99.0 | 99.0 |
+| Llama-3.1-8B | Search-Match Cue | 0.0 | 14.2 | 35.3 | 63.8 | 70.2 | 93.9 | 94.5 | 99.0 | 99.0 | 99.7 |
 
-**Core finding:** The vulnerability is rollout-level, not only step-1. Llama-3.1-8B has 0% WGAR@1 across all datasets under both cues, but reaches high PCR@3 on HotpotQA, 2WikiMultiHopQA, and MuSiQue.
+**Core finding:** The vulnerability is rollout-level, not only step-1. Llama-3.1-8B has 0% WGAR@1
+across all datasets under both cues, but reaches PCR@3 of 74–89% on three of four datasets.
 
 ---
 
@@ -128,22 +131,24 @@ rag-research/
 │
 ├── whitebox_attack/             # Wrong Gap Assessment — white-box attack implementation
 │   ├── attack2_gap_assessment.py   # WGAR@1 — immediate wrong gap assessment at step 1
-│   ├── attack2e_delayed_pcr.py     # PCR@1/2/3 — multi-step premature completion rollout
+│   ├── attack2e_delayed_pcr.py     # PCR@1–10 — multi-step premature completion rollout
+│   ├── search_utils.py             # DuckDuckGo search with sha256-keyed file cache
 │   ├── victim_scaffold.py          # White-box primitives (branch_margin, rollout_n_steps)
 │   ├── data_utils.py               # Dataset loaders + banned-vocab filters
 │   ├── jsonl_logging.py            # Append-only JSONL schema
 │   ├── metrics.py                  # Wilson CI, McNemar, paired bootstrap
 │   ├── plot_multistep_pcr.py       # Generates publication figures
 │   ├── sbatch/                     # SLURM job scripts (6 total: 3 models × 2 modes)
+│   ├── archive/                    # Superseded placeholder-search scripts and results
 │   └── README.md                   # Full setup and reproduction guide
 │
 └── whitebox_results/            # Experiment outputs
     ├── s1_attack2_gap_assessment_{qwen7b,qwen14b,llama8b}.jsonl
-    ├── s1_attack2e_delayed_pcr_{qwen7b,qwen14b,llama8b}.jsonl
+    ├── s1_attack2e_pcr10_{qwen7b,qwen14b,llama8b}.jsonl
+    ├── ddg_cache/               # DuckDuckGo result cache (sha256-keyed, gitignored)
+    ├── archive/                 # Superseded placeholder-search result files
     └── figures/                 # 4 publication-quality PNGs (300 DPI)
 ```
-
-> **Planned extension:** a `blackbox_attack/` directory will follow the same interface — replacing `victim_scaffold.py`'s white-box scoring with API-based observation of the Researcher Agent's tool choices, while reusing `data_utils.py`, `jsonl_logging.py`, `metrics.py`, and the JSONL schema unchanged.
 
 ---
 
@@ -151,6 +156,7 @@ rag-research/
 
 ```bash
 conda activate whitebox   # vllm + transformers environment
+pip install duckduckgo-search
 
 # HuggingFace token — write to cache only, never commit
 echo "<YOUR_HF_TOKEN>" > ~/.cache/huggingface/token
@@ -165,7 +171,7 @@ See [`whitebox_attack/README.md`](whitebox_attack/README.md) for the full reprod
 
 ## Figures
 
-Four publication-quality figures (one per dataset) live in [`whitebox_results/figures/`](whitebox_results/figures/). Each shows PCR@1/2/3 across three models with clean baseline vs. both attack cues. Regenerate with:
+Four publication-quality figures (one per dataset) live in [`whitebox_results/figures/`](whitebox_results/figures/). Each shows PCR@1–10 across three models with clean baseline vs. both attack cues. Regenerate with:
 
 ```bash
 cd whitebox_attack/

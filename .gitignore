@@ -25,12 +25,23 @@ eval_data/
 dist/
 build/
 
-# SLURM job logs (per-run stdout/stderr, not part of the codebase)
+# SLURM job logs and per-run output (stdout/stderr, not part of the codebase)
 open_deep_research/logs/
 whitebox_attack/logs/
+*.out
+*.err
 
 # Archived / superseded attack scripts (exploratory work not in final paper)
 whitebox_attack/archive/
+
+# Archived / superseded result files
+whitebox_results/archive/
+
+# DuckDuckGo search cache (runtime, reproducible on demand)
+whitebox_results/ddg_cache/
+
+# Generated tables (reproducible via generate_tables.py from JSONL sources)
+whitebox_results/tables/
 
 # Claude Code internal metadata
 .claude/
