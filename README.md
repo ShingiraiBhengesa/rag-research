@@ -55,7 +55,12 @@ The injected fact is real, not fabricated — attack success cannot be attribute
 
 Llama-3.1-8B has 0% WGAR@1 across all datasets under both cues, but this step-1 robustness does not survive the multi-step rollout.
 
-### PCR@k — Multi-step premature completion rollout (all 10 steps)
+### PCR@k — Multi-step premature completion rollout with real DuckDuckGo search (all 10 steps)
+
+> Follow-up steps in all PCR@k rollouts use **live DuckDuckGo search results** (via
+> `search_utils.ddg_search`, cached by `sha256(query)` for determinism). No placeholder
+> text is used. Clean and attack rollouts receive identical search results at every step,
+> so the comparison is fully symmetric.
 
 #### HotpotQA
 
