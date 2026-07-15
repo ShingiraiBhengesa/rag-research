@@ -12,7 +12,21 @@ echo "=== NODE: $(hostname) JOB: $SLURM_JOB_ID $(date) ==="
 nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv | tail -2
 source $(conda info --base)/etc/profile.d/conda.sh
 conda activate whitebox
-pip install -q duckduckgo-search "kernels==0.12.0"
+pip install -q duckduckgo-search "kernels==0.14.1"
+
+# Triton compiles cuda_utils.c at runtime; spack GCC 14.2.0 on this cluster is
+# missing crtbeginS.o in its linker search path. Wrap gcc to inject -B so ld finds it.
+_SPACK_GCC=/cm/shared/apps/spack/opt/spack/linux-rhel9-sapphirerapids/gcc-13.1.0/gcc-14.2.0-7qanuh5jgy3lgxvl67v3qkva2mya7c2a
+_GCC_RTDIR="${_SPACK_GCC}/lib/gcc/x86_64-pc-linux-gnu/14.2.0"
+_WRAP_DIR="/tmp/gcc_wrap_${SLURM_JOB_ID}"
+mkdir -p "${_WRAP_DIR}"
+printf '#!/bin/bash\nexec "%s/bin/gcc" -B"%s" "$@"\n' "${_SPACK_GCC}" "${_GCC_RTDIR}" > "${_WRAP_DIR}/gcc"
+chmod +x "${_WRAP_DIR}/gcc"
+export PATH="${_WRAP_DIR}:${PATH}"
+# Triton checks CC env var first; set it explicitly so it uses the wrapper
+export CC="${_WRAP_DIR}/gcc"
+echo "=== GCC wrapper: $(${_WRAP_DIR}/gcc --version 2>&1 | head -1) ==="
+
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export WB_STAGE=S1
 export WB_RUN_ID=$SLURM_JOB_ID
