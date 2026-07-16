@@ -6,6 +6,14 @@ The Researcher Agent is part of [Open Deep Research](open_deep_research/) (ODR),
 
 ---
 
+## System Architecture
+
+![Agentic RAG loop and attack point](Agentic%20RAG%20loop%20process%20diagram.png)
+
+The diagram shows the full Open Deep Research pipeline. The **ResearcherAgent** runs a tool-calling loop, choosing between `TavilySearch`, `PageReader`, `Retriever`, `think_tool`, and `ResearchComplete` at each step. The **attack point** (red dashed box) intercepts the first retrieved observation before it reaches the agent and appends the adversarial cue — no model weights, prompts, or tool schemas are modified.
+
+---
+
 ## Research Summary
 
 ### Setting
