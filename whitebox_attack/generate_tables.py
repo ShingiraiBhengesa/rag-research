@@ -1,14 +1,15 @@
 """
-generate_tables.py — Generate result tables from PCR@1–10 JSONL outputs.
+generate_tables.py — Generate PCR@k result tables from final Wrong Gap Assessment JSONL.
 
 Reads:
-  ../whitebox_results/s1_attack2e_pcr10_{qwen7b,qwen14b,llama8b}.jsonl
+  ../whitebox_results/final_wga_{qwen7b,qwen14b,llama8b,gemma27b,gptoss20b}.jsonl
+
+Derives PCR@k from completion_step_* fields:
+  pcr_at_k = completion_step is not None and completion_step <= k
 
 Saves to ../whitebox_results/tables/:
-  pcr_per_dataset.tex   — per-dataset LaTeX tables (PCR@1/3/5/10 + Net)
-  pcr_per_dataset.txt   — plain-text equivalent
-  pcr_summary.tex       — cross-dataset summary table (Net@3 and Net@5)
-  pcr_summary.txt       — plain-text equivalent
+  wga_per_dataset.tex / .txt  — per-dataset tables (all 5 conditions × selected k)
+  wga_summary.tex / .txt      — cross-dataset summary
 
 Run:
   cd whitebox_attack/
@@ -26,11 +27,11 @@ OUT_DIR     = os.path.join(RESULTS_DIR, "tables")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 JSONL_SOURCES = {
-    "Qwen2.5-7B":   os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_qwen7b.jsonl"),
-    "Qwen2.5-14B":  os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_qwen14b.jsonl"),
-    "Llama-3.1-8B": os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_llama8b.jsonl"),
-    "GPT-OSS-120B": os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_gptoss120b.jsonl"),
-    "Gemma-3-27B":  os.path.join(RESULTS_DIR, "s1_attack2e_pcr10_gemma27b.jsonl"),
+    "Qwen2.5-7B":   os.path.join(RESULTS_DIR, "final_wga_qwen7b.jsonl"),
+    "Qwen2.5-14B":  os.path.join(RESULTS_DIR, "final_wga_qwen14b.jsonl"),
+    "Llama-3.1-8B": os.path.join(RESULTS_DIR, "final_wga_llama8b.jsonl"),
+    "Gemma-3-27B":  os.path.join(RESULTS_DIR, "final_wga_gemma27b.jsonl"),
+    "GPT-OSS-20B":  os.path.join(RESULTS_DIR, "final_wga_gptoss20b.jsonl"),
 }
 
 DATASET_MAP = {
@@ -42,30 +43,53 @@ DATASET_MAP = {
 
 MODELS   = list(JSONL_SOURCES.keys())
 DATASETS = list(DATASET_MAP.values())
-STEPS    = list(range(1, 11))
 
-SHOW_K   = list(range(1, 11))   # all steps 1–10
-
-COND_KEYS = {
-    "clean":                  "Clean",
-    "epistemic_confirmation": "Epist.",
-    "search_match_cue":       "S-Match",
+# Conditions in display order
+COND_ORDER = [
+    "clean",
+    "epistemic_confirmation",
+    "search_match_cue",
+    "source_coverage",
+    "epistemic_confirmation_source",
+    "search_match_source",
+]
+COND_LABEL = {
+    "clean":                         "Clean",
+    "epistemic_confirmation":        "Epist.",
+    "search_match_cue":              "S-Match",
+    "source_coverage":               "Src-Cov",
+    "epistemic_confirmation_source": "Epist.+Src",
+    "search_match_source":           "SMatch+Src",
 }
 
-COND_ORDER = ["clean", "epistemic_confirmation", "search_match_cue"]
+# Steps shown in tables (selected; dynamic max used in figures)
+SHOW_K = [1, 2, 3, 5, 10, 20]
 
-
-def _pcr_field(k):
-    return "wrong_gap_assessment_success" if k == 1 else f"delayed_pcr_at_{k}"
+LATEX_MODEL = {
+    "Qwen2.5-7B":   r"Qwen2.5-7B",
+    "Qwen2.5-14B":  r"Qwen2.5-14B",
+    "Llama-3.1-8B": r"Llama-3.1-8B",
+    "Gemma-3-27B":  r"Gemma-3-27B",
+    "GPT-OSS-20B":  r"GPT-OSS-20B",
+}
 
 
 # ── Data loading ───────────────────────────────────────────────────────────────
+
 def load_data():
-    """Return data[dataset][model][cond_key] = {k: pct, ...} and n[dataset][model][cond_key]."""
-    acc = collections.defaultdict(list)
+    """Return (rates, counts, max_step).
+
+    rates[ds][model][cond][k]  = PCR@k as a percentage (float)
+    counts[ds][model][cond]    = n eligible rows
+    max_step                   = largest finite completion step observed
+    """
+    # acc[(ds_label, model_label, cond)] = list of completion_step (int or None)
+    acc      = collections.defaultdict(list)
+    max_step = 10
+
     for model_label, path in JSONL_SOURCES.items():
         if not os.path.exists(path):
-            print(f"  WARNING: {path} not found")
+            print(f"  WARNING: {path} not found — {model_label} skipped")
             continue
         with open(path) as fh:
             for raw in fh:
@@ -75,236 +99,147 @@ def load_data():
                 row = json.loads(raw)
                 if not row.get("eligible"):
                     continue
-                ck = row.get("condition")
-                if ck not in COND_KEYS:
+                cond = row.get("condition")
+                if cond not in COND_ORDER:
                     continue
                 ds = DATASET_MAP.get(row.get("dataset", ""))
                 if ds is None:
                     continue
-                for k in STEPS:
-                    val = row.get(_pcr_field(k))
-                    if val is not None:
-                        acc[(ds, model_label, ck, k)].append(bool(val))
+                cs = (row.get("completion_step_clean")
+                      if cond == "clean"
+                      else row.get("completion_step_attack"))
+                acc[(ds, model_label, cond)].append(cs)
+                if cs is not None and cs > max_step:
+                    max_step = cs
+
+    def pcr_at(comp_steps, k):
+        n = len(comp_steps)
+        if n == 0:
+            return 0.0
+        return 100.0 * sum(1 for s in comp_steps if s is not None and s <= k) / n
 
     rates, counts = {}, {}
     for ds in DATASETS:
         rates[ds], counts[ds] = {}, {}
         for model in MODELS:
             rates[ds][model], counts[ds][model] = {}, {}
-            for ck in COND_KEYS:
-                rates[ds][model][ck]  = {}
-                counts[ds][model][ck] = len(acc[(ds, model, ck, 1)])
-                for k in STEPS:
-                    lst = acc[(ds, model, ck, k)]
-                    rates[ds][model][ck][k] = 100.0 * sum(lst) / len(lst) if lst else 0.0
-    return rates, counts
+            for cond in COND_ORDER:
+                comp = acc[(ds, model, cond)]
+                counts[ds][model][cond] = len(comp)
+                max_k = max(SHOW_K + [max_step])
+                rates[ds][model][cond] = {k: pcr_at(comp, k) for k in range(1, max_k + 1)}
+
+    return rates, counts, max_step
 
 
 # ── Formatting helpers ─────────────────────────────────────────────────────────
+
 def _pct(v):
     return f"{v:.1f}"
 
-
-def _net(attack, clean):
-    delta = attack - clean
-    sign  = "+" if delta >= 0 else ""
-    return f"{sign}{delta:.1f}"
+def _net(attack_v, clean_v):
+    d = attack_v - clean_v
+    return f"{'+'if d>=0 else ''}{d:.1f}"
 
 
-# ── Per-dataset plain-text tables ──────────────────────────────────────────────
-def make_text_per_dataset(rates, counts):
-    lines = []
-    step_header = "  ".join(f"@{k:2d}" for k in SHOW_K)
-    sep_cols    = "  ".join(["─" * 5] * len(SHOW_K))
-    width = 16 + 2 + 10 + 2 + len(step_header) + 8
+# ── Plain-text table ───────────────────────────────────────────────────────────
+
+def make_text_table(rates, counts, max_step, label="Per-dataset"):
+    ks       = [k for k in SHOW_K if k <= max(SHOW_K[:-1] + [max_step])]
+    hdr_ks   = "  ".join(f"@ {k:2d}" for k in ks)
+    sep_ks   = "  ".join(["─" * 5] * len(ks))
+    W        = 16 + 2 + 12 + 2 + len(hdr_ks) + 4
+
+    lines = [f"\n{'─'*W}", f"  {label}: Wrong Gap Assessment PCR@k (%)", f"{'─'*W}"]
 
     for ds in DATASETS:
-        lines.append(f"\n{'─' * width}")
-        lines.append(f"  {ds}")
-        lines.append(f"{'─' * width}")
-        lines.append(
-            f"  {'Model':<16}  {'Condition':<10}  " + step_header
-        )
-        lines.append(f"  {'─'*16}  {'─'*10}  {sep_cols}")
-
+        lines += [f"\n  ── {ds} ──",
+                  f"  {'Model':<16}  {'Condition':<12}  {hdr_ks}",
+                  f"  {'─'*16}  {'─'*12}  {sep_ks}"]
         for model in MODELS:
             lines.append("")
-            for i, ck in enumerate(COND_ORDER):
-                label     = COND_KEYS[ck]
-                r         = rates[ds][model][ck]
-                n         = counts[ds][model][ck]
-                model_str = model if i == 0 else ""
-                vals      = "  ".join(f"{_pct(r[k]):>5}" for k in SHOW_K)
-                n_str     = f"(n={n})" if i == 0 else ""
-                lines.append(f"  {model_str:<16}  {label:<10}  {vals}  {n_str}")
+            clean_r = rates[ds][model]["clean"]
+            for i, cond in enumerate(COND_ORDER):
+                label_s   = COND_LABEL[cond]
+                r         = rates[ds][model][cond]
+                n         = counts[ds][model][cond]
+                model_s   = model if i == 0 else ""
+                vals      = "  ".join(f"{_pct(r[k]):>5}" for k in ks)
+                net_s     = "" if cond == "clean" else \
+                            f"  (Net@3={_net(r[3], clean_r[3])}pp, @10={_net(r[10], clean_r[10])}pp)"
+                n_s       = f"  n={n}" if i == 0 else ""
+                lines.append(f"  {model_s:<16}  {label_s:<12}  {vals}{net_s}{n_s}")
 
-    lines.append(f"\n{'─' * width}")
+    lines.append(f"\n{'─'*W}")
     return "\n".join(lines)
 
 
-# ── Per-dataset LaTeX tables ───────────────────────────────────────────────────
-LATEX_MODEL_DISPLAY = {
-    "Qwen2.5-7B":   r"Qwen2.5-7B",
-    "Qwen2.5-14B":  r"Qwen2.5-14B",
-    "Llama-3.1-8B": r"Llama-3.1-8B",
-    "GPT-OSS-120B": r"GPT-OSS-120B",
-    "Gemma-3-27B":  r"Gemma-3-27B",
-}
+# ── LaTeX tables ───────────────────────────────────────────────────────────────
 
-def make_latex_per_dataset(rates, counts):
-    # 2 fixed cols (model, condition) + 10 PCR cols
-    col_spec = "ll" + "r" * len(SHOW_K)
+def make_latex_table(rates, counts, max_step):
+    ks         = [k for k in SHOW_K if k <= max(SHOW_K[:-1] + [max_step])]
+    col_spec   = "ll" + "r" * len(ks)
+    step_hdr   = " & ".join(f"\\textbf{{@{k}}}" for k in ks)
 
-    lines = []
-    lines.append(r"% ── Per-dataset PCR@1–10 tables ─────────────────────────────────────────────")
-    lines.append(r"% Auto-generated by generate_tables.py")
-    lines.append(r"% Columns: Model | Condition | PCR@1 … PCR@10")
-    lines.append("")
-
-    step_header = " & ".join(f"\\textbf{{@{k}}}" for k in SHOW_K)
+    lines = [
+        r"% Wrong Gap Assessment PCR@k tables — auto-generated by generate_tables.py",
+        r"% Five conditions per model: epistemic_confirmation, search_match_cue,",
+        r"% source_coverage, epistemic_confirmation_source, search_match_source",
+        "",
+    ]
 
     for ds in DATASETS:
-        ds_label = ds
-        ds_key   = ds.lower().replace(" ", "_").replace("multihopqa", "mhqa")
-        lines.append(f"% ── {ds} ──")
-        lines.append(r"\begin{table}[t]")
-        lines.append(r"  \centering")
-        lines.append(r"  \footnotesize")
-        lines.append(r"  \setlength{\tabcolsep}{4pt}")
-        lines.append(f"  \\caption{{Premature Completion Rate PCR@k (\\%) on {ds_label}. "
-                     r"Steps 1–10; clean baseline vs.\ two attack cues.}}")
-        lines.append(f"  \\label{{tab:pcr_{ds_key}}}")
-        lines.append(f"  \\begin{{tabular}}{{{col_spec}}}")
-        lines.append(r"    \toprule")
-        lines.append(
-            f"    \\textbf{{Model}} & \\textbf{{Condition}} & {step_header} \\\\"
-        )
-        lines.append(r"    \midrule")
+        ds_key = {"HotpotQA": "hotpot", "2WikiMultiHopQA": "2wiki",
+                  "MuSiQue": "musique", "MultiHopRAG": "multihoprag"}[ds]
+        lines += [
+            f"% ── {ds} ──",
+            r"\begin{table}[t]",
+            r"  \centering\footnotesize\setlength{\tabcolsep}{4pt}",
+            f"  \\caption{{Wrong Gap Assessment PCR@k (\\%) on {ds}. "
+            r"Five attack cues vs.\ clean baseline; all five models.}",
+            f"  \\label{{tab:wga_{ds_key}}}",
+            f"  \\begin{{tabular}}{{{col_spec}}}",
+            r"    \toprule",
+            f"    \\textbf{{Model}} & \\textbf{{Condition}} & {step_hdr} \\\\",
+            r"    \midrule",
+        ]
 
         for mi, model in enumerate(MODELS):
             if mi > 0:
                 lines.append(r"    \midrule")
+            clean_r = rates[ds][model]["clean"]
             n_clean = counts[ds][model]["clean"]
+            for i, cond in enumerate(COND_ORDER):
+                label_s = COND_LABEL[cond]
+                r       = rates[ds][model][cond]
+                n       = counts[ds][model][cond]
+                mname   = f"\\textbf{{{LATEX_MODEL[model]}}}" if i == 0 else ""
+                n_note  = f"\\,({n_clean})" if i == 0 else ""
+                vals    = " & ".join(_pct(r[k]) for k in ks)
+                lines.append(f"    {mname}{n_note} & {label_s} & {vals} \\\\")
 
-            for i, ck in enumerate(COND_ORDER):
-                label  = COND_KEYS[ck]
-                r      = rates[ds][model][ck]
-                n      = counts[ds][model][ck]
-                mname  = f"\\textbf{{{LATEX_MODEL_DISPLAY[model]}}}" if i == 0 else ""
-                n_note = f"\\,({n})" if i == 0 else ""
-                vals   = " & ".join(_pct(r[k]) for k in SHOW_K)
-                lines.append(f"    {mname}{n_note} & {label} & {vals} \\\\")
-
-        lines.append(r"    \bottomrule")
-        lines.append(r"  \end{tabular}")
-        lines.append(r"\end{table}")
-        lines.append("")
-
-    return "\n".join(lines)
-
-
-# ── Cross-dataset summary: all steps ──────────────────────────────────────────
-def make_text_summary(rates):
-    """One block per dataset×condition, columns = steps 1–10."""
-    lines = []
-    step_header = "  ".join(f"@{k:2d}" for k in SHOW_K)
-    sep_cols    = "  ".join(["─" * 5] * len(SHOW_K))
-    width = 16 + 2 + 10 + 2 + len(step_header) + 8
-
-    lines.append(f"\n{'─' * width}")
-    lines.append("  Summary: PCR@1–10 (%) across all datasets")
-    lines.append(f"{'─' * width}")
-
-    for ds in DATASETS:
-        lines.append(f"\n  ── {ds} ──")
-        lines.append(f"  {'Model':<16}  {'Condition':<10}  {step_header}")
-        lines.append(f"  {'─'*16}  {'─'*10}  {sep_cols}")
-        for model in MODELS:
-            lines.append("")
-            for i, ck in enumerate(COND_ORDER):
-                label     = COND_KEYS[ck]
-                r         = rates[ds][model][ck]
-                n         = rates[ds][model][ck]   # reuse dict key
-                model_str = model if i == 0 else ""
-                vals      = "  ".join(f"{_pct(rates[ds][model][ck][k]):>5}" for k in SHOW_K)
-                lines.append(f"  {model_str:<16}  {label:<10}  {vals}")
-
-    lines.append(f"\n{'─' * width}")
-    return "\n".join(lines)
-
-
-def make_latex_summary(rates, counts):
-    """Cross-dataset summary: one sub-table per dataset, rows = model×condition, cols = @1–@10."""
-    col_spec = "ll" + "r" * len(SHOW_K)
-    step_header = " & ".join(f"\\textbf{{@{k}}}" for k in SHOW_K)
-
-    lines = []
-    lines.append(r"% ── Cross-dataset PCR@1–10 summary ─────────────────────────────────────────")
-    lines.append(r"% Auto-generated by generate_tables.py")
-    lines.append(r"% Four tables (one per dataset), same format as per-dataset tables.")
-    lines.append("")
-
-    for ds in DATASETS:
-        ds_key = ds.lower().replace(" ", "_").replace("multihopqa", "mhqa")
-        lines.append(f"% ── {ds} (summary) ──")
-        lines.append(r"\begin{table}[t]")
-        lines.append(r"  \centering")
-        lines.append(r"  \footnotesize")
-        lines.append(r"  \setlength{\tabcolsep}{4pt}")
-        lines.append(f"  \\caption{{PCR@k (\\%) on {ds}. Steps 1–10; "
-                     r"clean baseline and two attack cues.}}")
-        lines.append(f"  \\label{{tab:summary_{ds_key}}}")
-        lines.append(f"  \\begin{{tabular}}{{{col_spec}}}")
-        lines.append(r"    \toprule")
-        lines.append(f"    \\textbf{{Model}} & \\textbf{{Condition}} & {step_header} \\\\")
-        lines.append(r"    \midrule")
-
-        for mi, model in enumerate(MODELS):
-            if mi > 0:
-                lines.append(r"    \midrule")
-            n_clean = counts[ds][model]["clean"]
-            for i, ck in enumerate(COND_ORDER):
-                label  = COND_KEYS[ck]
-                r      = rates[ds][model][ck]
-                n      = counts[ds][model][ck]
-                mname  = f"\\textbf{{{LATEX_MODEL_DISPLAY[model]}}}" if i == 0 else ""
-                n_note = f"\\,({n})" if i == 0 else ""
-                vals   = " & ".join(_pct(r[k]) for k in SHOW_K)
-                lines.append(f"    {mname}{n_note} & {label} & {vals} \\\\")
-
-        lines.append(r"    \bottomrule")
-        lines.append(r"  \end{tabular}")
-        lines.append(r"\end{table}")
-        lines.append("")
+        lines += [r"    \bottomrule", r"  \end{tabular}", r"\end{table}", ""]
 
     return "\n".join(lines)
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
+
 if __name__ == "__main__":
     print("Loading data …")
-    rates, counts = load_data()
+    rates, counts, max_step = load_data()
+    print(f"Max completion step observed: {max_step}")
 
-    # Per-dataset tables
-    txt_per_ds = make_text_per_dataset(rates, counts)
-    tex_per_ds = make_latex_per_dataset(rates, counts)
+    txt = make_text_table(rates, counts, max_step)
+    tex = make_latex_table(rates, counts, max_step)
 
-    # Summary table
-    txt_summary = make_text_summary(rates)
-    tex_summary = make_latex_summary(rates, counts)
-
-    # Write files
     for fname, content in [
-        ("pcr_per_dataset.txt", txt_per_ds),
-        ("pcr_per_dataset.tex", tex_per_ds),
-        ("pcr_summary.txt",     txt_summary),
-        ("pcr_summary.tex",     tex_summary),
+        ("wga_per_dataset.txt", txt),
+        ("wga_per_dataset.tex", tex),
     ]:
         path = os.path.join(OUT_DIR, fname)
         with open(path, "w") as f:
             f.write(content + "\n")
         print(f"  saved: {path}")
 
-    # Also print plain-text to stdout
-    print(txt_per_ds)
-    print(txt_summary)
+    print(txt)

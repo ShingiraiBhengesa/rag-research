@@ -529,24 +529,34 @@ def j_reflect_content_margin_msgs(model, tok, device, msgs, resolved_text, missi
 def rollout_n_steps(model, tok, device, topic, observation, n_steps=3, sys_prompt=None,
                      placeholder_result="No new relevant information was found.",
                      search_fn=None):
-    """Generalizes rollout_to_decision: continues the simulated tool loop for up to
-    n_steps decisions instead of stopping at the first non-THINK_TOOL one. think_tool
-    turns echo their own reflection back as the tool result (same as
-    rollout_to_decision); tavily_search turns get a fixed neutral placeholder_result
-    fed back as the synthetic tool result, since this harness has no real Tavily
-    backend (matches the run-book's note that Stage 1 stubs continuation and real
-    search-loop continuation is a Stage 2 concern). Returns (decisions, gens, final_msgs)
-    where decisions is the list of parsed decisions at each step (length <= n_steps,
-    stops early once a PREMATURE decision is reached) -- DelayedPCR@k is then
-    `any(d in PREMATURE for d in decisions[:k])`."""
+    """Continues the simulated tool loop for up to n_steps decisions, stopping early on
+    the first PREMATURE (RESEARCH_COMPLETE / DIRECT_ANSWER) or OTHER decision.
+
+    THINK_TOOL turns echo their own reflection back as the tool result.
+    SEARCH_CONTINUE turns call search_fn(query) when provided, otherwise use
+    placeholder_result.
+
+    Returns (decisions, gens, final_msgs, step_trace) where:
+      decisions  : list[str] of parsed decision labels, length <= n_steps
+      gens       : list[str] of raw model generations, same length
+      final_msgs : the full message list after the last turn
+      step_trace : list[dict] with one entry per step:
+                     {"step": int (1-indexed),
+                      "action": str,
+                      "argument": str | None,   # query or reflection; null for terminal
+                      "result_fed_back": str | None}  # what was appended as tool result
+    PCR@k = any(d in PREMATURE for d in decisions[:k])
+    """
     msgs = build_msgs(topic, observation, sys_prompt=sys_prompt)
-    decisions, gens = [], []
+    decisions, gens, step_trace = [], [], []
     for step in range(n_steps):
         gen = generate_from_msgs(model, tok, device, msgs)
         decision = parse_decision(gen)
         decisions.append(decision)
         gens.append(gen)
         if decision in PREMATURE or decision == "OTHER":
+            step_trace.append({"step": step + 1, "action": decision,
+                                "argument": None, "result_fed_back": None})
             break
         if decision == "THINK_TOOL":
             reflection = extract_reflection(gen) or ""
@@ -556,6 +566,8 @@ def rollout_n_steps(model, tok, device, topic, observation, n_steps=3, sys_promp
                 ]},
                 {"role": "tool", "content": reflection},
             ]
+            step_trace.append({"step": step + 1, "action": "THINK_TOOL",
+                                "argument": reflection, "result_fed_back": reflection})
         else:  # SEARCH_CONTINUE
             query = extract_next_query(gen) or topic
             query_str = query[0] if isinstance(query, list) else query
@@ -566,4 +578,6 @@ def rollout_n_steps(model, tok, device, topic, observation, n_steps=3, sys_promp
                 ]},
                 {"role": "tool", "content": search_result},
             ]
-    return decisions, gens, msgs
+            step_trace.append({"step": step + 1, "action": "SEARCH_CONTINUE",
+                                "argument": query_str, "result_fed_back": search_result})
+    return decisions, gens, msgs, step_trace
