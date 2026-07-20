@@ -347,6 +347,23 @@ if __name__ == "__main__":
     print("=== Collecting PCR data with intersection-aligned eligible sets ===")
     data = collect_all()
 
+    # Suppress CO conditions that are not yet complete.
+    # A CO run is complete when its eligible count is >= 90% of the clean eligible
+    # count for that (model, dataset). Partial runs would bias PCR@k downward because
+    # early-terminating examples accumulate first; suppressing them avoids reporting
+    # misleading intermediate numbers.
+    print("\n=== Completeness check (suppressing partial CO conditions) ===")
+    for model_label, _ in MODELS:
+        for ds in DATASETS:
+            expected_n = len(data.get((model_label, ds, "clean"), []))
+            threshold  = 0.90 * expected_n
+            for co_cond in CO_CONDITIONS:
+                co_n = len(data.get((model_label, ds, co_cond), []))
+                if 0 < co_n < threshold:
+                    print(f"  SUPPRESSED {model_label} / {ds} / {co_cond}: "
+                          f"n={co_n} < 90% of expected {expected_n}")
+                    data[(model_label, ds, co_cond)] = []
+
     print("\n=== Writing tables ===")
     md   = make_markdown(data)
     html = make_html(data)
