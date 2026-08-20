@@ -43,6 +43,38 @@ whitebox_results/ddg_cache/
 # Generated tables (reproducible via generate_tables.py from JSONL sources)
 whitebox_results/tables/
 
+# Runtime traces, backups, and local scratch files
+whitebox_results/traces/
+whitebox_results/*.bak
+whitebox_results/*.jsonl.bak
+=0.12.0
+.local_quarantine/
+
+# Paper PCR runtime-only artifacts
+whitebox_paper_results/pcr_full_completion_v1/ddg_cache/
+whitebox_paper_results/pcr_full_completion_v1/logs/
+
+# PCR@60 continuation/follow-up matrix artifacts are local until finalized.
+whitebox_paper_results/pcr_full_completion_v2_60/
+whitebox_attack/generate_cluster_full_matrix.py
+whitebox_attack/submit_cluster_full_matrix.py
+whitebox_attack/extend_pcr_traces.py
+whitebox_attack/merge_pcr60_outputs.py
+
+# Full-system end-to-end experiments are quarantined local-only for now.
+whitebox_paper_results/e2e_full_system*/
+whitebox_paper_results/e2e_final_answer*/
+whitebox_attack/*full_system*.py
+whitebox_attack/run_e2e_final_answers.py
+whitebox_attack/smoke_e2e_final_report_generation.py
+whitebox_attack/submit_full_system_cluster_matrix.py
+whitebox_attack/plot_full_system_pcr_cdf.py
+
+# Scratch outputs from pre-paper whitebox result runs.
+whitebox_results/figures/wga_*_by_model.png
+whitebox_results/*_v2.jsonl
+whitebox_results/final_wga_cueonly_gemma27b.jsonl
+
 # Claude Code internal metadata
 .claude/
 
