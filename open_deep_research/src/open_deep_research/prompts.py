@@ -246,11 +246,12 @@ Here are the findings from the research that you conducted:
 </Findings>
 
 Please create a detailed answer to the overall research brief that:
-1. Is well-organized with proper headings (# for title, ## for sections, ### for subsections)
-2. Includes specific facts and insights from the research
-3. References relevant sources using [Title](URL) format
-4. Provides a balanced, thorough analysis. Be as comprehensive as possible, and include all information that is relevant to the overall research question. People are using you for deep research and will expect detailed, comprehensive answers.
-5. Includes a "Sources" section at the end with all referenced links
+1. Starts with a single first line in the form `Answer: <concise direct answer>`
+2. Is well-organized with proper headings (# for title, ## for sections, ### for subsections)
+3. Includes specific facts and insights from the research
+4. References relevant sources using [Title](URL) format
+5. Provides a balanced, thorough analysis. Be as comprehensive as possible, and include all information that is relevant to the overall research question. People are using you for deep research and will expect detailed, comprehensive answers.
+6. Includes a "Sources" section at the end with all referenced links
 
 You can structure your report in a number of different ways. Here are some examples:
 

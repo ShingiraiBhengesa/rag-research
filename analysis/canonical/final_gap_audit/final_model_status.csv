@@ -1,0 +1,6 @@
+model,display_name,planned_shards,existing_shard_files,completed_shards,valid_rows,pcr_eligible_rows,answer_evaluated_rows,active_jobs,queued_jobs,failed_jobs,permanent_blockers,status_label
+qwen14b,Qwen2.5-14B-Instruct,432,432,432,21576,21408,21523,0,0,"n/a (fully completed, no active/queued jobs in squeue)",none,INCLUDED_COMPLETE
+llama8b,Llama-3.1-8B-Instruct,432,432,432,20971,19696,20902,0,0,"n/a (fully completed, no active/queued jobs in squeue)",none,INCLUDED_COMPLETE
+gemma27b,Gemma-3-27B-IT,432,414,414,not computed (excluded from canonical scope while active),not computed (excluded from canonical scope while active),not computed (excluded from canonical scope while active),1,18,0,none -- actively backfilling multihoprag (job 147621),PARTIAL_ACTIVE
+gpt_oss_20b,GPT-OSS-20B,432,0,0,0,0,0,0,432,1,"all 4 production arrays carry afterok:149854_* dependency on v3_recovery_gate_gpt_oss_20b, which FAILED 2026-09-08 and was never resubmitted -- DependencyNeverSatisfied, permanent without human action (see PUBLISHING.md)",BLOCKED
+qwen7b,Qwen2.5-7B-Instruct,"n/a (pipeline-validation only, not part of the 4-model final production matrix)",30,30,not separately recomputed (quarantined),n/a,n/a,0,0,0,n/a -- deliberately excluded from final study; data quarantined at production/quarantine/qwen7b_pipeline_validation_20260828_174947/,VALIDATION_ONLY

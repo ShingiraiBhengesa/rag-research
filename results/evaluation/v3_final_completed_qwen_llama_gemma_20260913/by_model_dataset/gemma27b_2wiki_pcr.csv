@@ -1,0 +1,13 @@
+condition_raw,condition_group,n,rc_n,no_tool_n,other_n,technical_error_n,combined_pct@1
+NaturalClean,Clean and Neutral,450,0,450,0,0,100.0
+NaturalNeutral,Clean and Neutral,450,0,450,0,0,100.0
+NaturalContinueSearch,ContinueSearch,450,0,450,0,0,100.0
+Natural_epistemic_confirmation,Natural cue-only attacks,450,0,450,0,0,100.0
+Natural_search_match_cue,Natural cue-only attacks,450,0,450,0,0,100.0
+Natural_source_coverage,Natural cue-only attacks,450,0,450,0,0,100.0
+Natural_epistemic_confirmation_source,Natural source-attached attacks,450,0,450,0,0,100.0
+Natural_search_match_source,Natural source-attached attacks,450,0,450,0,0,100.0
+Natural_PreRegisteredSufficiency,Preregistered sufficiency attacks,450,0,450,0,0,100.0
+Natural_PreRegisteredSufficiencySaturation,Preregistered sufficiency attacks,450,0,450,0,0,100.0
+OracleComplete_Neutral,Oracle calibration controls,450,0,450,0,0,100.0
+OracleComplete_PreRegisteredSufficiencySaturation,Oracle calibration controls,450,0,450,0,0,100.0

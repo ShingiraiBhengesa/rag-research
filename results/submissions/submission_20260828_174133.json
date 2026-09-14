@@ -1,0 +1,97 @@
+{
+  "initial_squeue": {
+    "cmd": [
+      "squeue",
+      "-j",
+      "145782,145783,145784,145785"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)\n  145785_[0-107%1]    ccstar v3_multi sbhenges PD       0:00      1 (None)\n  145784_[0-107%1]    ccstar v3_musiq sbhenges PD       0:00      1 (None)\n  145783_[0-107%1]    ccstar v3_2wiki sbhenges PD       0:00      1 (None)\n  145782_[0-107%1]    ccstar v3_hotpo sbhenges PD       0:00      1 (None)\n"
+  },
+  "jobs": [
+    {
+      "job_id": "145782",
+      "job_name": "v3_hotpot_qwen14b",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_hotpotqa_qwen14b.sbatch"
+    },
+    {
+      "job_id": "145783",
+      "job_name": "v3_2wiki_qwen14b",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_2wiki_qwen14b.sbatch"
+    },
+    {
+      "job_id": "145784",
+      "job_name": "v3_musique_qwen14b",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_musique_qwen14b.sbatch"
+    },
+    {
+      "job_id": "145785",
+      "job_name": "v3_multihoprag_qwen14b",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_multihoprag_qwen14b.sbatch"
+    }
+  ],
+  "schema_version": "v3_submission_v1",
+  "skipped_active_jobs": [
+    {
+      "job_name": "v3_hotpot_gemma27b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_hotpotqa_gemma27b.sbatch"
+    },
+    {
+      "job_name": "v3_hotpot_gpt_oss_20b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_hotpotqa_gpt_oss_20b.sbatch"
+    },
+    {
+      "job_name": "v3_hotpot_llama8b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_hotpotqa_llama8b.sbatch"
+    },
+    {
+      "job_name": "v3_2wiki_gemma27b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_2wiki_gemma27b.sbatch"
+    },
+    {
+      "job_name": "v3_2wiki_gpt_oss_20b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_2wiki_gpt_oss_20b.sbatch"
+    },
+    {
+      "job_name": "v3_2wiki_llama8b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_2wiki_llama8b.sbatch"
+    },
+    {
+      "job_name": "v3_musique_gemma27b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_musique_gemma27b.sbatch"
+    },
+    {
+      "job_name": "v3_musique_gpt_oss_20b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_musique_gpt_oss_20b.sbatch"
+    },
+    {
+      "job_name": "v3_musique_llama8b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_musique_llama8b.sbatch"
+    },
+    {
+      "job_name": "v3_multihoprag_gemma27b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_multihoprag_gemma27b.sbatch"
+    },
+    {
+      "job_name": "v3_multihoprag_gpt_oss_20b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_multihoprag_gpt_oss_20b.sbatch"
+    },
+    {
+      "job_name": "v3_multihoprag_llama8b",
+      "reason": "already_active",
+      "script": "whitebox_paper_results/e2e_full_system_v3/production/sbatch/run_v3_multihoprag_llama8b.sbatch"
+    }
+  ]
+}

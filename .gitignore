@@ -24,63 +24,94 @@ eval_data/
 *.egg-info/
 dist/
 build/
+.pytest_cache/
 
 # SLURM job logs and per-run output (stdout/stderr, not part of the codebase)
 open_deep_research/logs/
-whitebox_attack/logs/
+attack/logs/
 *.out
 *.err
 
-# Archived / superseded attack scripts (exploratory work not in final paper)
-whitebox_attack/archive/
-
-# Archived / superseded result files
-whitebox_results/archive/
-
 # DuckDuckGo search cache (runtime, reproducible on demand)
-whitebox_results/ddg_cache/
-
-# Generated tables (reproducible via generate_tables.py from JSONL sources)
-whitebox_results/tables/
+results/ddg_cache/
 
 # Runtime traces, backups, and local scratch files
-whitebox_results/traces/
-whitebox_results/*.bak
-whitebox_results/*.jsonl.bak
-=0.12.0
+results/*.bak
+results/*.jsonl.bak
 .local_quarantine/
 
-# Paper PCR runtime-only artifacts
-whitebox_paper_results/pcr_full_completion_v1/ddg_cache/
-whitebox_paper_results/pcr_full_completion_v1/logs/
+# Full-system raw production artifacts are local-only (traces, per-shard
+# scratch, caches). The final matrix, launch records, and aggregate reports
+# are small enough to publish, so they're explicitly un-ignored below.
+results/*
+!results/matrix/
+results/matrix/*
+!results/matrix/v3_final_production_matrix.json
+!results/prelaunch/
+results/prelaunch/*
+!results/prelaunch/PRELAUNCH_REPORT.json
+!results/submissions/
+results/submissions/*
+!results/submissions/submission_*.json
+!results/evaluation/
+results/evaluation/*
+!results/evaluation/final_production/
+results/evaluation/final_production/*
+!results/evaluation/final_production/*.csv
+!results/evaluation/final_production/*.json
+!results/evaluation/final_production/*.md
 
-# PCR@60 continuation/follow-up matrix artifacts are local until finalized.
-whitebox_paper_results/pcr_full_completion_v2_60/
-whitebox_attack/generate_cluster_full_matrix.py
-whitebox_attack/submit_cluster_full_matrix.py
-whitebox_attack/extend_pcr_traces.py
-whitebox_attack/merge_pcr60_outputs.py
+# v3_final_completed_qwen_llama_gemma_20260913/ mixes small aggregate tables
+# (pcr/, statistics/, by_model_dataset/, answers/final_answer_summary.csv --
+# a few hundred KB total, the actual paper-facing outputs) with large raw
+# per-row/per-example dumps (answers/final_answer_predictions.jsonl at 99M;
+# evidence/*.csv at ~320k and ~64k rows; audits/* row/violation-level audit
+# CSVs) that are fully reproducible from traces + code via `analysis.cli`
+# and don't belong in git. Only the aggregates are un-ignored below.
+!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/
+results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/*
+!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/pcr/
+!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/statistics/
+!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/by_model_dataset/
+!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/answers/
+results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/answers/*
+!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/answers/final_answer_summary.csv
 
-# Full-system end-to-end experiments are quarantined local-only for now.
-whitebox_paper_results/e2e_full_system*/
-whitebox_paper_results/e2e_final_answer*/
-whitebox_attack/*full_system*.py
-whitebox_attack/run_e2e_final_answers.py
-whitebox_attack/smoke_e2e_final_report_generation.py
-whitebox_attack/submit_full_system_cluster_matrix.py
-whitebox_attack/plot_full_system_pcr_cdf.py
+# analysis/canonical/ is otherwise a small, fully-tracked code+writeup
+# package, but a handful of raw per-row audit outputs (43k-65k rows each,
+# 1.8M-6.2M) and one provenance zip bundle ended up sitting alongside it.
+# All are reproducible on demand from results/ via their generating script
+# (canonical_completion.py, retrieval_equivalence.py,
+# final_gap_audit/direct_exit_content_audit.py) and aren't needed to verify
+# any claim in the small aggregate tables that ARE tracked -- ignore only
+# these specific files, not the directories they live in.
+analysis/canonical/canonical_run_level_completion.csv
+analysis/canonical/all_models_20260913/canonical_run_level_completion.csv
+analysis/canonical/retrieval_equivalence_by_pair.csv
+analysis/canonical/final_gap_audit/direct_exit_content_audit.csv
+analysis/canonical/final_gap_audit/chapter3_final_gap_audit_bundle.zip
+analysis/canonical/gemma27b_analysis/gemma27b_direct_exit_content_audit.csv
 
-# Scratch outputs from pre-paper whitebox result runs.
-whitebox_results/figures/wga_*_by_model.png
-whitebox_results/*_v2.jsonl
-whitebox_results/final_wga_cueonly_gemma27b.jsonl
+# Archived/superseded code and result directories -- kept on local disk for
+# provenance, but not tracked in git at all (large raw data plus superseded
+# code that would otherwise clutter the publishable tree).
+archive/
 
-# Claude Code internal metadata
+# Chapter-3-methodology audit trail: git-status/inventory snapshots and zip
+# bundles used locally to verify each reorganization pass was behavior-
+# preserving, and as the restore source for PRELAUNCH_REPORT.json /
+# v3_final_production_matrix.json if a --mode generate/validate re-run
+# overwrites them (see PUBLISHING.md, "Provenance preservation"). Audit
+# trail, not a paper deliverable -- kept on local disk, not git-tracked.
+chapter3_methodology_audit/
+
+# Claude Code internal metadata, and other local agent-tool config dirs
+# unrelated to the paper (empty placeholders some tools create on disk).
 .claude/
+.agents/
+.codex/
 
-# Cluster-only directories (large data / code not needed for paper reproducibility)
+# Cluster-only directories unrelated to this project's ODR/attack line of work
 adaptive-rag/
-attack/
-results/
-scripts/
 self-rag/
+scripts/

@@ -1,0 +1,193 @@
+model,dataset,condition,applicable,manifest_n,launched_n,completed_n,valid_n,pcr_eligible_n,answer_evaluated_n,strictly_paired_n_vs_NaturalClean,status,exclusion_reason
+llama8b,2wiki,NaturalClean,True,450,450,450,444,431,444,0,COMPLETE — FULL DATASET,
+llama8b,2wiki,NaturalContinueSearch,True,450,450,450,442,428,442,304,COMPLETE — FULL DATASET,
+llama8b,2wiki,NaturalNeutral,True,450,450,450,442,434,442,302,COMPLETE — FULL DATASET,
+llama8b,2wiki,Natural_PreRegisteredSufficiency,True,450,450,450,444,440,444,87,COMPLETE — FULL DATASET,
+llama8b,2wiki,Natural_PreRegisteredSufficiencySaturation,True,450,450,450,444,440,444,87,COMPLETE — FULL DATASET,
+llama8b,2wiki,Natural_epistemic_confirmation,True,450,450,450,442,431,442,302,COMPLETE — FULL DATASET,
+llama8b,2wiki,Natural_epistemic_confirmation_source,True,450,450,450,444,441,444,87,COMPLETE — FULL DATASET,
+llama8b,2wiki,Natural_search_match_cue,True,450,450,450,442,432,442,302,COMPLETE — FULL DATASET,
+llama8b,2wiki,Natural_search_match_source,True,450,450,450,444,440,444,87,COMPLETE — FULL DATASET,
+llama8b,2wiki,Natural_source_coverage,True,450,450,450,442,435,442,265,COMPLETE — FULL DATASET,
+llama8b,2wiki,OracleComplete_Neutral,True,450,450,450,444,436,444,0,COMPLETE — FULL DATASET,
+llama8b,2wiki,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,450,444,440,444,0,COMPLETE — FULL DATASET,
+llama8b,hotpot,NaturalClean,True,450,450,450,440,425,440,0,COMPLETE — FULL DATASET,
+llama8b,hotpot,NaturalContinueSearch,True,450,450,450,437,418,437,299,COMPLETE — FULL DATASET,
+llama8b,hotpot,NaturalNeutral,True,450,450,450,437,426,437,299,COMPLETE — FULL DATASET,
+llama8b,hotpot,Natural_PreRegisteredSufficiency,True,450,450,450,440,429,440,51,COMPLETE — FULL DATASET,
+llama8b,hotpot,Natural_PreRegisteredSufficiencySaturation,True,450,450,450,440,428,440,51,COMPLETE — FULL DATASET,
+llama8b,hotpot,Natural_epistemic_confirmation,True,450,450,450,437,429,437,299,COMPLETE — FULL DATASET,
+llama8b,hotpot,Natural_epistemic_confirmation_source,True,450,450,450,440,426,440,51,COMPLETE — FULL DATASET,
+llama8b,hotpot,Natural_search_match_cue,True,450,450,450,437,430,437,299,COMPLETE — FULL DATASET,
+llama8b,hotpot,Natural_search_match_source,True,450,450,450,440,427,440,51,COMPLETE — FULL DATASET,
+llama8b,hotpot,Natural_source_coverage,True,450,450,450,439,428,439,73,COMPLETE — FULL DATASET,
+llama8b,hotpot,OracleComplete_Neutral,True,450,450,450,438,431,438,0,COMPLETE — FULL DATASET,
+llama8b,hotpot,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,450,437,426,437,0,COMPLETE — FULL DATASET,
+llama8b,multihoprag,NaturalClean,True,450,450,450,428,419,428,0,COMPLETE — FULL DATASET,
+llama8b,multihoprag,NaturalContinueSearch,True,450,450,450,429,423,429,367,COMPLETE — FULL DATASET,
+llama8b,multihoprag,NaturalNeutral,True,450,450,450,429,424,429,367,COMPLETE — FULL DATASET,
+llama8b,multihoprag,Natural_PreRegisteredSufficiency,True,450,450,450,435,296,435,173,COMPLETE — FULL DATASET,
+llama8b,multihoprag,Natural_PreRegisteredSufficiencySaturation,True,450,450,450,435,284,435,173,COMPLETE — FULL DATASET,
+llama8b,multihoprag,Natural_epistemic_confirmation,True,450,450,450,429,381,429,367,COMPLETE — FULL DATASET,
+llama8b,multihoprag,Natural_epistemic_confirmation_source,True,450,450,450,435,344,435,173,COMPLETE — FULL DATASET,
+llama8b,multihoprag,Natural_search_match_cue,True,450,450,450,429,301,429,367,COMPLETE — FULL DATASET,
+llama8b,multihoprag,Natural_search_match_source,True,450,450,450,435,285,435,173,COMPLETE — FULL DATASET,
+llama8b,multihoprag,Natural_source_coverage,True,450,450,450,431,426,431,287,COMPLETE — FULL DATASET,
+llama8b,multihoprag,OracleComplete_Neutral,True,450,450,450,435,430,435,0,COMPLETE — FULL DATASET,
+llama8b,multihoprag,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,450,433,289,433,0,COMPLETE — FULL DATASET,
+llama8b,musique,NaturalClean,True,450,450,450,438,425,438,0,COMPLETE — FULL DATASET,
+llama8b,musique,NaturalContinueSearch,True,450,450,450,436,421,436,328,COMPLETE — FULL DATASET,
+llama8b,musique,NaturalNeutral,True,450,450,450,436,421,436,328,COMPLETE — FULL DATASET,
+llama8b,musique,Natural_PreRegisteredSufficiency,True,450,450,450,432,420,432,46,COMPLETE — FULL DATASET,
+llama8b,musique,Natural_PreRegisteredSufficiencySaturation,True,450,450,450,432,419,432,46,COMPLETE — FULL DATASET,
+llama8b,musique,Natural_epistemic_confirmation,True,450,450,450,436,426,436,328,COMPLETE — FULL DATASET,
+llama8b,musique,Natural_epistemic_confirmation_source,True,450,450,450,432,420,432,46,COMPLETE — FULL DATASET,
+llama8b,musique,Natural_search_match_cue,True,450,450,450,436,426,436,328,COMPLETE — FULL DATASET,
+llama8b,musique,Natural_search_match_source,True,450,450,450,432,418,432,46,COMPLETE — FULL DATASET,
+llama8b,musique,Natural_source_coverage,True,450,450,450,434,420,434,48,COMPLETE — FULL DATASET,
+llama8b,musique,OracleComplete_Neutral,True,450,450,450,431,412,431,0,COMPLETE — FULL DATASET,
+llama8b,musique,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,450,433,415,433,0,COMPLETE — FULL DATASET,
+qwen14b,2wiki,NaturalClean,True,450,450,450,450,444,450,0,COMPLETE — FULL DATASET,
+qwen14b,2wiki,NaturalContinueSearch,True,450,450,450,450,444,450,354,COMPLETE — FULL DATASET,
+qwen14b,2wiki,NaturalNeutral,True,450,450,450,450,448,450,360,COMPLETE — FULL DATASET,
+qwen14b,2wiki,Natural_PreRegisteredSufficiency,True,450,450,450,449,449,449,73,COMPLETE — FULL DATASET,
+qwen14b,2wiki,Natural_PreRegisteredSufficiencySaturation,True,450,450,450,449,449,449,72,COMPLETE — FULL DATASET,
+qwen14b,2wiki,Natural_epistemic_confirmation,True,450,450,450,450,449,450,359,COMPLETE — FULL DATASET,
+qwen14b,2wiki,Natural_epistemic_confirmation_source,True,450,450,450,450,446,450,68,COMPLETE — FULL DATASET,
+qwen14b,2wiki,Natural_search_match_cue,True,450,450,450,450,447,450,73,COMPLETE — FULL DATASET,
+qwen14b,2wiki,Natural_search_match_source,True,450,450,450,449,449,449,72,COMPLETE — FULL DATASET,
+qwen14b,2wiki,Natural_source_coverage,True,450,450,450,450,446,450,67,COMPLETE — FULL DATASET,
+qwen14b,2wiki,OracleComplete_Neutral,True,450,450,450,450,449,450,0,COMPLETE — FULL DATASET,
+qwen14b,2wiki,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,450,450,448,450,0,COMPLETE — FULL DATASET,
+qwen14b,hotpot,NaturalClean,True,450,450,450,450,443,450,0,COMPLETE — FULL DATASET,
+qwen14b,hotpot,NaturalContinueSearch,True,450,450,450,450,444,450,352,COMPLETE — FULL DATASET,
+qwen14b,hotpot,NaturalNeutral,True,450,450,450,450,444,450,353,COMPLETE — FULL DATASET,
+qwen14b,hotpot,Natural_PreRegisteredSufficiency,True,450,450,450,450,446,450,77,COMPLETE — FULL DATASET,
+qwen14b,hotpot,Natural_PreRegisteredSufficiencySaturation,True,450,450,450,450,447,450,77,COMPLETE — FULL DATASET,
+qwen14b,hotpot,Natural_epistemic_confirmation,True,450,450,450,450,446,450,161,COMPLETE — FULL DATASET,
+qwen14b,hotpot,Natural_epistemic_confirmation_source,True,450,450,450,450,446,450,81,COMPLETE — FULL DATASET,
+qwen14b,hotpot,Natural_search_match_cue,True,450,450,450,450,446,450,80,COMPLETE — FULL DATASET,
+qwen14b,hotpot,Natural_search_match_source,True,450,450,450,449,448,449,77,COMPLETE — FULL DATASET,
+qwen14b,hotpot,Natural_source_coverage,True,450,450,450,450,444,450,80,COMPLETE — FULL DATASET,
+qwen14b,hotpot,OracleComplete_Neutral,True,450,450,450,447,443,447,0,COMPLETE — FULL DATASET,
+qwen14b,hotpot,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,450,450,446,450,0,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,NaturalClean,True,450,450,450,450,449,450,0,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,NaturalContinueSearch,True,450,450,450,450,450,450,102,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,NaturalNeutral,True,450,450,450,450,450,450,335,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,Natural_PreRegisteredSufficiency,True,450,450,450,450,449,450,76,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,Natural_PreRegisteredSufficiencySaturation,True,450,450,450,450,450,450,76,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,Natural_epistemic_confirmation,True,450,450,450,450,450,450,100,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,Natural_epistemic_confirmation_source,True,450,450,450,450,449,450,76,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,Natural_search_match_cue,True,450,450,450,449,449,449,101,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,Natural_search_match_source,True,450,450,450,450,449,450,76,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,Natural_source_coverage,True,450,450,450,450,449,450,92,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,OracleComplete_Neutral,True,450,450,450,450,450,450,0,COMPLETE — FULL DATASET,
+qwen14b,multihoprag,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,450,450,450,450,0,COMPLETE — FULL DATASET,
+qwen14b,musique,NaturalClean,True,450,450,450,450,441,450,0,COMPLETE — FULL DATASET,
+qwen14b,musique,NaturalContinueSearch,True,450,450,450,448,443,448,222,COMPLETE — FULL DATASET,
+qwen14b,musique,NaturalNeutral,True,450,450,450,449,441,449,426,COMPLETE — FULL DATASET,
+qwen14b,musique,Natural_PreRegisteredSufficiency,True,450,450,450,448,443,448,53,COMPLETE — FULL DATASET,
+qwen14b,musique,Natural_PreRegisteredSufficiencySaturation,True,450,450,450,448,441,448,51,COMPLETE — FULL DATASET,
+qwen14b,musique,Natural_epistemic_confirmation,True,450,450,450,450,447,450,87,COMPLETE — FULL DATASET,
+qwen14b,musique,Natural_epistemic_confirmation_source,True,450,450,450,448,438,448,54,COMPLETE — FULL DATASET,
+qwen14b,musique,Natural_search_match_cue,True,450,450,450,449,444,449,84,COMPLETE — FULL DATASET,
+qwen14b,musique,Natural_search_match_source,True,450,450,450,448,442,448,58,COMPLETE — FULL DATASET,
+qwen14b,musique,Natural_source_coverage,True,450,450,450,448,442,448,56,COMPLETE — FULL DATASET,
+qwen14b,musique,OracleComplete_Neutral,True,450,450,450,449,440,449,0,COMPLETE — FULL DATASET,
+qwen14b,musique,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,450,449,441,449,0,COMPLETE — FULL DATASET,
+gemma27b,hotpot,NaturalClean,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,hotpot,NaturalContinueSearch,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,hotpot,NaturalNeutral,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,hotpot,Natural_PreRegisteredSufficiency,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,hotpot,Natural_PreRegisteredSufficiencySaturation,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,hotpot,Natural_epistemic_confirmation,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,hotpot,Natural_epistemic_confirmation_source,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,hotpot,Natural_search_match_cue,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,hotpot,Natural_search_match_source,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,hotpot,Natural_source_coverage,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,hotpot,OracleComplete_Neutral,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,hotpot,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,NaturalClean,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,NaturalContinueSearch,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,NaturalNeutral,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,Natural_PreRegisteredSufficiency,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,Natural_PreRegisteredSufficiencySaturation,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,Natural_epistemic_confirmation,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,Natural_epistemic_confirmation_source,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,Natural_search_match_cue,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,Natural_search_match_source,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,Natural_source_coverage,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,OracleComplete_Neutral,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,2wiki,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,NaturalClean,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,NaturalContinueSearch,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,NaturalNeutral,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,Natural_PreRegisteredSufficiency,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,Natural_PreRegisteredSufficiencySaturation,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,Natural_epistemic_confirmation,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,Natural_epistemic_confirmation_source,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,Natural_search_match_cue,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,Natural_search_match_source,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,Natural_source_coverage,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,OracleComplete_Neutral,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,musique,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,not computed per-condition (active job),,,,,COMPLETE_NOT_YET_ANALYZED,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,NaturalClean,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,NaturalContinueSearch,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,NaturalNeutral,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,Natural_PreRegisteredSufficiency,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,Natural_PreRegisteredSufficiencySaturation,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,Natural_epistemic_confirmation,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,Natural_epistemic_confirmation_source,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,Natural_search_match_cue,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,Natural_search_match_source,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,Natural_source_coverage,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,OracleComplete_Neutral,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gemma27b,multihoprag,OracleComplete_PreRegisteredSufficiencySaturation,True,450,450,not computed per-condition (active job),,,,,PARTIAL_ACTIVE,excluded from canonical computation: production matrix still active
+gpt_oss_20b,hotpot,NaturalClean,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,hotpot,NaturalContinueSearch,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,hotpot,NaturalNeutral,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,hotpot,Natural_PreRegisteredSufficiency,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,hotpot,Natural_PreRegisteredSufficiencySaturation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,hotpot,Natural_epistemic_confirmation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,hotpot,Natural_epistemic_confirmation_source,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,hotpot,Natural_search_match_cue,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,hotpot,Natural_search_match_source,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,hotpot,Natural_source_coverage,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,hotpot,OracleComplete_Neutral,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,hotpot,OracleComplete_PreRegisteredSufficiencySaturation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,NaturalClean,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,NaturalContinueSearch,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,NaturalNeutral,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,Natural_PreRegisteredSufficiency,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,Natural_PreRegisteredSufficiencySaturation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,Natural_epistemic_confirmation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,Natural_epistemic_confirmation_source,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,Natural_search_match_cue,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,Natural_search_match_source,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,Natural_source_coverage,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,OracleComplete_Neutral,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,2wiki,OracleComplete_PreRegisteredSufficiencySaturation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,NaturalClean,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,NaturalContinueSearch,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,NaturalNeutral,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,Natural_PreRegisteredSufficiency,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,Natural_PreRegisteredSufficiencySaturation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,Natural_epistemic_confirmation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,Natural_epistemic_confirmation_source,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,Natural_search_match_cue,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,Natural_search_match_source,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,Natural_source_coverage,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,OracleComplete_Neutral,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,musique,OracleComplete_PreRegisteredSufficiencySaturation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,NaturalClean,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,NaturalContinueSearch,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,NaturalNeutral,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,Natural_PreRegisteredSufficiency,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,Natural_PreRegisteredSufficiencySaturation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,Natural_epistemic_confirmation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,Natural_epistemic_confirmation_source,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,Natural_search_match_cue,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,Natural_search_match_source,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,Natural_source_coverage,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,OracleComplete_Neutral,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)
+gpt_oss_20b,multihoprag,OracleComplete_PreRegisteredSufficiencySaturation,True,450,0,0,0,0,0,0,BLOCKED,permanently blocked: afterok dependency on failed job 149854 (see PUBLISHING.md)

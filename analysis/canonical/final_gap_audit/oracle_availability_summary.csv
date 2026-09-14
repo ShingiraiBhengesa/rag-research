@@ -1,0 +1,17 @@
+model,dataset,condition,n_oracle_search_events_found,n_oracle_complete_available_true,n_oracle_complete_available_false,pct_unavailable
+qwen14b,hotpot,OracleComplete_Neutral,447,447,0,0.0
+qwen14b,2wiki,OracleComplete_Neutral,450,450,0,0.0
+qwen14b,musique,OracleComplete_Neutral,449,449,0,0.0
+qwen14b,multihoprag,OracleComplete_Neutral,450,450,0,0.0
+qwen14b,hotpot,OracleComplete_PreRegisteredSufficiencySaturation,450,450,0,0.0
+qwen14b,2wiki,OracleComplete_PreRegisteredSufficiencySaturation,450,450,0,0.0
+qwen14b,musique,OracleComplete_PreRegisteredSufficiencySaturation,449,449,0,0.0
+qwen14b,multihoprag,OracleComplete_PreRegisteredSufficiencySaturation,450,450,0,0.0
+llama8b,hotpot,OracleComplete_Neutral,438,438,0,0.0
+llama8b,2wiki,OracleComplete_Neutral,444,444,0,0.0
+llama8b,musique,OracleComplete_Neutral,431,431,0,0.0
+llama8b,multihoprag,OracleComplete_Neutral,435,435,0,0.0
+llama8b,hotpot,OracleComplete_PreRegisteredSufficiencySaturation,437,437,0,0.0
+llama8b,2wiki,OracleComplete_PreRegisteredSufficiencySaturation,444,444,0,0.0
+llama8b,musique,OracleComplete_PreRegisteredSufficiencySaturation,433,433,0,0.0
+llama8b,multihoprag,OracleComplete_PreRegisteredSufficiencySaturation,433,433,0,0.0

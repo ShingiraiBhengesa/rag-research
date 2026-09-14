@@ -14,6 +14,7 @@ class SearchAPI(Enum):
     ANTHROPIC = "anthropic"
     OPENAI = "openai"
     TAVILY = "tavily"
+    BENCHMARK_LOCAL = "benchmark_local"
     NONE = "none"
 
 class MCPConfig(BaseModel):
@@ -84,6 +85,7 @@ class Configuration(BaseModel):
                 "description": "Search API to use for research. NOTE: Make sure your Researcher Model supports the selected search API.",
                 "options": [
                     {"label": "Tavily", "value": SearchAPI.TAVILY.value},
+                    {"label": "Benchmark Local", "value": SearchAPI.BENCHMARK_LOCAL.value},
                     {"label": "OpenAI Native Web Search", "value": SearchAPI.OPENAI.value},
                     {"label": "Anthropic Native Web Search", "value": SearchAPI.ANTHROPIC.value},
                     {"label": "None", "value": SearchAPI.NONE.value}
@@ -150,6 +152,60 @@ class Configuration(BaseModel):
             }
         }
     )
+    model_provider: Optional[str] = Field(
+        default=None,
+        metadata={
+            "x_oap_ui_config": {
+                "type": "text",
+                "description": "Optional LangChain model provider override, e.g. 'openai' for a local OpenAI-compatible server."
+            }
+        }
+    )
+    model_base_url: Optional[str] = Field(
+        default=None,
+        metadata={
+            "x_oap_ui_config": {
+                "type": "text",
+                "description": "Optional OpenAI-compatible base URL for local model servers such as vLLM."
+            }
+        }
+    )
+    model_api_key: Optional[str] = Field(
+        default=None,
+        metadata={
+            "x_oap_ui_config": {
+                "type": "password",
+                "description": "Optional API key override. For local vLLM/OpenAI-compatible servers this can be a dummy value such as EMPTY."
+            }
+        }
+    )
+    model_temperature: Optional[float] = Field(
+        default=0.0,
+        metadata={
+            "x_oap_ui_config": {
+                "type": "number",
+                "default": 0.0,
+                "min": 0.0,
+                "max": 2.0,
+                "description": "Optional sampling temperature override for all configured chat models."
+            }
+        }
+    )
+    model_seed: Optional[int] = Field(
+        default=20260820,
+        metadata={
+            "x_oap_ui_config": {
+                "type": "number",
+                "default": 20260820,
+                "description": "Optional sampling seed for OpenAI-compatible local model servers such as vLLM."
+            }
+        }
+    )
+    v3_replay_research_brief: Optional[str] = Field(default=None)
+    v3_replay_research_topic: Optional[str] = Field(default=None)
+    v3_replay_first_search_queries: Optional[List[str]] = Field(default=None)
+    v3_replay_supervisor_tool_call_id: Optional[str] = Field(default=None)
+    v3_replay_search_tool_call_id: Optional[str] = Field(default=None)
     research_model: str = Field(
         default="openai:gpt-4.1",
         metadata={

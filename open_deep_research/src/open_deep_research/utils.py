@@ -558,6 +558,18 @@ async def get_search_tool(search_api: SearchAPI):
             "name": "web_search"
         }
         return [search_tool]
+
+    elif search_api == SearchAPI.BENCHMARK_LOCAL:
+        from attack.runtime.benchmark_search import benchmark_search
+
+        search_tool = benchmark_search
+        search_tool.metadata = {
+            **(getattr(search_tool, "metadata", None) or {}),
+            "type": "search",
+            "name": "web_search",
+            "backend": "benchmark_local",
+        }
+        return [search_tool]
         
     elif search_api == SearchAPI.NONE:
         # No search functionality configured

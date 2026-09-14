@@ -1,0 +1,6 @@
+n_cells_compared: 96
+n_cells_eligible_n_differs_from_5_1_denominator: 19
+n_cells_pcr_at_1_differs_from_5_1_by_gt_0.05pp: 0
+n_cells_pcr_at_1_differs_from_5_2_by_gt_0.05pp: 63
+max_abs_diff_vs_5_1_any_checkpoint: 0.5185391692221941
+max_abs_diff_vs_5_2_any_checkpoint: 33.123684636554955

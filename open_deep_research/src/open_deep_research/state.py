@@ -88,6 +88,9 @@ class ResearcherState(TypedDict):
     research_topic: str
     compressed_research: str
     raw_notes: Annotated[list[str], override_reducer] = []
+    v3_supervisor_delegation_index: Optional[int]
+    v3_supervisor_tool_call_id: Optional[str]
+    v3_researcher_subgraph_id: Optional[str]
 
 class ResearcherOutputState(BaseModel):
     """Output state from individual researchers."""
