@@ -1,0 +1,1 @@
+pcr_curve_llama8b_2wiki_all12: PCR@k, Llama-3.1-8B-Instruct on 2WikiMultiHopQA. Denominator = pcr_eligible runs (canonical_completion.py definition, see MASTER_RESULTS.md methodology section). Source: data/pcr_stepwise.csv.

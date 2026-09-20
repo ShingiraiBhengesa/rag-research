@@ -1,0 +1,1 @@
+pcr_curve_llama8b_musique_all12: PCR@k, Llama-3.1-8B-Instruct on MuSiQue. Denominator = pcr_eligible runs (canonical_completion.py definition, see MASTER_RESULTS.md methodology section). Source: data/pcr_stepwise.csv.

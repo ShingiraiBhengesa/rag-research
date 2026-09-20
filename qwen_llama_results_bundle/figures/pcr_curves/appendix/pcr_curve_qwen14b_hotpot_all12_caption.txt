@@ -1,0 +1,1 @@
+pcr_curve_qwen14b_hotpot_all12: PCR@k, Qwen2.5-14B-Instruct on HotpotQA. Denominator = pcr_eligible runs (canonical_completion.py definition, see MASTER_RESULTS.md methodology section). Source: data/pcr_stepwise.csv.

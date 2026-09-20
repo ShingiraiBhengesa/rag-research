@@ -1,0 +1,1 @@
+Fixed Sufficiency Saturation vs Natural Neutral, Qwen2.5-14B-Instruct / MultiHopRAG. Positive = cue condition completed MORE by step k than control (attack accelerated completion). Shaded band = paired bootstrap 95% CI on the exact same paired eligible set both curves use. Source: data/pcr_paired_deltas_stepwise.csv.

@@ -1,0 +1,1 @@
+Natural_search_match_cue vs Natural Clean (total end-to-end change), Llama-3.1-8B-Instruct / 2WikiMultiHopQA. Positive = cue condition completed MORE by step k than control (attack accelerated completion). Shaded band = paired bootstrap 95% CI on the exact same paired eligible set both curves use. Source: data/pcr_paired_deltas_stepwise.csv.
