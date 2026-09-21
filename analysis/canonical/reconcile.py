@@ -17,7 +17,7 @@ from pathlib import Path
 
 from analysis import config
 
-LEGACY_DIR = config.DEFAULT_OUTPUT_ROOT / "pcr"
+LEGACY_DIR = config.DEFAULT_PRODUCTION_ROOT / "evaluation" / "v3_final_completed_qwen_llama_20260910" / "pcr"
 HERE = Path(__file__).resolve().parent
 
 
