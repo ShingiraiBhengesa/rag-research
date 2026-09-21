@@ -35,7 +35,7 @@ DEFAULT_PRODUCTION_ROOT = REPO_ROOT / "results"
 DEFAULT_OUTPUT_ROOT = (
     DEFAULT_PRODUCTION_ROOT
     / "evaluation"
-    / "v3_final_completed_qwen_llama_gemma_20260913"
+    / "v3_final_completed_qwen_llama_20260914"
 )
 
 # Every row already written to a production shard JSONL before the
@@ -69,15 +69,26 @@ assert set(FINAL_PRODUCTION_MODELS) == {"qwen14b", "gemma27b", "gpt_oss_20b", "l
     "model lists in analysis/config.py before proceeding."
 )
 
-INCLUDED_MODELS: tuple[str, ...] = ("qwen14b", "llama8b", "gemma27b")
-EXCLUDED_MODEL_FAMILIES: tuple[str, ...] = ("gpt_oss_20b",)
+INCLUDED_MODELS: tuple[str, ...] = ("qwen14b", "llama8b")
+EXCLUDED_MODEL_FAMILIES: tuple[str, ...] = ("gpt_oss_20b", "gemma27b")
 
-# Extended 2026-09-13: gemma27b's production matrix completed (432/432
-# shards, confirmed via squeue showing zero active/queued gemma27b jobs and
-# a full shard-file count) and was moved from EXCLUDED_MODEL_FAMILIES into
-# INCLUDED_MODELS, per the plan already recorded in PUBLISHING.md's
-# "Deferred Cleanup After All Jobs Finish" section. gpt_oss_20b remains
-# excluded -- its production arrays are still blocked (see PUBLISHING.md).
+# Extended 2026-09-13, then RE-EXCLUDED 2026-09-14: gemma27b's first
+# production run (432/432 shards) completed, but was later discovered to
+# have run under a misconfigured vLLM tool-call parser (`functiongemma`,
+# which is documented as being for a completely different, unrelated model
+# -- google/functiongemma-270m-it -- and never recognized
+# google/gemma-3-27b-it's actual tool_code output). That run's ~99%
+# "no tool call" result was an artifact of the misconfiguration, not a
+# finding about the model. Fixed in attack/runtime/gemma3_tool_code_parser.py
+# (a custom vLLM tool-parser plugin), confirmed working live against a real
+# vLLM+gemma-3-27b-it endpoint (results/runtime_gates/gemma27b/), and the
+# broken run's data quarantined under
+# archive/legacy_results/gemma27b_broken_functiongemma_parser_run_20260913/.
+# gemma27b is excluded again here until a fresh, correctly-configured
+# 432-shard run completes -- see analysis/CHANGELOG.md and
+# analysis/canonical/gemma27b_analysis/gemma27b_results_synthesis.md for the
+# full writeup. gpt_oss_20b remains excluded for its own, unrelated reason
+# -- its production arrays are still blocked (see PUBLISHING.md).
 
 # Substrings that must never appear in any path this package opens, writes,
 # or reports on. Deliberately broader than the exact directory names so a
@@ -86,6 +97,8 @@ _EXCLUDED_PATH_TOKENS: tuple[str, ...] = (
     "gpt_oss_20b",
     "gpt-oss",
     "gptoss",
+    "gemma27b",
+    "gemma-3-27b",
 )
 
 MODEL_IDS: Mapping[str, str] = {m: FINAL_MODEL_IDS[m] for m in INCLUDED_MODELS}
@@ -99,8 +112,8 @@ DISPLAY_MODEL_NAMES: Mapping[str, str] = {
 
 
 class ExcludedModelPathError(ValueError):
-    """Raised when analysis code is asked to open a path for an excluded model
-    (currently: GPT-OSS-20B only -- see EXCLUDED_MODEL_FAMILIES)."""
+    """Raised when analysis code is asked to open a path for an excluded
+    model (see EXCLUDED_MODEL_FAMILIES for the current list and why)."""
 
 
 def assert_included_model(model: str) -> None:
@@ -245,9 +258,12 @@ BOOTSTRAP_ITERATIONS = 10000
 # ---------------------------------------------------------------------------
 
 GEMMA_GPT_EXCLUSION_STATEMENT = (
-    "Gemma completed its production matrix (432/432 shards, 2026-09-13) and "
-    "is now included above. GPT-OSS-20B's production matrix remains blocked "
-    "(dead SLURM dependency, see PUBLISHING.md) and is excluded at the "
-    "model-family level. No GPT-OSS-20B result, trace, configuration, job, "
-    "or evaluation output was modified."
+    "Gemma27b's first production run (432/432 shards, 2026-09-13) was found "
+    "to have used a misconfigured vLLM tool-call parser and is quarantined "
+    "(see archive/legacy_results/gemma27b_broken_functiongemma_parser_run_20260913/ "
+    "and analysis/CHANGELOG.md); it is excluded again pending a fresh "
+    "correctly-configured re-run. GPT-OSS-20B's production matrix remains "
+    "blocked (dead SLURM dependency, see PUBLISHING.md) and is excluded at "
+    "the model-family level. No GPT-OSS-20B result, trace, configuration, "
+    "job, or evaluation output was modified."
 )
