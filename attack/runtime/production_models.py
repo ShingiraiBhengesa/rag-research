@@ -25,7 +25,15 @@ PIPELINE_VALIDATION_ONLY_MODEL_IDS = MappingProxyType(
 MODEL_TOOL_CALL_PARSERS = MappingProxyType(
     {
         "qwen14b": "hermes",
-        "gemma27b": "functiongemma",
+        # 2026-09-14: was "functiongemma" -- that parser is documented as
+        # being for google/functiongemma-270m-it, a different, separately
+        # fine-tuned model with an entirely different call format. It never
+        # matches google/gemma-3-27b-it's actual output, which is why
+        # gemma27b's first production run (432/432 shards, 2026-09-13)
+        # showed ~99% "no tool call" episodes -- see
+        # attack/runtime/gemma3_tool_code_parser.py and
+        # analysis/canonical/gemma27b_analysis/gemma27b_results_synthesis.md.
+        "gemma27b": "gemma3_tool_code",
         "gpt_oss_20b": "openai",
         "llama8b": "llama3_json",
     }
