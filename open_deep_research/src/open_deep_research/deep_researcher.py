@@ -1217,11 +1217,24 @@ async def final_report_generation(state: AgentState, config: RunnableConfig):
                 date=get_today_str()
             )
             
+            report_writer = configurable_model.with_config(writer_model_config)
             if _is_benchmark_local_search(configurable):
                 final_report_prompt += _benchmark_local_final_report_instruction(current_retry)
+                # Observed with gpt-oss-20b (benchmark-local production gate,
+                # 2026-09-08): this call binds no tools, yet the model
+                # sometimes still emits a structured tool_calls response
+                # (e.g. a hallucinated ConductResearch call, a supervisor-
+                # level tool name that appeared earlier in its context) with
+                # empty `content`, which the empty-response retry above
+                # cannot distinguish from a genuinely empty generation.
+                # tool_choice="none" tells the server to never parse tool
+                # calls for this request regardless of what the model's raw
+                # output looks like, forcing the response into `content`
+                # where the retry/truncation logic can actually see it.
+                report_writer = report_writer.bind(tool_choice="none")
 
             # Generate the final report
-            final_report = await configurable_model.with_config(writer_model_config).ainvoke([
+            final_report = await report_writer.ainvoke([
                 HumanMessage(content=final_report_prompt)
             ])
 

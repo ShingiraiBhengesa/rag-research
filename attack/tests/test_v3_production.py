@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from argparse import Namespace
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from attack.runtime.cues import (
     CONTINUE_SEARCH_SUFFIX,
@@ -671,6 +671,81 @@ class ReasoningEffortConfigurationTests(unittest.TestCase):
 
         self.assertEqual(model_config_with["reasoning_effort"], "low")
         self.assertNotIn("reasoning_effort", model_config_without)
+
+
+class FinalReportToolChoiceTests(unittest.TestCase):
+    """Non-model regression test for the tool_choice="none" final-report
+    fix: only the benchmark-local final-report call site should bind
+    tool_choice="none"; every other configured search API must be
+    unaffected, and the string must not appear anywhere else in the
+    module. No model or external service is called -- configurable_model
+    is replaced with a pure-Python stub."""
+
+    def _run_final_report_generation(self, *, search_api: str):
+        try:
+            import open_deep_research.deep_researcher as dr
+            from langchain_core.messages import AIMessage
+        except ModuleNotFoundError as exc:
+            self.skipTest(f"ODR dependencies are unavailable: {exc}")
+
+        bind_calls = []
+
+        class FakeWriter:
+            def bind(self, **kwargs):
+                bind_calls.append(kwargs)
+                return self
+
+            async def ainvoke(self, messages):
+                return AIMessage(content="final report text")
+
+        fake_configurable_model = MagicMock()
+        fake_configurable_model.with_config.return_value = FakeWriter()
+
+        state = {"notes": ["finding one"], "research_brief": "brief", "messages": []}
+        config = {
+            "configurable": {
+                "search_api": search_api,
+                "model_api_key": "EMPTY",
+                "final_report_model": "test-model",
+                "final_report_model_max_tokens": 100,
+            }
+        }
+
+        with patch.object(dr, "configurable_model", fake_configurable_model):
+            result = asyncio.run(dr.final_report_generation(state, config))
+
+        return bind_calls, result
+
+    def test_final_report_binds_tool_choice_none_for_benchmark_local(self):
+        bind_calls, result = self._run_final_report_generation(search_api="benchmark_local")
+        self.assertEqual(bind_calls, [{"tool_choice": "none"}])
+        self.assertEqual(result["final_report"], "final report text")
+
+    def test_final_report_does_not_bind_tool_choice_for_other_search_apis(self):
+        # "research/tool-using stages are unaffected": a non-benchmark-local
+        # search API must reach the model exactly as before this fix.
+        bind_calls, result = self._run_final_report_generation(search_api="tavily")
+        self.assertEqual(bind_calls, [])
+        self.assertEqual(result["final_report"], "final report text")
+
+    def test_tool_choice_none_appears_only_at_the_final_report_call_site(self):
+        try:
+            import open_deep_research.deep_researcher as dr
+        except ModuleNotFoundError as exc:
+            self.skipTest(f"ODR dependencies are unavailable: {exc}")
+
+        lines = Path(dr.__file__).read_text(encoding="utf-8").splitlines()
+        # Match the actual .bind(...) call, not the explanatory comment
+        # above it (which also contains the literal string tool_choice="none").
+        occurrences = [i for i, line in enumerate(lines) if 'bind(tool_choice="none")' in line]
+        self.assertEqual(len(occurrences), 1, "bind(tool_choice=\"none\") must appear exactly once in deep_researcher.py")
+
+        start = next(i for i, line in enumerate(lines) if line.startswith("async def final_report_generation"))
+        end = next(
+            (i for i, line in enumerate(lines) if i > start and (line.startswith("async def ") or line.startswith("def "))),
+            len(lines),
+        )
+        self.assertTrue(start < occurrences[0] < end, "tool_choice=\"none\" must be inside final_report_generation")
 
 
 def _runner_args(
