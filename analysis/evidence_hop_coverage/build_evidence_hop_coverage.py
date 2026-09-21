@@ -54,6 +54,7 @@ from analysis.canonical import canonical_completion as cc
 from analysis.completion_inventory import RowRecord, _row_is_valid, build_inventory
 from analysis.evidence import _cumulative_union_coverage, _paragraph_index
 from analysis.canonical.results_bundle.comparisons import COMPARISONS
+from analysis.canonical.results_bundle.scope import CANONICAL_BUNDLE_MODELS
 from analysis.trace_parser import load_trace_json, parse_trace
 from analysis.trace_schema import ParsedTrace
 
@@ -800,8 +801,8 @@ def gate_14_manual_sample_coverage(manual_rows: list[dict]) -> GateResult:
             problems.append(f"{dataset}: only {len(rows)} rows (<5)")
             continue
         models_present = {row["model"] for row in rows}
-        if models_present != set(config.INCLUDED_MODELS):
-            problems.append(f"{dataset}: missing model(s) {set(config.INCLUDED_MODELS) - models_present}")
+        if models_present != set(CANONICAL_BUNDLE_MODELS):
+            problems.append(f"{dataset}: missing model(s) {set(CANONICAL_BUNDLE_MODELS) - models_present}")
         routes_present = {row["terminal_route"] for row in rows}
         if len(routes_present) < 2:
             problems.append(f"{dataset}: only one terminal route present ({routes_present})")
@@ -1286,7 +1287,12 @@ def main() -> int:
         print("  WARNING: current repository does not descend from the frozen commit. Reporting, not blocking.")
 
     print("Building completed-shard inventory...")
-    inventory = build_inventory(args.production_root)
+    # Explicit scope, not config.INCLUDED_MODELS -- see
+    # analysis/canonical/results_bundle/scope.py's docstring. This
+    # package's committed output shares the PCR bundle's frozen scope and
+    # must not change if a third model temporarily enters
+    # config.INCLUDED_MODELS for an unrelated reason.
+    inventory = build_inventory(args.production_root, models=CANONICAL_BUNDLE_MODELS)
     print(f"  {len(inventory.rows)} rows across {len(inventory.cells)} cells")
 
     print("Building canonical PCR records (reused, unmodified logic)...")

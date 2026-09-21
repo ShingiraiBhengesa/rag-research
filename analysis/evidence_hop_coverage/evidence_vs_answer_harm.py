@@ -29,6 +29,7 @@ from pathlib import Path
 from analysis import config
 from analysis.answer_evaluation import AnswerRecord, TECHNICAL_FAILURE_REASONS, build_answer_records
 from analysis.canonical.results_bundle.comparisons import COMPARISONS
+from analysis.canonical.results_bundle.scope import CANONICAL_BUNDLE_MODELS
 from analysis.completion_inventory import _row_is_valid, build_inventory
 from attack.metrics import mcnemar_test, wilson_ci
 
@@ -289,7 +290,7 @@ def main() -> int:
     print(f"  {len(evidence_lookup)} rows")
 
     print("Building inventory + answer records (valid rows only)...")
-    inventory = build_inventory(config.DEFAULT_PRODUCTION_ROOT)
+    inventory = build_inventory(config.DEFAULT_PRODUCTION_ROOT, models=CANONICAL_BUNDLE_MODELS)
     valid_rows = [r for r in inventory.rows if _row_is_valid(r)]
     answer_records = build_answer_records(valid_rows, config.DEFAULT_PRODUCTION_ROOT, max_workers=8)
     print(f"  {len(answer_records)} answer records")
