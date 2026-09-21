@@ -1,19 +1,22 @@
 # Analysis package
 
-Canonical, architecture-aware analysis of completed **Qwen (qwen14b)**,
-**Llama (llama8b)**, and **Gemma (gemma27b)** v3 production traces (gemma27b
-added 2026-09-13 when its production matrix reached 432/432 shards).
-Supersedes all prior ad hoc evaluation scripts (now archived under
-`archive/legacy_evaluators/`, kept on disk for provenance only, not
-git-tracked -- see `attack/README.md`).
+Canonical, architecture-aware analysis of completed **Qwen (qwen14b)** and
+**Llama (llama8b)** v3 production traces. Supersedes all prior ad hoc
+evaluation scripts (now archived under `archive/legacy_evaluators/`, kept
+on disk for provenance only, not git-tracked -- see `attack/README.md`).
 
-**GPT-OSS-20B is out of scope for this package by construction** (its
-production matrix is still blocked, see repo-root `PUBLISHING.md`). Every
-entry point takes a model list defaulting to
-`config.INCLUDED_MODELS = ("qwen14b", "llama8b", "gemma27b")`, and every
+**GPT-OSS-20B and Gemma27b are out of scope for this package by
+construction**, for different, unrelated reasons: GPT-OSS-20B's production
+matrix is still blocked (see repo-root `PUBLISHING.md`); gemma27b's first
+production run (added 2026-09-13, 432/432 shards) was found 2026-09-14 to
+have used a misconfigured vLLM tool-call parser and is quarantined pending
+a fresh, correctly-configured re-run (resubmitted 2026-09-14, see
+`CHANGELOG.md` and `PUBLISHING.md`). Every entry point takes a model list
+defaulting to `config.INCLUDED_MODELS = ("qwen14b", "llama8b")`, and every
 file-opening function in this package calls
 `config.assert_path_not_excluded(...)` first, which raises
-`ExcludedModelPathError` on any path naming `gpt_oss_20b`. This package
+`ExcludedModelPathError` on any path naming `gpt_oss_20b` or `gemma27b`.
+This package
 never imports, runs, or modifies any file under `attack/runtime/` or
 `attack/launch/` -- those are live production runtime code (see the
 "Active-Job Lock" note in `attack/README.md`) and are only ever imported
@@ -93,11 +96,13 @@ any aggregation logic -- see docstrings in `trace_parser.py` and
    safety net executes a search whose synthetic tool-call is logged on the
    *following* `researcher_tools` on_chain_end event, never on the
    researcher decision's own on_chain_end event -- naive branch-point
-   detection misses this entirely. This is not a qwen/llama edge case:
-   `gemma27b` hits it on 100% of its rows (its tool-calling does not
-   function at all in this serving configuration -- see
-   `canonical/gemma27b_analysis/gemma27b_results_synthesis.md`), and it
-   materially affects `llama8b` too (~5% of rows). Any output generated
+   detection misses this entirely. Not a qwen/llama edge case: it
+   materially affects `llama8b` (~5% of rows). It was first noticed at 100%
+   of rows in gemma27b's first production run, but that turned out to be a
+   *different*, gemma27b-specific bug (a misconfigured vLLM tool-call
+   parser, not a trace-parsing gap -- see `CHANGELOG.md`'s 2026-09-14 entry
+   and `canonical/gemma27b_analysis/gemma27b_results_synthesis.md`, whose
+   data is currently quarantined pending a re-run). Any output generated
    before 2026-09-13 (including this package's own `pcr.py` outputs under
    `v3_final_completed_qwen_llama_20260910/`) predates the fix and should
    be treated as superseded for completion/route-related numbers
@@ -123,17 +128,22 @@ any aggregation logic -- see docstrings in `trace_parser.py` and
 ```bash
 python -m analysis.cli \
     --production-root results \
-    --output-root results/evaluation/v3_final_completed_qwen_llama_gemma_20260913 \
+    --output-root results/evaluation/v3_final_completed_qwen_llama_20260914 \
     --stage all
 ```
 
-`v3_final_completed_qwen_llama_gemma_20260913/` (post-fix, 3 models) is the
-current output directory. `v3_final_completed_qwen_llama_20260910/` (pre-fix,
-2 models) is preserved as a historical, now-superseded artifact -- do not
-cite its completion/route numbers going forward (see fact 6 above); its
-evidence/answer-accuracy numbers were not affected by that fix and remain
-valid as a 2-model snapshot, but the 3-model directory supersedes it
-entirely for new work.
+`v3_final_completed_qwen_llama_20260914/` (2 models: qwen14b, llama8b) is
+the current output directory as of 2026-09-14. The earlier
+`v3_final_completed_qwen_llama_gemma_20260913/` (3 models, including
+gemma27b) is quarantined under
+`archive/legacy_results/gemma27b_broken_functiongemma_parser_run_20260913/`
+-- its gemma27b numbers are invalid (parser misconfiguration, see fact 6
+above); a fresh 3-model directory will supersede the current 2-model one
+once gemma27b's re-run completes. `v3_final_completed_qwen_llama_20260910/`
+(pre-forced-search-fix, 2 models) is a separate, older historical
+artifact -- do not cite its completion/route numbers (see fact 6 above);
+its evidence/answer-accuracy numbers were not affected by that fix and
+remain valid as a 2-model snapshot.
 
 Run from the `whitebox` environment (see repo-root README.md's "Environment
 setup" and `requirements-whitebox.txt` -- needs `numpy` for `attack.metrics`,

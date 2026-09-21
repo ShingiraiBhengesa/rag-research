@@ -32,8 +32,66 @@ downstream analysis to detect and quarantine any garbage rows post hoc. This dec
 actually fixing the dependency and resubmitting the 4 arrays, is the one remaining step
 before all four models are complete.
 
-`gemma27b` has no equivalent problem -- it fully completed all 432/432 shards across all 4
-datasets on 2026-09-13.
+`gemma27b` has a separate, now-fixed problem of its own -- see the next section.
+
+## RESOLVED: gemma27b's first production run used a misconfigured tool-call parser (found and fixed 2026-09-14)
+
+`gemma27b` fully completed 432/432 shards across all 4 datasets on 2026-09-13, but its
+completion data showed ~99% "no tool call" episodes (driven through ODR's
+`force_benchmark_search` safety net instead of real model decisions). Root-caused to
+`attack/runtime/production_models.py` configuring `--tool-call-parser functiongemma` for
+`google/gemma-3-27b-it` -- `functiongemma` is vLLM's parser for a completely different,
+unrelated model (`google/functiongemma-270m-it`, confirmed via that parser's own module
+docstring), which never recognizes `gemma-3-27b-it`'s actual
+` ```tool_code\n<call>\n``` `-fenced tool calls. No vLLM version ships native Gemma-3
+`tool_code` support (both upstream feature requests, vllm-project/vllm#15403 and #16482,
+were closed "not planned").
+
+Fixed by writing a custom vLLM tool-parser plugin,
+`attack/runtime/gemma3_tool_code_parser.py`, registered via `--tool-parser-plugin` (see
+`attack/runtime/production_models.py`'s `MODEL_TOOL_CALL_PARSERS["gemma27b"] =
+"gemma3_tool_code"` and `attack/launch/generate_production_arrays.py`'s
+`tool_parser_plugin` field). Handles both observed malformed-call sub-formats (a Python-call
+expression and a JSON object) and normalizes argument names/shapes to the real tool schemas
+(`tavily_search(queries: list[str])`, `think_tool(reflection: str)`) since Gemma's calls
+don't match those exactly either. Unit-tested against real captured trace text
+(`attack/tests/test_gemma3_tool_code_parser.py`, run under the `vllm` conda env where the
+`vllm` package is importable).
+
+A real bug was found only through live validation, not the unit tests alone: this pipeline
+runs ODR under LangGraph's `.astream_events()`, which makes the underlying chat-model calls
+stream at the token level even though each node just does a plain `ainvoke()` (confirmed:
+`on_chat_model_stream` fires ~2000x per generation in real traces). vLLM therefore calls the
+parser's *streaming* extraction path, not the non-streaming one -- the first version of the
+plugin only implemented the non-streaming path correctly, so the first live gate run (job
+151760) still showed 100% forced-search fallback despite passing unit tests. Fixed by
+properly implementing `extract_tool_calls_streaming` (buffers until a complete
+` ```tool_code``` ` block closes, withholding partial markers split across chunk boundaries,
+then emits the full tool call in one shot). Confirmed working end-to-end against a real
+vLLM+gemma-3-27b-it endpoint (job 151777, gate `RUNTIME_GATE_PASSED.json`, and direct
+inspection of the resulting trace: genuine `tavily_search`/`think_tool` tool calls with real
+`chatcmpl-tool-*` ids, zero `force_benchmark_search` occurrences).
+
+The broken run's data (`results/traces/gemma27b/`, `results/runs/gemma27b/`, the
+`gemma27b_direct_exit_content_audit.csv` audit, the `all_models_20260913` canonical outputs,
+and the `v3_final_completed_qwen_llama_gemma_20260913` evaluation directory) is quarantined
+under `archive/legacy_results/gemma27b_broken_functiongemma_parser_run_20260913/` --
+kept, not deleted. `gemma27b` was moved back from `analysis/config.py`'s `INCLUDED_MODELS`
+into `EXCLUDED_MODEL_FAMILIES` pending a fresh run. All 4 gemma27b production arrays were
+resubmitted 2026-09-14 (jobs 151778-151781) with the fix; re-add gemma27b to
+`INCLUDED_MODELS` once that run completes.
+
+**Fixing the parser does not retroactively validate the quarantined run.**
+The corrected parser (`attack/runtime/gemma3_tool_code_parser.py`, unit-tested
+and confirmed working live against a real endpoint) only makes a *future*
+gemma27b run trustworthy -- it does not change the fact that the already-run
+432-shard batch above used the broken parser and remains invalid. No
+gemma27b experimental finding should be reported until a full gemma27b
+production run completes under the corrected parser and is independently
+verified (completion-inventory + validation gates), the same bar the
+qwen14b/llama8b canonical bundle already meets. The canonical thesis
+results bundle (`qwen_llama_results_bundle/`) remains Qwen14B and Llama8B
+only; it does not include gemma27b in any form.
 
 ## Branch state
 
@@ -67,10 +125,12 @@ Both passes were dry-run before executing, produced zero test regressions
 (full 178-test suite), and preserved historical launch-time artifacts (see
 "Provenance preservation" below). The scripts that performed both moves are
 kept as a permanent record at `analysis/canonical/reorg_prep/`. Also fixed as
-part of this reorganization: gemma27b's tool-calling failure mode (see
-`analysis/CHANGELOG.md`) and a stale-`trace_path`-inside-persisted-data issue
-(see `analysis/README.md`, key empirical fact 7) -- neither is cosmetic, both
-affect correctness of completion/route claims for all three completed models.
+part of this reorganization: the trace-parser's forced-search branch-point
+gap (see `analysis/CHANGELOG.md`) and a stale-`trace_path`-inside-persisted-data
+issue (see `analysis/README.md`, key empirical fact 7) -- neither is
+cosmetic, both affect correctness of completion/route claims. (Separately,
+gemma27b's own vLLM tool-call-parser misconfiguration was found and fixed
+2026-09-14 -- see the dedicated section above.)
 
 This checklist's older sections below (pre-2026-09-14) refer to the old
 `whitebox_attack/`/`whitebox_paper_results/` paths; they are kept as a
@@ -87,16 +147,19 @@ Track or archive with the paper:
 - `results/matrix/v3_final_production_matrix.json`
 - `results/prelaunch/PRELAUNCH_REPORT.json`
 - `results/submissions/submission_*.json`
-- `results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/` -- only
-  `pcr/`, `statistics/`, `by_model_dataset/`, and
-  `answers/final_answer_summary.csv` are tracked. `answers/final_answer_predictions.jsonl`
-  (~99M raw per-row predictions), `evidence/*.csv` (per-example rows), and
-  all of `audits/` (row/violation-level audit CSVs) are git-ignored --
-  reproducible from traces + code via `analysis.cli`, not paper deliverables.
+- `results/evaluation/v3_final_completed_qwen_llama_20260914/` (2-model,
+  qwen14b+llama8b only -- gemma27b is excluded again pending its re-run, see
+  above) -- only `pcr/`, `statistics/`, `by_model_dataset/`, and
+  `answers/final_answer_summary.csv` should be tracked (mirror the
+  `.gitignore` pattern already in place for the superseded
+  `v3_final_completed_qwen_llama_gemma_20260913/` directory once this one is
+  generated: raw per-row predictions/evidence/audits are reproducible from
+  traces + code via `analysis.cli`, not paper deliverables).
 - `results/evaluation/final_production/` (regenerate once `gpt_oss_20b` completes)
 
-Do not cite all-four-model aggregate values until `gpt_oss_20b` has completed
-and `analysis.cli --stage all` has been rerun with all four models included.
+Do not cite all-four-model aggregate values until both `gemma27b`'s
+re-run and `gpt_oss_20b` have completed and `analysis.cli --stage all` has
+been rerun with all four models included.
 
 ## Provenance preservation
 
@@ -128,8 +191,8 @@ Keep out of final claims:
 ## Active-Job Safety
 
 Queued SLURM jobs import source files from this working tree at runtime.
-While `gpt_oss_20b` jobs are queued or running, do not edit, rename, delete,
-or reformat:
+While `gpt_oss_20b` or `gemma27b` jobs are queued or running, do not edit,
+rename, delete, or reformat:
 
 - `attack/runtime/production_models.py`
 - `attack/runtime/production_manifest.py`
@@ -142,6 +205,7 @@ or reformat:
 - `attack/runtime/runner.py`
 - `attack/runtime/runtime_gate.py`
 - `attack/runtime/production_runner.py`
+- `attack/runtime/gemma3_tool_code_parser.py`
 - `attack/launch/generate_production_arrays.py`
 - `attack/metrics.py`, `attack/cue_definitions.py`
 - `open_deep_research/src/open_deep_research/configuration.py`
@@ -155,21 +219,26 @@ at any time -- none are imported by any SLURM job.
 
 ## Remaining steps to full publication
 
-1. Decide how to handle the gpt_oss_20b gate's intermittent empty-final-report
+1. Wait for all 432 `gemma27b` shards (jobs 151778-151781, resubmitted
+   2026-09-14 with the parser fix) to complete (`squeue`/shard-count checks;
+   no polling faster than the job's own pace).
+2. Decide how to handle the gpt_oss_20b gate's intermittent empty-final-report
    failure (see the ACTION NEEDED section above).
-2. Fix the dead `afterok` dependency and resubmit the 4 `gpt_oss_20b`
+3. Fix the dead `afterok` dependency and resubmit the 4 `gpt_oss_20b`
    production arrays.
-3. Wait for all 432 `gpt_oss_20b` shards to complete (`squeue`/shard-count
-   checks; no polling faster than the job's own pace).
-4. Extend `analysis/config.py`'s `INCLUDED_MODELS` to include `gpt_oss_20b`
-   and re-run `python -m analysis.cli --stage all` into a new output
-   directory (e.g. `results/evaluation/v3_final_completed_all_models_<date>/`)
-   -- never overwrite `v3_final_completed_qwen_llama_gemma_20260913/` in
-   place; mark it superseded in the new directory instead.
-5. Regenerate/finalize paper tables from the all-models run.
-6. Optionally prune `results/quarantine/`/`archive/` further, or leave as
+4. Wait for all 432 `gpt_oss_20b` shards to complete.
+5. Once gemma27b's re-run completes: re-add `"gemma27b"` to
+   `analysis/config.py`'s `INCLUDED_MODELS` (remove it from
+   `EXCLUDED_MODEL_FAMILIES`/`_EXCLUDED_PATH_TOKENS`), then once gpt_oss_20b
+   also completes, extend further to include it too. Re-run
+   `python -m analysis.cli --stage all` into a new output directory (e.g.
+   `results/evaluation/v3_final_completed_all_models_<date>/`) -- never
+   overwrite a prior evaluation directory in place; mark it superseded in
+   the new directory instead.
+6. Regenerate/finalize paper tables from the all-models run.
+7. Optionally prune `results/quarantine/`/`archive/` further, or leave as
    forensic history -- low urgency.
-7. Commit in a few focused commits (gate fix + resubmission; analysis
+8. Commit in a few focused commits (gate fix + resubmission; analysis
    model extension; final tables) rather than one giant one.
 
 ## Historical record: 2026-09-10 cleanup (completed while jobs were still active, pre-dates the reorg above)

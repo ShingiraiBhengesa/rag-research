@@ -1,5 +1,63 @@
 # Analysis package changelog
 
+## 2026-09-14 — CORRECTION: gemma27b's "tool-calling doesn't function" finding was a parser misconfiguration bug, not a model limitation
+
+**This corrects the final conclusion of the 2026-09-13 entry below.** That
+entry's technical fix (the forced-search branch-point gap in
+`trace_schema.py`/`trace_parser.py`) is still correct and unaffected. Its
+closing claim -- that Gemma-3-27B-IT's tool-calling "does not function in
+this serving configuration" as a fact about the model -- was wrong. It was a
+fact about a misconfigured vLLM flag.
+
+**Root cause**: `attack/runtime/production_models.py` configured
+`--tool-call-parser functiongemma` for `google/gemma-3-27b-it`. That
+parser's own module docstring says it is for `google/functiongemma-270m-it`
+-- a different, separately fine-tuned, unrelated model with an entirely
+different call format (`<start_function_call>call:...`). It never matches
+`gemma-3-27b-it`'s actual output, so vLLM never populated a structured
+`tool_calls` field for any gemma27b generation in the entire 432-shard run,
+regardless of what the model actually wrote. No built-in vLLM parser
+supports Gemma-3's real format (a ` ```tool_code``` `-fenced block);
+upstream feature requests for it were closed "not planned"
+(vllm-project/vllm#15403, #16482).
+
+**Fix**: a custom vLLM tool-parser plugin,
+`attack/runtime/gemma3_tool_code_parser.py`, registered via
+`--tool-parser-plugin`. Recognizes gemma27b's two observed malformed-call
+sub-formats (a Python-call expression and a JSON object) and normalizes
+argument names/shapes to the real tool schemas, since Gemma's calls don't
+match those exactly either (e.g. it wrote `text=` or even `research_topic=`
+-- ConductResearch's parameter name -- when calling `think_tool`, whose real
+parameter is `reflection`). Confirmed working live against a real
+vLLM+gemma-3-27b-it endpoint after fixing a second bug found only through
+that live test: this pipeline runs ODR under LangGraph event streaming,
+which makes vLLM call the parser's *streaming* extraction path, not the
+non-streaming one unit tests alone exercised.
+
+**Data impact**: the entire 432-shard gemma27b production run (and
+everything derived from it -- `all_models_20260913/`,
+`gemma27b_direct_exit_content_audit.csv`, the
+`v3_final_completed_qwen_llama_gemma_20260913` evaluation output) is
+invalid as a measurement of gemma27b's behavior and is quarantined under
+`archive/legacy_results/gemma27b_broken_functiongemma_parser_run_20260913/`
+(kept, not deleted). `gemma27b` moved back out of `INCLUDED_MODELS` into
+`EXCLUDED_MODEL_FAMILIES` pending a fresh run (resubmitted 2026-09-14, jobs
+151778-151781). See `analysis/canonical/gemma27b_analysis/gemma27b_results_synthesis.md`
+for the full corrected writeup and `PUBLISHING.md` for resubmission status.
+Fixing and unit-testing the parser corrects the pipeline going forward; it
+does not retroactively validate this already-run 432-shard batch, which
+remains quarantined. No gemma27b finding should be cited until a fresh
+production run under the corrected parser completes and passes the same
+validation-gate bar as `qwen_llama_results_bundle/`, which itself remains
+Qwen14B/Llama8B only and does not include gemma27b.
+
+**Lesson**: a "does not function" finding about a specific model, in a
+pipeline with multiple layers of configuration between the model and the
+observed behavior, warrants checking every one of those layers (parser
+choice, not just parser correctness) before concluding it's a fact about
+the model. The 98.9%/100% figures were real and reproducible -- the mistake
+was in attributing them, not in measuring them.
+
 ## 2026-09-13 — Gemma-3-27B-IT tool-calling discovery + forced-search branch-point fix
 
 **Discovery.** Extending the completed-model analysis from `qwen14b`/`llama8b`

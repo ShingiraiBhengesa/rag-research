@@ -12,3 +12,9 @@ datasets==5.0.0
 matplotlib==3.11.0
 numpy==2.4.6
 transformers==5.12.1
+# Added for analysis/canonical/results_bundle/ (thesis results-bundle
+# generator): pandas for CSV/markdown/.xlsx table assembly, openpyxl as its
+# .xlsx write engine, tabulate for DataFrame.to_markdown().
+pandas==3.0.3
+openpyxl==3.1.5
+tabulate==0.10.0

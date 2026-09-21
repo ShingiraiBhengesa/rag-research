@@ -61,21 +61,23 @@ results/evaluation/final_production/*
 !results/evaluation/final_production/*.json
 !results/evaluation/final_production/*.md
 
-# v3_final_completed_qwen_llama_gemma_20260913/ mixes small aggregate tables
-# (pcr/, statistics/, by_model_dataset/, answers/final_answer_summary.csv --
-# a few hundred KB total, the actual paper-facing outputs) with large raw
-# per-row/per-example dumps (answers/final_answer_predictions.jsonl at 99M;
-# evidence/*.csv at ~320k and ~64k rows; audits/* row/violation-level audit
-# CSVs) that are fully reproducible from traces + code via `analysis.cli`
-# and don't belong in git. Only the aggregates are un-ignored below.
-!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/
-results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/*
-!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/pcr/
-!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/statistics/
-!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/by_model_dataset/
-!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/answers/
-results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/answers/*
-!results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/answers/final_answer_summary.csv
+# Each v3_final_completed_* evaluation output directory mixes small
+# aggregate tables (pcr/, statistics/, by_model_dataset/,
+# answers/final_answer_summary.csv -- a few hundred KB total, the actual
+# paper-facing outputs) with large raw per-row/per-example dumps
+# (answers/final_answer_predictions.jsonl, evidence/*.csv, audits/*) that
+# are fully reproducible from traces + code via `analysis.cli` and don't
+# belong in git. Only the aggregates are un-ignored below, per directory
+# (a directory not listed here -- e.g. a future all-models run -- needs the
+# same block added once it's generated).
+!results/evaluation/v3_final_completed_qwen_llama_20260914/
+results/evaluation/v3_final_completed_qwen_llama_20260914/*
+!results/evaluation/v3_final_completed_qwen_llama_20260914/pcr/
+!results/evaluation/v3_final_completed_qwen_llama_20260914/statistics/
+!results/evaluation/v3_final_completed_qwen_llama_20260914/by_model_dataset/
+!results/evaluation/v3_final_completed_qwen_llama_20260914/answers/
+results/evaluation/v3_final_completed_qwen_llama_20260914/answers/*
+!results/evaluation/v3_final_completed_qwen_llama_20260914/answers/final_answer_summary.csv
 
 # analysis/canonical/ is otherwise a small, fully-tracked code+writeup
 # package, but a handful of raw per-row audit outputs (43k-65k rows each,
@@ -86,11 +88,9 @@ results/evaluation/v3_final_completed_qwen_llama_gemma_20260913/answers/*
 # any claim in the small aggregate tables that ARE tracked -- ignore only
 # these specific files, not the directories they live in.
 analysis/canonical/canonical_run_level_completion.csv
-analysis/canonical/all_models_20260913/canonical_run_level_completion.csv
 analysis/canonical/retrieval_equivalence_by_pair.csv
 analysis/canonical/final_gap_audit/direct_exit_content_audit.csv
 analysis/canonical/final_gap_audit/chapter3_final_gap_audit_bundle.zip
-analysis/canonical/gemma27b_analysis/gemma27b_direct_exit_content_audit.csv
 
 # Archived/superseded code and result directories -- kept on local disk for
 # provenance, but not tracked in git at all (large raw data plus superseded

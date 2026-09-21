@@ -61,7 +61,7 @@ The canonical analysis package lives at the repo-root sibling `../analysis/`
 |---|---|
 | `qwen14b` | **Complete** -- 432/432 shards |
 | `llama8b` | **Complete** -- 432/432 shards |
-| `gemma27b` | **Complete** -- 432/432 shards (finished 2026-09-13) |
+| `gemma27b` | **Re-running** -- 0/432 shards as of 2026-09-14 (arrays 151778-151781); first run (432/432, finished 2026-09-13) used a misconfigured tool-call parser and is quarantined, see repo-root `PUBLISHING.md` |
 | `gpt_oss_20b` | **Blocked** -- 0/432 shards; all 4 production arrays carry a dead `afterok` dependency on a failed gate job (see repo-root `PUBLISHING.md`); being fixed and resubmitted |
 
 Validation-only model: `qwen7b` (never part of the final production matrix;
@@ -126,7 +126,7 @@ accuracy) -- see `../analysis/README.md` for full detail:
 ```bash
 python -m analysis.cli --stage all \
   --production-root results \
-  --output-root results/evaluation/v3_final_completed_qwen_llama_gemma_20260913
+  --output-root results/evaluation/v3_final_completed_qwen_llama_20260914
 ```
 
 The historical, now-archived `final_production_evaluation.py` aggregate
@@ -144,7 +144,8 @@ The current SLURM scripts (regenerated 2026-09-14 to reference the new
 module paths, validated end-to-end via `--mode validate` and the full
 test suite) import this package by module name from the working tree.
 While final jobs are queued or running (currently: `gpt_oss_20b`'s four
-arrays), keep these runtime files stable:
+arrays, and `gemma27b`'s four arrays as of 2026-09-14), keep these runtime
+files stable:
 
 - `runtime/production_models.py`
 - `runtime/production_manifest.py`
@@ -157,6 +158,8 @@ arrays), keep these runtime files stable:
 - `runtime/runner.py`
 - `runtime/runtime_gate.py`
 - `runtime/production_runner.py`
+- `runtime/gemma3_tool_code_parser.py` (vLLM tool-parser plugin, loaded by
+  gemma27b's vLLM server at startup -- see repo-root `PUBLISHING.md`)
 - `launch/generate_production_arrays.py`
 - `metrics.py`, `cue_definitions.py`
 - `open_deep_research/src/open_deep_research/*.py`

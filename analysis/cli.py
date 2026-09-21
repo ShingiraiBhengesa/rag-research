@@ -1,10 +1,15 @@
-"""Canonical CLI entry point for the completed Qwen/Llama/Gemma analysis.
+"""Canonical CLI entry point for the completed Qwen/Llama analysis.
+
+Gemma27b is temporarily excluded again (config.EXCLUDED_MODEL_FAMILIES) --
+its first production run used a misconfigured vLLM tool-call parser; see
+analysis/CHANGELOG.md. Re-add it to config.INCLUDED_MODELS once a fresh,
+correctly-configured 432-shard re-run completes.
 
 Usage (from the repository root):
 
     python -m analysis.cli \\
         --production-root results \\
-        --output-root results/evaluation/v3_final_completed_qwen_llama_gemma_20260913 \\
+        --output-root results/evaluation/v3_final_completed_qwen_llama_20260914 \\
         --stage all
 
 Every path is CLI-configurable and repo-relative by default -- nothing in

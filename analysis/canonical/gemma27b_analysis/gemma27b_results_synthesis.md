@@ -1,4 +1,33 @@
-# Gemma-3-27B-IT: full results analysis
+# Gemma-3-27B-IT: full results analysis (SUPERSEDED — see notice below)
+
+> **⚠️ 2026-09-14 CORRECTION — every number and conclusion below is invalid.**
+> This entire document analyzes gemma27b's *first* production run
+> (432/432 shards, 2026-09-13), which was later found to have been served
+> with a misconfigured vLLM tool-call parser (`functiongemma`, documented
+> as being for a completely different, unrelated model,
+> `google/functiongemma-270m-it` — it never recognized
+> `google/gemma-3-27b-it`'s actual tool calls). That run's "100%
+> NO_TOOL_DIRECT_EXIT" result — and everything below built on top of it —
+> measures the parser bug, not gemma27b's real behavior. The bug is fixed
+> (`attack/runtime/gemma3_tool_code_parser.py`, confirmed working live
+> against a real vLLM+gemma-3-27b-it endpoint) and gemma27b's production
+> arrays were resubmitted 2026-09-14 (jobs 151778-151781). See
+> `../../CHANGELOG.md`'s 2026-09-14 entry for the full root-cause writeup
+> and `PUBLISHING.md` for current run status. The old data is quarantined
+> under
+> `archive/legacy_results/gemma27b_broken_functiongemma_parser_run_20260913/`,
+> not deleted.
+>
+> This document is kept, unmodified below this notice, as an honest record
+> of the investigation that led to finding the parser bug — the
+> methodological lesson in its last section (a `92.3%` "needs human
+> review" audit result was itself a sign of a missed deterministic
+> pattern) remains valid and worth reading. Its substantive claims about
+> gemma27b's behavior (route decomposition, PCR curves, evidence coverage,
+> answer accuracy, "attack has no effect") do **not** hold and must be
+> re-derived from the fresh run before being cited anywhere.
+
+---
 
 Mirrors the qwen14b/llama8b analysis already produced, now extended to
 gemma27b (production matrix completed 2026-09-13, 432/432 shards). All
