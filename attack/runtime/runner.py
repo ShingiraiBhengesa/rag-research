@@ -31,6 +31,7 @@ class V3ModelConfig:
     final_report_max_tokens: int = 1000
     temperature: float = 0.0
     seed: int | None = 20260820
+    reasoning_effort: str | None = None
 
 
 @dataclass(frozen=True)
@@ -147,6 +148,7 @@ def build_runnable_config(request: V3RunRequest, run_id: str, search_trace_path:
         "model_api_key": request.model.api_key,
         "model_temperature": request.model.temperature,
         "model_seed": request.model.seed,
+        "model_reasoning_effort": request.model.reasoning_effort,
         "research_model": request.model.model_name,
         "research_model_max_tokens": request.model.research_max_tokens,
         "compression_model": request.model.model_name,

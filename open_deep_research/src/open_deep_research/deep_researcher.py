@@ -56,7 +56,7 @@ from open_deep_research.utils import (
 
 # Initialize a configurable model that we will use throughout the agent
 configurable_model = init_chat_model(
-    configurable_fields=("model", "model_provider", "max_tokens", "api_key", "base_url", "temperature", "seed"),
+    configurable_fields=("model", "model_provider", "max_tokens", "api_key", "base_url", "temperature", "seed", "reasoning_effort"),
 )
 
 
@@ -76,6 +76,8 @@ def _model_config(configurable: Configuration, config: RunnableConfig, model_nam
         model_config["temperature"] = configurable.model_temperature
     if configurable.model_seed is not None:
         model_config["seed"] = configurable.model_seed
+    if configurable.model_reasoning_effort is not None:
+        model_config["reasoning_effort"] = configurable.model_reasoning_effort
     return model_config
 
 

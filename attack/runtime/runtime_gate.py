@@ -67,6 +67,7 @@ async def run_runtime_gate(args: argparse.Namespace) -> dict[str, Any]:
             final_report_max_tokens=args.final_report_model_max_tokens,
             temperature=0.0,
             seed=args.model_seed,
+            reasoning_effort=args.model_reasoning_effort,
         )
         requests = [
             V3RunRequest(
@@ -293,6 +294,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--tool-call-parser", default="hermes")
     parser.add_argument("--max-model-len", type=int, default=0)
     parser.add_argument("--model-seed", type=int, default=20260820)
+    parser.add_argument("--model-reasoning-effort", default=None)
     parser.add_argument("--top-k", type=int, default=3)
     parser.add_argument("--research-model-max-tokens", type=int, default=1000)
     parser.add_argument("--compression-model-max-tokens", type=int, default=2000)

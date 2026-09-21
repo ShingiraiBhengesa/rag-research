@@ -75,6 +75,7 @@ async def run_shard(args: argparse.Namespace) -> dict[str, Any]:
         final_report_max_tokens=args.final_report_model_max_tokens,
         temperature=args.model_temperature,
         seed=args.model_seed,
+        reasoning_effort=args.model_reasoning_effort,
     )
     processed = 0
     skipped = 0
@@ -284,6 +285,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-api-key", default="EMPTY")
     parser.add_argument("--model-temperature", type=float, default=0.0)
     parser.add_argument("--model-seed", type=int, default=20260820)
+    parser.add_argument("--model-reasoning-effort", default=None)
     parser.add_argument("--research-model-max-tokens", type=int, default=1000)
     parser.add_argument("--compression-model-max-tokens", type=int, default=2000)
     parser.add_argument("--final-report-model-max-tokens", type=int, default=1000)

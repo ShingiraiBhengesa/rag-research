@@ -201,6 +201,15 @@ class Configuration(BaseModel):
             }
         }
     )
+    model_reasoning_effort: Optional[str] = Field(
+        default=None,
+        metadata={
+            "x_oap_ui_config": {
+                "type": "text",
+                "description": "Optional reasoning_effort override (e.g. 'low'/'medium'/'high') for reasoning models served through an OpenAI-compatible endpoint such as vLLM."
+            }
+        }
+    )
     v3_replay_research_brief: Optional[str] = Field(default=None)
     v3_replay_research_topic: Optional[str] = Field(default=None)
     v3_replay_first_search_queries: Optional[List[str]] = Field(default=None)

@@ -25,6 +25,7 @@ from attack.launch.generate_production_arrays import (
 )
 from attack.runtime.production_manifest import MANIFEST_DATASET_NAMES, N_SAMPLE
 from attack.runtime.production_models import FINAL_MODEL_IDS, FINAL_PRODUCTION_MODELS, PIPELINE_VALIDATION_ONLY_MODEL_IDS
+from attack.runtime import production_runner
 from attack.runtime.production_runner import run_shard, shard_for_index, stable_run_id
 from attack.runtime import runner
 from attack.runtime.runner import (
@@ -505,12 +506,180 @@ class V3ProductionContractTests(unittest.TestCase):
             self.assertTrue(all(row["final_status"] == "error" for row in rows))
 
 
+class ReasoningEffortConfigurationTests(unittest.TestCase):
+    """Focused, non-model tests for the end-to-end model_reasoning_effort
+    passthrough: parsed CLI arg -> V3ModelConfig -> build_runnable_config ->
+    ODR's Configuration -> _model_config's LangChain model kwargs, plus the
+    generated sbatch scripts. No model or external service is called
+    anywhere below -- run_shard's actual model call
+    (run_single_condition) is mocked out, and _model_config/build_runnable_config
+    only ever build plain dicts.
+    """
+
+    def test_omitted_reasoning_effort_preserves_existing_behavior(self):
+        argv = [
+            "production_runner.py",
+            "--model", "qwen14b",
+            "--dataset", "hotpot",
+            "--condition", "NaturalClean",
+            "--manifest", "/tmp/unused-manifest.jsonl",
+            "--corpus", "/tmp/unused-corpus.jsonl",
+            "--evidence", "/tmp/unused-evidence.jsonl",
+            "--out-root", "/tmp/unused-out",
+            "--array-index", "0",
+            "--shard-index", "0",
+            "--num-shards", "1",
+            "--model-base-url", "http://127.0.0.1:1/v1",
+        ]
+        with patch("sys.argv", argv):
+            args = production_runner.parse_args()
+        self.assertIsNone(args.model_reasoning_effort)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            run_args = _runner_args(tmp_path, row_count=1, fail_on_error=False, abort_after_consecutive_errors=3)
+            captured = {}
+
+            async def fake_run_single_condition(request):
+                captured["reasoning_effort"] = request.model.reasoning_effort
+                return _trace_for_request(request)
+
+            with patch("attack.runtime.production_runner.run_single_condition", fake_run_single_condition):
+                summary = asyncio.run(run_shard(run_args))
+
+        self.assertIsNone(captured["reasoning_effort"])
+        self.assertEqual(summary["processed"], 1)
+        self.assertEqual(summary["errors"], 0)
+
+    def test_explicit_reasoning_effort_survives_parsed_args_into_v3_model_config(self):
+        argv = [
+            "production_runner.py",
+            "--model", "gpt_oss_20b",
+            "--dataset", "hotpot",
+            "--condition", "NaturalClean",
+            "--manifest", "/tmp/unused-manifest.jsonl",
+            "--corpus", "/tmp/unused-corpus.jsonl",
+            "--evidence", "/tmp/unused-evidence.jsonl",
+            "--out-root", "/tmp/unused-out",
+            "--array-index", "0",
+            "--shard-index", "0",
+            "--num-shards", "1",
+            "--model-base-url", "http://127.0.0.1:1/v1",
+            "--model-reasoning-effort", "low",
+        ]
+        with patch("sys.argv", argv):
+            args = production_runner.parse_args()
+        self.assertEqual(args.model_reasoning_effort, "low")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            run_args = _runner_args(
+                tmp_path, row_count=1, fail_on_error=False, abort_after_consecutive_errors=3,
+                model_reasoning_effort="low",
+            )
+            captured = {}
+
+            async def fake_run_single_condition(request):
+                captured["reasoning_effort"] = request.model.reasoning_effort
+                return _trace_for_request(request)
+
+            with patch("attack.runtime.production_runner.run_single_condition", fake_run_single_condition):
+                asyncio.run(run_shard(run_args))
+
+        self.assertEqual(captured["reasoning_effort"], "low")
+
+    def test_runtime_gate_parses_model_reasoning_effort(self):
+        argv = [
+            "runtime_gate.py",
+            "--model", "gpt_oss_20b",
+            "--model-id", "openai/gpt-oss-20b",
+            "--model-base-url", "http://127.0.0.1:1/v1",
+            "--dataset", "hotpot",
+            "--corpus", "/tmp/unused-corpus.jsonl",
+            "--evidence", "/tmp/unused-evidence.jsonl",
+            "--examples", "/tmp/unused-examples.jsonl",
+            "--gate-dir", "/tmp/unused-gate-dir",
+        ]
+        with patch("sys.argv", argv):
+            args_omitted = runtime_gate.parse_args()
+        self.assertIsNone(args_omitted.model_reasoning_effort)
+
+        with patch("sys.argv", argv + ["--model-reasoning-effort", "low"]):
+            args_explicit = runtime_gate.parse_args()
+        self.assertEqual(args_explicit.model_reasoning_effort, "low")
+
+    def test_build_runnable_config_preserves_reasoning_effort(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            model_with = V3ModelConfig(model_name="openai/gpt-oss-20b", base_url="http://x", reasoning_effort="low")
+            model_without = V3ModelConfig(model_name="qwen14b", base_url="http://x")
+            request_with = V3RunRequest(
+                dataset="hotpot", example_id="ex1", question="q", condition="NaturalClean",
+                corpus_path=tmp_path / "corpus.jsonl", evidence_path=None, output_dir=tmp_path,
+                model=model_with,
+            )
+            request_without = V3RunRequest(
+                dataset="hotpot", example_id="ex1", question="q", condition="NaturalClean",
+                corpus_path=tmp_path / "corpus.jsonl", evidence_path=None, output_dir=tmp_path,
+                model=model_without,
+            )
+
+            cfg_with = build_runnable_config(request_with, "run1", tmp_path / "trace.jsonl")
+            cfg_without = build_runnable_config(request_without, "run2", tmp_path / "trace2.jsonl")
+
+        self.assertEqual(cfg_with["configurable"]["model_reasoning_effort"], "low")
+        self.assertIsNone(cfg_without["configurable"]["model_reasoning_effort"])
+
+    def test_generated_gpt_oss_20b_command_includes_reasoning_effort_flag(self):
+        script = render_sbatch(
+            production_root=Path("/tmp/v3-production"),
+            dataset="hotpot",
+            model="gpt_oss_20b",
+            conditions=("NaturalClean",),
+        )
+        self.assertIn("--model-reasoning-effort low", script)
+
+    def test_models_without_configured_reasoning_effort_do_not_receive_the_flag(self):
+        for model in ("qwen14b", "llama8b", "gemma27b"):
+            script = render_sbatch(
+                production_root=Path("/tmp/v3-production"),
+                dataset="hotpot",
+                model=model,
+                conditions=("NaturalClean",),
+            )
+            self.assertNotIn("--model-reasoning-effort", script, f"unexpected reasoning-effort flag for {model}")
+
+    def test_open_deep_research_model_config_receives_configured_reasoning_effort(self):
+        try:
+            import open_deep_research.deep_researcher as deep_researcher_module
+            from open_deep_research.configuration import Configuration
+            from open_deep_research.deep_researcher import _model_config
+        except ModuleNotFoundError as exc:
+            self.skipTest(f"ODR dependencies are unavailable: {exc}")
+
+        source = Path(deep_researcher_module.__file__).read_text(encoding="utf-8")
+        self.assertIn(
+            'configurable_fields=("model", "model_provider", "max_tokens", "api_key", "base_url", "temperature", "seed", "reasoning_effort")',
+            source,
+        )
+
+        config_with = Configuration(model_api_key="EMPTY", model_reasoning_effort="low")
+        config_without = Configuration(model_api_key="EMPTY")
+
+        model_config_with = _model_config(config_with, {}, "openai/gpt-oss-20b", 1000)
+        model_config_without = _model_config(config_without, {}, "qwen14b", 1000)
+
+        self.assertEqual(model_config_with["reasoning_effort"], "low")
+        self.assertNotIn("reasoning_effort", model_config_without)
+
+
 def _runner_args(
     tmp_path: Path,
     *,
     row_count: int,
     fail_on_error: bool,
     abort_after_consecutive_errors: int,
+    model_reasoning_effort: str | None = None,
 ) -> Namespace:
     manifest = tmp_path / "manifest.jsonl"
     corpus = tmp_path / "corpus.jsonl"
@@ -547,6 +716,7 @@ def _runner_args(
         model_api_key="EMPTY",
         model_temperature=0.0,
         model_seed=20260820,
+        model_reasoning_effort=model_reasoning_effort,
         research_model_max_tokens=1000,
         compression_model_max_tokens=2000,
         final_report_model_max_tokens=1000,
