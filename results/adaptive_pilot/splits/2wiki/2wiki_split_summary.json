@@ -1,0 +1,39 @@
+{
+  "dataset": "2wiki",
+  "n_eligible_total": 12576,
+  "n_genuinely_unused": 12126,
+  "n_prior_exposed": 474,
+  "pilot_split_label": "genuinely_unused",
+  "prior_exposure_counts": {
+    "cue_development": 24,
+    "production_n450": 450,
+    "runtime_gate": 3
+  },
+  "seed": 20261005,
+  "splits": {
+    "dev": {
+      "corpus": "/home/sbhengesa/rag-research/results/adaptive_pilot/splits/2wiki/dev/2wiki_dev_corpus.jsonl",
+      "evidence": "/home/sbhengesa/rag-research/results/adaptive_pilot/splits/2wiki/dev/2wiki_dev_evidence.jsonl",
+      "manifest": "/home/sbhengesa/rag-research/results/adaptive_pilot/splits/2wiki/dev/2wiki_dev_manifest.jsonl",
+      "n": 10,
+      "type_counts": {
+        "bridge_comparison": 3,
+        "comparison": 3,
+        "compositional": 2,
+        "inference": 2
+      }
+    },
+    "heldout": {
+      "corpus": "/home/sbhengesa/rag-research/results/adaptive_pilot/splits/2wiki/heldout/2wiki_heldout_corpus.jsonl",
+      "evidence": "/home/sbhengesa/rag-research/results/adaptive_pilot/splits/2wiki/heldout/2wiki_heldout_evidence.jsonl",
+      "manifest": "/home/sbhengesa/rag-research/results/adaptive_pilot/splits/2wiki/heldout/2wiki_heldout_manifest.jsonl",
+      "n": 20,
+      "type_counts": {
+        "bridge_comparison": 5,
+        "comparison": 5,
+        "compositional": 5,
+        "inference": 5
+      }
+    }
+  }
+}

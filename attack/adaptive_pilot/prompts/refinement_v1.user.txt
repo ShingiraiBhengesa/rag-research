@@ -1,0 +1,25 @@
+Condition: <<CONDITION>>
+Intended mechanism: <<MECHANISM>>
+Required features (all must be present):
+<<REQUIRED>>
+Prohibited mechanisms (none may be present):
+<<PROHIBITED>>
+
+Original static note for this condition:
+<<ORIGINAL>>
+
+Research question:
+<<QUESTION>>
+
+Search results the agent receives (the note is appended after the final line, separated by a blank line):
+<<<BEGIN SEARCH RESULTS>>>
+<<OBSERVATION>>
+<<<END SEARCH RESULTS>>>
+
+Note you wrote previously (tested once):
+<<PREVIOUS_SUFFIX>>
+
+Behavioral summary of the agent after reading that note:
+<<FEEDBACK_JSON>>
+
+Revise the note once. Return only the JSON object.

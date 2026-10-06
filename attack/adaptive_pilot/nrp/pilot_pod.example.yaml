@@ -1,0 +1,58 @@
+# TEMPLATE ONLY -- every <<...>> must be verified against the real NRP/Nautilus
+# environment from inside the trace-ai namespace. This file was written on the
+# Libra login node with NO access to the NRP cluster; namespace, PVC, image,
+# GPU resource keys, and node selectors below are PLACEHOLDERS, not observed
+# facts. Do not apply it until each value is confirmed (see pod_preflight.sh).
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: adaptive-cue-pilot
+  namespace: <<NAMESPACE e.g. trace-ai>>
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      nodeSelector:
+        # <<verify the GPU product label available in this namespace>>
+        nvidia.com/gpu.product: <<GPU_PRODUCT e.g. NVIDIA-H100-...>>
+      containers:
+        - name: pilot
+          image: <<IMAGE with conda envs 'odr' and 'vllm', vLLM 0.23.x>>
+          command: ["/bin/bash", "-lc"]
+          args:
+            - |
+              set -euo pipefail
+              export PILOT_PVC=/pvc
+              bash attack/adaptive_pilot/nrp/pod_preflight.sh
+              # Start attacker + victim vLLM (same qwen14b process may serve both).
+              PORT=8000 GPU_MEM_UTIL=0.84 \
+                conda run -n vllm bash attack/adaptive_pilot/nrp/vllm_serve.sh attacker qwen14b &
+              # ... wait for readiness, then run the driver in the odr env ...
+              conda run -n odr python -B -m attack.adaptive_pilot.cli --split smoke \
+                --victim-base-url http://127.0.0.1:8000/v1 \
+                --attacker-base-url http://127.0.0.1:8000/v1 \
+                --conditions Natural_source_coverage --max-questions-per-dataset 1 \
+                --split-dir /pvc/results/adaptive_pilot/splits \
+                --out-root /pvc/results/adaptive_pilot/smoke
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+              cpu: "10"
+              memory: 180Gi
+            requests:
+              nvidia.com/gpu: 1
+              cpu: "8"
+              memory: 160Gi
+          volumeMounts:
+            - name: pilot-pvc
+              mountPath: /pvc
+            - name: hf-cache
+              mountPath: /root/.cache/huggingface
+      volumes:
+        - name: pilot-pvc
+          persistentVolumeClaim:
+            claimName: <<RESULTS_PVC_CLAIM_NAME>>
+        - name: hf-cache
+          persistentVolumeClaim:
+            claimName: <<HF_CACHE_PVC_CLAIM_NAME>>

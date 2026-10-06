@@ -41,6 +41,11 @@ ORACLE_COMPLETE_CONDITIONS = (
 
 V3_CONDITIONS = NATURAL_CONDITIONS + ORACLE_COMPLETE_CONDITIONS
 
+# Reserved cue_overrides key used only by the adaptive-cue pilot to supply an
+# explicit per-run suffix through the canonical injection interface. Never set
+# by production code; see suffix_for_condition() for the no-op guarantee.
+PILOT_SUFFIX_OVERRIDE_KEY = "__pilot_suffix_override__"
+
 DEPRECATED_CONDITION_ALIASES = {
     "Natural_BestNewSingle": "Natural_PreRegisteredSufficiency",
     "Natural_BestNewCompound": "Natural_PreRegisteredSufficiencySaturation",
@@ -88,6 +93,30 @@ def suffix_for_condition(condition: str, cue_overrides: Mapping[str, str] | None
     suffix = ""
     requires_injection = condition != "NaturalClean"
     oracle_complete = condition in ORACLE_COMPLETE_CONDITIONS
+
+    # Additive, production-no-op hook for the adaptive-cue pilot
+    # (attack/adaptive_pilot/). When the reserved key below is present in
+    # cue_overrides, the resolved suffix TEXT is replaced by the supplied
+    # string while the condition's injection gating and oracle semantics are
+    # left untouched -- the pilot's generated cues thus flow through the exact
+    # same one-shot, positionally-gated append interface as the static cues.
+    # Production never sets this key (the production runner passes
+    # cue_overrides={}), so every production condition resolves bit-identically
+    # whether or not an empty override dict is supplied. Guarded by a
+    # regression test in attack/adaptive_pilot/tests/.
+    override = cue_overrides.get(PILOT_SUFFIX_OVERRIDE_KEY) if cue_overrides else None
+    if override is not None:
+        if condition == "NaturalClean":
+            raise ValueError("NaturalClean takes no injected suffix; pilot override is invalid for it")
+        if not isinstance(override, str) or not override.strip():
+            raise ValueError("pilot suffix override must be a non-empty string")
+        return CueResolution(
+            condition=condition,
+            suffix=override,
+            suffix_hash=hash_text(override, length=None),
+            requires_injection=requires_injection,
+            oracle_complete=oracle_complete,
+        )
 
     if condition == "NaturalClean":
         suffix = ""
