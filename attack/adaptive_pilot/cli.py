@@ -63,8 +63,8 @@ def _victim_config(model_key: str, base_url: str, api_key: str) -> V3ModelConfig
     )
 
 
-def _attacker_config(base_url: str, api_key: str) -> AttackerConfig:
-    spec = pilot_config.VICTIM_MODELS[pilot_config.ATTACKER_MODEL_KEY]
+def _attacker_config(base_url: str, api_key: str, model_key: str) -> AttackerConfig:
+    spec = pilot_config.VICTIM_MODELS[model_key]
     return AttackerConfig(
         base_url=base_url, model_id=spec["model_id"], revision=spec["revision"], api_key=api_key,
         temperature=pilot_config.ATTACKER_TEMPERATURE, top_p=pilot_config.ATTACKER_TOP_P,
@@ -100,7 +100,7 @@ def run(args) -> int:
     conditions = args.conditions or list(pilot_config.LAUNCH_CONDITION_IDS)
     datasets = args.datasets or ["hotpot", "2wiki"]
 
-    attacker_cfg = _attacker_config(args.attacker_base_url, args.api_key)
+    attacker_cfg = _attacker_config(args.attacker_base_url, args.api_key, args.attacker_model_key)
     token_counter = _token_counter(args, attacker_cfg)
 
     processed = skipped = failed = 0
@@ -156,6 +156,9 @@ def parse_args(argv=None) -> argparse.Namespace:
     ap.add_argument("--out-root", default=str(PILOT_RESULTS_ROOT))
     ap.add_argument("--victim-base-url", required=True, help="OpenAI-compatible vLLM endpoint for victim inference")
     ap.add_argument("--attacker-base-url", required=True, help="OpenAI-compatible vLLM endpoint for attacker inference")
+    ap.add_argument("--attacker-model-key", default=pilot_config.ATTACKER_MODEL_KEY,
+                    choices=sorted(pilot_config.VICTIM_MODELS),
+                    help="which model serves as the attacker (default qwen14b; use qwen7b to fit a 24GB GPU)")
     ap.add_argument("--api-key", default=os.environ.get("PILOT_API_KEY", "EMPTY"))
     ap.add_argument("--tokenizer-json", default=None, help="local tokenizer.json for length counting (else vLLM /tokenize)")
     ap.add_argument("--victims", nargs="*", default=None)
