@@ -124,6 +124,42 @@ SECRETS = """\
 """
 
 
+TOOLBOX = """\
+# No-GPU pod with the PVC and the pilot env, for audit-export, analyze and
+# copying files in/out (kubectl cp / exec). Delete it when done.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dbcp-toolbox-{short}
+  namespace: {namespace}
+  labels: {{app: dynamic-bridge-cue-pilot}}
+spec:
+  priorityClassName: opportunistic
+  restartPolicy: Never
+  containers:
+    - name: main
+      image: {image}
+      command: ["/bin/bash", "-lc", "sleep infinity"]
+      env:
+        - {{name: REPO, value: /pvc/code/{commit}}}
+        - {{name: PY_ODR, value: /pvc/envs/odr-{commit}/bin/python}}
+        - {{name: PYTHONPATH, value: /pvc/code/{commit}:/pvc/code/{commit}/open_deep_research/src}}
+        - {{name: HF_HOME, value: /pvc/hf}}
+        - {{name: HF_HUB_OFFLINE, value: "1"}}
+        - {{name: STATE_DIR, value: /pvc/checkpoints/dynamic_bridge_cue_pilot}}
+        - {{name: RESULTS_DIR, value: /pvc/results/dynamic_bridge_cue_pilot}}
+      resources:
+        requests: {{memory: "16Gi", cpu: "4"}}
+        limits: {{memory: "16Gi", cpu: "4"}}
+      volumeMounts:
+        - {{name: work, mountPath: /pvc}}
+  volumes:
+    - name: work
+      persistentVolumeClaim:
+        claimName: adaptive-pilot-work
+"""
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", required=True, choices=("smoke", "dev", "full"))
@@ -152,6 +188,8 @@ def main():
                 f"dbcp-{a.split}-{v}-{d}-{short}", a.namespace, a.image,
                 f'bash "$REPO/experiments/dynamic_bridge_cue_pilot/nrp/run_phase.sh" cell {a.split} {v} {d}',
                 gpu=1, shards=a.shards, **common))
+    (out / "03-toolbox.yaml").write_text(TOOLBOX.format(namespace=a.namespace, image=a.image, commit=a.commit,
+                                                        short=short))
     print(f"wrote {out} ({a.shards} shard(s) per cell, {4 * a.shards} cell pods)")
 
 
