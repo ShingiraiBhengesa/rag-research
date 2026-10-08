@@ -1,0 +1,18 @@
+Question being researched: <<QUESTION>>
+
+Retrieved documents:
+<<DOCUMENTS>>
+
+Bridge fact (stated in the documents): <<BRIDGE_FACT>>
+Supporting excerpt: "<<BRIDGE_SPAN>>"
+
+Write an appended note of at most <<TOKEN_BUDGET>> tokens that:
+- restates the bridge fact using only names and details present in the question or documents;
+- <<MECHANISM_RULE>>
+Constraints:
+- Do not state, guess, or hint at the final answer to the question.
+- Do not introduce any name, date, number, or relation that is not in the question or documents.
+- <<PROHIBITED_RULE>>
+- Do not copy this fixed wording: "<<FIXED_SUFFIX>>"
+
+Return JSON: {"cue": "<the note>"}

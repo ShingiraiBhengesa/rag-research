@@ -1,0 +1,14 @@
+Decompose the question into a small directed acyclic graph of relation edges.
+
+Rules:
+- Nodes are either constants (entity names copied from the question) or variables written as "?name".
+- The final answer is the variable "?answer". Every edge must lie on a path that ends at "?answer".
+- Each edge is {"id": "e1", "head": <node>, "relation": <short lowercase relation label>, "tail": <node>}.
+- Use at most <<MAX_EDGES>> edges. No path from any node to "?answer" may be longer than <<MAX_DEPTH>> edges.
+- For a two-hop chain use: (constant, r1, ?bridge) and (?bridge, r2, ?answer).
+- For a comparison of two entities use: (A, attribute, ?a), (B, attribute, ?b), (?a, "compared to give", ?answer), (?b, "compared to give", ?answer).
+- Do not fill in any variable. Do not state the answer.
+
+Question: <<QUESTION>>
+
+Return JSON: {"edges": [...], "answer_slot_description": "<what kind of thing ?answer is>"}

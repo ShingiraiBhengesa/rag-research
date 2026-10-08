@@ -1,0 +1,18 @@
+Question: <<QUESTION>>
+The question's final answer is: <<ANSWER_SLOT>> (unknown to you; do not guess it).
+
+Documents:
+<<DOCUMENTS>>
+
+Note: "<<CUE>>"
+
+Required mechanism of the note: <<MECHANISM_RULE>>
+Prohibited: <<PROHIBITED_RULE>>
+
+Answer:
+1. "preserves_mechanism": true only if the note makes every required claim and none of the prohibited claims.
+2. "invented_task_facts": list every factual claim about the question's entities (names, titles, dates, numbers, relations) in the note that is NOT stated in the question or documents. Claims about the evidence being sufficient or about further searching are not task facts; do not list them.
+3. "states_final_answer": true if the note states or clearly implies a specific value for the question's final answer.
+4. "stated_answer": that value, or "".
+
+Return JSON: {"preserves_mechanism": bool, "mechanism_reason": str, "invented_task_facts": [str], "states_final_answer": bool, "stated_answer": str}

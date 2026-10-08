@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+"""Render the NRP Job manifests for one split at one frozen commit.
+
+    python render_jobs.py --split smoke --commit <sha> [--namespace trace-ai]
+
+Writes nrp/k8s/rendered/<split>/{00-setup,01-decompose,02-cell-*}.yaml.
+Apply in order: setup (once per commit), decompose, then the four cells
+(the cells wait for the decompose marker on the PVC by themselves).
+
+Infrastructure from the NRP brief: priorityClassName opportunistic (pods can be
+preempted -> every phase checkpoints per unit to the PVC), NVIDIA-L40 nodes,
+1 GPU / 48Gi / 8 CPU per job, PVC adaptive-pilot-work mounted at /pvc
+(RWX; the four cells write disjoint files). The V100 fallback with 4-bit
+quantisation is deliberately NOT rendered: see ../README.md.
+"""
+import argparse
+from pathlib import Path
+
+VICTIMS = ("qwen14b", "llama8b")
+DATASETS = ("hotpot", "2wiki")
+
+POD_COMMON = """\
+      priorityClassName: opportunistic
+      restartPolicy: OnFailure
+      nodeSelector:
+        nvidia.com/gpu.product: NVIDIA-L40
+      volumes:
+        - name: work
+          persistentVolumeClaim:
+            claimName: adaptive-pilot-work
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 8Gi
+"""
+
+ENV = """\
+          env:
+            - {{name: REPO, value: /pvc/code/{commit}}}
+            - {{name: PY_VLLM, value: python3}}
+            - {{name: PY_ODR, value: /pvc/envs/odr-{commit}/bin/python}}
+            - {{name: HF_HOME, value: /pvc/hf}}
+            - {{name: STATE_DIR, value: /pvc/checkpoints/dynamic_bridge_cue_pilot}}
+            - {{name: RESULTS_DIR, value: /pvc/results/dynamic_bridge_cue_pilot}}
+            - {{name: SMOKE_PROVISIONAL_LAMBDA, value: "{smoke_lambda}"}}
+"""
+
+RESOURCES = """\
+          resources:
+            requests: {{nvidia.com/gpu: "{gpu}", memory: "48Gi", cpu: "8"}}
+            limits: {{nvidia.com/gpu: "{gpu}", memory: "48Gi", cpu: "8"}}
+          volumeMounts:
+            - {{name: work, mountPath: /pvc}}
+            - {{name: dshm, mountPath: /dev/shm}}
+"""
+
+
+def job(name, namespace, image, args, *, gpu, commit, smoke_lambda, extra_env=""):
+    return f"""\
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {name}
+  namespace: {namespace}
+  labels: {{app: dynamic-bridge-cue-pilot, commit: "{commit[:12]}"}}
+spec:
+  backoffLimit: 50
+  template:
+    metadata:
+      labels: {{app: dynamic-bridge-cue-pilot}}
+    spec:
+{POD_COMMON}      containers:
+        - name: main
+          image: {image}
+          command: ["/bin/bash", "-lc"]
+          args:
+            - |
+{chr(10).join('              ' + line for line in args.strip().splitlines())}
+{ENV.format(commit=commit, smoke_lambda=smoke_lambda)}{extra_env}{RESOURCES.format(gpu=gpu)}"""
+
+
+SETUP = """\
+set -euo pipefail
+# 1) code at the frozen commit (read-only thereafter)
+if [ ! -d "$REPO/.git" ]; then
+  git clone --no-checkout "https://x-access-token:${GITHUB_TOKEN}@github.com/ShingiraiBhengesa/rag-research.git" "$REPO"
+  git -C "$REPO" checkout --detach {commit}
+fi
+test "$(git -C "$REPO" rev-parse HEAD)" = "{commit}"
+git -C "$REPO" remote set-url origin https://github.com/ShingiraiBhengesa/rag-research.git
+# 2) driver env layered on the serving image (torch/transformers/vllm from the image)
+if [ ! -x "$PY_ODR" ]; then
+  python3 -m venv --system-site-packages "$(dirname "$(dirname "$PY_ODR")")"
+  "$PY_ODR" -m pip install -q -e "$REPO/open_deep_research" -r "$REPO/requirements-whitebox.txt"
+fi
+# 3) weights at the pinned revisions + the pinned NLI checker
+export HF_HUB_ENABLE_HF_TRANSFER=0
+python3 - <<'PY'
+from huggingface_hub import snapshot_download
+for repo, rev in [("Qwen/Qwen2.5-14B-Instruct", "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8"),
+                  ("meta-llama/Llama-3.1-8B-Instruct", "0e9e39f249a16976918f6564b8830bc894c89659"),
+                  ("cross-encoder/nli-deberta-v3-base", "6c749ce3425cd33b46d187e45b92bbf96ee12ec7")]:
+    print(snapshot_download(repo, revision=rev))
+PY
+# 4) offline tests inside the pod environment (same code as validated on Libra)
+cd "$REPO" && PYTHONPATH="$REPO:$REPO/open_deep_research/src" HF_HUB_OFFLINE=1 \\
+  "$PY_ODR" -m unittest attack.dynamic_bridge_pilot.tests.test_pilot
+echo SETUP_OK
+"""
+
+SECRETS = """\
+            - name: GITHUB_TOKEN
+              valueFrom: {secretKeyRef: {name: github-token, key: token}}
+            - name: HF_TOKEN
+              valueFrom: {secretKeyRef: {name: hf-token, key: token}}
+"""
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--split", required=True, choices=("smoke", "dev", "heldout"))
+    ap.add_argument("--commit", required=True)
+    ap.add_argument("--namespace", default="trace-ai")
+    ap.add_argument("--image", default="vllm/vllm-openai:v0.23.0")
+    a = ap.parse_args()
+    if len(a.commit) != 40:
+        ap.error("--commit must be the full 40-char SHA of the pushed, frozen branch head")
+    out = Path(__file__).resolve().parent / "rendered" / a.split
+    out.mkdir(parents=True, exist_ok=True)
+    smoke_lambda = "1" if a.split == "smoke" else "0"
+    short = a.commit[:8]
+    common = dict(commit=a.commit, smoke_lambda=smoke_lambda)
+    (out / "00-setup.yaml").write_text(job(f"dbcp-setup-{short}", a.namespace, a.image, SETUP.replace("{commit}", a.commit),
+                                           gpu=0, extra_env=SECRETS, **common))
+    (out / "01-decompose.yaml").write_text(job(
+        f"dbcp-{a.split}-decompose-{short}", a.namespace, a.image,
+        f'bash "$REPO/experiments/dynamic_bridge_cue_pilot/nrp/run_phase.sh" decompose {a.split}', gpu=1, **common))
+    for v in VICTIMS:
+        for d in DATASETS:
+            (out / f"02-cell-{v}-{d}.yaml").write_text(job(
+                f"dbcp-{a.split}-{v}-{d}-{short}", a.namespace, a.image,
+                f'bash "$REPO/experiments/dynamic_bridge_cue_pilot/nrp/run_phase.sh" cell {a.split} {v} {d}',
+                gpu=1, **common))
+    print(f"wrote {out}")
+
+
+if __name__ == "__main__":
+    main()

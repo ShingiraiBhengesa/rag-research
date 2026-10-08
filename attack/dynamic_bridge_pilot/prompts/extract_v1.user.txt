@@ -1,0 +1,19 @@
+The question's reasoning graph has these relation edges (variables start with "?"):
+<<EDGES>>
+
+Allowed relation labels: <<RELATIONS>>
+
+From the documents below, extract up to <<MAX_FACTS>> facts that instantiate one of the relation edges.
+For each fact give:
+- "relation": exactly one allowed relation label;
+- "head" and "tail": the two arguments as they appear in the documents;
+- "statement": one short declarative sentence expressing the fact;
+- "span": a contiguous excerpt copied character-for-character from ONE document that states the fact (no ellipses, no edits).
+Only extract facts that the documents state. If none, return an empty list.
+
+Question: <<QUESTION>>
+
+Documents:
+<<DOCUMENTS>>
+
+Return JSON: {"facts": [...]}

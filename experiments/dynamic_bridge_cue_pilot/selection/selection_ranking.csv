@@ -1,0 +1,8 @@
+condition,display_name,n_sig_cells_peak_all8,n_sig_cells_peak_pilot4,min_cell_delta_peak,mean_delta_peak,qwen14b_mean_delta@1,qwen14b_mean_delta@2,llama8b_mean_delta@5,llama8b_mean_delta@2,mean_evidence_loss_pp,mean_answer_net_harm_pp,rank
+Natural_PreRegisteredSufficiencySaturation,PreRegisteredSufficiencySaturation,8,4,11.9,20.01,23.97,19.45,16.05,39.59,1.68,0.69,1
+Natural_PreRegisteredSufficiency,PreRegisteredSufficiency,8,4,10.39,20.23,25.64,20.68,14.81,35.76,1.11,0.31,2
+Natural_search_match_source,Search-match + source,8,4,7.11,11.51,10.33,9.35,12.69,28.89,,,3
+Natural_search_match_cue,Search-match cue,8,4,4.6,9.52,11.3,8.92,7.75,18.59,0.47,-0.18,4
+Natural_epistemic_confirmation,Epistemic confirmation,8,4,3.36,6.93,5.35,4.04,8.5,11.19,0.65,-0.35,5
+Natural_epistemic_confirmation_source,Epistemic confirmation + source,7,4,0.23,8.16,5.46,4.7,10.87,13.12,,,6
+Natural_source_coverage,Source coverage,3,1,-0.46,3.48,1.42,2.74,5.54,4.28,0.01,0.35,7

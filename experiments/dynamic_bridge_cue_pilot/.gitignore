@@ -1,0 +1,4 @@
+# victim traces, phase checkpoints and vLLM logs: large, regenerated, live on the PVC
+state/
+smoke_results/
+nrp/k8s/rendered/

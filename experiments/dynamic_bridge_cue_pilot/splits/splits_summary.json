@@ -1,0 +1,53 @@
+{
+  "2wiki": {
+    "dataset": "2wiki",
+    "dev": {
+      "n": 10,
+      "source": "results/adaptive_pilot/splits/2wiki/dev/2wiki_dev_manifest.jsonl"
+    },
+    "heldout": {
+      "n": 100,
+      "type_counts": {
+        "bridge_comparison": 25,
+        "comparison": 25,
+        "compositional": 25,
+        "inference": 25
+      }
+    },
+    "n_eligible": 12576,
+    "n_pool_after_exclusions": 12116,
+    "seed": 20261007,
+    "smoke": {
+      "n": 3,
+      "type_counts": {
+        "bridge_comparison": 1,
+        "comparison": 1,
+        "compositional": 1
+      }
+    }
+  },
+  "hotpot": {
+    "dataset": "hotpot",
+    "dev": {
+      "n": 10,
+      "source": "results/adaptive_pilot/splits/hotpot/dev/hotpot_dev_manifest.jsonl"
+    },
+    "heldout": {
+      "n": 100,
+      "type_counts": {
+        "bridge": 50,
+        "comparison": 50
+      }
+    },
+    "n_eligible": 7405,
+    "n_pool_after_exclusions": 6945,
+    "seed": 20261007,
+    "smoke": {
+      "n": 3,
+      "type_counts": {
+        "bridge": 2,
+        "comparison": 1
+      }
+    }
+  }
+}
