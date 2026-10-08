@@ -115,3 +115,6 @@ chapter3_methodology_audit/
 adaptive-rag/
 self-rag/
 scripts/
+
+# >100 MB (GitHub per-file limit); regenerable from traces via the results-bundle generator
+gemma_gptoss_results_bundle/data/answer_run_level.csv

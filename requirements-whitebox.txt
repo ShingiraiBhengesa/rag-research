@@ -18,3 +18,6 @@ transformers==5.12.1
 pandas==3.0.3
 openpyxl==3.1.5
 tabulate==0.10.0
+# scipy: PchipInterpolator for figures_bundle.py's monotone-smoothed PCR
+# condition-group grid figures (plot_pcr_condition_grid).
+scipy==1.17.1

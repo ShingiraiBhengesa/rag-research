@@ -82,16 +82,195 @@ def plot_pcr_curve_stepwise(rows: list[dict], model: str, dataset: str, conditio
 
 
 def generate_pcr_figures(data_dir: Path, fig_root: Path) -> None:
+    """Per-(model,dataset) appendix reference only -- all 12 conditions, one
+    step-function panel each. The prespecified-5-condition "main" variant
+    this used to also generate (pcr_curve_{model}_{dataset}_main.*) is
+    superseded by plot_pcr_condition_grid's one-figure-per-dataset,
+    both-models, all-12-condition, smoothed grid below; removed rather than
+    kept alongside it to avoid two different "the" PCR curve figures."""
     stepwise = _read_csv(data_dir / "pcr_stepwise.csv")
     for model in CANONICAL_BUNDLE_MODELS:
         for dataset in config.DATASETS:
             plot_pcr_curve_stepwise(
-                stepwise, model, dataset, config.MAIN_PAPER_CDF_CONDITIONS,
-                fig_root / "pcr_curves", f"pcr_curve_{model}_{dataset}_main",
-            )
-            plot_pcr_curve_stepwise(
                 stepwise, model, dataset, config.CONDITIONS,
                 fig_root / "pcr_curves" / "appendix", f"pcr_curve_{model}_{dataset}_all12",
+            )
+
+
+# Attack-panel figures: one image per (model, family), rows = that family's
+# individual conditions, columns = datasets. Every condition is compared only
+# against NaturalClean -- including Oracle Complete-Saturation, by explicit
+# request, even though its evidence regime (all annotated gold evidence
+# supplied) differs from Clean's real BM25 retrieval; this is a deliberate
+# choice to keep one single baseline throughout, not an implicit default.
+#
+# 2026-09-28: extended from 4 families (8 attack conditions) to 5 (all 12
+# conditions) by adding "Non-attack controls" -- NaturalNeutral,
+# NaturalContinueSearch, and OracleComplete_Neutral were previously shown
+# only in the dense all12 appendix overlay (generate_pcr_figures below), not
+# in this one-condition-per-panel comparison style. They are not attacks (no
+# manipulative content is injected), so they get their own family rather than
+# being folded into one of the four attack families above.
+PCR_GRID_ROWS: tuple[tuple[str, str, tuple[str, ...]], ...] = (
+    ("Cue-only attacks", "NaturalClean", config.CUE_ONLY_ATTACK_CONDITIONS),
+    ("Source-attached ablations", "NaturalClean", config.SOURCE_ATTACHED_ATTACK_CONDITIONS),
+    ("Preregistered sufficiency", "NaturalClean", config.PREREGISTERED_SUFFICIENCY_CONDITIONS),
+    ("Oracle calibration", "NaturalClean", tuple(
+        c for c in config.ORACLE_CONDITIONS if c != "OracleComplete_Neutral"
+    )),
+    ("Non-attack controls", "NaturalClean", (
+        "NaturalNeutral", "NaturalContinueSearch", "OracleComplete_Neutral",
+    )),
+)
+
+# CONDITION_COLORS["Natural_source_coverage"] (#8C8C8C) is a near-duplicate
+# of this grid's #888888 gray-dashed baseline -- solid vs. dashed alone
+# doesn't reliably distinguish two near-identical grays at figure scale, so
+# Source Coverage effectively disappeared into the Clean baseline in the
+# "Cue-only attacks" row. Local override, grid-only (not touched in the
+# shared CONDITION_COLORS dict other figures still use unchanged).
+_GRID_COLOR_OVERRIDES: dict[str, str] = {
+    "Natural_source_coverage": "#C2185B",
+}
+
+
+def _condition_thesis_labels() -> dict[str, str]:
+    """condition_id -> thesis_display_label, the authoritative thesis-facing
+    condition names (analysis/canonical/condition_metadata.csv) -- distinct
+    from and nicer than config.CONDITION_DISPLAY_NAMES's shorter internal
+    labels (e.g. "Fixed Sufficiency" here vs "PreRegisteredSufficiency"
+    there)."""
+    metadata_path = Path(__file__).resolve().parents[1] / "condition_metadata.csv"
+    return {r["condition_id"]: r["thesis_display_label"] for r in _read_csv(metadata_path)}
+
+
+def _smooth_xy(xs: list[int], ys: list[float], n_dense: int = 300):
+    """Monotone-preserving (PCHIP) interpolation for a visually smooth curve
+    that never overshoots or dips below the true step-wise values -- PCR is
+    monotonic nondecreasing by construction (canonical_completion.py), so a
+    plain cubic spline could introduce a spurious visible decrease that
+    misrepresents the metric. Falls back to the raw points untouched if
+    there are too few to interpolate."""
+    import numpy as np
+    from scipy.interpolate import PchipInterpolator
+
+    if len(xs) < 3:
+        return xs, ys
+    xs_dense = np.linspace(min(xs), max(xs), n_dense)
+    return xs_dense, PchipInterpolator(xs, ys)(xs_dense)
+
+
+def _panel_xlim(by_cond: dict[str, list[tuple[int, float]]], conds: tuple[str, ...], floor: int = 10, ceiling: int = 30, threshold: float = 99.5) -> int:
+    """Adaptive x-axis upper bound for one panel: the last step at which any
+    plotted condition was still below `threshold`, plus a small margin --
+    never below `floor`, never past the real observed `ceiling`. PCR curves
+    saturate near 100% and then run flat for the remainder of the 30-step
+    budget; a fixed 1-30 axis buries the actual divergence between baseline
+    and attack in the first few steps against 15-20 steps of dead space.
+    This keeps the y-axis honest (still fixed 0-100, see plot_pcr_attack_panels)
+    while zooming the x-axis to where the effect is actually visible, computed
+    per panel so a slower-saturating condition/dataset isn't clipped."""
+    last_below = floor
+    for cond in conds:
+        for step, pcr in by_cond.get(cond, []):
+            if pcr < threshold:
+                last_below = max(last_below, step)
+    return min(last_below + 2, ceiling)
+
+
+def plot_pcr_attack_panels(rows: list[dict], model: str, group_label: str, baseline_cond: str, attack_conds: tuple[str, ...], out_dir: Path, name: str, datasets: tuple[str, ...] = config.DATASETS) -> None:
+    """One image per (model, attack family): rows = the family's individual
+    conditions (each gets its own panel -- never more than one attack line
+    sharing a panel with the baseline), columns = `datasets` (defaults to
+    all 4; pass an explicit subset for a model with incomplete dataset
+    coverage, e.g. gpt_oss_20b missing 2wiki -- an empty column would
+    otherwise render as a blank panel instead of simply not existing).
+    Lets a reader follow one specific attack's effect across every
+    available dataset at a glance, for one model at a time."""
+    model_rows = [r for r in rows if r["model"] == model]
+    if not model_rows:
+        return
+
+    thesis_labels = _condition_thesis_labels()
+    n_rows, n_cols = len(attack_conds), len(datasets)
+    fig, axes = plt.subplots(
+        n_rows, n_cols, figsize=(5.0 * n_cols, 3.8 * n_rows), sharex=False, sharey=True, squeeze=False,
+    )
+    legend_handles: dict[str, plt.Line2D] = {}
+    baseline_color = "#888888" if baseline_cond == "NaturalClean" else CONDITION_COLORS.get(baseline_cond)
+    baseline_label = thesis_labels.get(baseline_cond, baseline_cond)
+
+    for row_idx, attack_cond in enumerate(attack_conds):
+        attack_color = _GRID_COLOR_OVERRIDES.get(attack_cond, CONDITION_COLORS.get(attack_cond))
+        attack_label = thesis_labels.get(attack_cond, attack_cond)
+        for col_idx, dataset in enumerate(datasets):
+            ax = axes[row_idx][col_idx]
+            by_cond: dict[str, list[tuple[int, float]]] = defaultdict(list)
+            for r in model_rows:
+                if r["dataset"] != dataset:
+                    continue
+                pcr = r["pcr"]
+                if pcr in ("", "None"):
+                    continue
+                by_cond[r["condition"]].append((int(r["step"]), 100.0 * float(pcr)))
+
+            for cond, label, style in (
+                (baseline_cond, baseline_label, {"linestyle": "--", "color": baseline_color, "linewidth": 2.2}),
+                (attack_cond, attack_label, {"color": attack_color, "linewidth": 2.6}),
+            ):
+                pts = sorted(by_cond.get(cond, []))
+                if not pts:
+                    continue
+                xs, ys = [p[0] for p in pts], [p[1] for p in pts]
+                xs_s, ys_s = _smooth_xy(xs, ys)
+                (line,) = ax.plot(xs_s, ys_s, label=label, **style)
+                legend_handles.setdefault(label, line)
+
+            ax.set_ylim(0, 100)
+            ax.set_xlim(1, _panel_xlim(by_cond, (baseline_cond, attack_cond)))
+            ax.grid(alpha=0.3)
+            ax.tick_params(labelsize=11)
+            if row_idx == 0:
+                ax.set_title(config.DISPLAY_DATASET_NAMES.get(dataset, dataset), fontsize=14, fontweight="bold")
+            if col_idx == 0:
+                ax.set_ylabel(f"{attack_label}\nPCR@k (%)", fontsize=12)
+            if row_idx == n_rows - 1:
+                ax.set_xlabel("Decision step (k)", fontsize=12)
+
+    fig.suptitle(
+        f"{config.DISPLAY_MODEL_NAMES.get(model, model)} — {group_label}",
+        fontsize=19, fontweight="bold",
+    )
+    fig.legend(
+        legend_handles.values(), legend_handles.keys(),
+        loc="lower center", ncol=min(len(legend_handles), 4), fontsize=12, bbox_to_anchor=(0.5, -0.015 * (4 / max(n_rows, 1))),
+    )
+    fig.tight_layout(rect=(0, 0.06 / max(n_rows, 1) + 0.02, 1, 0.94))
+
+    caption = (
+        f"{name}: PCR@k, {config.DISPLAY_MODEL_NAMES.get(model, model)}, {group_label}. Each panel plots "
+        f"exactly one condition ({attack_label if n_rows == 1 else 'one per row'}) against its baseline "
+        f"({baseline_label}) for one dataset. Y-axis fixed 0-100% across every panel (not rescaled per panel, "
+        f"so effect sizes stay comparable); x-axis upper bound is computed per panel as the last step any "
+        f"plotted condition was still below 99.5% PCR (+2 steps margin), trimming the flat post-saturation "
+        f"tail without altering the y-scale. Curves are monotone (PCHIP) interpolations of the true step-wise "
+        f"pcr_stepwise.csv values -- no data beyond the observed step range (1-30) is implied or extrapolated. "
+        f"Denominator = pcr_eligible runs (canonical_completion.py definition). Source: data/pcr_stepwise.csv."
+    )
+    _save(fig, out_dir, name, caption)
+
+
+def _slugify(label: str) -> str:
+    return label.lower().replace(" ", "-")
+
+
+def generate_pcr_attack_panels(data_dir: Path, fig_root: Path) -> None:
+    stepwise = _read_csv(data_dir / "pcr_stepwise.csv")
+    for model in CANONICAL_BUNDLE_MODELS:
+        for group_label, baseline_cond, attack_conds in PCR_GRID_ROWS:
+            plot_pcr_attack_panels(
+                stepwise, model, group_label, baseline_cond, attack_conds,
+                fig_root / "pcr_curves", f"pcr_attack_{model}_{_slugify(group_label)}",
             )
 
 
@@ -341,6 +520,7 @@ def generate_all_figures(bundle_root: Path, production_root: Path, max_workers: 
     data_dir = bundle_root / "data"
     fig_root = bundle_root / "figures"
     generate_pcr_figures(data_dir, fig_root)
+    generate_pcr_attack_panels(data_dir, fig_root)
     generate_pcr_delta_figures(data_dir, fig_root)
     generate_route_figures(data_dir, fig_root)
     generate_evidence_figures(production_root, fig_root, max_workers=max_workers)

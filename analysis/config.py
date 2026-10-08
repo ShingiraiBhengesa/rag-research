@@ -1,4 +1,4 @@
-"""Repository-relative configuration for the completed Qwen/Llama/Gemma analysis.
+"""Repository-relative configuration for the completed Qwen/Llama/Gemma/GPT-OSS analysis.
 
 All model, dataset, and condition identifiers are imported from the frozen
 production registries (`attack.runtime.production_models`,
@@ -69,37 +69,50 @@ assert set(FINAL_PRODUCTION_MODELS) == {"qwen14b", "gemma27b", "gpt_oss_20b", "l
     "model lists in analysis/config.py before proceeding."
 )
 
-INCLUDED_MODELS: tuple[str, ...] = ("qwen14b", "llama8b")
-EXCLUDED_MODEL_FAMILIES: tuple[str, ...] = ("gpt_oss_20b", "gemma27b")
+INCLUDED_MODELS: tuple[str, ...] = ("qwen14b", "llama8b", "gemma27b", "gpt_oss_20b")
+EXCLUDED_MODEL_FAMILIES: tuple[str, ...] = ()
 
-# Extended 2026-09-13, then RE-EXCLUDED 2026-09-14: gemma27b's first
-# production run (432/432 shards) completed, but was later discovered to
-# have run under a misconfigured vLLM tool-call parser (`functiongemma`,
-# which is documented as being for a completely different, unrelated model
-# -- google/functiongemma-270m-it -- and never recognized
+# History -- gemma27b: extended into INCLUDED_MODELS 2026-09-13, then
+# RE-EXCLUDED 2026-09-14 after its first production run (432/432 shards) was
+# found to have run under a misconfigured vLLM tool-call parser
+# (`functiongemma`, documented as being for a completely different,
+# unrelated model -- google/functiongemma-270m-it -- and never recognizing
 # google/gemma-3-27b-it's actual tool_code output). That run's ~99%
 # "no tool call" result was an artifact of the misconfiguration, not a
 # finding about the model. Fixed in attack/runtime/gemma3_tool_code_parser.py
 # (a custom vLLM tool-parser plugin), confirmed working live against a real
-# vLLM+gemma-3-27b-it endpoint (results/runtime_gates/gemma27b/), and the
-# broken run's data quarantined under
-# archive/legacy_results/gemma27b_broken_functiongemma_parser_run_20260913/.
-# gemma27b is excluded again here until a fresh, correctly-configured
-# 432-shard run completes -- see analysis/CHANGELOG.md and
+# vLLM+gemma-3-27b-it endpoint (results/runtime_gates/gemma27b/). The broken
+# run's data remains quarantined under
+# archive/legacy_results/gemma27b_broken_functiongemma_parser_run_20260913/
+# (kept, not deleted, and not read by anything below) -- see
+# analysis/CHANGELOG.md and
 # analysis/canonical/gemma27b_analysis/gemma27b_results_synthesis.md for the
-# full writeup. gpt_oss_20b remains excluded for its own, unrelated reason
-# -- its production arrays are still blocked (see PUBLISHING.md).
+# full writeup of that quarantined run. A fresh, correctly-configured
+# 432-shard re-run has since completed across all 4 datasets
+# (results/traces/gemma27b/, results/runs/gemma27b/) and was spot-checked to
+# show real tool-call activity (0 force_benchmark_search fallback
+# occurrences sampled across 20 traces) -- gemma27b is re-included here.
+#
+# History -- gpt_oss_20b: excluded for its own, unrelated reason (production
+# arrays blocked by a dead SLURM afterok dependency, since fixed -- see
+# PUBLISHING.md). Its production matrix is now complete for 3 of 4 datasets
+# (hotpot, musique, multihoprag: 432/432 shards each). 2wiki remains at
+# 0/108 shards, separately blocked by a vLLM harmony-format parsing crash
+# (`APIError('unexpected tokens remaining in message header: ...')`, root
+# cause: vLLM's own server-side harmony token-processing loop, not a
+# swappable client-side tool parser -- a fix exists,
+# attack/runtime/gptoss_lenient_harmony_parser.py, built and unit-tested,
+# but deliberately not yet wired in or resubmitted). gpt_oss_20b is
+# re-included here so its 3 completed datasets can be analyzed; any code
+# iterating config.DATASETS for gpt_oss_20b must tolerate 2wiki being
+# entirely absent (completion_inventory.build_inventory already does --
+# a missing dataset's cells report STATUS_NONE, not a crash).
 
-# Substrings that must never appear in any path this package opens, writes,
-# or reports on. Deliberately broader than the exact directory names so a
-# renamed shard/log path is still caught.
-_EXCLUDED_PATH_TOKENS: tuple[str, ...] = (
-    "gpt_oss_20b",
-    "gpt-oss",
-    "gptoss",
-    "gemma27b",
-    "gemma-3-27b",
-)
+# Substrings this package refuses to open a path for. Currently empty --
+# kept as a mechanism (not deleted) for the next time a model needs
+# quarantining; see the history notes above for what has occupied this list
+# before and why each entry was later removed once resolved.
+_EXCLUDED_PATH_TOKENS: tuple[str, ...] = ()
 
 MODEL_IDS: Mapping[str, str] = {m: FINAL_MODEL_IDS[m] for m in INCLUDED_MODELS}
 MODEL_TOOL_PARSERS: Mapping[str, str] = {m: MODEL_TOOL_CALL_PARSERS[m] for m in INCLUDED_MODELS}
@@ -108,6 +121,7 @@ DISPLAY_MODEL_NAMES: Mapping[str, str] = {
     "qwen14b": "Qwen2.5-14B-Instruct",
     "llama8b": "Llama-3.1-8B-Instruct",
     "gemma27b": "Gemma-3-27B-IT",
+    "gpt_oss_20b": "GPT-OSS-20B",
 }
 
 
@@ -257,13 +271,25 @@ BOOTSTRAP_ITERATIONS = 10000
 # Interpretation text required verbatim in the final report (Section 1)
 # ---------------------------------------------------------------------------
 
-GEMMA_GPT_EXCLUSION_STATEMENT = (
+# Superseded name kept as an alias, not deleted -- see MODEL_SCOPE_STATEMENT
+# below for the current text. Nothing else in this repo imports this name
+# (confirmed by search); it is not itself quoted verbatim anywhere.
+MODEL_SCOPE_STATEMENT = (
     "Gemma27b's first production run (432/432 shards, 2026-09-13) was found "
-    "to have used a misconfigured vLLM tool-call parser and is quarantined "
+    "to have used a misconfigured vLLM tool-call parser and was quarantined "
     "(see archive/legacy_results/gemma27b_broken_functiongemma_parser_run_20260913/ "
-    "and analysis/CHANGELOG.md); it is excluded again pending a fresh "
-    "correctly-configured re-run. GPT-OSS-20B's production matrix remains "
-    "blocked (dead SLURM dependency, see PUBLISHING.md) and is excluded at "
-    "the model-family level. No GPT-OSS-20B result, trace, configuration, "
-    "job, or evaluation output was modified."
+    "and analysis/CHANGELOG.md). A fresh, correctly-configured 432-shard "
+    "re-run has since completed across all 4 datasets and is re-included in "
+    "INCLUDED_MODELS. GPT-OSS-20B's production matrix was previously fully "
+    "blocked (dead SLURM dependency, see PUBLISHING.md); it is now complete "
+    "for 3 of 4 datasets (hotpot, musique, multihoprag), re-included in "
+    "INCLUDED_MODELS on that basis, with 2wiki still at 0/108 shards "
+    "pending a separate vLLM harmony-parser fix "
+    "(attack/runtime/gptoss_lenient_harmony_parser.py, built and tested, "
+    "not yet deployed). The qwen_llama_results_bundle/ deliverable remains "
+    "scoped to exactly Qwen14B and Llama8B regardless of this module's "
+    "INCLUDED_MODELS (see analysis/canonical/results_bundle/scope.py's "
+    "CANONICAL_BUNDLE_MODELS) -- gemma27b and gpt_oss_20b's results live in "
+    "a separate bundle."
 )
+GEMMA_GPT_EXCLUSION_STATEMENT = MODEL_SCOPE_STATEMENT

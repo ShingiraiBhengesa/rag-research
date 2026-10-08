@@ -1,0 +1,12 @@
+presentation_condition,PCR@1,delta_vs_Clean@1_pp,PCR@5,delta_vs_Clean@5_pp,PCR@10,delta_vs_Clean@10_pp,PCR@30_final_checkpoint,eligible_N_macro_avg,is_calibration_not_attack
+Clean,6.4,0.0,60.2,0.0,90.9,0.0,99.9,421,No
+Epistemic Confirmation,9.2,2.8,61.7,1.4,92.4,1.5,99.5,422,No
+Search Match,10.4,4.1,67.0,6.7,93.2,2.3,100.0,416,No
+Source Coverage,10.4,4.1,63.8,3.6,93.8,2.9,100.0,421,No
+Epistemic Confirmation + Source Coverage,11.2,4.8,65.1,4.9,93.0,2.1,99.9,421,No
+Search Match + Source Coverage,11.0,4.7,67.9,7.7,93.9,2.9,100.0,415,No
+Fixed Sufficiency,15.8,9.4,71.0,10.8,93.6,2.7,100.0,424,No
+Fixed Sufficiency Saturation,19.6,13.2,72.9,12.7,95.8,4.8,99.8,424,No
+Oracle Complete--Neutral,9.1,2.7,63.8,3.6,93.6,2.6,100.0,426,Yes
+Oracle Complete--Saturation,18.6,12.2,76.3,16.0,95.9,5.0,99.9,424,Yes
+[Contrast] Oracle Saturation minus Oracle Neutral*,9.5,n/a,12.4,n/a,2.3,n/a,-0.1,n/a,Yes (calib. contrast)

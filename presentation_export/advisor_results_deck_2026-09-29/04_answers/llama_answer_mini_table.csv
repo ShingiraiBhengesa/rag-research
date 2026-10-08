@@ -1,0 +1,11 @@
+presentation_condition,eligible_N,pct_semantic_correct_macro_avg,exact_match_macro_avg,token_f1_macro_avg,paired_against,pct_paired_control_correct_cue_wrong,pct_paired_control_wrong_cue_correct,net_paired_answer_harm_pp,n_needs_adjudication,adjudication_status
+Clean,1750,23.7,0.094,0.174,n/a (this is the baseline row),n/a,n/a,n/a,28,PRE-ADJUDICATION (automatic semantic label only; human review pending)
+Epistemic Confirmation,1744,24.2,0.104,0.18,Clean,5.8,6.3,-0.5,27,PRE-ADJUDICATION (automatic semantic label only; human review pending)
+Search Match,1744,23.8,0.106,0.178,Clean,6.4,6.5,-0.1,25,PRE-ADJUDICATION (automatic semantic label only; human review pending)
+Source Coverage,1746,22.5,0.092,0.165,Neutral,6.5,5.7,0.9,30,PRE-ADJUDICATION (automatic semantic label only; human review pending)
+Epistemic Confirmation + Source Coverage,1751,23.9,0.1,0.177,Epistemic Confirmation,8.0,7.7,0.2,30,PRE-ADJUDICATION (automatic semantic label only; human review pending)
+Search Match + Source Coverage,1751,23.1,0.105,0.178,Search Match,8.2,7.6,0.6,30,PRE-ADJUDICATION (automatic semantic label only; human review pending)
+Fixed Sufficiency,1751,23.6,0.105,0.18,Clean,8.3,8.3,0.0,32,PRE-ADJUDICATION (automatic semantic label only; human review pending)
+Fixed Sufficiency Saturation,1751,22.9,0.103,0.175,Clean,8.6,7.8,0.8,26,PRE-ADJUDICATION (automatic semantic label only; human review pending)
+Oracle Complete--Neutral,1748,30.4,0.131,0.224,n/a,n/a,n/a,n/a,27,PRE-ADJUDICATION (automatic semantic label only; human review pending)
+Oracle Complete--Saturation,1747,31.0,0.121,0.222,Oracle Complete--Neutral,7.3,8.0,-0.6,26,PRE-ADJUDICATION (automatic semantic label only; human review pending)

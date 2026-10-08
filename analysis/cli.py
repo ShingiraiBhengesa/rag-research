@@ -1,9 +1,13 @@
 """Canonical CLI entry point for the completed Qwen/Llama analysis.
 
-Gemma27b is temporarily excluded again (config.EXCLUDED_MODEL_FAMILIES) --
-its first production run used a misconfigured vLLM tool-call parser; see
-analysis/CHANGELOG.md. Re-add it to config.INCLUDED_MODELS once a fresh,
-correctly-configured 432-shard re-run completes.
+This is a legacy entry point (wires analysis/pcr.py's deprecated
+dual-denominator PCR implementation, not canonical_completion.py -- see
+analysis/canonical/chapter3_final_source_of_truth.md). config.INCLUDED_MODELS
+now includes all 4 models (gemma27b's fresh re-run and gpt_oss_20b's 3/4
+completed datasets are both re-included; see config.MODEL_SCOPE_STATEMENT),
+but this module's own --output-root default below still targets the
+2-model qwen/llama directory it was built against -- pass an explicit
+--output-root if running this legacy path against a different model scope.
 
 Usage (from the repository root):
 

@@ -51,6 +51,23 @@ class ResearcherDecision:
     # point for such an episode at all. See trace_parser.py's
     # `_find_forced_search_steps` for how this is detected.
     triggered_forced_search: bool = False
+    # True iff tool_calls is genuinely empty (has_tool_calls/is_no_tool_exit
+    # above are NOT changed by this flag -- they reflect what actually,
+    # literally happened) AND the model's own content text imitates ODR's
+    # gemma-history-rendering format ("Assistant requested tool call:\n{...}",
+    # deep_researcher.py::_plain_turn_from_message -- shown to the model as
+    # *prior*-turn history, then imitated on a *later* turn) instead of a
+    # real tool call. Discovered 2026-09-28 auditing gemma27b: 93% of its
+    # sampled NO_TOOL_DIRECT_EXIT decisions were this pattern -- but the
+    # imitated call is confirmed (by trace inspection) to never actually
+    # execute: the episode goes straight to compress_research with no
+    # further researcher decision, exactly as if it really had no tool
+    # call. This is a technical parser/prompt-interaction confound, not
+    # evidence either way of the researcher's true intent-to-stop -- see
+    # canonical_completion.classify_local_terminal_route, which routes a
+    # terminal decision carrying this flag to TOOL_OR_PARSER_FAILURE
+    # (excluded from PCR) rather than counting it as a real NO_TOOL_DIRECT_EXIT.
+    reconstructed_from_imitated_history_text: bool = False
 
 
 @dataclass
@@ -176,6 +193,23 @@ class ResearcherEpisode:
             if decision.is_no_tool_exit:
                 return config.ROUTE_NO_TOOL_EXIT
         return None
+
+    @property
+    def terminal_decision_is_imitated_no_tool_call(self) -> bool:
+        """True iff `terminal_route` above resolved to ROUTE_NO_TOOL_EXIT via
+        a decision whose empty tool_calls is a gemma imitation artifact (see
+        ResearcherDecision.reconstructed_from_imitated_history_text), not
+        genuine evidence the researcher decided to stop. Checked by
+        canonical_completion.classify_local_terminal_route to route such a
+        row to TOOL_OR_PARSER_FAILURE instead of NO_TOOL_DIRECT_EXIT."""
+        for decision in self.post_branch_decisions:
+            if not decision.parse_ok:
+                continue
+            if decision.is_research_complete:
+                return False  # a real ResearchComplete resolved first
+            if decision.is_no_tool_exit:
+                return decision.reconstructed_from_imitated_history_text
+        return False
 
     @property
     def overall_terminal_decision_index(self) -> Optional[int]:

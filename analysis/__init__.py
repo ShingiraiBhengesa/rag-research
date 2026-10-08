@@ -1,11 +1,15 @@
-"""Canonical analysis package for completed Qwen and Llama production traces.
+"""Canonical analysis package for completed Qwen, Llama, Gemma, and GPT-OSS
+production traces.
 
-Gemma27b and GPT-OSS-20B are excluded at the model-family level throughout
-this package (see config.EXCLUDED_MODEL_FAMILIES), for different, unrelated
-reasons: GPT-OSS-20B's production matrix is still blocked (see repo-root
-PUBLISHING.md); gemma27b's first production run used a misconfigured vLLM
-tool-call parser and is quarantined pending a fresh re-run (see
-analysis/CHANGELOG.md). This package never opens a trace, result, or job
-file for an excluded model, and never writes into its production
-directories.
+All 4 models are in config.INCLUDED_MODELS. Gemma27b's fresh, corrected
+re-run (see analysis/CHANGELOG.md) is complete across all 4 datasets.
+GPT-OSS-20B is complete for 3 of 4 datasets (hotpot, musique,
+multihoprag) -- 2wiki remains at 0/108 shards pending a separate,
+already-built vLLM harmony-parser fix; any code iterating
+config.DATASETS for gpt_oss_20b must tolerate 2wiki being entirely
+absent. See config.MODEL_SCOPE_STATEMENT for the full history. The
+qwen_llama_results_bundle/ deliverable remains locked to exactly
+Qwen14B/Llama8B regardless of this module's INCLUDED_MODELS (see
+analysis/canonical/results_bundle/scope.py) -- gemma27b/gpt_oss_20b
+results live in a separate bundle.
 """

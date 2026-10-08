@@ -403,7 +403,15 @@ class V3ProductionContractTests(unittest.TestCase):
         self.assertEqual(roles, ["system", "user", "assistant", "user"])
         self.assertNotIn("tool", roles)
         self.assertNotIn("tool_calls", as_openai[2])
-        self.assertIn("Assistant requested tool call", as_openai[2]["content"])
+        # 2026-09-28 fix: past tool calls are rendered as prose the model
+        # can't copy-paste back out as a fake new call, not as the old
+        # machine-parseable {"name": ..., "args": ..., "id": ...} JSON dict
+        # (gemma27b was found imitating that exact literal template).
+        self.assertNotIn('"name"', as_openai[2]["content"])
+        self.assertNotIn('"args"', as_openai[2]["content"])
+        self.assertIn("benchmark_search", as_openai[2]["content"])
+        self.assertIn("alpha", as_openai[2]["content"])
+        self.assertIn("already happened", as_openai[2]["content"])
         self.assertIn("Tool result from benchmark_search (call_1)", as_openai[3]["content"])
         self.assertIn("second observation", as_openai[3]["content"])
 

@@ -1,0 +1,89 @@
+model,dataset,comparison_name,control_condition,cue_condition,is_calibration,paired_N,pct_evidence_loss,pct_no_change,pct_evidence_gain,mean_paired_loss,median_paired_loss,ci_lower,ci_upper,mean_missing_increase,pct_losing_at_least_one_unit
+qwen14b,hotpot,Epistemic Confirmation vs Clean,NaturalClean,Natural_epistemic_confirmation,False,441,11.79,80.73,7.48,0.0227,0.0,0.0011,0.0442,0.0454,11.79
+qwen14b,hotpot,Search Match vs Clean,NaturalClean,Natural_search_match_cue,False,441,14.51,76.87,8.62,0.0283,0.0,0.0045,0.0522,0.0567,14.51
+qwen14b,hotpot,Fixed Sufficiency vs Clean,NaturalClean,Natural_PreRegisteredSufficiency,False,439,15.72,75.17,9.11,0.033,0.0,0.0103,0.0558,0.0661,15.72
+qwen14b,hotpot,Fixed Sufficiency Saturation vs Clean,NaturalClean,Natural_PreRegisteredSufficiencySaturation,False,440,14.77,75.91,9.32,0.0273,0.0,0.0045,0.0511,0.0545,14.77
+qwen14b,hotpot,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,False,438,12.56,78.08,9.36,0.0148,0.0,-0.008,0.0388,0.0297,12.56
+qwen14b,hotpot,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,False,443,7.9,83.3,8.8,-0.0045,0.0,-0.0248,0.0158,-0.009,7.9
+qwen14b,hotpot,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,False,444,10.36,79.05,10.59,0.0,0.0,-0.0214,0.0214,0.0,10.36
+qwen14b,hotpot,Oracle Complete--Saturation vs Oracle Complete--Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,True,441,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+qwen14b,2wiki,Epistemic Confirmation vs Clean,NaturalClean,Natural_epistemic_confirmation,False,444,4.28,90.99,4.73,-0.0006,0.0,-0.0135,0.0124,-0.0068,4.28
+qwen14b,2wiki,Search Match vs Clean,NaturalClean,Natural_search_match_cue,False,442,11.31,77.38,11.31,0.0034,0.0,-0.0158,0.0226,0.0,11.31
+qwen14b,2wiki,Fixed Sufficiency vs Clean,NaturalClean,Natural_PreRegisteredSufficiency,False,443,14.9,75.17,9.93,0.0265,0.0,0.0051,0.0474,0.0542,14.9
+qwen14b,2wiki,Fixed Sufficiency Saturation vs Clean,NaturalClean,Natural_PreRegisteredSufficiencySaturation,False,443,14.67,75.85,9.48,0.026,0.0,0.0051,0.0468,0.0542,14.67
+qwen14b,2wiki,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,False,444,11.04,75.9,13.06,-0.0084,0.0,-0.0293,0.0124,-0.0203,11.04
+qwen14b,2wiki,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,False,445,12.81,74.83,12.36,0.0056,0.0,-0.0157,0.027,0.0067,12.81
+qwen14b,2wiki,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,False,446,3.59,93.72,2.69,0.0011,0.0,-0.0107,0.0129,0.0022,3.59
+qwen14b,2wiki,Oracle Complete--Saturation vs Oracle Complete--Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,True,449,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+qwen14b,musique,Epistemic Confirmation vs Clean,NaturalClean,Natural_epistemic_confirmation,False,437,24.26,62.01,13.73,0.0463,0.0,0.0204,0.0721,0.1259,24.26
+qwen14b,musique,Search Match vs Clean,NaturalClean,Natural_search_match_cue,False,435,22.76,62.76,14.48,0.0368,0.0,0.0113,0.0621,0.0943,22.76
+qwen14b,musique,Fixed Sufficiency vs Clean,NaturalClean,Natural_PreRegisteredSufficiency,False,436,23.62,60.09,16.28,0.0363,0.0,0.0084,0.0644,0.1009,23.62
+qwen14b,musique,Fixed Sufficiency Saturation vs Clean,NaturalClean,Natural_PreRegisteredSufficiencySaturation,False,435,21.61,64.6,13.79,0.0341,0.0,0.0077,0.0602,0.0943,21.61
+qwen14b,musique,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,False,434,22.35,58.99,18.66,0.0238,0.0,-0.0038,0.0522,0.053,22.35
+qwen14b,musique,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,False,434,17.28,61.75,20.97,-0.0196,0.0,-0.0474,0.0081,-0.0645,17.28
+qwen14b,musique,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,False,439,19.82,58.77,21.41,-0.0131,0.0,-0.0421,0.0159,-0.0251,19.82
+qwen14b,musique,Oracle Complete--Saturation vs Oracle Complete--Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,True,434,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+qwen14b,multihoprag,Epistemic Confirmation vs Clean,NaturalClean,Natural_epistemic_confirmation,False,449,2.23,95.1,2.67,-0.0011,0.0,-0.0061,0.0039,-0.0045,2.23
+qwen14b,multihoprag,Search Match vs Clean,NaturalClean,Natural_search_match_cue,False,448,2.46,94.87,2.68,-0.0006,0.0,-0.0056,0.0045,-0.0022,2.46
+qwen14b,multihoprag,Fixed Sufficiency vs Clean,NaturalClean,Natural_PreRegisteredSufficiency,False,449,3.34,93.54,3.12,0.0006,0.0,-0.005,0.0067,0.0022,3.34
+qwen14b,multihoprag,Fixed Sufficiency Saturation vs Clean,NaturalClean,Natural_PreRegisteredSufficiencySaturation,False,449,4.01,93.54,2.45,0.0039,0.0,-0.0022,0.01,0.0156,4.01
+qwen14b,multihoprag,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,False,450,3.33,93.33,3.33,0.0,0.0,-0.0061,0.0061,0.0,3.33
+qwen14b,multihoprag,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,False,450,2.22,94.22,3.56,-0.0033,0.0,-0.0089,0.0022,-0.0133,2.22
+qwen14b,multihoprag,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,False,449,1.78,95.32,2.9,-0.0028,0.0,-0.0078,0.0022,-0.0111,1.78
+qwen14b,multihoprag,Oracle Complete--Saturation vs Oracle Complete--Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,True,450,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+llama8b,hotpot,Epistemic Confirmation vs Clean,NaturalClean,Natural_epistemic_confirmation,False,421,9.03,86.46,4.51,0.0238,0.0,0.0024,0.0463,0.0475,9.03
+llama8b,hotpot,Search Match vs Clean,NaturalClean,Natural_search_match_cue,False,421,9.26,86.7,4.04,0.0261,0.0,0.0048,0.0475,0.0523,9.26
+llama8b,hotpot,Fixed Sufficiency vs Clean,NaturalClean,Natural_PreRegisteredSufficiency,False,419,21.72,65.39,12.89,0.0442,0.0,0.0107,0.0776,0.0883,21.72
+llama8b,hotpot,Fixed Sufficiency Saturation vs Clean,NaturalClean,Natural_PreRegisteredSufficiencySaturation,False,419,21.96,65.39,12.65,0.0477,0.0,0.0143,0.0811,0.0955,21.96
+llama8b,hotpot,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,False,419,10.98,78.28,10.74,-0.006,0.0,-0.0322,0.0191,-0.0119,10.98
+llama8b,hotpot,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,False,424,17.69,64.86,17.45,-0.0024,0.0,-0.0342,0.0283,-0.0047,17.69
+llama8b,hotpot,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,False,426,17.84,65.26,16.9,0.0047,0.0,-0.027,0.0352,0.0094,17.84
+llama8b,hotpot,Oracle Complete--Saturation vs Oracle Complete--Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,True,431,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+llama8b,2wiki,Epistemic Confirmation vs Clean,NaturalClean,Natural_epistemic_confirmation,False,427,8.9,85.71,5.39,0.0164,0.0,-0.0018,0.034,0.0422,8.9
+llama8b,2wiki,Search Match vs Clean,NaturalClean,Natural_search_match_cue,False,427,9.13,86.18,4.68,0.0205,0.0,0.0029,0.0381,0.0515,9.13
+llama8b,2wiki,Fixed Sufficiency vs Clean,NaturalClean,Natural_PreRegisteredSufficiency,False,427,14.75,71.66,13.58,-0.0023,0.0,-0.0281,0.0234,0.0117,14.75
+llama8b,2wiki,Fixed Sufficiency Saturation vs Clean,NaturalClean,Natural_PreRegisteredSufficiencySaturation,False,427,15.22,71.43,13.35,0.0006,0.0,-0.0258,0.0263,0.0187,15.22
+llama8b,2wiki,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,False,437,3.43,94.74,1.83,0.0046,0.0,-0.0057,0.0149,0.0137,3.43
+llama8b,2wiki,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,False,433,11.78,73.21,15.01,-0.0185,0.0,-0.0433,0.0058,-0.03,11.78
+llama8b,2wiki,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,False,433,11.55,72.75,15.7,-0.0231,0.0,-0.0491,0.0023,-0.0439,11.55
+llama8b,2wiki,Oracle Complete--Saturation vs Oracle Complete--Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,True,436,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+llama8b,musique,Epistemic Confirmation vs Clean,NaturalClean,Natural_epistemic_confirmation,False,420,10.48,81.67,7.86,0.0121,0.0,-0.0077,0.0321,0.031,10.48
+llama8b,musique,Search Match vs Clean,NaturalClean,Natural_search_match_cue,False,420,10.95,81.9,7.14,0.0147,0.0,-0.0048,0.0343,0.0357,10.95
+llama8b,musique,Fixed Sufficiency vs Clean,NaturalClean,Natural_PreRegisteredSufficiency,False,408,26.47,56.37,17.16,0.0509,0.0,0.0182,0.0831,0.1225,26.47
+llama8b,musique,Fixed Sufficiency Saturation vs Clean,NaturalClean,Natural_PreRegisteredSufficiencySaturation,False,408,27.7,55.64,16.67,0.06,0.0,0.028,0.0919,0.1471,27.7
+llama8b,musique,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,False,397,20.65,62.72,16.62,0.0155,0.0,-0.0136,0.0451,0.0428,20.65
+llama8b,musique,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,False,412,24.76,53.4,21.84,0.0136,0.0,-0.0192,0.0461,0.0194,24.76
+llama8b,musique,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,False,412,23.79,55.1,21.12,0.0176,0.0,-0.0148,0.0508,0.034,23.79
+llama8b,musique,Oracle Complete--Saturation vs Oracle Complete--Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,True,409,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+llama8b,multihoprag,Epistemic Confirmation vs Clean,NaturalClean,Natural_epistemic_confirmation,False,422,2.84,95.5,1.66,0.003,0.0,-0.0018,0.0083,0.0118,2.84
+llama8b,multihoprag,Search Match vs Clean,NaturalClean,Natural_search_match_cue,False,422,5.21,93.84,0.95,0.0107,0.0,0.0053,0.0166,0.0427,5.21
+llama8b,multihoprag,Fixed Sufficiency vs Clean,NaturalClean,Natural_PreRegisteredSufficiency,False,417,5.76,92.57,1.68,0.0102,0.0,0.0036,0.0168,0.0408,5.76
+llama8b,multihoprag,Fixed Sufficiency Saturation vs Clean,NaturalClean,Natural_PreRegisteredSufficiencySaturation,False,417,6.71,91.61,1.68,0.0126,0.0,0.006,0.0198,0.0504,6.71
+llama8b,multihoprag,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,False,426,1.17,97.42,1.41,-0.0006,0.0,-0.0041,0.0035,-0.0023,1.17
+llama8b,multihoprag,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,False,418,4.07,93.54,2.39,0.0042,0.0,-0.0018,0.0102,0.0167,4.07
+llama8b,multihoprag,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,False,419,2.63,95.23,2.15,0.0012,0.0,-0.0042,0.0066,0.0048,2.63
+llama8b,multihoprag,Oracle Complete--Saturation vs Oracle Complete--Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,True,421,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+gpt_oss_20b,hotpot,Epistemic Confirmation vs Clean,NaturalClean,Natural_epistemic_confirmation,False,405,11.36,74.32,14.32,-0.0173,0.0,-0.0432,0.0074,-0.0346,11.36
+gpt_oss_20b,hotpot,Search Match vs Clean,NaturalClean,Natural_search_match_cue,False,384,13.28,74.48,12.24,0.0026,0.0,-0.0234,0.0286,0.0052,13.28
+gpt_oss_20b,hotpot,Fixed Sufficiency vs Clean,NaturalClean,Natural_PreRegisteredSufficiency,False,403,14.89,71.96,13.15,0.0112,0.0,-0.0161,0.0385,0.0223,14.89
+gpt_oss_20b,hotpot,Fixed Sufficiency Saturation vs Clean,NaturalClean,Natural_PreRegisteredSufficiencySaturation,False,398,12.56,75.38,12.06,0.0075,0.0,-0.0176,0.0339,0.0151,12.56
+gpt_oss_20b,hotpot,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,False,366,12.84,74.86,12.3,0.0068,0.0,-0.0191,0.0342,0.0137,12.84
+gpt_oss_20b,hotpot,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,False,402,13.43,76.87,9.7,0.0199,0.0,-0.005,0.0448,0.0398,13.43
+gpt_oss_20b,hotpot,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,False,375,12.8,76.0,11.2,0.0093,0.0,-0.016,0.0347,0.0187,12.8
+gpt_oss_20b,hotpot,Oracle Complete--Saturation vs Oracle Complete--Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,True,405,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+gpt_oss_20b,musique,Epistemic Confirmation vs Clean,NaturalClean,Natural_epistemic_confirmation,False,403,20.6,59.55,19.85,0.0085,0.0,-0.0205,0.0376,0.0174,20.6
+gpt_oss_20b,musique,Search Match vs Clean,NaturalClean,Natural_search_match_cue,False,398,22.11,53.77,24.12,0.0098,0.0,-0.023,0.0425,0.005,22.11
+gpt_oss_20b,musique,Fixed Sufficiency vs Clean,NaturalClean,Natural_PreRegisteredSufficiency,False,404,22.77,61.88,15.35,0.0326,0.0,0.0052,0.06,0.0792,22.77
+gpt_oss_20b,musique,Fixed Sufficiency Saturation vs Clean,NaturalClean,Natural_PreRegisteredSufficiencySaturation,False,407,22.6,57.25,20.15,0.0188,0.0,-0.0098,0.0479,0.0319,22.6
+gpt_oss_20b,musique,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,False,398,16.58,62.56,20.85,-0.0195,0.0,-0.0456,0.0075,-0.0578,16.58
+gpt_oss_20b,musique,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,False,404,18.07,60.64,21.29,-0.0138,0.0,-0.0419,0.0142,-0.0396,18.07
+gpt_oss_20b,musique,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,False,408,21.32,57.35,21.32,-0.0074,0.0,-0.0374,0.0223,0.0025,21.32
+gpt_oss_20b,musique,Oracle Complete--Saturation vs Oracle Complete--Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,True,407,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+gpt_oss_20b,multihoprag,Epistemic Confirmation vs Clean,NaturalClean,Natural_epistemic_confirmation,False,376,3.46,92.82,3.72,-0.0007,0.0,-0.0073,0.006,-0.0027,3.46
+gpt_oss_20b,multihoprag,Search Match vs Clean,NaturalClean,Natural_search_match_cue,False,382,3.66,92.93,3.4,0.0007,0.0,-0.0059,0.0072,0.0026,3.66
+gpt_oss_20b,multihoprag,Fixed Sufficiency vs Clean,NaturalClean,Natural_PreRegisteredSufficiency,False,387,3.1,94.83,2.07,0.0026,0.0,-0.0032,0.0084,0.0103,3.1
+gpt_oss_20b,multihoprag,Fixed Sufficiency Saturation vs Clean,NaturalClean,Natural_PreRegisteredSufficiencySaturation,False,387,3.36,93.8,2.84,0.0013,0.0,-0.0052,0.0078,0.0052,3.36
+gpt_oss_20b,multihoprag,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,False,389,3.6,93.32,3.08,0.0013,0.0,-0.0051,0.0077,0.0051,3.6
+gpt_oss_20b,multihoprag,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,False,381,3.15,94.23,2.62,0.0013,0.0,-0.0046,0.0072,0.0052,3.15
+gpt_oss_20b,multihoprag,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,False,388,2.06,95.88,2.06,0.0,0.0,-0.0052,0.0052,0.0,2.06
+gpt_oss_20b,multihoprag,Oracle Complete--Saturation vs Oracle Complete--Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,True,403,0.0,100.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0

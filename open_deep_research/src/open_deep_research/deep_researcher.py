@@ -649,6 +649,44 @@ def _tool_call_arg(tool_call, key: str) -> str:
     return str(args.get(key) or "").strip()
 
 
+def _plain_tool_call_summary(tool_call, detail_limit: int = 300) -> str:
+    """Renders a past tool call as prose for gemma's plain-alternating history,
+    never as a machine-parseable template.
+
+    2026-09-28 audit of gemma27b production traces found the model literally
+    copying the previous rendering here -- a JSON dict of the exact shape
+    {"name": ..., "args": ..., "id": ...} -- back out as its own response
+    text on a LATER turn, instead of emitting a new, real tool call or a
+    final answer. Because the copied text is plain content (its own
+    tool_calls= is empty), it was silently never executed, yet the episode
+    looked to a naive read like the researcher had taken an action. 93% of a
+    60-row sample of gemma27b's "no further action" rows were this exact
+    reconstructable pattern. Removing the reproducible JSON template removes
+    the thing being imitated; this conveys the same information (what tool,
+    what it was asked) in prose that also explicitly tells the model this
+    already happened and must not be repeated as text.
+    """
+    name = _tool_call_name(tool_call) or "unknown"
+    args = _tool_call_args(tool_call)
+    detail = ""
+    if isinstance(args, dict) and args:
+        if name == "tavily_search" and isinstance(args.get("queries"), list) and args["queries"]:
+            detail = "; searched for: " + "; ".join(str(q) for q in args["queries"])
+        elif name == "think_tool" and args.get("reflection"):
+            detail = "; reflected: " + str(args["reflection"])
+        else:
+            detail = "; arguments were: " + ", ".join(f"{k}={v!r}" for k, v in args.items())
+    if len(detail) > detail_limit:
+        detail = detail[:detail_limit].rstrip() + "..."
+    return (
+        f"(Note: the assistant already used the {name} tool once{detail}. "
+        "This already happened -- its result, if any, appears elsewhere in "
+        "this history. Do not write text describing or repeating this tool "
+        "call. Either make a new, different tool call now, or write the "
+        "final answer.)"
+    )
+
+
 def _benchmark_local_fallback_research_summary(raw_notes_content: str) -> str:
     evidence = str(raw_notes_content or "").strip()
     if len(evidence) > 8000:
@@ -747,16 +785,7 @@ def _plain_turn_from_message(message) -> tuple[str, str]:
         if content:
             content_parts.append(content)
         for tool_call in message.tool_calls or []:
-            args = _coerce_tool_call_args(tool_call.get("args"))
-            payload = {
-                "name": str(tool_call.get("name") or ""),
-                "args": args if args is not None else tool_call.get("args"),
-                "id": str(tool_call.get("id") or ""),
-            }
-            content_parts.append(
-                "Assistant requested tool call:\n"
-                + json.dumps(payload, sort_keys=True)
-            )
+            content_parts.append(_plain_tool_call_summary(tool_call))
         return "assistant", "\n\n".join(content_parts) or "Assistant made no textual response."
 
     return "user", _message_content(message)

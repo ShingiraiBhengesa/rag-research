@@ -187,6 +187,14 @@ REASON_NO_SEARCH_EVER_ATTEMPTED = "no_search_ever_attempted"
 REASON_SEARCH_TOOL_ERROR = "search_tool_error_no_anchor"
 REASON_TRACE_LOGGING_FAILURE = "trace_logging_failure"
 REASON_EXECUTION_FAILURE = "execution_failure"
+# gemma27b imitating ODR's own gemma-history-rendering text ("Assistant
+# requested tool call:\n{...}") instead of a real tool call -- confirmed
+# (trace_schema.ResearcherEpisode.terminal_decision_is_imitated_no_tool_call)
+# that the imitated call never actually executes (the graph proceeds
+# straight to compress_research), so this is a technical parser/prompt
+# confound, not evidence of the researcher's true intent to stop. See
+# analysis/CHANGELOG.md's 2026-09-28 entry.
+REASON_IMITATED_NO_TOOL_CALL = "gemma_imitated_no_tool_call"
 
 
 @dataclass
@@ -266,6 +274,8 @@ def classify_local_terminal_route(episode: ResearcherEpisode) -> tuple[str, str]
     if route == config.ROUTE_RESEARCH_COMPLETE:
         return RESEARCH_COMPLETE, ""
     if route == config.ROUTE_NO_TOOL_EXIT:
+        if episode.terminal_decision_is_imitated_no_tool_call:
+            return TOOL_OR_PARSER_FAILURE, REASON_IMITATED_NO_TOOL_CALL
         return NO_TOOL_DIRECT_EXIT, ""
     # route is None: post-branch decisions never resolved to RC/no-tool-exit.
     if len(episode.decisions) >= MAX_REACT_TOOL_CALLS:
@@ -373,7 +383,19 @@ def build_canonical_record(row: RowRecord) -> CanonicalCompletionRecord:
     anchor_idx, anchor_step, injection_applied = _anchor_fields(ep0)
     traj = extract_post_observation_trajectory(ep0)
 
-    pcr_eligible = route not in (TRACE_LOGGING_FAILURE, EXECUTION_FAILURE) and ep0.branch_reached
+    # NOTE: TOOL_OR_PARSER_FAILURE is included in this exclusion tuple even
+    # though the docstring's original rationale (see module docstring above)
+    # only reasoned about it via the `branch_reached` clause -- that
+    # reasoning implicitly assumed TOOL_OR_PARSER_FAILURE always co-occurs
+    # with branch_reached=False (true for the pre-existing Llama
+    # search-tool-error path). gemma27b's imitated-tool-call case (see
+    # REASON_IMITATED_NO_TOOL_CALL below) produces TOOL_OR_PARSER_FAILURE
+    # from the anchored (branch_reached=True) path, which the bare
+    # `and ep0.branch_reached` clause does not catch. Excluding the route
+    # explicitly makes this correct regardless of anchor status, matching
+    # the documented intent ("we don't actually know what happened" cases
+    # are never PCR-eligible).
+    pcr_eligible = route not in (TRACE_LOGGING_FAILURE, EXECUTION_FAILURE, TOOL_OR_PARSER_FAILURE) and ep0.branch_reached
 
     return CanonicalCompletionRecord(
         **base,

@@ -1,0 +1,11 @@
+presentation_condition,eligible_N,mean_coverage_at_completion_pct,evidence_loss_vs_clean_pp,full_evidence_coverage_rate_pct,pct_missing_at_least_one_pp,mean_missing_count,supervisor_recovery_measure
+Clean,1777,80.2,0.0,60.0,40.0,0.52,43.9% (n=1043)
+Epistemic Confirmation,1791,78.6,1.7,57.8,42.2,0.56,44.3% (n=1095)
+Search Match,1786,78.6,1.7,57.1,42.9,0.56,46.2% (n=1086)
+Source Coverage,1782,79.3,0.9,58.1,41.9,0.54,44.1% (n=1094)
+Epistemic Confirmation + Source Coverage,1780,79.2,0.9,58.4,41.6,0.54,45.3% (n=1115)
+Search Match + Source Coverage,1790,78.9,1.2,57.6,42.4,0.55,45.6% (n=1094)
+Fixed Sufficiency,1789,77.6,2.4,55.8,44.2,0.58,46.3% (n=1112)
+Fixed Sufficiency Saturation,1788,77.8,2.3,55.8,44.2,0.58,45.8% (n=1073)
+Oracle Complete--Neutral,1782,100.0,-19.7,100.0,0.0,0.0,0.0% (n=1034)
+Oracle Complete--Saturation,1787,100.0,-19.6,100.0,0.0,0.0,0.0% (n=955)

@@ -6,7 +6,7 @@ Maps spec section 8's "Chapter 5 presentation" requirements to the files that al
 
 | Requirement | Source |
 |---|---|
-| Cumulative PCR curves, every step | `figures/pcr_curves/*.png` (main = 5 prespecified conditions; `figures/pcr_curves/appendix/` = all 12) |
+| Cumulative PCR curves, every step | `figures/pcr_curves/pcr_grid_{dataset}.png` (one figure per dataset, both models, all 12 conditions grouped into 5 related-attack-family rows, smoothed); `figures/pcr_curves/appendix/` = one all-12-conditions-on-one-panel step-function figure per (model, dataset), for detailed spot-checks |
 | Compact exact-value tables PCR@{1,5,10,30} | embedded below, and `tables/main_chapter_tables.md` |
 | Route decomposition summary | `figures/route_decomposition/*.png`, embedded below |
 | 1-2 paired trace rasters per model | `figures/trace_rasters/*.png` |

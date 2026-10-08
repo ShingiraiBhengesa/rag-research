@@ -13,7 +13,7 @@ import unittest
 from pathlib import Path
 
 from analysis import config
-from analysis.trace_parser import parse_trace_file
+from analysis.trace_parser import _parse_decision, _reconstruct_imitated_tool_call, parse_trace_file
 
 QWEN_NO_TOOL_EXIT_TRACE = (
     config.DEFAULT_PRODUCTION_ROOT
@@ -97,6 +97,134 @@ class TraceParserFixtureTests(unittest.TestCase):
         self.assertEqual(a.first_episode.terminal_post_branch_index, b.first_episode.terminal_post_branch_index)
         self.assertEqual(a.first_episode.terminal_route, b.first_episode.terminal_route)
         self.assertEqual(len(a.episodes), len(b.episodes))
+
+
+GEMMA_IMITATED_TOOL_CALL_TRACE = (
+    config.DEFAULT_PRODUCTION_ROOT
+    / "traces/gemma27b/branches/hotpot/5ae785685542994a481bbd47/Natural_PreRegisteredSufficiencySaturation/trace.json"
+)
+
+
+class ImitatedToolCallReconstructionTests(unittest.TestCase):
+    """Regression tests for the 2026-09-28 fix: gemma27b sometimes imitates
+    deep_researcher.py::_plain_turn_from_message's own gemma-history-rendering
+    text ("Assistant requested tool call:\\n{json}") instead of emitting a
+    real structured tool call, causing it to misclassify as NO_TOOL_DIRECT_EXIT
+    (found: 93% of a 60-row sample of gemma27b's "NO_TOOL_DIRECT_EXIT" rows
+    were this pattern, not a genuine no-further-action decision).
+    """
+
+    def test_reconstructs_a_well_formed_tavily_search_attempt(self):
+        content = (
+            "Okay, excellent! The first source directly answers the question. "
+            "I will perform another search to confirm.\n\n"
+            "Assistant requested tool call:\n"
+            '{"args": {"queries": ["1981 World Rowing Championships location"]}, '
+            '"id": "chatcmpl-tool-91a9149999999999", "name": "tavily_search"}'
+        )
+        result = _reconstruct_imitated_tool_call(content)
+        self.assertIsNotNone(result)
+        self.assertEqual(result[0]["name"], "tavily_search")
+        self.assertEqual(result[0]["args"], {"queries": ["1981 World Rowing Championships location"]})
+        self.assertEqual(result[0]["id"], "chatcmpl-tool-91a9149999999999")
+
+    def test_reconstructs_a_think_tool_attempt_with_empty_args(self):
+        content = (
+            "Now I need to use think_tool to assess if I have enough information.\n\n"
+            'Assistant requested tool call:\n{"args": {}, "id": "chatcmpl-tool-9114a7499499911a", "name": "think_tool"}'
+        )
+        result = _reconstruct_imitated_tool_call(content)
+        self.assertIsNotNone(result)
+        self.assertEqual(result[0]["name"], "think_tool")
+        self.assertEqual(result[0]["args"], {})
+
+    def test_does_not_match_a_genuine_final_answer(self):
+        content = (
+            "I believe I have confidently answered the question. No further searching is needed.\n\n"
+            "Assistant response:\nThe songwriter is John D. Loudermilk."
+        )
+        self.assertIsNone(_reconstruct_imitated_tool_call(content))
+
+    def test_does_not_match_plain_content_with_no_marker(self):
+        content = "This is just ordinary reasoning text with no tool call markers at all."
+        self.assertIsNone(_reconstruct_imitated_tool_call(content))
+
+    def test_ignores_malformed_json_after_the_marker(self):
+        content = "Assistant requested tool call:\nnot actually valid json {{{"
+        self.assertIsNone(_reconstruct_imitated_tool_call(content))
+
+    def test_ignores_a_payload_missing_a_name(self):
+        content = 'Assistant requested tool call:\n{"args": {"queries": ["x"]}, "id": "abc"}'
+        self.assertIsNone(_reconstruct_imitated_tool_call(content))
+
+    def test_parse_decision_end_to_end_reconstructs_and_flags_it(self):
+        """A real, empty-tool_calls researcher decision whose content imitates
+        the marker text must still classify as has_tool_calls=False / a
+        no-tool exit (the imitated call was never actually executed by the
+        live graph -- see the module-level comment in trace_parser.py),
+        while reconstructed_from_imitated_history_text=True marks it as an
+        imitation artifact so canonical_completion can route it to
+        TOOL_OR_PARSER_FAILURE instead of a genuine NO_TOOL_DIRECT_EXIT."""
+        chain_end_event = {
+            "data": {
+                "output": (
+                    "Command(update={'researcher_messages': [AIMessage("
+                    'content=\'Okay, excellent! Confirmed.\\n\\nAssistant requested tool call:\\n'
+                    '{"args": {"queries": ["x"]}, "id": "chatcmpl-tool-abc", "name": "tavily_search"}\', '
+                    "additional_kwargs={}, response_metadata={}, id='lc_run--x', "
+                    "tool_calls=[], invalid_tool_calls=[])]}, goto='researcher_tools')"
+                )
+            }
+        }
+        result = _parse_decision(1, "ep0", chain_end_event)
+        self.assertTrue(result.parse_ok)
+        self.assertFalse(result.has_tool_calls)
+        self.assertEqual(result.tool_call_names, [])
+        self.assertTrue(result.is_no_tool_exit)
+        self.assertTrue(result.reconstructed_from_imitated_history_text)
+
+    def test_parse_decision_leaves_a_real_tool_call_unreconstructed(self):
+        """A real, non-empty tool_calls= list must never be routed through
+        the reconstruction path (reconstructed_from_imitated_history_text
+        stays False) -- confirms zero behavior change for qwen/llama/gpt-oss
+        and gemma27b's own well-formed decisions."""
+        chain_end_event = {
+            "data": {
+                "output": (
+                    "Command(update={'researcher_messages': [AIMessage("
+                    "content='', additional_kwargs={}, response_metadata={}, id='lc_run--y', "
+                    "tool_calls=[{'name': 'tavily_search', 'args': {'queries': ['x']}, "
+                    "'id': 'call_1', 'type': 'tool_call'}], invalid_tool_calls=[])]}, goto='researcher_tools')"
+                )
+            }
+        }
+        result = _parse_decision(0, "ep0", chain_end_event)
+        self.assertTrue(result.has_tool_calls)
+        self.assertFalse(result.reconstructed_from_imitated_history_text)
+
+    @unittest.skipUnless(GEMMA_IMITATED_TOOL_CALL_TRACE.exists(), "requires a production trace fixture on this machine")
+    def test_real_gemma27b_trace_second_decision_is_reconstructed(self):
+        """Hand-verified real trace: decision 0 is a genuine tavily_search
+        tool call; decision 1 has empty tool_calls= but its content imitates
+        the marker text for a second tavily_search attempt."""
+        import json
+
+        trace = json.loads(GEMMA_IMITATED_TOOL_CALL_TRACE.read_text())
+        decisions = [
+            e for e in trace.get("raw_odr_events", [])
+            if e.get("name") == "researcher" and e.get("event") == "on_chain_end"
+        ]
+        self.assertEqual(len(decisions), 2)
+
+        first = _parse_decision(decisions[0].get("step", 0), None, decisions[0])
+        self.assertTrue(first.has_tool_calls)
+        self.assertFalse(first.reconstructed_from_imitated_history_text)
+
+        second = _parse_decision(decisions[1].get("step", 1), None, decisions[1])
+        self.assertFalse(second.has_tool_calls)
+        self.assertEqual(second.tool_call_names, [])
+        self.assertTrue(second.is_no_tool_exit)
+        self.assertTrue(second.reconstructed_from_imitated_history_text)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,15 @@
+comparison_name,control_condition,cue_condition,comparison_role,is_preregistered_primary
+Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,Added-text control,True
+Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,Semantic confirmation effect,True
+Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,Search-goal match effect,True
+Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,Sufficiency effect,True
+Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,Sufficiency-plus-saturation effect,True
+Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,Total end-to-end change,True
+Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,Total end-to-end change,True
+Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,Total end-to-end change,True
+Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,Total end-to-end change,True
+Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,Opposite-direction control,True
+Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,Evidence-complete calibration,True
+Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,Source wording alone,True
+Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,Added source-coverage component,True
+Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,Added source-coverage component,True

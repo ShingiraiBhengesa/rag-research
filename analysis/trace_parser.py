@@ -58,6 +58,7 @@ forced-search branch-point gap was found the same way -- see
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import replace
 from pathlib import Path
 from typing import Any, Iterable, Mapping
@@ -119,6 +120,40 @@ def _iter_odr_events(events: Iterable[Mapping[str, Any]]) -> Iterable[tuple[int,
             yield int(step), ev
 
 
+# Matches deep_researcher.py::_plain_turn_from_message's own rendering of a
+# *prior* AIMessage.tool_calls entry into gemma-compatible plain-text
+# history: "Assistant requested tool call:\n" + json.dumps({"name":...,
+# "args":..., "id":...}, sort_keys=True). Gemma27b sometimes imitates this
+# exact serialization on a *later* turn instead of emitting a real
+# structured tool call -- see trace_schema.ResearcherDecision's
+# reconstructed_from_imitated_history_text field for the full writeup.
+_IMITATED_TOOL_CALL_RE = re.compile(r"Assistant requested tool call:\n(\{.*?\})(?=\n\n|\Z)", re.DOTALL)
+
+
+def _reconstruct_imitated_tool_call(content: str) -> list[dict] | None:
+    match = _IMITATED_TOOL_CALL_RE.search(content)
+    if match is None:
+        return None
+    try:
+        payload = json.loads(match.group(1))
+    except (json.JSONDecodeError, ValueError):
+        return None
+    if not isinstance(payload, dict):
+        return None
+    name = payload.get("name")
+    if not name or not isinstance(name, str):
+        return None
+    args = payload.get("args")
+    return [
+        {
+            "name": name,
+            "args": args if isinstance(args, dict) else {},
+            "id": str(payload.get("id") or ""),
+            "type": "tool_call",
+        }
+    ]
+
+
 def _parse_decision(step: int, subgraph_id: str | None, chain_end_event: Mapping[str, Any]) -> ResearcherDecision:
     output = chain_end_event.get("data", {}).get("output")
     text = _as_text(output)
@@ -161,6 +196,32 @@ def _parse_decision(step: int, subgraph_id: str | None, chain_end_event: Mapping
             parse_ok=False,
             parse_error=f"tool_calls literal was not a list: {type(tool_calls)!r}",
         )
+
+    reconstructed = False
+    if not tool_calls:
+        # Real tool_calls is genuinely empty -- check whether the model's
+        # own content text is imitating ODR's gemma-history-rendering
+        # format instead of making a real tool call (see module-level
+        # comment above _IMITATED_TOOL_CALL_RE). IMPORTANT: this does NOT
+        # change has_tool_calls/is_no_tool_exit below -- the imitated call
+        # was never actually executed by the live graph (confirmed by trace
+        # inspection: the episode goes straight to `researcher_tools` with
+        # nothing to run, then `compress_research` -- it does not continue
+        # to a further decision as a real tool call would). Pretending it
+        # succeeded would misrepresent what actually happened. This flag
+        # only marks the row as excludable at the route-classification
+        # level (see canonical_completion.classify_local_terminal_route),
+        # the same way a technical tool-parser failure is excluded
+        # elsewhere -- never silently counted as either outcome.
+        try:
+            content_extracted = extract_last_kwarg(text, "content")
+        except LiteralScanError:
+            content_extracted = None
+        if content_extracted is not None and isinstance(content_extracted.value, str):
+            imitated = _reconstruct_imitated_tool_call(content_extracted.value)
+            if imitated is not None:
+                reconstructed = True
+
     names = [str(tc.get("name")) for tc in tool_calls if isinstance(tc, dict)]
     has_tool_calls = len(tool_calls) > 0
     return ResearcherDecision(
@@ -172,6 +233,7 @@ def _parse_decision(step: int, subgraph_id: str | None, chain_end_event: Mapping
         is_research_complete=RESEARCH_COMPLETE_TOOL_NAME in names,
         is_no_tool_exit=not has_tool_calls,
         parse_ok=True,
+        reconstructed_from_imitated_history_text=reconstructed,
     )
 
 

@@ -1,0 +1,16 @@
+gate_id,description,status,detail
+1,"Coverage is outside [0,1]",PASS,0 violations / 57263 rows
+2,A coverage-category total differs from eligible N,PASS,0 violations / 110 cells
+3,Category percentages do not sum to 100% within rounding tolerance,PASS,0 violations (tolerance=0.5pp) / 110 cells
+4,Retrieved evidence exceeds required evidence,PASS,0 violations / 57263 rows
+5,Coverage disagrees with retrieved/required counts,PASS,0 violations / 57263 rows
+6,A paired comparison uses different question IDs,PASS,0 violations / 37096 pairs checked
+7,The paired-loss sign convention is reversed,PASS,0 violations (Oracle Saturation vs Neutral should be <=0)
+8,Post-completion evidence enters local coverage (non-qualifying terminal route present),PASS,0 violations / 57263 rows
+9,A primary figure/table pools datasets,PASS,0 pooled-looking dataset labels found
+10,GPT-OSS macro averages presented as dataset-level distributions,PASS,0 gpt_oss_20b/2wiki rows found (must be 0)
+11,A smoothed KDE or violin plot is used,PASS,0 forbidden calls in any figures_*.py module
+12,A figure/table omits its denominator,PASS,0 rows missing a denominator column
+13,Oracle and natural-retrieval conditions are mixed without clear labeling,PASS,0 Oracle comparisons missing is_calibration=True
+14,Existing PCR or evidence files are modified,PASS,0 write calls reference any canonical source directory
+15,A displayed value cannot be traced to an output CSV,PASS,0 missing cells (every expected cell has a CSV row to trace to)
