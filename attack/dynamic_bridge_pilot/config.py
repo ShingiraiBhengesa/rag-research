@@ -103,6 +103,9 @@ SCORE_FEATURES = ("ground", "align", "fidelity", "clarity")
 LAMBDA_GRID_STEP = 0.05
 
 # --- Outcome labelling --------------------------------------------------------
+# Runs are never truncated: every run follows the canonical ODR graph to
+# final_report_generation (the answer). PCR_STEPS is only the analysis horizon;
+# step 30 equals the per-researcher tool-call budget, so PCR@30 is end-of-budget.
 # A numerator-route termination is "premature" iff the evidence handed to the
 # final report lacked at least one required dependency (canonical evidence
 # boundary 4, falling back to the episode-0 terminal boundary when the final
@@ -110,10 +113,16 @@ LAMBDA_GRID_STEP = 0.05
 PREMATURE_EVIDENCE_BOUNDARY = ("final_input_coverage_fraction", "episode0_terminal_coverage_fraction")
 
 # --- Splits ------------------------------------------------------------------
+# Order: dev (20 questions, all six arms after lambda is frozen) -> full.
+# full = the canonical production n450 questions per dataset, with the exact
+# canonical corpus/evidence files, so neutral/fixed arms are directly
+# comparable question-by-question with the 12-condition study.
+SPLITS = ("smoke", "dev", "full")
+FROZEN_SPLITS = ("dev", "full")  # select/arms refuse to run unless verify-freeze passes
 SPLIT_SEED = 20261007
-SMOKE_PER_DATASET = 3
+SMOKE_PER_DATASET = 3            # optional bug-finding split; not part of the sequence
 DEV_PER_DATASET = 10             # reuses the adaptive pilot's existing dev split
-HELDOUT_PER_DATASET = 100
+FULL_PER_DATASET = 450           # canonical production manifests (results/manifests/<ds>_n450.jsonl)
 PCR_STEPS = tuple(range(1, 31))
 PCR_CHECKPOINTS = (1, 2, 3, 5, 10, 30)
 
@@ -150,5 +159,5 @@ def frozen_snapshot() -> dict:
         "score_features": list(SCORE_FEATURES),
         "premature_evidence_boundary": list(PREMATURE_EVIDENCE_BOUNDARY),
         "splits": {"seed": SPLIT_SEED, "smoke": SMOKE_PER_DATASET, "dev": DEV_PER_DATASET,
-                   "heldout": HELDOUT_PER_DATASET},
+                   "full": FULL_PER_DATASET, "full_source": "canonical production n450"},
     }

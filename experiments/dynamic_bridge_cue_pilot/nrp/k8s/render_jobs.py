@@ -3,7 +3,11 @@
 
     python render_jobs.py --split smoke --commit <sha> [--namespace trace-ai]
 
+    python render_jobs.py --split full --commit <sha> --shards 8
+
 Writes nrp/k8s/rendered/<split>/{00-setup,01-decompose,02-cell-*}.yaml.
+With --shards N each cell is an Indexed Job of N pods (1 L40 each); every
+pod takes a fixed 1/N slice of the questions and checkpoints to its own files.
 Apply in order: setup (once per commit), decompose, then the four cells
 (the cells wait for the decompose marker on the PVC by themselves).
 
@@ -55,7 +59,11 @@ RESOURCES = """\
 """
 
 
-def job(name, namespace, image, args, *, gpu, commit, smoke_lambda, extra_env=""):
+def job(name, namespace, image, args, *, gpu, commit, smoke_lambda, extra_env="", shards=1):
+    indexed = (f"  completionMode: Indexed\n  completions: {shards}\n  parallelism: {shards}\n"
+               if shards > 1 else "")
+    if shards > 1:
+        extra_env += f"            - {{name: NUM_SHARDS, value: \"{shards}\"}}\n"
     return f"""\
 apiVersion: batch/v1
 kind: Job
@@ -64,7 +72,7 @@ metadata:
   namespace: {namespace}
   labels: {{app: dynamic-bridge-cue-pilot, commit: "{commit[:12]}"}}
 spec:
-  backoffLimit: 50
+{indexed}  backoffLimit: {50 * shards}
   template:
     metadata:
       labels: {{app: dynamic-bridge-cue-pilot}}
@@ -118,10 +126,13 @@ SECRETS = """\
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--split", required=True, choices=("smoke", "dev", "heldout"))
+    ap.add_argument("--split", required=True, choices=("smoke", "dev", "full"))
     ap.add_argument("--commit", required=True)
     ap.add_argument("--namespace", default="trace-ai")
     ap.add_argument("--image", default="vllm/vllm-openai:v0.23.0")
+    ap.add_argument("--shards", type=int, default=1,
+                    help="pods per victim x dataset cell (Indexed Job). Shard i runs every N-th question; "
+                         "results are identical to N=1, only wall time changes. Suggested: 1 for dev, 8 for full.")
     a = ap.parse_args()
     if len(a.commit) != 40:
         ap.error("--commit must be the full 40-char SHA of the pushed, frozen branch head")
@@ -140,8 +151,8 @@ def main():
             (out / f"02-cell-{v}-{d}.yaml").write_text(job(
                 f"dbcp-{a.split}-{v}-{d}-{short}", a.namespace, a.image,
                 f'bash "$REPO/experiments/dynamic_bridge_cue_pilot/nrp/run_phase.sh" cell {a.split} {v} {d}',
-                gpu=1, **common))
-    print(f"wrote {out}")
+                gpu=1, shards=a.shards, **common))
+    print(f"wrote {out} ({a.shards} shard(s) per cell, {4 * a.shards} cell pods)")
 
 
 if __name__ == "__main__":

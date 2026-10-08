@@ -1,5 +1,5 @@
 # GENERATED from attack/dynamic_bridge_pilot/config.py (frozen_snapshot); do not edit by hand.
-# config_snapshot_hash: 4ceb7b335e37ccd78dc73fec7d7de5d528a3f7d8e790d71663f65aa2fb32fc42
+# config_snapshot_hash: ccb2971f2cac72ff67a7179e07e0bd29e70c32fccbd41103dc2ce952b78716b8
 pilot_version: dynamic_bridge_cue_pilot_v1
 victims:
   qwen14b:
@@ -93,4 +93,5 @@ splits:
   seed: 20261007
   smoke: 3
   dev: 10
-  heldout: 100
+  full: 450
+  full_source: canonical production n450

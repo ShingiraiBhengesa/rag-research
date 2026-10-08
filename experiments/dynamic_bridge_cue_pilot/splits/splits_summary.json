@@ -5,14 +5,22 @@
       "n": 10,
       "source": "results/adaptive_pilot/splits/2wiki/dev/2wiki_dev_manifest.jsonl"
     },
-    "heldout": {
-      "n": 100,
-      "type_counts": {
-        "bridge_comparison": 25,
-        "comparison": 25,
-        "compositional": 25,
-        "inference": 25
-      }
+    "full": {
+      "files": {
+        "corpus": {
+          "sha256": "bad8049d41210d4f437e3da96daf0d5fbf777b04f3b28b697b0832ee110635c6",
+          "source": "results/corpus/2wiki_corpus.jsonl"
+        },
+        "evidence": {
+          "sha256": "aa7c94568de3211c03681ec37eed45001d3581f7c6d217795cf1ba9f63d28051",
+          "source": "results/evidence/2wiki_evidence.jsonl"
+        },
+        "manifest": {
+          "sha256": "4f1cc6236375201a128e03c0d074578e5fe93e75ebf4a32427fcf3d61ebe864f",
+          "source": "results/manifests/2wiki_n450.jsonl"
+        }
+      },
+      "n": 450
     },
     "n_eligible": 12576,
     "n_pool_after_exclusions": 12116,
@@ -32,12 +40,22 @@
       "n": 10,
       "source": "results/adaptive_pilot/splits/hotpot/dev/hotpot_dev_manifest.jsonl"
     },
-    "heldout": {
-      "n": 100,
-      "type_counts": {
-        "bridge": 50,
-        "comparison": 50
-      }
+    "full": {
+      "files": {
+        "corpus": {
+          "sha256": "0ad79a00e52db4d761d5ca1b83416890070052a2927e2e7c023860743cd815fb",
+          "source": "results/corpus/hotpot_corpus.jsonl"
+        },
+        "evidence": {
+          "sha256": "bef0d66dae14e105e746e8a8814be8a839a2c7f6a960516f4eb99f53d56dbefc",
+          "source": "results/evidence/hotpot_evidence.jsonl"
+        },
+        "manifest": {
+          "sha256": "1c44a02e3c1d8b17e7a5bff3c666586526513536a0c8d85ead50bad7dee88a92",
+          "source": "results/manifests/hotpot_n450.jsonl"
+        }
+      },
+      "n": 450
     },
     "n_eligible": 7405,
     "n_pool_after_exclusions": 6945,

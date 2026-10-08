@@ -12,7 +12,10 @@
 # outputs), HF_HOME. Optional PY_CUES: python with torch+transformers for the
 # cue phase's NLI check (default PY_ODR; on Libra the odr env lacks torch, so
 # the smoke sbatch points PY_CUES at the vllm env).
-# Optional: SMOKE_PROVISIONAL_LAMBDA=1 (smoke only), MAX_QUESTIONS (smoke/dev only).
+# Optional: SMOKE_PROVISIONAL_LAMBDA=1 (smoke only), MAX_QUESTIONS (smoke/dev only),
+# NUM_SHARDS (cell mode; shard index from SHARD or the Indexed Job's
+# JOB_COMPLETION_INDEX). Shard i takes every NUM_SHARDS-th question and writes
+# its own checkpoint files and markers.
 #
 # Preemption: every CLI phase checkpoints per unit; a phase marker is written
 # only when the phase exits 0 with no new infrastructure failures, so a
@@ -71,6 +74,9 @@ phase() {  # phase <marker-name> <cli args...>
   else echo "[phase] $name had infrastructure failures; not marking done (rerun retries them)" >&2; exit 1; fi
 }
 
+NUM_SHARDS="${NUM_SHARDS:-1}"
+SHARD="${SHARD:-${JOB_COMPLETION_INDEX:-0}}"
+
 if [[ "$MODE" == "decompose" ]]; then
   [[ -f "$MARKERS/decompose.done" ]] && { echo "[skip] decompose"; exit 0; }
   serve qwen14b
@@ -80,29 +86,39 @@ fi
 
 : "${VICTIM:?victim}" "${DATASET:?dataset}"
 CELL="${VICTIM}_${DATASET}"
+if (( NUM_SHARDS > 1 )); then CELL="${CELL}.s$(printf %03d "$SHARD")of$(printf %03d "$NUM_SHARDS")"; fi
+echo "[cell] $SPLIT $VICTIM $DATASET shard $SHARD/$NUM_SHARDS"
 until [[ -f "$MARKERS/decompose.done" ]]; do echo "[wait] decompositions for $SPLIT"; sleep 60; done
 
 SELECT_ARGS=()
 if [[ "$SPLIT" == "smoke" && "${SMOKE_PROVISIONAL_LAMBDA:-0}" == "1" ]]; then SELECT_ARGS+=(--provisional-equal-lambda); fi
-if [[ "$SPLIT" == "heldout" ]]; then "$PY_ODR" -B -m attack.dynamic_bridge_pilot.cli verify-freeze --split heldout; fi
+# dev: anchor + cues always; select + arms only once lambda is frozen (the
+# freeze is committed, so the post-freeze commit re-runs this cell and picks
+# up where the pre-freeze commit stopped). full: everything, freeze verified first.
+RUN_ARMS=1
+if [[ "$SPLIT" == "dev" && ! -f "$REPO/experiments/dynamic_bridge_cue_pilot/freeze_manifest.json" ]]; then RUN_ARMS=0; fi
+if [[ "$SPLIT" == "full" ]]; then "$PY_ODR" -B -m attack.dynamic_bridge_pilot.cli verify-freeze --split full; fi
+export PILOT_SHARD="$SHARD" PILOT_NUM_SHARDS="$NUM_SHARDS"   # read by the cell phases below
 
 if [[ "$VICTIM" == "qwen14b" ]]; then
   # Attacker and victim share Qwen2.5-14B weights: one server for all phases.
-  need=0; for p in anchor cues arms; do [[ -f "$MARKERS/${p}_$CELL.done" ]] || need=1; done
+  need=0; for p in anchor cues $([[ $RUN_ARMS == 1 ]] && echo arms); do [[ -f "$MARKERS/${p}_$CELL.done" ]] || need=1; done
   [[ $need == 1 ]] && serve qwen14b
   phase "anchor_$CELL" anchor --victim qwen14b --datasets "$DATASET" --victim-base-url "$URL"
   PHASE_PY="$PY_CUES" phase "cues_$CELL" cues --victim qwen14b --datasets "$DATASET" --attacker-base-url "$URL"
-  [[ "$SPLIT" != "dev" ]] && phase "select_$CELL" select --victim qwen14b --datasets "$DATASET" "${SELECT_ARGS[@]}"
-  [[ "$SPLIT" != "dev" ]] && phase "arms_$CELL"   arms   --victim qwen14b --datasets "$DATASET" --victim-base-url "$URL"
+  if [[ $RUN_ARMS == 1 ]]; then
+    phase "select_$CELL" select --victim qwen14b --datasets "$DATASET" "${SELECT_ARGS[@]}"
+    phase "arms_$CELL"   arms   --victim qwen14b --datasets "$DATASET" --victim-base-url "$URL"
+  fi
 else
   # One 48 GB L40 cannot hold the 8B victim and the 14B attacker at bf16 at once:
   # stage the model loads (victim -> attacker -> victim). Same code, same order of units.
   [[ -f "$MARKERS/anchor_$CELL.done" ]] || { serve "$VICTIM"; phase "anchor_$CELL" anchor --victim "$VICTIM" --datasets "$DATASET" --victim-base-url "$URL"; }
   [[ -f "$MARKERS/cues_$CELL.done" ]] || { serve qwen14b; PHASE_PY="$PY_CUES" phase "cues_$CELL" cues --victim "$VICTIM" --datasets "$DATASET" --attacker-base-url "$URL"; }
   stop_server
-  if [[ "$SPLIT" != "dev" ]]; then
+  if [[ $RUN_ARMS == 1 ]]; then
     phase "select_$CELL" select --victim "$VICTIM" --datasets "$DATASET" "${SELECT_ARGS[@]}"
     [[ -f "$MARKERS/arms_$CELL.done" ]] || { serve "$VICTIM"; phase "arms_$CELL" arms --victim "$VICTIM" --datasets "$DATASET" --victim-base-url "$URL"; }
   fi
 fi
-echo "[done] $SPLIT $CELL"
+[[ $RUN_ARMS == 1 ]] && echo "[done] $SPLIT $CELL" || echo "[done] $SPLIT $CELL cues only (lambda not frozen yet)"

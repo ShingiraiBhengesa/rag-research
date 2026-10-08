@@ -314,9 +314,33 @@ class OutcomeAndPcrTests(unittest.TestCase):
         self.assertAlmostEqual(cur[("neutral", 3)]["pcr"], 3 / 4)
         self.assertEqual(cur[("bridge_fact", 1)]["n_eligible"], 3)
         self.assertAlmostEqual(cur[("bridge_fact", 1)]["pcr"], 1.0)
-        c = [r for r in paired_contrasts(labs) if r["contrast"] == "bridge_fact_vs_neutral" and r["step"] == 1][0]
+        c = [r for r in paired_contrasts(labs) if r["contrast"] == "bridge_fact_vs_neutral"
+             and r["question_set"] == "all_paired" and r["step"] == 1][0]
         self.assertEqual(c["n_paired"], 3)                 # c excluded: ineligible on one side
         self.assertAlmostEqual(c["delta_pcr"], 1 - 1 / 3, places=4)
+
+    def test_answer_evidence_and_subset(self):
+        from attack.dynamic_bridge_pilot.analysis import (
+            answer_accuracy_table,
+            evidence_summary_table,
+            paired_answer_and_evidence,
+        )
+
+        labs = []
+        for ex, ok_n, ok_c, cov_n, cov_c in (("a", True, False, 1.0, 0.5), ("b", True, True, 1.0, 1.0),
+                                             ("c", False, True, 0.5, 0.5)):
+            labs.append({**self._lab(ex, "neutral", 2), "answer_correct": ok_n, "evidence_coverage": cov_n})
+            labs.append({**self._lab(ex, "bridge_cue_saturation", 1), "answer_correct": ok_c, "evidence_coverage": cov_c})
+        acc = {r["arm"]: r for r in answer_accuracy_table(labs)}
+        self.assertAlmostEqual(acc["neutral"]["accuracy"], 2 / 3, places=4)
+        ev = {r["arm"]: r for r in evidence_summary_table(labs)}
+        self.assertAlmostEqual(ev["neutral"]["full_coverage_rate"], 2 / 3, places=4)
+        row = [r for r in paired_answer_and_evidence(labs) if r["contrast"] == "bridge_cue_saturation_vs_neutral"][0]
+        self.assertEqual((row["control_correct_cue_wrong"], row["control_wrong_cue_correct"]), (1, 1))
+        self.assertAlmostEqual(row["paired_evidence_loss"], 0.5 / 3, places=4)
+        # all_six_arms_ran subset is empty here (only two arms ran) -> n_paired 0, never silently mixed
+        sub = [r for r in paired_contrasts(labs) if r["question_set"] == "all_six_arms_ran"]
+        self.assertTrue(sub and all(r["n_paired"] == 0 for r in sub))
 
     def test_real_trace_through_label_run(self):
         from attack.dynamic_bridge_pilot.outcomes import label_run, trajectory_rows
@@ -371,18 +395,56 @@ class StoreAndSplitTests(unittest.TestCase):
                 fh.write('{"key": "b", "trunc')
             self.assertEqual([r["key"] for r in read_jsonl(p)], ["a"])
 
-    def test_splits_disjoint_and_sized(self):
+    def test_splits_disjoint_and_full_is_canonical(self):
+        import hashlib
+
         root = REPO / "experiments/dynamic_bridge_cue_pilot/splits"
         if not root.exists():
             self.skipTest("splits not built")
         for ds in C.PILOT_DATASETS:
             ids = {}
-            for split in ("smoke", "dev", "heldout"):
+            for split in C.SPLITS:
                 rows = read_jsonl(root / ds / split / f"{ds}_{split}_manifest.jsonl")
                 ids[split] = {r["example_id"] for r in rows}
-            self.assertEqual(len(ids["heldout"]), C.HELDOUT_PER_DATASET)
-            self.assertEqual(len(ids["smoke"]), C.SMOKE_PER_DATASET)
-            self.assertFalse(ids["smoke"] & ids["dev"] or ids["smoke"] & ids["heldout"] or ids["dev"] & ids["heldout"])
+            self.assertEqual(len(ids["full"]), C.FULL_PER_DATASET)
+            self.assertEqual(len(ids["dev"]), C.DEV_PER_DATASET)
+            self.assertFalse(ids["smoke"] & ids["dev"] or ids["smoke"] & ids["full"] or ids["dev"] & ids["full"])
+            canon = REPO / f"results/manifests/{ds}_n450.jsonl"
+            if canon.exists():   # byte-identical to the canonical production manifest
+                mine = root / ds / "full" / f"{ds}_full_manifest.jsonl"
+                self.assertEqual(hashlib.sha256(canon.read_bytes()).hexdigest(),
+                                 hashlib.sha256(mine.read_bytes()).hexdigest())
+
+
+class ShardTests(unittest.TestCase):
+    def test_shards_partition_questions_and_merge(self):
+        from attack.dynamic_bridge_pilot import cli
+
+        root = REPO / "experiments/dynamic_bridge_cue_pilot/splits"
+        if not (root / "hotpot/full").exists():
+            self.skipTest("splits not built")
+        with tempfile.TemporaryDirectory() as d:
+            full = {q["example_id"] for q in cli._questions(cli.parse_args(["anchor", "--split", "full", "--victim",
+                                                                             "qwen14b", "--victim-base-url", "x"]), "hotpot")}
+            seen, paths = [], set()
+            for i in range(8):
+                args = cli.parse_args(["arms", "--split", "full", "--victim", "qwen14b", "--victim-base-url", "x",
+                                       "--state-dir", d, "--shard", str(i), "--num-shards", "8"])
+                qs = cli._questions(args, "hotpot")
+                seen += [q["example_id"] for q in qs]
+                p = cli._state(args, "arms", "qwen14b_hotpot")
+                paths.add(p)
+                for q in qs[:2]:
+                    append_jsonl(p, {"key": q["example_id"]})
+                self.assertEqual(cli._state(args, "decompositions", "hotpot").name, "hotpot.jsonl")
+            self.assertEqual(len(seen), len(set(seen)))          # no question in two shards
+            self.assertEqual(set(seen), full)                    # every question in some shard
+            self.assertEqual(len(paths), 8)                      # one checkpoint file per shard
+            merged = cli._read_all(cli.parse_args(["analyze", "--split", "full", "--state-dir", d]),
+                                   "arms", "qwen14b_hotpot")
+            self.assertEqual(len(merged), 16)
+        with self.assertRaises(SystemExit):
+            cli.parse_args(["analyze", "--split", "full", "--num-shards", "4"])
 
 
 class ClientTests(unittest.TestCase):

@@ -11,8 +11,12 @@ Support:
   audit-export / fit-lambda / freeze / verify-freeze
 
 Each unit is appended to a JSONL under --state-dir with fsync before the next
-unit starts; a restarted pod skips completed keys. Held-out `select` and
-`arms` refuse to run unless verify-freeze passes.
+unit starts; a restarted pod skips completed keys.
+
+Sequence: dev decompose/anchor/cues -> audit-export, rate, fit-lambda ->
+freeze -> dev select/arms (end-to-end check) -> full (canonical n450).
+`select`/`arms` on dev and full, and every phase on full, refuse to run
+unless verify-freeze passes.
 """
 
 from __future__ import annotations
@@ -39,13 +43,29 @@ def _log(**kw) -> None:
     print(json.dumps({"ts": round(time.time(), 1), **kw}), flush=True)
 
 
-def _questions(args, dataset: str) -> list[dict]:
+def _questions(args, dataset: str, *, sharded: bool = True) -> list[dict]:
+    """Manifest questions, optionally one shard of them. Shard i of N takes every
+    N-th question in manifest order (a fixed partition, never outcome-based)."""
     qs = read_jsonl(split_paths(Path(args.split_dir), dataset, args.split)["manifest"])
-    return qs[: args.max_questions] if args.max_questions else qs
+    qs = qs[: args.max_questions] if args.max_questions else qs
+    if sharded and args.num_shards > 1:
+        qs = qs[args.shard:: args.num_shards]
+    return qs
 
 
 def _state(args, kind: str, name: str) -> Path:
-    return Path(args.state_dir) / args.split / kind / f"{name}.jsonl"
+    """This process's checkpoint file. Each shard writes its own file, so
+    concurrent shard pods never append to the same file on the shared PVC.
+    Decompositions are produced by the single unsharded decompose job."""
+    tag = f".s{args.shard:03d}of{args.num_shards:03d}" if args.num_shards > 1 and kind != "decompositions" else ""
+    return Path(args.state_dir) / args.split / kind / f"{name}{tag}.jsonl"
+
+
+def _read_all(args, kind: str, name: str) -> list[dict]:
+    """All records of a (kind, name) across every shard file, de-duplicated by key."""
+    base = Path(args.state_dir) / args.split / kind
+    files = sorted([base / f"{name}.jsonl", *base.glob(f"{name}.s[0-9]*of[0-9]*.jsonl")])
+    return list(index_by(r for f in files for r in read_jsonl(f)).values())
 
 
 def _victim_ctx(args, victim: str):
@@ -89,26 +109,32 @@ def _retry(fn, *, unit: str, failures: Path):
 
 
 def _split_manifests(args) -> list[Path]:
-    return [split_paths(Path(args.split_dir), ds, "heldout")["manifest"] for ds in C.PILOT_DATASETS]
+    return [split_paths(Path(args.split_dir), ds, sp)["manifest"] for sp in C.FROZEN_SPLITS for ds in C.PILOT_DATASETS]
 
 
 def _require_freeze(args) -> None:
-    if args.split != "heldout":
+    if args.split not in C.FROZEN_SPLITS:
         return
     problems = F.verify(FREEZE_MANIFEST, lambda_path=FROZEN_LAMBDA, split_manifests=_split_manifests(args))
     if problems:
-        sys.exit("held-out refused, freeze verification failed:\n  " + "\n  ".join(problems))
+        sys.exit(f"{args.split} refused, freeze verification failed:\n  " + "\n  ".join(problems))
 
 
 # --------------------------------------------------------------------- phases
+def _require_freeze_for_full(args) -> None:
+    if args.split == "full":
+        _require_freeze(args)
+
+
 def phase_decompose(args) -> None:
     from attack.dynamic_bridge_pilot.bridge import decompose
 
+    _require_freeze_for_full(args)
     client = _attacker(args)
     for ds in args.datasets:
         out = _state(args, "decompositions", ds)
         done = done_keys(out)
-        for q in _questions(args, ds):
+        for q in _questions(args, ds, sharded=False):
             key = f"{ds}|{q['example_id']}"
             if key in done:
                 continue
@@ -121,6 +147,7 @@ def phase_decompose(args) -> None:
 def phase_anchor(args) -> None:
     from attack.dynamic_bridge_pilot.runner import run_anchor
 
+    _require_freeze_for_full(args)
     ctx = _victim_ctx(args, args.victim)
     for ds in args.datasets:
         paths = split_paths(Path(args.split_dir), ds, args.split)
@@ -142,6 +169,7 @@ def phase_cues(args) -> None:
     from attack.dynamic_bridge_pilot.cues import STATUS_NOT_ATTEMPTED, generate_dynamic_cue
     from attack.dynamic_bridge_pilot.entail import NliEntailer
 
+    _require_freeze_for_full(args)
     client, counter, entailer = _attacker(args), _token_counter(args), NliEntailer()
     for ds in args.datasets:
         decomp = index_by(read_jsonl(_state(args, "decompositions", ds)))
@@ -193,12 +221,12 @@ def phase_cues(args) -> None:
 def _lambda(args) -> dict:
     from attack.dynamic_bridge_pilot.lambda_fit import EQUAL_LAMBDA
 
-    if args.split == "heldout" or args.lambda_file:
+    if args.split in C.FROZEN_SPLITS or args.lambda_file:
         path = Path(args.lambda_file) if args.lambda_file else FROZEN_LAMBDA
         return json.loads(path.read_text(encoding="utf-8"))
     if args.split == "smoke" and args.provisional_equal_lambda:
         return {"lambda": EQUAL_LAMBDA, "lambda_hash": "provisional_equal_smoke_only", "source": "provisional"}
-    sys.exit("select needs --lambda-file (dev) or --provisional-equal-lambda (smoke only)")
+    sys.exit("select needs --lambda-file or --provisional-equal-lambda (smoke only)")
 
 
 def phase_select(args) -> None:
@@ -265,11 +293,11 @@ def phase_analyze(args) -> None:
     for victim in victims:
         for ds in args.datasets:
             manifest = {q["example_id"]: q for q in read_jsonl(split_paths(Path(args.split_dir), ds, args.split)["manifest"])}
-            bridges += read_jsonl(_state(args, "bridge_selection", f"{victim}_{ds}"))
-            cues += read_jsonl(_state(args, "generated_cues", f"{victim}_{ds}"))
-            for s in read_jsonl(_state(args, "selections", f"{victim}_{ds}")):
+            bridges += _read_all(args, "bridge_selection", f"{victim}_{ds}")
+            cues += _read_all(args, "generated_cues", f"{victim}_{ds}")
+            for s in _read_all(args, "selections", f"{victim}_{ds}"):
                 sels[(s["victim"], s["dataset"], s["example_id"], s["condition"])] = s["selected"]
-            for r in read_jsonl(_state(args, "arms", f"{victim}_{ds}")):
+            for r in _read_all(args, "arms", f"{victim}_{ds}"):
                 arms.append(r)
                 lab = label_run(r, manifest[r["example_id"]])
                 labels.append(lab)
@@ -284,7 +312,14 @@ def phase_analyze(args) -> None:
     A.write_csv(sub("pcr") / "pcr_curves.csv", curves)
     A.write_csv(sub("pcr") / "pcr_paired_contrasts.csv", contrasts)
     A.write_csv(sub("diagnostics") / "outcome_labels_by_arm.csv", A.outcome_table(labels))
-    A.write_csv(sub("diagnostics") / "bridge_and_cue_coverage.csv", A.coverage_table(bridges, cues, arms))
+    A.write_csv(sub("diagnostics") / "answer_accuracy_by_arm.csv", A.answer_accuracy_table(labels))
+    A.write_csv(sub("diagnostics") / "evidence_coverage_by_arm.csv", A.evidence_summary_table(labels))
+    A.write_csv(sub("diagnostics") / "paired_answer_and_evidence.csv", A.paired_answer_and_evidence(labels))
+    if args.split == "full":
+        A.write_csv(sub("diagnostics") / "replication_vs_canonical.csv", A.replication_vs_canonical(
+            labels, Path(__file__).resolve().parents[2] / "qwen_llama_results_bundle" / "data" / "pcr_run_level.csv"))
+    A.write_csv(sub("diagnostics") / "bridge_and_cue_coverage.csv", A.coverage_table(bridges, cues, arms, {
+        ds: len(read_jsonl(split_paths(Path(args.split_dir), ds, args.split)["manifest"])) for ds in args.datasets}))
     A.write_csv(sub("diagnostics") / "evidence_coverage.csv",
                 [{**{k: l[k] for k in ("victim", "dataset", "example_id", "arm")}, **(l.get("evidence") or {})}
                  for l in labels if l.get("evidence")])
@@ -297,7 +332,9 @@ def phase_analyze(args) -> None:
              "entail_prob")}} for b in bridges])
     A.plot_pcr(curves, sub("figures"))
     sub("summaries").mkdir(parents=True, exist_ok=True)
-    (sub("summaries") / "PCR_SUMMARY.md").write_text(A.summarize(labels, contrasts), encoding="utf-8")
+    (sub("summaries") / "PILOT_SUMMARY.md").write_text(A.summarize(
+        labels, contrasts, A.answer_accuracy_table(labels), A.paired_answer_and_evidence(labels),
+        A.evidence_summary_table(labels)), encoding="utf-8")
     _log(phase="analyze", runs=len(labels), out=str(res))
 
 
@@ -309,8 +346,8 @@ def phase_audit_export(args) -> None:
     rows = []
     for victim in args.victims or C.PILOT_VICTIMS:
         for ds in args.datasets:
-            bridges = index_by(read_jsonl(_state(args, "bridge_selection", f"{victim}_{ds}")))
-            for v in flatten_variants(read_jsonl(_state(args, "generated_cues", f"{victim}_{ds}"))):
+            bridges = index_by(_read_all(args, "bridge_selection", f"{victim}_{ds}"))
+            for v in flatten_variants(_read_all(args, "generated_cues", f"{victim}_{ds}")):
                 if not v["valid"]:
                     continue
                 b = bridges.get(f"{victim}|{ds}|{v['example_id']}", {})
@@ -329,7 +366,7 @@ def phase_fit_lambda(args) -> None:
     variants = []
     for victim in args.victims or C.PILOT_VICTIMS:
         for ds in args.datasets:
-            variants += L.flatten_variants(read_jsonl(_state(args, "generated_cues", f"{victim}_{ds}")))
+            variants += L.flatten_variants(_read_all(args, "generated_cues", f"{victim}_{ds}"))
     ratings, raters = L.load_ratings(Path(args.ratings))
     res = L.fit(variants, ratings)
     payload = L.write_lambda(FROZEN_LAMBDA, res, source=f"manual audit ratings ({args.ratings})", raters=raters)
@@ -357,7 +394,7 @@ PHASES = {"decompose": phase_decompose, "anchor": phase_anchor, "cues": phase_cu
 def parse_args(argv=None) -> argparse.Namespace:
     ap = argparse.ArgumentParser(description="Dynamic bridge-cue pilot driver")
     ap.add_argument("phase", choices=sorted(PHASES))
-    ap.add_argument("--split", choices=("smoke", "dev", "heldout"), default="smoke")
+    ap.add_argument("--split", choices=C.SPLITS, default="dev")
     ap.add_argument("--split-dir", default=str(DEFAULT_SPLITS))
     ap.add_argument("--state-dir", default=os.environ.get("PILOT_STATE_DIR", str(EXP_DIR / "state")),
                     help="checkpoints: phase JSONLs + victim traces (on NRP: /pvc/checkpoints/...)")
@@ -371,6 +408,9 @@ def parse_args(argv=None) -> argparse.Namespace:
     ap.add_argument("--api-key", default=os.environ.get("PILOT_API_KEY", "EMPTY"))
     ap.add_argument("--tokenizer-json")
     ap.add_argument("--max-questions", type=int)
+    ap.add_argument("--shard", type=int, default=int(os.environ.get("PILOT_SHARD", "0")),
+                    help="this process's shard index (NRP Indexed Job: JOB_COMPLETION_INDEX)")
+    ap.add_argument("--num-shards", type=int, default=int(os.environ.get("PILOT_NUM_SHARDS", "1")))
     ap.add_argument("--lambda-file")
     ap.add_argument("--provisional-equal-lambda", action="store_true")
     ap.add_argument("--ratings")
@@ -382,8 +422,12 @@ def parse_args(argv=None) -> argparse.Namespace:
         ap.error(f"{args.phase} needs --victim")
     if args.phase in ("decompose", "cues") and not args.attacker_base_url:
         ap.error(f"{args.phase} needs --attacker-base-url")
-    if args.split == "heldout" and args.max_questions:
-        ap.error("--max-questions is not allowed on held-out (no subsetting after freeze)")
+    if not 0 <= args.shard < max(args.num_shards, 1):
+        ap.error("--shard must be in [0, --num-shards)")
+    if args.phase in ("analyze", "audit-export", "fit-lambda", "freeze", "verify-freeze", "decompose") and args.num_shards > 1:
+        ap.error(f"{args.phase} is not sharded; it reads/writes every shard")
+    if args.split in C.FROZEN_SPLITS and args.max_questions:
+        ap.error(f"--max-questions is not allowed on {args.split} (no subsetting of frozen splits)")
     return args
 
 

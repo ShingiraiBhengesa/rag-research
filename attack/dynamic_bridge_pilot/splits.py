@@ -1,18 +1,23 @@
-"""Smoke / dev / held-out splits for the dynamic bridge-cue pilot.
+"""Dev / full (and optional smoke) splits for the dynamic bridge-cue pilot.
 
-dev      = the adaptive pilot's existing dev split (10 per dataset, seed
-           20261005), reused unchanged for lambda fitting.
-smoke    = 3 per dataset, drawn first (seed SPLIT_SEED) from questions never
-           used in production, cue development, the runtime gate, or dev.
-heldout  = 100 per dataset, drawn (seed SPLIT_SEED + 1) from the remainder.
-All three are disjoint by construction (asserted). Draws are stratified by
-question type and fixed before any pilot run; no question is chosen or
-dropped by outcome.
+dev    = the adaptive pilot's existing dev split (10 per dataset, seed
+         20261005; never used in production). Lambda is fitted on its cue
+         ratings, then all six arms run on it as the end-to-end check.
+full   = the canonical production n450 questions per dataset, copied BYTE FOR
+         BYTE with the canonical corpus and evidence files
+         (results/{manifests,corpus,evidence}/), so d1, retrieval, and gold
+         answers are identical to the 12-condition study. SHA-256 of each
+         source and copy is recorded and asserted equal.
+smoke  = optional, 3 per dataset from questions never used anywhere; not part
+         of the dev -> full sequence.
+dev, smoke and full are disjoint (asserted). Nothing is chosen or dropped by
+outcome.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 from pathlib import Path
@@ -25,7 +30,18 @@ from attack.runtime.production_manifest import REPO_ROOT, _build_rows, _eligible
 
 ADAPTIVE_SPLITS = REPO_ROOT / "results" / "adaptive_pilot" / "splits"
 DEFAULT_OUT = DEFAULT_SPLITS
-SPLITS = ("smoke", "dev", "heldout")
+CANONICAL = {k: REPO_ROOT / "results" / sub for k, sub in
+             (("manifest", "manifests"), ("corpus", "corpus"), ("evidence", "evidence"))}
+
+
+def _sha(p: Path) -> str:
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def canonical_source(dataset: str) -> dict[str, Path]:
+    return {"manifest": CANONICAL["manifest"] / f"{dataset}_n450.jsonl",
+            "corpus": CANONICAL["corpus"] / f"{dataset}_corpus.jsonl",
+            "evidence": CANONICAL["evidence"] / f"{dataset}_evidence.jsonl"}
 
 
 def _write(out_dir: Path, dataset: str, split: str, picks: list, prior: dict) -> dict:
@@ -60,15 +76,22 @@ def build(dataset: str, out_dir: Path, *, local_files_only: bool = True) -> dict
     pool = [c for c in candidates if c.source_id not in exposed]
     smoke = _stratified_sample(pool, C.SMOKE_PER_DATASET, C.SPLIT_SEED, dataset)
     smoke_ids = {c.source_id for c in smoke}
-    heldout = _stratified_sample([c for c in pool if c.source_id not in smoke_ids], C.HELDOUT_PER_DATASET,
-                                 C.SPLIT_SEED + 1, dataset)
-    held_ids = {c.source_id for c in heldout}
-    assert not (smoke_ids & held_ids) and not (dev_ids & (smoke_ids | held_ids)), "split overlap"
-    assert len(heldout) == C.HELDOUT_PER_DATASET, f"pool too small for held-out: {len(heldout)}"
+
+    src, dst_full = canonical_source(dataset), split_paths(out_dir, dataset, "full")
+    full_hashes = {}
+    for k in src:
+        dst_full[k].parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(src[k], dst_full[k])
+        a, b = _sha(src[k]), _sha(dst_full[k])
+        assert a == b, f"copy mismatch {src[k]}"
+        full_hashes[k] = {"source": str(src[k].relative_to(REPO_ROOT)), "sha256": a}
+    full_ids = {json.loads(l)["example_id"] for l in dst_full["manifest"].read_text().splitlines() if l.strip()}
+    assert len(full_ids) == C.FULL_PER_DATASET, f"{dataset}: canonical manifest has {len(full_ids)} rows"
+    assert not (smoke_ids & full_ids) and not (dev_ids & (smoke_ids | full_ids)), "split overlap"
     summary = {"dataset": dataset, "seed": C.SPLIT_SEED, "n_eligible": len(candidates),
                "n_pool_after_exclusions": len(pool),
                "smoke": _write(out_dir, dataset, "smoke", smoke, prior),
-               "heldout": _write(out_dir, dataset, "heldout", heldout, prior)}
+               "full": {"n": len(full_ids), "files": full_hashes}}
     dst = split_paths(out_dir, dataset, "dev")
     for k in dst:
         dst[k].parent.mkdir(parents=True, exist_ok=True)
