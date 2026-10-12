@@ -193,15 +193,32 @@ def validate_graph(raw: Any, question: str) -> Graph:
     return g
 
 
+DECOMPOSE_REPAIR_ATTEMPTS = 1   # pre-specified: one repair round with the validation errors
+
+
 def decompose(client: ChatClient, question: str) -> dict:
+    """Step 1, temperature 0. If the graph fails validation, the decomposer gets
+    exactly one repair round with the validator's error list (dev showed e.g. the
+    answer variable never routed to ?answer). Both attempts are recorded."""
     user = fill(read_prompt("decompose_v1.user.txt"),
                 {"MAX_EDGES": str(C.MAX_EDGES), "MAX_DEPTH": str(C.MAX_DEPTH), "QUESTION": question})
     messages = [{"role": "system", "content": read_prompt("decompose_v1.system.txt")}, {"role": "user", "content": user}]
-    res = client.complete_json(messages, schema=DECOMPOSE_SCHEMA, schema_name="decomposition",
-                               temperature=C.JUDGE_TEMPERATURE, top_p=1.0, max_tokens=400, seed=C.JUDGE_SEED)
-    graph = validate_graph(res.parsed, question) if res.parsed is not None else Graph(
-        edges=[], answer_slot_description="", errors=[res.error or "no_output"])
-    return {"graph": graph.to_json(), "raw": res.raw, "request": res.request, "prompt_version": "decompose_v1"}
+    attempts = []
+    for attempt in range(1 + DECOMPOSE_REPAIR_ATTEMPTS):
+        res = client.complete_json(messages, schema=DECOMPOSE_SCHEMA, schema_name="decomposition",
+                                   temperature=C.JUDGE_TEMPERATURE, top_p=1.0, max_tokens=500, seed=C.JUDGE_SEED)
+        graph = validate_graph(res.parsed, question) if res.parsed is not None else Graph(
+            edges=[], answer_slot_description="", errors=[res.error or "no_output"])
+        attempts.append({"raw": res.raw, "errors": list(graph.errors)})
+        if graph.valid:
+            break
+        messages = messages + [
+            {"role": "assistant", "content": res.raw or ""},
+            {"role": "user", "content": "That graph is invalid: " + "; ".join(graph.errors) +
+             '. Fix it: the final answer must be the variable "?answer", every edge must lie on a path ending at '
+             '"?answer", and constants must be copied from the question. Return the corrected JSON only.'}]
+    return {"graph": graph.to_json(), "raw": attempts[-1]["raw"], "attempts": attempts, "request": res.request,
+            "prompt_version": "decompose_v1+repair1"}
 
 
 # ---------------------------------------------------------------------- F(d1)

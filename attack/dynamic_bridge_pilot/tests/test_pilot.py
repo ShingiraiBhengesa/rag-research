@@ -161,6 +161,31 @@ class GraphTests(unittest.TestCase):
                "answer_slot_description": ""}
         self.assertFalse(validate_graph(ung, QUESTION).valid)
 
+    def test_decompose_repairs_once(self):
+        from attack.dynamic_bridge_pilot.bridge import decompose
+
+        bad = {"edges": [{"id": "e1", "head": "Gran Torino", "relation": "directed by", "tail": "?director"}],
+               "answer_slot_description": "x"}
+        good = {"edges": CHAIN["graph"]["edges"], "answer_slot_description": "a country"}
+
+        class Seq(FakeClient):
+            def __init__(self, outs):
+                super().__init__(); self.outs = list(outs)
+
+            def complete_json(self, messages, **kw):
+                self.calls.append(messages)
+                p = self.outs.pop(0)
+                return ChatResult(raw=json.dumps(p), parsed=p)
+
+        c = Seq([bad, good])
+        rec = decompose(c, QUESTION)
+        self.assertTrue(rec["graph"]["valid"])
+        self.assertEqual(len(rec["attempts"]), 2)
+        self.assertIn("answer_slot_not_a_tail", c.calls[1][-1]["content"])
+        rec2 = decompose(Seq([bad, bad]), QUESTION)                       # only one repair round
+        self.assertFalse(rec2["graph"]["valid"])
+        self.assertEqual(len(rec2["attempts"]), 2)
+
     def test_match_requires_relation_and_slots(self):
         e1 = Edge("e1", "Gran Torino", "directed by", "?director")
         self.assertTrue(match(Fact(**FACT_E1), e1))
@@ -240,9 +265,15 @@ class CueTests(unittest.TestCase):
         leak = GOOD_SUFF + " He is from the United States."
         out, _ = self._gen(C.CUE_1, [GOOD_SUFF, leak, GOOD_SUFF],
                            judge={leak: {"states_final_answer": True, "stated_answer": "United States"}})
-        self.assertFalse(out["variants"][1]["checks"]["V5"])
-        self.assertTrue(out["variants"][1]["audit_gold_answer_leak"])
+        v1 = out["variants"][1]
+        self.assertTrue(v1["judge"]["answer_verdict_recorded_not_gating"])   # judge verdict kept for audit
+        self.assertTrue(v1["audit_gold_answer_leak"])
+        self.assertTrue(v1["checks"]["V5"])                                  # V5 is structural: a* not on g's edge
         self.assertTrue(out["variants"][0]["valid"])
+        on_g = dict(self.bridge["anchor"], edge_tail_is_answer_slot=True)
+        out2 = generate_dynamic_cue(QUESTION, OBS, {**self.bridge, "anchor": on_g}, C.CUE_1,
+                                    {"client": FakeClient(cues=[GOOD_SUFF] * 3), "token_counter": WordCounter()})
+        self.assertEqual(out2["variants"][0]["errors"]["V5"], ["anchor_edge_fills_answer_slot"])
 
     def test_entity_mode_requires_names_and_no_relation(self):
         named = "Gran Torino and Clint Eastwood are covered here, and the available evidence is sufficient."

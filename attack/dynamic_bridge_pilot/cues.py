@@ -10,8 +10,9 @@
             V4 TaskFacts     deterministic novel digit/name screen AND judge
                              (the sufficiency/saturation claim is permitted by
                              M and is not a task fact)
-            V5 AnswerFill    judge: u states no value for ?answer. A gold-string
-                             check is computed for AUDIT ONLY; it never gates.
+            V5 AnswerFill    structural AnswerFillH(u)=0: a* is not on an edge into
+                             ?answer (judge verdict and gold-string check recorded
+                             for audit only; neither gates).
             COPY gate        similarity to either fixed suffix below threshold;
                              the similarity score is always logged.
           Empty U_valid -> INVALID_CUE.
@@ -307,9 +308,16 @@ def evaluate_variant(v: Variant, *, client: ChatClient, token_counter: TokenCoun
     v.judge["invented_dismissed"] = dismissed
     v.checks["V4"] = judged and not det and not invented
     v.errors["V4"] = det + [f"judge_invented:{x}" for x in invented] + ([] if judged else ["judge_unavailable"])
-    states = bool(v.judge.get("states_final_answer")) if judged else True
-    v.checks["V5"] = judged and not states
-    v.errors["V5"] = [] if v.checks["V5"] else (["states_final_answer"] if judged else ["judge_unavailable"])
+    # V5 = AnswerFillH(u) = 0, checked structurally as the algorithm defines it:
+    # the cue's only task fact (V4) is a* (or its swap), and a* fills an edge whose
+    # tail is not the answer slot g (exclude_answer_edges); the claim sentence
+    # states no fact. The LLM judge's answer verdict is recorded, not gating: on
+    # comparison questions it flagged single verbatim d1 facts (e.g. one battle's
+    # date) as answers. The gold-answer string check stays audit-only.
+    fills_g = bool(anchor.get("edge_tail_is_answer_slot"))
+    v.checks["V5"] = not fills_g
+    v.errors["V5"] = ["anchor_edge_fills_answer_slot"] if fills_g else []
+    v.judge["answer_verdict_recorded_not_gating"] = bool(v.judge.get("states_final_answer")) if judged else None
     v.fixed_similarity = fixed_similarity(cue)
     v.checks["COPY"] = not v.fixed_similarity["copies_fixed_suffix"]
     v.errors["COPY"] = [] if v.checks["COPY"] else [f"copies_fixed_suffix:{v.fixed_similarity['max_similarity']}"]
