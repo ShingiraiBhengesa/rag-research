@@ -47,3 +47,8 @@ notes:
   - >-
     In the canonical data, llama8b's effect at hotpot/2wiki peaks at PCR@2 (not @5 as in
     the 4-dataset average); the pilot reports PCR@1/2/3/5/10/30 for both models.
+  - >-
+    2026-10-11 redesign (Zhen's review, option B): Sufficiency carries the primary
+    structure / truth / selection contrasts (entity-conditioned, unsupported-bridge,
+    K=1 vs K=3 arms); Saturation keeps a fixed arm and one K=3 bridge arm as a
+    replication of dynamic-vs-fixed and of the mechanism comparison on dynamic cues.

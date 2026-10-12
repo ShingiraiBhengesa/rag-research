@@ -26,18 +26,108 @@ from analysis.canonical.results_bundle.paired_deltas import STEPWISE_BOOTSTRAP_I
 from attack.dynamic_bridge_pilot import config as C
 
 CONTRASTS = (
-    # (name, cue arm, control arm, question it answers)
-    ("bridge_fact_vs_neutral", "bridge_fact", "neutral", "does grounded bridge text alone change stopping?"),
-    ("fixed_sufficiency_vs_neutral", "fixed_sufficiency", "neutral", "replicates canonical fixed-cue effect"),
-    ("fixed_saturation_vs_neutral", "fixed_saturation", "neutral", "replicates canonical fixed-cue effect"),
-    ("bridge_cue_sufficiency_vs_bridge_fact", "bridge_cue_sufficiency", "bridge_fact", "does the claim add beyond the fact?"),
-    ("bridge_cue_saturation_vs_bridge_fact", "bridge_cue_saturation", "bridge_fact", "does the claim add beyond the fact?"),
-    ("bridge_cue_sufficiency_vs_fixed_sufficiency", "bridge_cue_sufficiency", "fixed_sufficiency", "dynamic vs fixed"),
-    ("bridge_cue_saturation_vs_fixed_saturation", "bridge_cue_saturation", "fixed_saturation", "dynamic vs fixed"),
-    ("bridge_cue_saturation_vs_bridge_cue_sufficiency", "bridge_cue_saturation", "bridge_cue_sufficiency", "cue 2 vs cue 1"),
-    ("bridge_cue_sufficiency_vs_neutral", "bridge_cue_sufficiency", "neutral", "total dynamic effect"),
-    ("bridge_cue_saturation_vs_neutral", "bridge_cue_saturation", "neutral", "total dynamic effect"),
+    # (name, cue arm, control arm, tier, question it answers)
+    ("structure", "bridge_sufficiency_k3", "entity_sufficiency", "primary", "does relational structure matter?"),
+    ("truth", "bridge_sufficiency_k3", "unsupported_sufficiency", "primary", "does grounding in a true fact matter?"),
+    ("selection", "bridge_sufficiency_k3", "bridge_sufficiency_k1", "primary", "is the effect driven by best-of-K selection?"),
+    ("bridge_k3_vs_fixed_sufficiency", "bridge_sufficiency_k3", "fixed_sufficiency", "secondary", "dynamic vs fixed (Suff.)"),
+    ("bridge_sat_k3_vs_fixed_saturation", "bridge_saturation_k3", "fixed_saturation", "secondary", "dynamic vs fixed (Sat.)"),
+    ("bridge_sat_k3_vs_bridge_suff_k3", "bridge_saturation_k3", "bridge_sufficiency_k3", "secondary", "mechanism, dynamic cues"),
+    ("fixed_sufficiency_vs_neutral", "fixed_sufficiency", "neutral", "secondary", "replicates canonical fixed-cue effect"),
+    ("fixed_saturation_vs_neutral", "fixed_saturation", "neutral", "secondary", "replicates canonical fixed-cue effect"),
+    ("bridge_k3_vs_neutral", "bridge_sufficiency_k3", "neutral", "secondary", "total effect"),
+    ("bridge_k1_vs_neutral", "bridge_sufficiency_k1", "neutral", "secondary", "total effect"),
+    ("entity_vs_neutral", "entity_sufficiency", "neutral", "secondary", "total effect"),
+    ("unsupported_vs_neutral", "unsupported_sufficiency", "neutral", "secondary", "total effect"),
+    ("bridge_sat_k3_vs_neutral", "bridge_saturation_k3", "neutral", "secondary", "total effect"),
 )
+
+
+def mcnemar_exact_p(b: int, c: int) -> float:
+    """Two-sided exact McNemar p-value from the discordant counts b, c."""
+    from math import comb
+
+    n = b + c
+    if n == 0:
+        return 1.0
+    k = min(b, c)
+    tail = sum(comb(n, i) for i in range(k + 1)) / 2 ** n
+    return min(1.0, 2 * tail)
+
+
+def primary_outcome_contrasts(labels: list[dict]) -> list[dict]:
+    """PRIMARY OUTCOME per contrast: paired on questions where both arms are
+    primary_eligible. Reports both rates, the paired difference (cue - control)
+    with a bootstrap CI, the discordant counts and the exact McNemar p-value."""
+    by: dict = defaultdict(dict)
+    for lab in labels:
+        if lab.get("primary_eligible"):
+            by[(lab["victim"], lab["dataset"], lab["arm"])][lab["example_id"]] = bool(lab["premature_stop_no_hop2"])
+    rows = []
+    for victim, dataset in sorted({(v, d) for v, d, _ in by}):
+        for name, cue, ctl, tier, meaning in CONTRASTS:
+            a, b = by.get((victim, dataset, cue), {}), by.get((victim, dataset, ctl), {})
+            ids = sorted(a.keys() & b.keys())
+            row = {"victim": victim, "dataset": dataset, "contrast": name, "tier": tier, "cue_arm": cue,
+                   "control_arm": ctl, "question": meaning, "n_paired": len(ids)}
+            if ids:
+                diff = np.array([int(a[e]) - int(b[e]) for e in ids], dtype=float)
+                lo, hi = _paired_mean_ci(diff)
+                cue_only = sum(1 for e in ids if a[e] and not b[e])
+                ctl_only = sum(1 for e in ids if b[e] and not a[e])
+                row.update(cue_rate=round(float(np.mean([a[e] for e in ids])), 4),
+                           control_rate=round(float(np.mean([b[e] for e in ids])), 4),
+                           difference=round(float(diff.mean()), 4), ci_lower=round(lo, 4), ci_upper=round(hi, 4),
+                           cue_stop_only=cue_only, control_stop_only=ctl_only,
+                           mcnemar_p=round(mcnemar_exact_p(cue_only, ctl_only), 6))
+            rows.append(row)
+    return rows
+
+
+def secondary_by_arm(labels: list[dict]) -> list[dict]:
+    """Primary-outcome rate plus secondary outcomes per arm (each with its own denominator)."""
+    groups: dict = defaultdict(list)
+    for lab in labels:
+        groups[(lab["victim"], lab["dataset"], lab["arm"])].append(lab)
+    rows = []
+    for (v, d, a), labs in sorted(groups.items()):
+        prim = [x["premature_stop_no_hop2"] for x in labs if x.get("primary_eligible")]
+        absn = [x["abstained"] for x in labs if x.get("abstained") is not None]
+        sc = [x["search_calls_after_d1"] for x in labs if x.get("search_calls_after_d1") is not None]
+        na = Counter(x.get("primary_na_reason") for x in labs if not x.get("primary_eligible"))
+        rows.append({"victim": v, "dataset": d, "arm": a, "n_runs": sum(1 for x in labs if x.get("status") == "ran"),
+                     "n_primary_eligible": len(prim),
+                     "premature_stop_rate": round(float(np.mean(prim)), 4) if prim else None,
+                     "primary_not_scored": dict(na),
+                     "abstention_rate": round(float(np.mean(absn)), 4) if absn else None,
+                     "mean_search_calls_after_d1": round(float(np.mean(sc)), 3) if sc else None})
+    return rows
+
+
+def baseline_gate(anchor_labels: list[dict]) -> list[dict]:
+    """Go/no-go on the clean anchor runs, per victim x dataset (thresholds in config)."""
+    groups: dict = defaultdict(list)
+    for lab in anchor_labels:
+        groups[(lab["victim"], lab["dataset"])].append(lab)
+    rows = []
+    for (v, d), labs in sorted(groups.items()):
+        elig = [x for x in labs if x.get("pcr_eligible")]
+        stop1 = (sum(1 for x in elig if x["terminal_route"] in PCR_NUMERATOR_ROUTES and x.get("t_i") == 1)
+                 / len(elig)) if elig else None
+        prim = [x for x in labs if x.get("primary_eligible")]
+        hop2 = (1 - float(np.mean([x["premature_stop_no_hop2"] for x in prim]))) if prim else None
+        acc = [x["answer_correct"] for x in labs if x.get("answer_correct") is not None]
+        ok = (stop1 is not None and hop2 is not None and stop1 <= C.BASELINE_GATE_MAX_STOP_AT_1
+              and hop2 >= C.BASELINE_GATE_MIN_HOP2_RETRIEVAL)
+        rows.append({"victim": v, "dataset": d, "n_clean_runs": len(labs), "n_pcr_eligible": len(elig),
+                     "stop_at_step1_rate": None if stop1 is None else round(stop1, 4),
+                     "max_allowed_stop_at_1": C.BASELINE_GATE_MAX_STOP_AT_1,
+                     "n_primary_eligible": len(prim),
+                     "hop2_retrieval_rate": None if hop2 is None else round(hop2, 4),
+                     "min_required_hop2_retrieval": C.BASELINE_GATE_MIN_HOP2_RETRIEVAL,
+                     "clean_accuracy": round(float(np.mean(acc)), 4) if acc else None,
+                     "gate": "PASS" if ok else "FAIL"})
+    return rows
 
 
 def _t(label: dict) -> float | None:
@@ -104,7 +194,7 @@ def paired_contrasts(labels: list[dict]) -> list[dict]:
     rows = []
     cells = sorted({(v, d) for v, d, _ in by})
     for victim, dataset in cells:
-        for name, cue, ctl, meaning in CONTRASTS:
+        for name, cue, ctl, _tier, meaning in CONTRASTS:
             a, b = by.get((victim, dataset, cue), {}), by.get((victim, dataset, ctl), {})
             paired = sorted(e for e in a.keys() & b.keys() if a[e] is not None and b[e] is not None)
             for subset_name, ids in (("all_paired", paired),
@@ -178,7 +268,7 @@ def paired_answer_and_evidence(labels: list[dict]) -> list[dict]:
             by[(lab["victim"], lab["dataset"], lab["arm"])][lab["example_id"]] = lab
     rows = []
     for victim, dataset in sorted({(v, d) for v, d, _ in by}):
-        for name, cue, ctl, _meaning in CONTRASTS:
+        for name, cue, ctl, _tier, _meaning in CONTRASTS:
             a, b = by.get((victim, dataset, cue), {}), by.get((victim, dataset, ctl), {})
             row = {"victim": victim, "dataset": dataset, "contrast": name, "cue_arm": cue, "control_arm": ctl}
             ans = [e for e in a.keys() & b.keys() if a[e].get("answer_correct") is not None
@@ -243,7 +333,7 @@ def replication_vs_canonical(labels: list[dict], canonical_run_level: Path) -> l
 def outcome_table(labels: list[dict]) -> list[dict]:
     groups: dict = defaultdict(Counter)
     for lab in labels:
-        groups[(lab["victim"], lab["dataset"], lab["arm"])][lab["primary_label"]] += 1
+        groups[(lab["victim"], lab["dataset"], lab["arm"])][lab["outcome_label"]] += 1
     cats = ("correct_completion", "incorrect_completion", "premature_direct_answer", "premature_research_complete",
             "other_termination_or_failure", "not_run")
     return [{"victim": v, "dataset": d, "arm": a, **{c: cnt.get(c, 0) for c in cats}, "total": sum(cnt.values())}
@@ -261,8 +351,10 @@ def coverage_table(bridge_recs: list[dict], cue_recs: list[dict], arm_recs: list
         ar = [r for r in arm_recs if (r["victim"], r["dataset"]) == (victim, dataset)]
         row = {"victim": victim, "dataset": dataset, "n_questions": len(br),
                **{f"bridge_{k}": v for k, v in Counter(r["status"] for r in br).items()}}
-        for cond in C.SELECTED_CONDITIONS:
-            row[f"cue_ok_{cond}"] = sum(1 for r in cr if r["condition"] == cond and r["status"] == "OK")
+        for unit in C.UNITS:
+            row[f"pool_ok_{unit}"] = sum(1 for r in cr if r.get("unit") == unit and r["status"] == "OK")
+        for arm in C.ARM_ORDER:
+            row[f"ran_{arm}"] = sum(1 for r in ar if r["arm"] == arm and r["status"] == "ran")
         row["arms_ran"] = sum(1 for r in ar if r["status"] == "ran")
         row["arms_not_run"] = sum(1 for r in ar if r["status"] != "ran")
         row["injection_failures"] = sum(1 for r in ar if r["status"] == "ran" and not r.get("injection_ok"))
@@ -284,23 +376,27 @@ def cue_audit_rows(bridge_recs: list[dict], cue_recs: list[dict], selections: di
         key = (c["victim"], c["dataset"], c["example_id"])
         b = bridges.get(key, {})
         a = b.get("anchor") or {}
-        chosen = selections.get((*key, c["condition"]))
+        chosen_arms = {arm: sel for (vk, dk, ek, arm), sel in selections.items() if (vk, dk, ek) == key
+                       and C.ARMS[arm].get("unit") == c.get("unit")}
         for v in c.get("variants", []):
             rows.append({
                 "victim": c["victim"], "dataset": c["dataset"], "example_id": c["example_id"],
-                "condition": c["condition"], "variant_index": v["index"], "seed": v["seed"],
+                "unit": c.get("unit"), "mode": c.get("mode"), "condition": c["condition"],
+                "variant_index": v["index"], "seed": v["seed"],
                 "bridge_status": b.get("status"), "bridge_fact": a.get("bridge_fact"),
                 "bridge_span": a.get("bridge_span"), "source_document_id": a.get("source_document_id"),
                 "source_document_title": a.get("source_document_title"), "delta": a.get("delta"),
                 "cue_text": v["cue"], "cue_tokens": v.get("token_count"), "valid": v["valid"],
-                **{f"check_{k}": v["checks"].get(k) for k in ("V1", "V2", "V3", "V4", "V5", "COPY")},
+                **{f"check_{k}": v["checks"].get(k) for k in ("V1", "V2", "V3", "V4", "V5", "COPY", "ENTITY")},
                 "errors": {k: e for k, e in v.get("errors", {}).items() if e},
                 "fixed_similarity_max": (v.get("fixed_similarity") or {}).get("max_similarity"),
                 "fixed_similarity_own": ((v.get("fixed_similarity") or {}).get(c["condition"]) or {}).get("similarity"),
                 **{f"feat_{k}": (v.get("features") or {}).get(k) for k in C.SCORE_FEATURES},
                 "judge_reason": (v.get("judge") or {}).get("mechanism_reason"),
                 "audit_gold_answer_leak": v.get("audit_gold_answer_leak"),
-                "selected": bool(chosen and chosen.get("index") == v["index"]),
+                "selected_for_arms": sorted(arm for arm, sel in chosen_arms.items()
+                                            if sel and sel.get("index") == v["index"]),
+                "distractor": ((c.get("distractor") or {}).get("distractor")),
             })
     return rows
 
@@ -310,9 +406,10 @@ def plot_pcr(curves: list[dict], out_dir: Path) -> list[Path]:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    styles = {"neutral": ("#555555", "-"), "bridge_fact": ("#1b9e77", "-"),
-              "fixed_sufficiency": ("#7570b3", "--"), "fixed_saturation": ("#d95f02", "--"),
-              "bridge_cue_sufficiency": ("#7570b3", "-"), "bridge_cue_saturation": ("#d95f02", "-")}
+    styles = {"neutral": ("#555555", "-"), "fixed_sufficiency": ("#7570b3", "--"),
+              "entity_sufficiency": ("#1b9e77", "-."), "bridge_sufficiency_k1": ("#7570b3", ":"),
+              "bridge_sufficiency_k3": ("#7570b3", "-"), "unsupported_sufficiency": ("#e7298a", "-"),
+              "fixed_saturation": ("#d95f02", "--"), "bridge_saturation_k3": ("#d95f02", "-")}
     paths = []
     for victim, dataset in sorted({(r["victim"], r["dataset"]) for r in curves}):
         fig, ax = plt.subplots(figsize=(6.4, 4.2))
@@ -342,10 +439,28 @@ def plot_pcr(curves: list[dict], out_dir: Path) -> list[Path]:
 
 
 def summarize(labels: Iterable[dict], contrasts: list[dict], answers: list[dict] | None = None,
-              paired_ae: list[dict] | None = None, evidence: list[dict] | None = None) -> str:
+              paired_ae: list[dict] | None = None, evidence: list[dict] | None = None,
+              primary: list[dict] | None = None, secondary: list[dict] | None = None) -> str:
     lines = ["# Pilot summary (generated)", "",
              "Runs are never truncated: every run reaches final_report_generation. PCR@30 = end of budget.", "",
-             "## PCR contrasts (all paired questions; Δ in pp, 95% paired bootstrap CI)", "",
+             "## PRIMARY: premature stop (no second-hop evidence retrieved), paired per question", "",
+             "| victim | dataset | contrast | tier | n | cue rate | control rate | diff [95% CI] | McNemar p |",
+             "|---|---|---|---|---|---|---|---|---|"]
+    for r in primary or []:
+        if not r.get("n_paired"):
+            lines.append(f"| {r['victim']} | {r['dataset']} | {r['contrast']} | {r['tier']} | 0 | | | | |")
+            continue
+        lines.append(f"| {r['victim']} | {r['dataset']} | {r['contrast']} | {r['tier']} | {r['n_paired']} | "
+                     f"{r['cue_rate']:.3f} | {r['control_rate']:.3f} | {100 * r['difference']:+.1f} "
+                     f"[{100 * r['ci_lower']:.1f}, {100 * r['ci_upper']:.1f}] | {r['mcnemar_p']:.4g} |")
+    if secondary:
+        lines += ["", "## Per arm: primary rate and secondary outcomes", "",
+                  "| victim | dataset | arm | runs | primary n | premature stop | abstention | search calls after d1 |",
+                  "|---|---|---|---|---|---|---|---|"]
+        for r in secondary:
+            lines.append(f"| {r['victim']} | {r['dataset']} | {r['arm']} | {r['n_runs']} | {r['n_primary_eligible']} | "
+                         f"{r['premature_stop_rate']} | {r['abstention_rate']} | {r['mean_search_calls_after_d1']} |")
+    lines += ["", "## PCR contrasts (all paired questions; Δ in pp, 95% paired bootstrap CI)", "",
              "| victim | dataset | contrast | n | Δ@1 | Δ@2 | Δ@5 | Δ@30 |", "|---|---|---|---|---|---|---|---|"]
     keyed: dict = defaultdict(dict)
     for r in contrasts:

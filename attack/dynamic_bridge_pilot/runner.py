@@ -83,8 +83,12 @@ class ArmPlan:
     provenance: dict = field(default_factory=dict)
 
 
-def plan_arms(bridge_rec: Mapping[str, Any] | None, selected: Mapping[str, Mapping[str, Any] | None]) -> list[ArmPlan]:
-    """Resolve the six arms for one (victim, question). `selected[cond]` is u* (or None)."""
+def plan_arms(bridge_rec: Mapping[str, Any] | None, selections: Mapping[str, Mapping[str, Any]]) -> list[ArmPlan]:
+    """Resolve every configured arm for one (victim, question).
+
+    selections[arm] = {"selected": variant dict or None, "reason": str} for the
+    dynamic arms (written by the select phase). Neutral and fixed arms always run.
+    """
     plans: list[ArmPlan] = []
     bridge_ok = bool(bridge_rec and bridge_rec.get("status") == "OK")
     for arm, spec in C.ARMS.items():
@@ -92,23 +96,19 @@ def plan_arms(bridge_rec: Mapping[str, Any] | None, selected: Mapping[str, Mappi
         src = spec["suffix_source"]
         if src in ("none", "canonical_fixed"):
             plans.append(ArmPlan(arm, cond, None, src, True))
-        elif src == "bridge_span":
-            if bridge_ok:
-                a = bridge_rec["anchor"]
-                plans.append(ArmPlan(arm, cond, a["bridge_span"], src, True,
-                                     provenance={"bridge_fact": a["bridge_fact"],
-                                                 "source_document_id": a["source_document_id"]}))
-            else:
-                plans.append(ArmPlan(arm, cond, None, src, False,
-                                     skip_reason=(bridge_rec or {}).get("status", "NO_BRIDGE_RECORD")))
+            continue
+        if not bridge_ok:
+            plans.append(ArmPlan(arm, cond, None, src, False,
+                                 skip_reason=(bridge_rec or {}).get("status", "NO_BRIDGE_RECORD")))
+            continue
+        sel = selections.get(arm) or {}
+        u = sel.get("selected")
+        if u is not None:
+            plans.append(ArmPlan(arm, cond, u["cue"], src, True,
+                                 provenance={"unit": spec["unit"], "selection": spec["selection"],
+                                             "variant_index": u["index"], "seed": u["seed"]}))
         else:
-            u = selected.get(spec["cue_condition"]) if bridge_ok else None
-            if u is not None:
-                plans.append(ArmPlan(arm, cond, u["cue"], src, True,
-                                     provenance={"variant_index": u["index"], "seed": u["seed"]}))
-            else:
-                reason = (bridge_rec or {}).get("status", "NO_BRIDGE_RECORD") if not bridge_ok else "INVALID_CUE"
-                plans.append(ArmPlan(arm, cond, None, src, False, skip_reason=reason))
+            plans.append(ArmPlan(arm, cond, None, src, False, skip_reason=sel.get("reason") or "NO_SELECTION"))
     return plans
 
 

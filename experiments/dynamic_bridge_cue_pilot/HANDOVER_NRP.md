@@ -24,13 +24,14 @@ Repo: `ShingiraiBhengesa/rag-research`, branch `pilot/dynamic-bridge-two-cues`.
 
 - **Code:** branch head `da087ac3` or later. Implemented and tested offline: 26 pilot tests plus 39 existing tests, and an end-to-end analysis on real canonical traces.
 - **Nothing has run on a GPU yet.**
-- **Design:** 2 victims (qwen14b, llama8b) × 2 datasets (hotpot, 2wiki) × 6 arms. The arms are `neutral`, `fixed_sufficiency`, `fixed_saturation`, `bridge_fact`, `bridge_cue_sufficiency` and `bridge_cue_saturation`; details in `README.md`.
+- **Design (updated 2026-10-11, option B):** 2 victims (qwen14b, llama8b) × 2 datasets (hotpot, 2wiki) × 8 arms: `neutral`, `fixed_sufficiency`, `entity_sufficiency`, `bridge_sufficiency_k1`, `bridge_sufficiency_k3`, `unsupported_sufficiency`, `fixed_saturation`, `bridge_saturation_k3`. The primary outcome is "premature stop" (no second-hop evidence retrieved); the primary contrasts are structure, truth and selection. Details in `README.md`.
+- **Where dev runs:** dev stage 1 was submitted on **Libra** (`slurm/dev_libra.sbatch`), and its state lives on Libra under `experiments/dynamic_bridge_cue_pilot/state/`. NRP is for the full run. Before NRP, the user copies nothing: the full split's anchors, cues and arms are generated fresh on the PVC; only `lambda/` and `freeze_manifest.json` (committed) carry over.
 - **Sequence:**
   1. **dev** (10 questions per dataset): cue generation.
   2. The user rates cues; fit λ.
   3. Decide the anchor-edge policy.
   4. **Freeze**, commit and push.
-  5. **dev** six arms at the frozen commit; review.
+  5. **dev** all eight arms at the frozen commit; review.
   6. **full** (the canonical 450 questions per dataset, sharded).
 - **Open decision:** `config.ANCHOR_EDGE_POLICY`, either `spec_exact` (the current default) or `exclude_answer_edges`. It must be settled before the freeze (step 4).
 - **Security:** the user has been told to rotate a GitHub token exposed on Libra. Make sure the `github-token` Secret holds the new one.
@@ -176,6 +177,8 @@ Go/no-go review with the user before full:
 - `failures/` should be empty, or every entry explained.
 
 ### Step 5: full run (canonical n450, sharded)
+
+First run only the clean anchors and check the baseline gate (go/no-go with the user). Render with `--stop-after anchor`, apply decompose and the cells, then run `cli baseline-gate --split full` in the toolbox pod. Then delete the cell Jobs, re-render without `--stop-after`, and re-apply to continue; the finished anchors are skipped.
 
 ```bash
 python3 experiments/dynamic_bridge_cue_pilot/nrp/k8s/render_jobs.py --split full --commit $FROZEN --shards 8

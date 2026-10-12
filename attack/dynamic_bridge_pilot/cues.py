@@ -18,6 +18,15 @@
   Step 6  u* = argmax_{U_valid} Q(u) with frozen lambda. Deterministic
           tie-break: lower variant index. No victim output is ever read.
 
+Two generation modes share K, seeds, gates and the scorer:
+  bridge  the cue restates the bridge fact a* (bridge arms).
+  entity  the cue mentions a*'s two entities with NO relation between them
+          (entity-conditioned arm); gated by ENTITY = both entities named AND
+          the judge finds no asserted relation.
+Selection rules (pre-specified): `select` = argmax Q (K=3 arms);
+`select_first_valid` = first valid variant in seed order (bridge K=1 arm:
+same pool, no scorer).
+
 generate_dynamic_cue() is the spec's named entry point (section 8).
 """
 
@@ -164,11 +173,14 @@ JUDGE_SCHEMA = {
     "type": "object",
     "properties": {"preserves_mechanism": {"type": "boolean"}, "mechanism_reason": {"type": "string"},
                    "invented_task_facts": {"type": "array", "items": {"type": "string"}},
-                   "states_final_answer": {"type": "boolean"}, "stated_answer": {"type": "string"}},
+                   "states_final_answer": {"type": "boolean"}, "stated_answer": {"type": "string"},
+                   "asserts_relation": {"type": "boolean"}},
     "required": ["preserves_mechanism", "mechanism_reason", "invented_task_facts", "states_final_answer",
-                 "stated_answer"],
+                 "stated_answer", "asserts_relation"],
 }
 GENERATE_SCHEMA = {"type": "object", "properties": {"cue": {"type": "string"}}, "required": ["cue"]}
+MODES = ("bridge", "entity")
+GATES = ("V1", "V2", "V3", "V4", "V5", "COPY", "ENTITY")
 
 
 def format_errors(cue: Any) -> list[str]:
@@ -220,13 +232,15 @@ class Variant:
     usage: dict = field(default_factory=dict)
 
 
-def _judge(client: ChatClient, *, question: str, docs_text: str, answer_slot: str, cue: str, condition: str) -> dict:
+def _judge(client: ChatClient, *, question: str, docs_text: str, answer_slot: str, cue: str, condition: str,
+           entities: tuple[str, str] = ("", "")) -> dict:
     m = MECHANISMS[condition]
-    user = fill(read_prompt("judge_v1.user.txt"), {
+    user = fill(read_prompt("judge_v2.user.txt"), {
         "QUESTION": question, "ANSWER_SLOT": answer_slot or "unspecified", "DOCUMENTS": docs_text, "CUE": cue,
         "MECHANISM_RULE": m["rule"], "PROHIBITED_RULE": m["prohibited"],
+        "ENTITY_A": entities[0], "ENTITY_B": entities[1],
     })
-    messages = [{"role": "system", "content": read_prompt("judge_v1.system.txt")}, {"role": "user", "content": user}]
+    messages = [{"role": "system", "content": read_prompt("judge_v2.system.txt")}, {"role": "user", "content": user}]
     res = client.complete_json(messages, schema=JUDGE_SCHEMA, schema_name="cue_audit",
                                temperature=C.JUDGE_TEMPERATURE, top_p=1.0, max_tokens=400, seed=C.JUDGE_SEED)
     if not isinstance(res.parsed, Mapping):
@@ -236,12 +250,16 @@ def _judge(client: ChatClient, *, question: str, docs_text: str, answer_slot: st
 
 def evaluate_variant(v: Variant, *, client: ChatClient, token_counter: TokenCounter, question: str,
                      observation_text: str, docs_text: str, answer_slot: str, condition: str,
-                     anchor: Mapping[str, Any], gold_answers: Sequence[str]) -> Variant:
+                     anchor: Mapping[str, Any], gold_answers: Sequence[str], mode: str = "bridge",
+                     exempt: Sequence[str] = ()) -> Variant:
+    """Applies every gate. `exempt` names gates that are recorded but do not
+    count toward validity (only the unsupported-bridge arm uses it, for V4)."""
     cue = v.cue
+    entities = (anchor["bridge_entity_head"], anchor["bridge_entity_tail"])
     v.errors["V1"] = format_errors(cue)
     v.checks["V1"] = not v.errors["V1"]
     if not isinstance(cue, str) or not cue.strip():
-        for k in ("V2", "V3", "V4", "V5", "COPY"):
+        for k in GATES[1:]:
             v.checks[k] = False
         return v
     v.token_count = token_counter.count(cue)
@@ -249,7 +267,7 @@ def evaluate_variant(v: Variant, *, client: ChatClient, token_counter: TokenCoun
     v.errors["V2"] = [] if v.checks["V2"] else [f"over_budget:{v.token_count}>{C.TOKEN_BUDGET_B}"]
     v.lexical_mechanism = lexical_mechanism(cue, condition)
     v.judge = _judge(client, question=question, docs_text=docs_text, answer_slot=answer_slot, cue=cue,
-                     condition=condition)
+                     condition=condition, entities=entities)
     judged = v.judge.get("ok", False)
     preserves = bool(judged and v.judge.get("preserves_mechanism") is True)
     v.checks["V3"] = v.lexical_mechanism["ok"] and preserves
@@ -265,6 +283,15 @@ def evaluate_variant(v: Variant, *, client: ChatClient, token_counter: TokenCoun
     v.fixed_similarity = fixed_similarity(cue)
     v.checks["COPY"] = not v.fixed_similarity["copies_fixed_suffix"]
     v.errors["COPY"] = [] if v.checks["COPY"] else [f"copies_fixed_suffix:{v.fixed_similarity['max_similarity']}"]
+    if mode == "entity":
+        named = [overlap(cue, e) >= C.ENTITY_SLOT_MIN_OVERLAP for e in entities]
+        relation = bool(v.judge.get("asserts_relation")) if judged else True
+        v.checks["ENTITY"] = all(named) and judged and not relation
+        v.errors["ENTITY"] = ([] if all(named) else ["entity_not_named"]) + \
+                             (["asserts_relation" if judged else "judge_unavailable"] if relation else [])
+    else:
+        v.checks["ENTITY"] = True
+        v.errors["ENTITY"] = []
     v.audit_gold_answer_leak = _gold_leak(cue, gold_answers)
     v.features = {
         "ground": feature_ground(cue, question, observation_text),
@@ -272,7 +299,7 @@ def evaluate_variant(v: Variant, *, client: ChatClient, token_counter: TokenCoun
         "fidelity": feature_fidelity(v.lexical_mechanism, preserves),
         "clarity": feature_clarity(cue),
     }
-    v.valid = all(v.checks.get(k) for k in ("V1", "V2", "V3", "V4", "V5", "COPY"))
+    v.valid = all(v.checks.get(k) for k in GATES if k not in exempt)
     return v
 
 
@@ -288,8 +315,14 @@ def select(variants: list[dict], lambdas: Mapping[str, float]) -> dict | None:
     return max(valid, key=lambda v: (round(score(v["features"], lambdas), 9), -v["index"]))
 
 
+def select_first_valid(variants: list[dict]) -> dict | None:
+    """K=1 rule: the first valid variant in seed order. No scorer is consulted."""
+    valid = sorted((v for v in variants if v["valid"]), key=lambda v: v["index"])
+    return valid[0] if valid else None
+
+
 def generate_dynamic_cue(question: str, retrieved_evidence: str, bridge: Mapping[str, Any], cue_condition: str,
-                         generation_config: Mapping[str, Any]) -> dict:
+                         generation_config: Mapping[str, Any], mode: str = "bridge") -> dict:
     """Steps 4-5 for one (instance, condition). Returns all K variants with validity
     and features; selection (step 6) is applied later with the frozen lambda.
 
@@ -302,14 +335,18 @@ def generate_dynamic_cue(question: str, retrieved_evidence: str, bridge: Mapping
     docs = parse_observation(retrieved_evidence)
     docs_text = documents_for_prompt(docs)
     obs_text = "\n".join(d.title + "\n" + d.text for d in docs)
+    if mode not in MODES:
+        raise ValueError(f"unknown generation mode {mode}")
     m = MECHANISMS[cue_condition]
-    user = fill(read_prompt("generate_v1.user.txt"), {
+    prompt = "generate_v1" if mode == "bridge" else "generate_entity_v1"
+    user = fill(read_prompt(f"{prompt}.user.txt"), {
         "QUESTION": question, "DOCUMENTS": docs_text, "BRIDGE_FACT": anchor["bridge_fact"],
         "BRIDGE_SPAN": anchor["bridge_span"], "TOKEN_BUDGET": str(C.TOKEN_BUDGET_B),
+        "ENTITY_A": anchor["bridge_entity_head"], "ENTITY_B": anchor["bridge_entity_tail"],
         "MECHANISM_RULE": m["rule"], "PROHIBITED_RULE": "Do not make " + m["prohibited"],
         "FIXED_SUFFIX": C.FIXED_SUFFIX[cue_condition],
     })
-    messages = [{"role": "system", "content": read_prompt("generate_v1.system.txt")}, {"role": "user", "content": user}]
+    messages = [{"role": "system", "content": read_prompt(f"{prompt}.system.txt")}, {"role": "user", "content": user}]
     variants: list[Variant] = []
     for i, seed in enumerate(C.GENERATION_SEEDS):
         res = client.complete_json(messages, schema=GENERATE_SCHEMA, schema_name="cue",
@@ -321,16 +358,17 @@ def generate_dynamic_cue(question: str, retrieved_evidence: str, bridge: Mapping
         variants.append(evaluate_variant(
             v, client=client, token_counter=token_counter, question=question, observation_text=obs_text,
             docs_text=docs_text, answer_slot=generation_config.get("answer_slot", ""), condition=cue_condition,
-            anchor=anchor, gold_answers=generation_config.get("gold_answers", ())))
+            anchor=anchor, gold_answers=generation_config.get("gold_answers", ()), mode=mode))
     n_valid = sum(v.valid for v in variants)
     return {
         "condition": cue_condition,
+        "mode": mode,
         "status": STATUS_OK if n_valid else STATUS_INVALID_CUE,
         "n_variants": len(variants),
         "n_valid": n_valid,
         "variants": [asdict(v) for v in variants],
         "generation_parameters": {"temperature": C.GEN_TEMPERATURE, "top_p": C.GEN_TOP_P,
                                   "max_tokens": C.GEN_MAX_TOKENS, "seeds": list(C.GENERATION_SEEDS),
-                                  "token_budget": C.TOKEN_BUDGET_B, "prompt_version": "generate_v1",
-                                  "judge_prompt_version": "judge_v1"},
+                                  "token_budget": C.TOKEN_BUDGET_B, "prompt_version": prompt,
+                                  "judge_prompt_version": "judge_v2"},
     }

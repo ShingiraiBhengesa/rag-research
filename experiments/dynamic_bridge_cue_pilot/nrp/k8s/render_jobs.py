@@ -59,11 +59,13 @@ RESOURCES = """\
 """
 
 
-def job(name, namespace, image, args, *, gpu, commit, smoke_lambda, extra_env="", shards=1):
+def job(name, namespace, image, args, *, gpu, commit, smoke_lambda, extra_env="", shards=1, stop_after=""):
     indexed = (f"  completionMode: Indexed\n  completions: {shards}\n  parallelism: {shards}\n"
                if shards > 1 else "")
     if shards > 1:
         extra_env += f"            - {{name: NUM_SHARDS, value: \"{shards}\"}}\n"
+    if stop_after:
+        extra_env += f"            - {{name: STOP_AFTER, value: \"{stop_after}\"}}\n"
     return f"""\
 apiVersion: batch/v1
 kind: Job
@@ -169,6 +171,8 @@ def main():
     ap.add_argument("--shards", type=int, default=1,
                     help="pods per victim x dataset cell (Indexed Job). Shard i runs every N-th question; "
                          "results are identical to N=1, only wall time changes. Suggested: 1 for dev, 8 for full.")
+    ap.add_argument("--stop-after", choices=("", "anchor"), default="",
+                    help="anchor = cells run only the clean anchor runs (baseline gate before any cue/arm work)")
     a = ap.parse_args()
     if len(a.commit) != 40:
         ap.error("--commit must be the full 40-char SHA of the pushed, frozen branch head")
@@ -187,7 +191,7 @@ def main():
             (out / f"02-cell-{v}-{d}.yaml").write_text(job(
                 f"dbcp-{a.split}-{v}-{d}-{short}", a.namespace, a.image,
                 f'bash "$REPO/experiments/dynamic_bridge_cue_pilot/nrp/run_phase.sh" cell {a.split} {v} {d}',
-                gpu=1, shards=a.shards, **common))
+                gpu=1, shards=a.shards, stop_after=a.stop_after, **common))
     (out / "03-toolbox.yaml").write_text(TOOLBOX.format(namespace=a.namespace, image=a.image, commit=a.commit,
                                                         short=short))
     print(f"wrote {out} ({a.shards} shard(s) per cell, {4 * a.shards} cell pods)")

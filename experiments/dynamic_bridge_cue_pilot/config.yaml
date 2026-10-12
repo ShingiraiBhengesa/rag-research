@@ -1,5 +1,5 @@
 # GENERATED from attack/dynamic_bridge_pilot/config.py (frozen_snapshot); do not edit by hand.
-# config_snapshot_hash: ccb2971f2cac72ff67a7179e07e0bd29e70c32fccbd41103dc2ce952b78716b8
+# config_snapshot_hash: 9a337b3e48a4f772f4d750773dcce0f277df516f7fc8813a8f28fbc5dd8afcee
 pilot_version: dynamic_bridge_cue_pilot_v1
 victims:
   qwen14b:
@@ -40,20 +40,65 @@ arms:
   fixed_sufficiency:
     runtime_condition: Natural_PreRegisteredSufficiency
     suffix_source: canonical_fixed
+  entity_sufficiency:
+    runtime_condition: Natural_PreRegisteredSufficiency
+    suffix_source: dynamic
+    unit: entity_suff
+    selection: lambda
+  bridge_sufficiency_k1:
+    runtime_condition: Natural_PreRegisteredSufficiency
+    suffix_source: dynamic
+    unit: bridge_suff
+    selection: first_valid
+  bridge_sufficiency_k3:
+    runtime_condition: Natural_PreRegisteredSufficiency
+    suffix_source: dynamic
+    unit: bridge_suff
+    selection: lambda
+  unsupported_sufficiency:
+    runtime_condition: Natural_PreRegisteredSufficiency
+    suffix_source: dynamic
+    unit: unsupported_suff
+    selection: counterpart_of:bridge_sufficiency_k3
   fixed_saturation:
     runtime_condition: Natural_PreRegisteredSufficiencySaturation
     suffix_source: canonical_fixed
-  bridge_fact:
-    runtime_condition: NaturalNeutral
-    suffix_source: bridge_span
-  bridge_cue_sufficiency:
-    runtime_condition: Natural_PreRegisteredSufficiency
-    suffix_source: dynamic
-    cue_condition: Natural_PreRegisteredSufficiency
-  bridge_cue_saturation:
+  bridge_saturation_k3:
     runtime_condition: Natural_PreRegisteredSufficiencySaturation
     suffix_source: dynamic
-    cue_condition: Natural_PreRegisteredSufficiencySaturation
+    unit: bridge_sat
+    selection: lambda
+units:
+  bridge_suff:
+  - bridge
+  - Natural_PreRegisteredSufficiency
+  bridge_sat:
+  - bridge
+  - Natural_PreRegisteredSufficiencySaturation
+  entity_suff:
+  - entity
+  - Natural_PreRegisteredSufficiency
+  unsupported_suff:
+  - unsupported
+  - Natural_PreRegisteredSufficiency
+primary_outcome: premature_stop_no_hop2_evidence
+abstention_reason: refusal
+primary_contrasts:
+- - structure
+  - bridge_sufficiency_k3
+  - entity_sufficiency
+- - truth
+  - bridge_sufficiency_k3
+  - unsupported_sufficiency
+- - selection
+  - bridge_sufficiency_k3
+  - bridge_sufficiency_k1
+baseline_gate:
+  max_stop_at_1: 0.5
+  min_hop2_retrieval: 0.6
+judge_audit:
+  n: 50
+  seed: 20261011
 attacker:
   model:
     model_id: Qwen/Qwen2.5-14B-Instruct
@@ -63,13 +108,11 @@ attacker:
   gen_max_tokens: 200
   judge_temperature: 0.0
   judge_seed: 0
-  k_variants: 5
+  k_variants: 3
   generation_seeds:
   - 20261007
   - 20261008
   - 20261009
-  - 20261010
-  - 20261011
   token_budget_b: 48
 graph:
   max_edges: 4

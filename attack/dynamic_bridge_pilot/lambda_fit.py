@@ -80,7 +80,8 @@ def fit(variants: list[dict], ratings: Mapping[tuple, float]) -> dict:
 
 def flatten_variants(cue_recs: list[dict]) -> list[dict]:
     return [{**v, "victim": c["victim"], "dataset": c["dataset"], "example_id": c["example_id"],
-             "condition": c["condition"]} for c in cue_recs for v in c.get("variants", [])]
+             "condition": f"{c.get('unit', c['condition'])}", "unit": c.get("unit")}
+            for c in cue_recs for v in c.get("variants", [])]
 
 
 def load_ratings(path: Path) -> tuple[dict, set[str]]:

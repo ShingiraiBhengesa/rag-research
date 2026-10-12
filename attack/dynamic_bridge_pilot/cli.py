@@ -168,6 +168,7 @@ def phase_cues(args) -> None:
     from attack.dynamic_bridge_pilot.bridge import build_bridge
     from attack.dynamic_bridge_pilot.cues import STATUS_NOT_ATTEMPTED, generate_dynamic_cue
     from attack.dynamic_bridge_pilot.entail import NliEntailer
+    from attack.dynamic_bridge_pilot.unsupported import build_unsupported
 
     _require_freeze_for_full(args)
     client, counter, entailer = _attacker(args), _token_counter(args), NliEntailer()
@@ -197,25 +198,41 @@ def phase_cues(args) -> None:
                 b_done.add(bkey)
                 _log(phase="bridge", key=bkey, status=b["status"])
             b = index_by(read_jsonl(b_out))[bkey]
-            for cond in C.SELECTED_CONDITIONS:
-                ckey = f"{bkey}|{cond}"
+            gen_cfg = {"client": client, "token_counter": counter,
+                       "answer_slot": b["graph"].get("answer_slot_description", ""),
+                       "gold_answers": [q["answer"], *q.get("answer_aliases", [])]}
+            for unit, (mode, cond) in C.UNITS.items():
+                ckey = f"{bkey}|{unit}"
                 if ckey in c_done:
                     continue
                 base = {"key": ckey, "victim": args.victim, "dataset": ds, "example_id": a["example_id"],
-                        "condition": cond, "generator_model": C.VICTIM_MODELS[C.ATTACKER_MODEL_KEY]}
+                        "unit": unit, "mode": mode, "condition": cond,
+                        "generator_model": C.VICTIM_MODELS[C.ATTACKER_MODEL_KEY]}
                 if b["status"] != "OK":
                     append_jsonl(c_out, {**base, "status": STATUS_NOT_ATTEMPTED, "bridge_status": b["status"],
                                          "variants": []})
+                    c_done.add(ckey)
                     continue
-                gen_cfg = {"client": client, "token_counter": counter,
-                           "answer_slot": b["graph"].get("answer_slot_description", ""),
-                           "gold_answers": [q["answer"], *q.get("answer_aliases", [])]}
-                rec = _retry(lambda: generate_dynamic_cue(q["question"], a["clean_observation"], b, cond, gen_cfg),
-                             unit=ckey, failures=_state(args, "failures", f"cues_{args.victim}"))
+                if mode == "unsupported":
+                    src = index_by(read_jsonl(c_out)).get(f"{bkey}|bridge_suff")
+                    if src is None:
+                        continue   # bridge_suff failed this round; retried on rerun
+                    if src["status"] != "OK":
+                        append_jsonl(c_out, {**base, "status": "SOURCE_POOL_INVALID", "variants": []})
+                        c_done.add(ckey)
+                        continue
+                    fn = lambda: build_unsupported(client=client, entailer=entailer, token_counter=counter,
+                                                   question=q["question"], observation=a["clean_observation"],
+                                                   bridge_rec=b, bridge_cue_rec=src, generation_config=gen_cfg)
+                else:
+                    fn = lambda: generate_dynamic_cue(q["question"], a["clean_observation"], b, cond, gen_cfg,
+                                                      mode=mode)
+                rec = _retry(fn, unit=ckey, failures=_state(args, "failures", f"cues_{args.victim}"))
                 if rec is not None:
                     append_jsonl(c_out, {**base, **rec, "bridge_entity": b["anchor"]["bridge_entity_tail"],
                                          "bridge_fact": b["anchor"]["bridge_fact"]})
-                    _log(phase="cues", key=ckey, status=rec["status"], n_valid=rec["n_valid"])
+                    c_done.add(ckey)
+                    _log(phase="cues", key=ckey, status=rec["status"], n_valid=rec.get("n_valid"))
 
 
 def _lambda(args) -> dict:
@@ -229,24 +246,56 @@ def _lambda(args) -> dict:
     sys.exit("select needs --lambda-file or --provisional-equal-lambda (smoke only)")
 
 
-def phase_select(args) -> None:
-    from attack.dynamic_bridge_pilot.cues import select
+def select_for_question(cue_recs_by_unit: dict, lambdas: dict) -> dict:
+    """{arm: {"selected": variant|None, "reason": str}} for every dynamic arm of one question.
+    Pure function of stored cue records and lambda; never reads victim output."""
+    from attack.dynamic_bridge_pilot.cues import select, select_first_valid
 
+    keep = ("index", "seed", "cue", "features", "fixed_similarity", "token_count", "checks")
+    out: dict = {}
+    dynamic = [(arm, spec) for arm, spec in C.ARMS.items() if spec["suffix_source"] == "dynamic"]
+    for arm, spec in sorted(dynamic, key=lambda x: x[1]["selection"].startswith("counterpart_of:")):
+        rec = cue_recs_by_unit.get(spec["unit"])
+        if rec is None or rec.get("status") not in ("OK",):
+            out[arm] = {"selected": None, "reason": (rec or {}).get("status", "NO_CUE_RECORD")}
+            continue
+        rule = spec["selection"]
+        variants = rec.get("variants", [])
+        if rule == "lambda":
+            u = select(variants, lambdas)
+        elif rule == "first_valid":
+            u = select_first_valid(variants)
+        elif rule.startswith("counterpart_of:"):
+            parent = out.get(rule.split(":", 1)[1], {}).get("selected")
+            u = None if parent is None else next(
+                (v for v in variants if v["index"] == parent["index"] and v["valid"]), None)
+            if u is None:
+                out[arm] = {"selected": None, "reason": "PARENT_UNSELECTED" if parent is None
+                            else "COUNTERPART_OF_SELECTED_VARIANT_INVALID"}
+                continue
+        else:
+            raise ValueError(f"unknown selection rule {rule}")
+        out[arm] = {"selected": None if u is None else {k: u.get(k) for k in keep},
+                    "reason": "" if u is not None else "INVALID_CUE"}
+    return out
+
+
+def phase_select(args) -> None:
     _require_freeze(args)
     lam = _lambda(args)
     for ds in args.datasets:
         out = _state(args, "selections", f"{args.victim}_{ds}")
         done = done_keys(out)
+        by_q: dict = {}
         for c in read_jsonl(_state(args, "generated_cues", f"{args.victim}_{ds}")):
-            if c["key"] in done:
-                continue
-            u = select(c.get("variants", []), lam["lambda"])
-            append_jsonl(out, {"key": c["key"], "victim": c["victim"], "dataset": ds, "example_id": c["example_id"],
-                               "condition": c["condition"], "lambda": lam["lambda"], "lambda_hash": lam["lambda_hash"],
-                               "selected": None if u is None else {k: u[k] for k in ("index", "seed", "cue",
-                                                                                     "features", "fixed_similarity",
-                                                                                     "token_count")},
-                               "cue_status": c["status"]})
+            by_q.setdefault(c["example_id"], {})[c["unit"]] = c
+        for ex, units in by_q.items():
+            for arm, sel in select_for_question(units, lam["lambda"]).items():
+                key = f"{args.victim}|{ds}|{ex}|{arm}"
+                if key in done:
+                    continue
+                append_jsonl(out, {"key": key, "victim": args.victim, "dataset": ds, "example_id": ex, "arm": arm,
+                                   "lambda": lam["lambda"], "lambda_hash": lam["lambda_hash"], **sel})
 
 
 def phase_arms(args) -> None:
@@ -254,6 +303,7 @@ def phase_arms(args) -> None:
 
     _require_freeze(args)
     ctx = _victim_ctx(args, args.victim)
+    dynamic_arms = {a for a, sp in C.ARMS.items() if sp["suffix_source"] == "dynamic"}
     for ds in args.datasets:
         paths = split_paths(Path(args.split_dir), ds, args.split)
         manifest = {q["example_id"]: q for q in _questions(args, ds)}
@@ -267,9 +317,9 @@ def phase_arms(args) -> None:
             b = bridges.get(a["key"])
             if b is None:
                 sys.exit(f"no bridge record for {a['key']}; run cues first")
-            selected = {s["condition"]: s["selected"] for s in sels if s["example_id"] == a["example_id"]}
-            if b["status"] == "OK" and set(selected) != set(C.SELECTED_CONDITIONS):
-                sys.exit(f"no selection for {a['key']}; run select first")
+            selected = {s["arm"]: s for s in sels if s["example_id"] == a["example_id"]}
+            if b["status"] == "OK" and set(selected) != dynamic_arms:
+                sys.exit(f"incomplete selection for {a['key']}; run select first")
             for plan in plan_arms(b, selected):
                 key = f"{a['key']}|{plan.arm}"
                 if key in done:
@@ -296,7 +346,7 @@ def phase_analyze(args) -> None:
             bridges += _read_all(args, "bridge_selection", f"{victim}_{ds}")
             cues += _read_all(args, "generated_cues", f"{victim}_{ds}")
             for s in _read_all(args, "selections", f"{victim}_{ds}"):
-                sels[(s["victim"], s["dataset"], s["example_id"], s["condition"])] = s["selected"]
+                sels[(s["victim"], s["dataset"], s["example_id"], s["arm"])] = s["selected"]
             for r in _read_all(args, "arms", f"{victim}_{ds}"):
                 arms.append(r)
                 lab = label_run(r, manifest[r["example_id"]])
@@ -309,6 +359,10 @@ def phase_analyze(args) -> None:
     A.write_csv(sub("tool_traces") / "search_calls.csv", tools)
     curves = A.pcr_curves(labels)
     contrasts = A.paired_contrasts(labels)
+    primary = A.primary_outcome_contrasts(labels)
+    secondary = A.secondary_by_arm(labels)
+    A.write_csv(sub("pcr") / "primary_outcome_contrasts.csv", primary)
+    A.write_csv(sub("diagnostics") / "outcomes_by_arm.csv", secondary)
     A.write_csv(sub("pcr") / "pcr_curves.csv", curves)
     A.write_csv(sub("pcr") / "pcr_paired_contrasts.csv", contrasts)
     A.write_csv(sub("diagnostics") / "outcome_labels_by_arm.csv", A.outcome_table(labels))
@@ -334,7 +388,7 @@ def phase_analyze(args) -> None:
     sub("summaries").mkdir(parents=True, exist_ok=True)
     (sub("summaries") / "PILOT_SUMMARY.md").write_text(A.summarize(
         labels, contrasts, A.answer_accuracy_table(labels), A.paired_answer_and_evidence(labels),
-        A.evidence_summary_table(labels)), encoding="utf-8")
+        A.evidence_summary_table(labels), primary, secondary), encoding="utf-8")
     _log(phase="analyze", runs=len(labels), out=str(res))
 
 
@@ -348,11 +402,13 @@ def phase_audit_export(args) -> None:
         for ds in args.datasets:
             bridges = index_by(_read_all(args, "bridge_selection", f"{victim}_{ds}"))
             for v in flatten_variants(_read_all(args, "generated_cues", f"{victim}_{ds}")):
-                if not v["valid"]:
+                # lambda only ever selects within the bridge/entity pools; unsupported
+                # counterparts inherit the bridge choice and are never rated
+                if not v["valid"] or v.get("unit") == "unsupported_suff":
                     continue
                 b = bridges.get(f"{victim}|{ds}|{v['example_id']}", {})
                 rows.append({"victim": victim, "dataset": ds, "example_id": v["example_id"],
-                             "condition": v["condition"], "variant_index": v["index"],
+                             "unit": v.get("unit"), "condition": v["condition"], "variant_index": v["index"],
                              "question": b.get("question"), "bridge_fact": (b.get("anchor") or {}).get("bridge_fact"),
                              "cue_text": v["cue"], "rating": "", "rater": ""})
     out = Path(args.out)
@@ -386,9 +442,60 @@ def phase_verify_freeze(args) -> None:
         sys.exit(1)
 
 
+def _anchor_labels(args, victims, datasets) -> list[dict]:
+    from attack.dynamic_bridge_pilot.outcomes import label_run
+
+    labels = []
+    for victim in victims:
+        for ds in datasets:
+            manifest = {q["example_id"]: q for q in read_jsonl(split_paths(Path(args.split_dir), ds, args.split)["manifest"])}
+            for a in _read_all(args, "anchors", f"{victim}_{ds}"):
+                rec = {"victim": victim, "dataset": ds, "example_id": a["example_id"], "arm": "anchor_clean",
+                       "runtime_condition": "NaturalClean", "status": "ran", "trace_path": a["anchor_trace_path"],
+                       "run_id": a["anchor_run_id"], "injection_ok": None}
+                labels.append(label_run(rec, manifest[a["example_id"]]))
+    return labels
+
+
+def phase_baseline_gate(args) -> None:
+    """Zhen point 4: is there an effect to measure? Clean anchor runs only."""
+    from attack.dynamic_bridge_pilot import analysis as A
+
+    rows = A.baseline_gate(_anchor_labels(args, args.victims or list(C.PILOT_VICTIMS), args.datasets))
+    out = (Path(args.results_dir) / args.split if args.results_dir else EXP_DIR / "diagnostics" / args.split)
+    A.write_csv(out / "baseline_gate.csv", rows)
+    for r in rows:
+        _log(phase="baseline-gate", **r)
+    if any(r["gate"] != "PASS" for r in rows):
+        sys.exit(2)
+
+
+def phase_judge_audit_export(args) -> None:
+    from attack.dynamic_bridge_pilot import audit
+
+    bridges, cues = [], []
+    for victim in args.victims or C.PILOT_VICTIMS:
+        for ds in args.datasets:
+            bridges += _read_all(args, "bridge_selection", f"{victim}_{ds}")
+            cues += _read_all(args, "generated_cues", f"{victim}_{ds}")
+    paths = audit.export_sheets(bridges, cues, Path(args.out))
+    _log(phase="judge-audit-export", **{k: str(v) for k, v in paths.items()})
+
+
+def phase_judge_agreement(args) -> None:
+    from attack.dynamic_bridge_pilot import audit
+
+    rows = audit.agreement(Path(args.out))
+    from attack.dynamic_bridge_pilot.analysis import write_csv
+    write_csv(Path(args.out) / "judge_agreement.csv", rows)
+    for r in rows:
+        _log(phase="judge-agreement", **r)
+
+
 PHASES = {"decompose": phase_decompose, "anchor": phase_anchor, "cues": phase_cues, "select": phase_select,
           "arms": phase_arms, "analyze": phase_analyze, "audit-export": phase_audit_export,
-          "fit-lambda": phase_fit_lambda, "freeze": phase_freeze, "verify-freeze": phase_verify_freeze}
+          "fit-lambda": phase_fit_lambda, "baseline-gate": phase_baseline_gate,
+          "judge-audit-export": phase_judge_audit_export, "judge-agreement": phase_judge_agreement, "freeze": phase_freeze, "verify-freeze": phase_verify_freeze}
 
 
 def parse_args(argv=None) -> argparse.Namespace:
@@ -424,7 +531,8 @@ def parse_args(argv=None) -> argparse.Namespace:
         ap.error(f"{args.phase} needs --attacker-base-url")
     if not 0 <= args.shard < max(args.num_shards, 1):
         ap.error("--shard must be in [0, --num-shards)")
-    if args.phase in ("analyze", "audit-export", "fit-lambda", "freeze", "verify-freeze", "decompose") and args.num_shards > 1:
+    if args.phase in ("analyze", "audit-export", "fit-lambda", "freeze", "verify-freeze", "decompose",
+                      "baseline-gate", "judge-audit-export", "judge-agreement") and args.num_shards > 1:
         ap.error(f"{args.phase} is not sharded; it reads/writes every shard")
     if args.split in C.FROZEN_SPLITS and args.max_questions:
         ap.error(f"--max-questions is not allowed on {args.split} (no subsetting of frozen splits)")

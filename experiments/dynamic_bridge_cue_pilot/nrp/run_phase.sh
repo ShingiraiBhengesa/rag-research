@@ -13,7 +13,8 @@
 # cue phase's NLI check (default PY_ODR; on Libra the odr env lacks torch, so
 # the smoke sbatch points PY_CUES at the vllm env).
 # Optional: SMOKE_PROVISIONAL_LAMBDA=1 (smoke only), MAX_QUESTIONS (smoke/dev only),
-# NUM_SHARDS (cell mode; shard index from SHARD or the Indexed Job's
+# STOP_AFTER=anchor (cell mode: run only the clean anchor runs, e.g. to evaluate
+# the baseline gate before any cue or arm work), NUM_SHARDS (cell mode; shard index from SHARD or the Indexed Job's
 # JOB_COMPLETION_INDEX). Shard i takes every NUM_SHARDS-th question and writes
 # its own checkpoint files and markers.
 #
@@ -30,7 +31,9 @@ PY_CUES="${PY_CUES:-$PY_ODR}"
 export PYTHONPATH="$REPO:$REPO/open_deep_research/src" HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 export VLLM_USE_FLASHINFER_SAMPLER=0
 MARKERS="$STATE_DIR/$SPLIT/markers"; mkdir -p "$MARKERS" "$STATE_DIR/logs"
-PORT="${PORT:-8000}"; URL="http://127.0.0.1:$PORT/v1"
+# Random free port (as in the canonical sbatch): GPU nodes are shared with other vLLM jobs.
+PORT="${PORT:-$("$PY_VLLM" -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1", 0)); print(s.getsockname()[1]); s.close()')}"
+URL="http://127.0.0.1:$PORT/v1"
 SERVER_PID=""
 COMMON=(--split "$SPLIT" --state-dir "$STATE_DIR" --results-dir "$RESULTS_DIR")
 [[ -n "${MAX_QUESTIONS:-}" ]] && COMMON+=(--max-questions "$MAX_QUESTIONS")
@@ -105,6 +108,7 @@ if [[ "$VICTIM" == "qwen14b" ]]; then
   need=0; for p in anchor cues $([[ $RUN_ARMS == 1 ]] && echo arms); do [[ -f "$MARKERS/${p}_$CELL.done" ]] || need=1; done
   [[ $need == 1 ]] && serve qwen14b
   phase "anchor_$CELL" anchor --victim qwen14b --datasets "$DATASET" --victim-base-url "$URL"
+  [[ "${STOP_AFTER:-}" == anchor ]] && { echo "[done] $SPLIT $CELL anchors only (STOP_AFTER=anchor)"; exit 0; }
   PHASE_PY="$PY_CUES" phase "cues_$CELL" cues --victim qwen14b --datasets "$DATASET" --attacker-base-url "$URL"
   if [[ $RUN_ARMS == 1 ]]; then
     phase "select_$CELL" select --victim qwen14b --datasets "$DATASET" "${SELECT_ARGS[@]}"
@@ -114,6 +118,7 @@ else
   # One 48 GB L40 cannot hold the 8B victim and the 14B attacker at bf16 at once:
   # stage the model loads (victim -> attacker -> victim). Same code, same order of units.
   [[ -f "$MARKERS/anchor_$CELL.done" ]] || { serve "$VICTIM"; phase "anchor_$CELL" anchor --victim "$VICTIM" --datasets "$DATASET" --victim-base-url "$URL"; }
+  [[ "${STOP_AFTER:-}" == anchor ]] && { stop_server; echo "[done] $SPLIT $CELL anchors only (STOP_AFTER=anchor)"; exit 0; }
   [[ -f "$MARKERS/cues_$CELL.done" ]] || { serve qwen14b; PHASE_PY="$PY_CUES" phase "cues_$CELL" cues --victim "$VICTIM" --datasets "$DATASET" --attacker-base-url "$URL"; }
   stop_server
   if [[ $RUN_ARMS == 1 ]]; then

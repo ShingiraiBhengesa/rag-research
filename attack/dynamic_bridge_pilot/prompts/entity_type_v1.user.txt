@@ -1,0 +1,6 @@
+Documents:
+<<DOCUMENTS>>
+
+Is "<<CANDIDATE>>" the same kind of entity as "<<TARGET>>" (for example both people, both places, both films, both organisations, both dates, both countries)?
+
+Return JSON: {"same_type": bool}
