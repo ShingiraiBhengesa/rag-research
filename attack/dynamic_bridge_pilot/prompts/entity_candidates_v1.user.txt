@@ -1,0 +1,8 @@
+Documents:
+<<DOCUMENTS>>
+
+Target: "<<TARGET>>"
+
+List up to <<N>> names or values that appear word-for-word in the documents and are the same kind of thing as the target (for example other dates if the target is a date, other people if it is a person, other places if it is a place, other works if it is a work). Do not include the target itself or anything that refers to it. Copy each one exactly as it is written in the documents.
+
+Return JSON: {"candidates": [str]}

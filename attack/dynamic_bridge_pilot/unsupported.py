@@ -8,9 +8,12 @@ Construction (pre-specified; nothing depends on victim outcomes):
          replaced by the distractor) is entailed by NO sentence of d1 under
          the same NLI check used for grounding.
      Candidate order: tails of other extracted facts with a*'s relation (by
-     span offset), then heads/tails of all other extracted facts (by span
-     offset, unlocated last), then document titles (by position). At most
-     MAX_CANDIDATES are tried.
+     span offset); then same-kind entities proposed by the attacker
+     (temperature 0) that occur VERBATIM in a d1 document's text, by first
+     occurrence (added after dev showed the fact/title pool rarely holds a
+     same-type entity, e.g. no second date); then heads/tails of all other
+     extracted facts (by span offset, unlocated last); then document titles
+     (by position). At most MAX_CANDIDATES are tried.
   2. Minimal pair: for EVERY variant in the bridge-sufficiency K pool, its
      counterpart is the identical text with each literal occurrence of the
      tail replaced by the distractor. A variant whose text does not contain
@@ -32,7 +35,7 @@ from attack.dynamic_bridge_pilot.bridge import fill, overlap, read_prompt
 from attack.dynamic_bridge_pilot.cues import STATUS_OK, Variant, evaluate_variant
 from attack.dynamic_bridge_pilot.entail import Entailer
 from attack.dynamic_bridge_pilot.llm import ChatClient
-from attack.dynamic_bridge_pilot.observation import documents_for_prompt, parse_observation
+from attack.dynamic_bridge_pilot.observation import documents_for_prompt, locate_span, parse_observation
 
 STATUS_NO_DISTRACTOR = "NO_DISTRACTOR"
 STATUS_NO_COUNTERPART = "NO_COUNTERPART"
@@ -45,12 +48,36 @@ def _same_entity(a: str, b: str) -> bool:
     return overlap(a, b) >= C.ENTITY_SLOT_MIN_OVERLAP or overlap(b, a) >= C.ENTITY_SLOT_MIN_OVERLAP
 
 
-def distractor_candidates(bridge_rec: Mapping[str, Any]) -> list[str]:
+CANDIDATES_SCHEMA = {"type": "object", "properties": {"candidates": {"type": "array", "items": {"type": "string"}}},
+                     "required": ["candidates"]}
+MAX_PROPOSED = 8
+
+
+def proposed_same_kind(client: ChatClient, observation: str, target: str) -> list[str]:
+    """Attacker-proposed same-kind entities, kept only if verbatim in d1 text, by first offset."""
+    docs = parse_observation(observation)
+    user = fill(read_prompt("entity_candidates_v1.user.txt"),
+                {"DOCUMENTS": documents_for_prompt(docs), "TARGET": target, "N": str(MAX_PROPOSED)})
+    msgs = [{"role": "system", "content": read_prompt("entity_candidates_v1.system.txt")}, {"role": "user", "content": user}]
+    res = client.complete_json(msgs, schema=CANDIDATES_SCHEMA, schema_name="entity_candidates",
+                               temperature=C.JUDGE_TEMPERATURE, top_p=1.0, max_tokens=200, seed=C.JUDGE_SEED)
+    raw = (res.parsed or {}).get("candidates", []) if isinstance(res.parsed, Mapping) else []
+    located = []
+    for cand in raw[:MAX_PROPOSED]:
+        cand = str(cand).strip()
+        loc = locate_span(observation, docs, cand) if cand else None
+        if loc is not None:
+            located.append((loc[0], cand))
+    return [c for _, c in sorted(located)]
+
+
+def distractor_candidates(bridge_rec: Mapping[str, Any], proposed: list[str] | None = None) -> list[str]:
     a = bridge_rec["anchor"]
     facts = bridge_rec.get("facts", [])
     key = lambda f: (f.get("span_offset") is None, f.get("span_offset") or 0)
     ordered: list[str] = []
     ordered += [f["tail"] for f in sorted(facts, key=key) if f.get("relation") == a["relation"]]
+    ordered += list(proposed or [])
     for f in sorted(facts, key=key):
         ordered += [f.get("tail", ""), f.get("head", "")]
     ordered += [d["title"] for d in sorted(bridge_rec.get("documents", []), key=lambda d: d["position"])]
@@ -88,8 +115,9 @@ def choose_distractor(client: ChatClient, entailer: Entailer, bridge_rec: Mappin
     docs = parse_observation(observation)
     docs_text = documents_for_prompt(docs)
     sentences = [s for d in docs for s in _SENT_RE.split(d.text) if s.strip()]
+    proposed = proposed_same_kind(client, observation, a["bridge_entity_tail"])
     tried = []
-    for cand in distractor_candidates(bridge_rec):
+    for cand in distractor_candidates(bridge_rec, proposed):
         user = fill(read_prompt("entity_type_v1.user.txt"),
                     {"DOCUMENTS": docs_text, "CANDIDATE": cand, "TARGET": a["bridge_entity_tail"]})
         msgs = [{"role": "system", "content": read_prompt("entity_type_v1.system.txt")}, {"role": "user", "content": user}]
@@ -105,10 +133,11 @@ def choose_distractor(client: ChatClient, entailer: Entailer, bridge_rec: Mappin
                          max_entail_prob=max((p.entail_prob for p in probs), default=0.0))
             tried.append(entry)
             if not supported:
-                return {"status": STATUS_OK, "distractor": cand, "swapped_statement": stmt, "tried": tried}
+                return {"status": STATUS_OK, "distractor": cand, "swapped_statement": stmt, "tried": tried,
+                        "proposed": proposed}
         else:
             tried.append(entry)
-    return {"status": STATUS_NO_DISTRACTOR, "distractor": None, "tried": tried}
+    return {"status": STATUS_NO_DISTRACTOR, "distractor": None, "tried": tried, "proposed": proposed}
 
 
 def build_unsupported(*, client: ChatClient, entailer: Entailer, token_counter, question: str, observation: str,

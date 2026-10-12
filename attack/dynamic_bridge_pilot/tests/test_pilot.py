@@ -92,6 +92,8 @@ class FakeClient:
             payload = {"facts": self.facts}
         elif schema_name == "cue":
             payload = {"cue": self.cues[C.GENERATION_SEEDS.index(seed)]}
+        elif schema_name == "entity_candidates":
+            payload = {"candidates": list(getattr(self, "proposed", []))}
         elif schema_name == "entity_type":
             cand = messages[-1]["content"].split('Is "', 1)[1].split('"', 1)[0]
             payload = {"same_type": self.same_type.get(cand, False)}
@@ -350,6 +352,16 @@ class UnsupportedTests(unittest.TestCase):
         self.assertTrue(v0["valid"])                      # V4 exempt for this arm
         self.assertIn("tail_not_literally_in_source_variant", rec["variants"][1]["errors"]["COUNTERPART"])
         self.assertEqual([v["index"] for v in rec["variants"]], [0, 1, 2])
+
+    def test_proposed_candidates_must_be_verbatim_in_d1(self):
+        from attack.dynamic_bridge_pilot.unsupported import choose_distractor
+
+        client = FakeClient(same_type={"San Francisco": True, "Steven Spielberg": True})
+        client.proposed = ["Steven Spielberg", "San Francisco"]          # first is not in d1 -> dropped
+        res = choose_distractor(client, FakeEntailer(deny={"Gran Torino was directed by San Francisco."}),
+                                self.bridge, OBS)
+        self.assertEqual(res["proposed"], ["San Francisco"])
+        self.assertEqual(res["distractor"], "San Francisco")
 
     def test_supported_distractor_rejected(self):
         from attack.dynamic_bridge_pilot.unsupported import choose_distractor
