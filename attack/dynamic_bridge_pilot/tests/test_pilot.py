@@ -203,6 +203,21 @@ class BridgeTests(unittest.TestCase):
         self.assertEqual(rec["facts"][0]["rejection"], "span_does_not_entail_statement")
         self.assertNotEqual(rec["status"], STATUS_OK)
 
+    def test_entailment_premise_includes_title(self):
+        seen = []
+
+        class Recording(FakeEntailer):
+            def entails(self, *, premise, hypothesis):
+                seen.append(premise)
+                return super().entails(premise=premise, hypothesis=hypothesis)
+
+        pron = {**FACT_E1, "span": "The film stars Eastwood as a retired autoworker."}
+        build_bridge(FakeClient(facts=[pron]), Recording(), question=QUESTION, observation=OBS, decomposition=CHAIN)
+        self.assertEqual(seen, ["Gran Torino. The film stars Eastwood as a retired autoworker."])
+        seen.clear()
+        build_bridge(FakeClient(facts=[FACT_E1]), Recording(), question=QUESTION, observation=OBS, decomposition=CHAIN)
+        self.assertEqual(seen, [FACT_E1["span"]])        # span already starts with the title: unchanged
+
     def test_argmin_delta_then_tau(self):
         # spec_exact: e2 (delta 1) beats e1 (delta 2) even though e1's span comes first.
         self.assertEqual(C.ANCHOR_EDGE_POLICY, "exclude_answer_edges")   # decided 2026-10-11

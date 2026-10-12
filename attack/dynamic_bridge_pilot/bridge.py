@@ -6,7 +6,8 @@
   Step 2  F(d1) = {(f, s) : s = d1[i:j], s |= f}. The attacker proposes
           (statement, span) pairs; a pair survives only if the span occurs
           verbatim in a document's SUMMARY text AND the prespecified NLI
-          check (entail.py) says the span entails the statement.
+          check (entail.py) says "<that document's title>. <span>" entails the
+          statement (the title resolves the paragraph subject's pronouns).
   Step 3  A(q,d1) = {(f,s,e) : Match(f,e)=1, 0 < delta(e) < inf};
           a* = argmin [delta(e_a), tau(a)], tau = absolute span offset in d1.
           Empty A -> NO_ANCHOR (recorded, never substituted).
@@ -235,6 +236,7 @@ class Fact:
     document_position: int | None = None
     entail_prob: float | None = None
     entail_label: str = ""
+    entail_premise: str = ""
     span_backed: bool = False
     rejection: str = ""
 
@@ -265,7 +267,13 @@ def extract_facts(client: ChatClient, entailer: Entailer, question: str, observa
         else:
             f.span_offset, doc = loc
             f.document_id, f.document_title, f.document_position = doc.document_id, doc.title, doc.position
-            verdict = entailer.entails(premise=f.span, hypothesis=f.statement)
+            # Premise = "<document title>. <span>": Wikipedia sentences refer to their
+            # subject by pronoun ("He was the son of Eli Thayer"), so the bare span
+            # cannot entail a fact naming the subject. The title is the paragraph's
+            # subject; the span must still be verbatim in that same document.
+            premise = f.span if f.span.lstrip().lower().startswith(doc.title.lower()) else f"{doc.title}. {f.span}"
+            f.entail_premise = premise
+            verdict = entailer.entails(premise=premise, hypothesis=f.statement)
             f.entail_prob, f.entail_label = verdict.entail_prob, verdict.label
             f.span_backed = verdict.entails
             if not verdict.entails:
