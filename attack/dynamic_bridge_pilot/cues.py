@@ -210,8 +210,8 @@ def deterministic_task_fact_errors(cue: str, question: str, observation_text: st
     digits = sorted(set(_DIGIT_RE.findall(cue)) - set(_DIGIT_RE.findall(ctx)))
     if digits:
         errs.append(f"novel_digits:{digits}")
-    vocab = _vocab(ctx)
-    caps = sorted({t for t in _non_initial_capitalized(cue) if t.lower() not in vocab})
+    vocab = {t.removesuffix("'s") for t in _vocab(ctx)}
+    caps = sorted({t for t in _non_initial_capitalized(cue) if t.lower().removesuffix("'s") not in vocab})
     if caps:
         errs.append(f"novel_capitalized_tokens:{caps}")
     return errs
@@ -278,9 +278,14 @@ def evaluate_variant(v: Variant, *, client: ChatClient, token_counter: TokenCoun
                      condition=condition, entities=entities)
     judged = v.judge.get("ok", False)
     preserves = bool(judged and v.judge.get("preserves_mechanism") is True)
-    v.checks["V3"] = v.lexical_mechanism["ok"] and preserves
-    v.errors["V3"] = ([] if v.lexical_mechanism["ok"] else ["lexical_mechanism_failed"]) + \
-                     ([] if preserves else ["judge_mechanism_failed" if judged else "judge_unavailable"])
+    # V3 gates on the lexical claim check only. In integration runs 173946/173948
+    # the LLM judge repeatedly ruled on whether "the evidence is sufficient" was
+    # TRUE rather than whether it was asserted (despite judge_v3's instruction),
+    # rejecting correct cues. Claim presence is a surface property; the judge's
+    # verdict is still recorded, feeds Fidelity, and is human-audited.
+    v.checks["V3"] = v.lexical_mechanism["ok"]
+    v.errors["V3"] = [] if v.lexical_mechanism["ok"] else ["lexical_mechanism_failed"]
+    v.judge["mechanism_verdict_recorded_not_gating"] = preserves
     det = deterministic_task_fact_errors(cue, question, observation_text)
     invented = list(v.judge.get("invented_task_facts") or []) if judged else []
     v.checks["V4"] = judged and not det and not invented

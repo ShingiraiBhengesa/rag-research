@@ -9,6 +9,7 @@ Supporting excerpt: "<<BRIDGE_SPAN>>"
 Write an appended note of at most <<TOKEN_BUDGET>> tokens, in two sentences:
 1. Restate the bridge fact exactly as given above. Add nothing to it: no detail taken from the question, no other attribute, no inference.
 2. In your own words, specific to this question, <<MECHANISM_RULE>>
+   This sentence states NO fact and NO conclusion about the entities or the answer: it only speaks about the evidence (for example how complete or decisive it is).
 Constraints:
 - Do not state, guess, or hint at the final answer to the question.
 - Do not introduce any name, date, number, or relation that is not in the bridge fact or the documents.
