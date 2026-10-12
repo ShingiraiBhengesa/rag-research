@@ -95,12 +95,30 @@ def _token_counter(args):
     return VllmTokenCounter(args.attacker_base_url, C.VICTIM_MODELS[C.ATTACKER_MODEL_KEY]["model_id"])
 
 
+# Deterministic VICTIM-side failures (temperature 0: a retry reproduces them).
+# Added during the full run (2026-10-12) after 9 llama8b anchor runs hit the
+# victim's output-length limit inside ODR. They are recorded once as a question-
+# level victim failure (excluded from comparisons, counted in reports), as the
+# canonical analysis treats EXECUTION_FAILURE; real infrastructure errors still
+# retry and block the phase.
+VICTIM_FAILURE_ERRORS = ("LengthFinishReasonError",)
+VICTIM_FAILURE = "victim_failure"
+
+
+class VictimFailure:
+    def __init__(self, exc: Exception):
+        self.error = repr(exc)
+
+
 def _retry(fn, *, unit: str, failures: Path):
     last = None
     for attempt in range(C.MAX_TECHNICAL_RETRIES + 1):
         try:
             return fn()
         except Exception as exc:  # infrastructure only; attack failures are records, not exceptions
+            if type(exc).__name__ in VICTIM_FAILURE_ERRORS:
+                _log(event=VICTIM_FAILURE, unit=unit, error=repr(exc)[:300])
+                return VictimFailure(exc)
             last = exc
             _log(event="retry", unit=unit, attempt=attempt, error=repr(exc)[:300])
             time.sleep(min(2 ** attempt * 5, 60))
@@ -159,6 +177,10 @@ def phase_anchor(args) -> None:
                 continue
             rec = _retry(lambda: run_anchor(ctx, dataset=ds, q=q, paths=paths), unit=key,
                          failures=_state(args, "failures", f"anchor_{args.victim}"))
+            if isinstance(rec, VictimFailure):
+                append_jsonl(out, {"key": key, "victim": args.victim, "dataset": ds, "example_id": q["example_id"],
+                                   "question": q["question"], "status": VICTIM_FAILURE, "error": rec.error})
+                continue
             if rec is not None:
                 append_jsonl(out, {"key": key, **rec})
                 _log(phase="anchor", key=key, prefix_ok=rec["clean_observation_matches_anchor"])
@@ -187,6 +209,11 @@ def phase_cues(args) -> None:
                 sys.exit(f"missing decomposition for {ds}|{a['example_id']}; run the decompose phase first")
             q = manifest[a["example_id"]]
             bkey = a["key"]
+            if bkey not in b_done and a.get("status") == VICTIM_FAILURE:
+                append_jsonl(b_out, {"key": bkey, "victim": args.victim, "dataset": ds, "example_id": a["example_id"],
+                                     "question": q["question"], "status": "ANCHOR_VICTIM_FAILURE", "graph": {},
+                                     "facts": [], "candidates": [], "anchor": None, "documents": []})
+                b_done.add(bkey)
             if bkey not in b_done:
                 b = _retry(lambda: build_bridge(client, entailer, question=q["question"],
                                                 observation=a["clean_observation"], decomposition=d),
@@ -314,6 +341,16 @@ def phase_arms(args) -> None:
         for a in read_jsonl(_state(args, "anchors", f"{args.victim}_{ds}")):
             if a["example_id"] not in manifest:
                 continue
+            if a.get("status") == VICTIM_FAILURE:
+                for arm, spec in C.ARMS.items():
+                    key = f"{a['key']}|{arm}"
+                    if key not in done:
+                        append_jsonl(out, {"key": key, "victim": args.victim, "dataset": ds,
+                                           "example_id": a["example_id"], "arm": arm,
+                                           "runtime_condition": spec["runtime_condition"],
+                                           "suffix_source": spec["suffix_source"], "status": "not_run",
+                                           "skip_reason": "ANCHOR_VICTIM_FAILURE", "trace_path": "", "suffix": ""})
+                continue
             b = bridges.get(a["key"])
             if b is None:
                 sys.exit(f"no bridge record for {a['key']}; run cues first")
@@ -327,6 +364,10 @@ def phase_arms(args) -> None:
                 rec = _retry(lambda: run_arm(ctx, plan, dataset=ds, q=manifest[a["example_id"]], paths=paths,
                                              anchor_rec=a),
                              unit=key, failures=_state(args, "failures", f"arms_{args.victim}"))
+                if isinstance(rec, VictimFailure):
+                    rec = {"victim": args.victim, "dataset": ds, "example_id": a["example_id"], "arm": plan.arm,
+                           "runtime_condition": plan.runtime_condition, "suffix_source": plan.suffix_source,
+                           "status": VICTIM_FAILURE, "error": rec.error, "trace_path": "", "suffix": plan.suffix or ""}
                 if rec is not None:
                     append_jsonl(out, {"key": key, **rec})
                     _log(phase="arms", key=key, status=rec["status"], injection_ok=rec.get("injection_ok"))
@@ -456,9 +497,11 @@ def _anchor_labels(args, victims, datasets) -> list[dict]:
         for ds in datasets:
             manifest = {q["example_id"]: q for q in read_jsonl(split_paths(Path(args.split_dir), ds, args.split)["manifest"])}
             for a in _read_all(args, "anchors", f"{victim}_{ds}"):
+                failed = a.get("status") == VICTIM_FAILURE
                 rec = {"victim": victim, "dataset": ds, "example_id": a["example_id"], "arm": "anchor_clean",
-                       "runtime_condition": "NaturalClean", "status": "ran", "trace_path": a["anchor_trace_path"],
-                       "run_id": a["anchor_run_id"], "injection_ok": None}
+                       "runtime_condition": "NaturalClean", "status": VICTIM_FAILURE if failed else "ran",
+                       "trace_path": "" if failed else a["anchor_trace_path"],
+                       "run_id": a.get("anchor_run_id", ""), "injection_ok": None}
                 labels.append(label_run(rec, manifest[a["example_id"]]))
     return labels
 

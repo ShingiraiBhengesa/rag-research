@@ -362,7 +362,7 @@ def outcome_table(labels: list[dict]) -> list[dict]:
     for lab in labels:
         groups[(lab["victim"], lab["dataset"], lab["arm"])][lab["outcome_label"]] += 1
     cats = ("correct_completion", "incorrect_completion", "premature_direct_answer", "premature_research_complete",
-            "other_termination_or_failure", "not_run")
+            "other_termination_or_failure", "victim_execution_failure", "not_run")
     return [{"victim": v, "dataset": d, "arm": a, **{c: cnt.get(c, 0) for c in cats}, "total": sum(cnt.values())}
             for (v, d, a), cnt in sorted(groups.items())]
 

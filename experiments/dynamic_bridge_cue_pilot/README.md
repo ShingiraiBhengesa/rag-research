@@ -203,6 +203,17 @@ The changes:
 
 Dev stage 1 (commit 26356428): 25/40 questions bridged (qwen hotpot 4, qwen 2wiki 7, llama hotpot 6, llama 2wiki 8). Every bridged question has a valid bridge-Suff pool except 4 in llama/2wiki. The unsupported arm is available on 12/25. Dev baseline gate: qwen PASS on both datasets; llama FAIL on both (clean second-hop retrieval 0%), as predicted from the canonical data, so stopped-by-step-2 is llama's primary (decision 3).
 
+## Change during the full run (2026-10-12): victim execution failures
+
+Nine llama8b anchor runs (full split, hotpot) raised `LengthFinishReasonError`: the victim's output hit its token limit inside ODR. Temperature is 0, so retries reproduce the failure. Before this change, such runs were treated as infrastructure errors, which blocked their shards.
+
+They are now recorded once as **victim execution failures**, the same way the canonical analysis excludes EXECUTION_FAILURE runs:
+- a failed anchor marks the question's eight arms `not_run` (`ANCHOR_VICTIM_FAILURE`);
+- a failed arm is labelled `victim_execution_failure`;
+- both are excluded from comparisons and counted in the outcome tables.
+
+Genuine infrastructure errors still retry and block. No successful run is affected. The pilot was re-frozen with this change (freeze manifest updated). Arm shards that had not yet started were resubmitted from the new commit; completed anchor and arm records were kept.
+
 ## Known issues
 
 1. Comparison questions decompose as parallel branches, not as a chain. They are kept, not filtered.

@@ -725,6 +725,46 @@ class VictimPathTests(unittest.TestCase):
             self.assertTrue(retry["injection_ok"], retry["injection_checks"])
 
 
+class VictimFailureTests(unittest.TestCase):
+    def test_deterministic_victim_failure_is_recorded_not_retried(self):
+        from attack.dynamic_bridge_pilot import cli
+        from attack.dynamic_bridge_pilot.outcomes import label_run
+
+        class LengthFinishReasonError(Exception):
+            pass
+
+        calls = {"n": 0}
+
+        def boom():
+            calls["n"] += 1
+            raise LengthFinishReasonError("length limit")
+
+        with tempfile.TemporaryDirectory() as d:
+            fail = Path(d) / "failures.jsonl"
+            out = cli._retry(boom, unit="u", failures=fail)
+            self.assertIsInstance(out, cli.VictimFailure)
+            self.assertEqual(calls["n"], 1)                 # no retries: temperature 0 reproduces it
+            self.assertFalse(fail.exists())                 # not an infrastructure failure -> phase can complete
+        lab = label_run({"victim": "llama8b", "dataset": "hotpot", "example_id": "x", "arm": "neutral",
+                         "runtime_condition": "NaturalClean", "status": "victim_failure"}, {"answer": "a"})
+        self.assertEqual(lab["outcome_label"], "victim_execution_failure")
+        self.assertFalse(lab["pcr_eligible"])
+        self.assertEqual(lab["primary_na_reason"], "victim_execution_failure")
+
+    def test_infrastructure_errors_still_retry_and_block(self):
+        from unittest import mock
+
+        from attack.dynamic_bridge_pilot import cli
+
+        def boom():
+            raise ConnectionError("down")
+
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(cli.time, "sleep", lambda s: None):
+            fail = Path(d) / "failures.jsonl"
+            self.assertIsNone(cli._retry(boom, unit="u", failures=fail))
+            self.assertEqual(len(read_jsonl(fail)), 1)
+
+
 class ClientTests(unittest.TestCase):
     def test_structured_output_request_shape(self):
         seen = {}
