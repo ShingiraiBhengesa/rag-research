@@ -583,6 +583,50 @@ class ShardTests(unittest.TestCase):
             cli.parse_args(["analyze", "--split", "full", "--num-shards", "4"])
 
 
+class VictimPathTests(unittest.TestCase):
+    """Drives run_anchor/run_arm through an async fake of the canonical runner,
+    with the canonical search tool's real injection counter."""
+
+    def test_async_runner_and_retry_reinjects(self):
+        from unittest import mock
+
+        from attack.dynamic_bridge_pilot import runner as R
+        from attack.runtime import benchmark_search as bs
+        from attack.runtime.hashing import hash_text
+
+        calls = {"n": 0}
+
+        async def fake_run(request):
+            # emulate the tool: inject once per run_id, as benchmark_search does
+            suffix = R.suffix_for_condition(request.condition, request.cue_overrides).suffix
+            inject = bool(suffix) and bs._RUN_INJECTION_COUNTS[request.run_id] == 0
+            if inject:
+                bs._RUN_INJECTION_COUNTS[request.run_id] += 1
+            calls["n"] += 1
+            if calls["n"] == 2:
+                raise RuntimeError("transient failure after injection")
+            out = OBS + (f"\n\n{suffix}" if inject else "")
+            ev = {"event_type": "benchmark_search", "queries": ["q"], "base_tool_message_hash": hash_text(OBS, length=32),
+                  "tool_message_hash": hash_text(out, length=32), "shared_prefix_hash": "sp", "attacked_observation": inject}
+            return {"events": [ev], "trace_path": "", "run_id": request.run_id, "condition": request.condition}
+
+        anchor_rec = {"anchor": {"first_search_queries": ["q"]}, "clean_observation": OBS,
+                      "clean_observation_hash": hash_text(OBS, length=32)}
+        ctx = R.VictimContext(victim_key="qwen14b", model=mock.Mock(), traces_root=Path(tempfile.mkdtemp()))
+        plan = R.ArmPlan("bridge_sufficiency_k3", C.CUE_1, GOOD_SUFF, "dynamic", True)
+        q = {"example_id": "ex1", "question": QUESTION}
+        with mock.patch.object(R, "run_single_condition", fake_run), \
+             mock.patch.object(R, "_victim_request", lambda **kw: mock.Mock(**{k: kw[k] for k in
+                                                                              ("condition", "cue_overrides", "run_id")})):
+            first = R.run_arm(ctx, plan, dataset="hotpot", q=q, paths={"corpus": "c", "evidence": "e"}, anchor_rec=anchor_rec)
+            self.assertTrue(first["injection_ok"], first["injection_checks"])
+            with self.assertRaises(RuntimeError):          # attempt fails after injecting
+                R.run_arm(ctx, plan, dataset="hotpot", q=q, paths={"corpus": "c", "evidence": "e"}, anchor_rec=anchor_rec)
+            retry = R.run_arm(ctx, plan, dataset="hotpot", q=q, paths={"corpus": "c", "evidence": "e"}, anchor_rec=anchor_rec)
+            self.assertTrue(retry["attacked_observation"])  # counter was reset: cue injected again
+            self.assertTrue(retry["injection_ok"], retry["injection_checks"])
+
+
 class ClientTests(unittest.TestCase):
     def test_structured_output_request_shape(self):
         seen = {}

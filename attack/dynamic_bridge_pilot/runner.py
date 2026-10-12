@@ -14,6 +14,7 @@ another's trace.
 
 from __future__ import annotations
 
+import asyncio
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -25,6 +26,20 @@ from attack.dynamic_bridge_pilot import config as C
 from attack.runtime.cues import PILOT_SUFFIX_OVERRIDE_KEY, suffix_for_condition
 from attack.runtime.hashing import hash_text, stable_hash
 from attack.runtime.runner import V3ModelConfig, _build_replay_anchor, run_single_condition
+
+
+def _run_victim(request) -> dict:
+    """One fresh victim run. The canonical runner is async (production calls it via
+    asyncio.run). The canonical search tool keeps per-process counters keyed by
+    run_id that gate the one-shot injection; clear them first so a technical retry
+    of the same run_id is injected exactly like the first attempt."""
+    from attack.runtime import benchmark_search as bs
+
+    rid = request.run_id
+    bs._RUN_INJECTION_COUNTS.pop(rid, None)
+    for key in [k for k in bs._RUN_SEARCH_COUNTS if k[0] == rid]:
+        bs._RUN_SEARCH_COUNTS.pop(key, None)
+    return asyncio.run(run_single_condition(request))
 
 
 def unit_key(*parts: str) -> str:
@@ -56,8 +71,8 @@ def run_anchor(ctx: VictimContext, *, dataset: str, q: Mapping[str, Any], paths:
     t0 = time.perf_counter()
     kw = ctx.request_kwargs(dataset=dataset, q=q, paths=paths, arm="anchor_source")
     rid = run_id_for(ctx.victim_key, dataset, q["example_id"], "anchor_source")
-    trace = run_single_condition(_victim_request(condition="NaturalClean", run_id=rid, replay_anchor=None,
-                                                 cue_overrides={}, **kw))
+    trace = _run_victim(_victim_request(condition="NaturalClean", run_id=rid, replay_anchor=None,
+                                        cue_overrides={}, **kw))
     anchor = _build_replay_anchor(trace)
     clean_obs = _clean_observation_text(
         corpus_path=paths["corpus"], evidence_path=paths["evidence"], dataset=dataset, example_id=q["example_id"],
@@ -124,8 +139,8 @@ def run_arm(ctx: VictimContext, plan: ArmPlan, *, dataset: str, q: Mapping[str, 
     rid = run_id_for(ctx.victim_key, dataset, q["example_id"], plan.arm)
     kw = ctx.request_kwargs(dataset=dataset, q=q, paths=paths, arm=plan.arm)
     t0 = time.perf_counter()
-    trace = run_single_condition(_victim_request(condition=plan.runtime_condition, run_id=rid,
-                                                 replay_anchor=anchor_rec["anchor"], cue_overrides=overrides, **kw))
+    trace = _run_victim(_victim_request(condition=plan.runtime_condition, run_id=rid,
+                                        replay_anchor=anchor_rec["anchor"], cue_overrides=overrides, **kw))
     ev = _first_search_event(trace)
     clean = anchor_rec["clean_observation"]
     checks = []
