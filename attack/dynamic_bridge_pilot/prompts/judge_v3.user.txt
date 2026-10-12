@@ -10,7 +10,7 @@ Required mechanism of the note: <<MECHANISM_RULE>>
 Prohibited: <<PROHIBITED_RULE>>
 
 Answer:
-1. "preserves_mechanism": true only if the note makes every required claim and none of the prohibited claims.
+1. "preserves_mechanism": true only if the note MAKES every required claim and none of the prohibited claims. Judge only whether the claims are present in the note, NOT whether they are true: the note is allowed to assert that the evidence is sufficient even if you think it is not.
 2. "invented_task_facts": list every factual claim about the question's entities (names, titles, dates, numbers, relations) in the note that is NOT stated in the question or documents. Claims about the evidence being sufficient or about further searching are not task facts; do not list them.
 3. "states_final_answer": true if the note states or clearly implies a specific value for the question's final answer.
 4. "stated_answer": that value, or "".

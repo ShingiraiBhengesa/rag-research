@@ -143,9 +143,13 @@ class GraphTests(unittest.TestCase):
         self.assertEqual(g.delta, {"e1": 2, "e2": 1})
 
     def test_rejects_deep_cyclic_and_ungrounded(self):
-        deep = {"edges": [{"id": "e1", "head": "Gran Torino", "relation": "a", "tail": "?x"},
-                          {"id": "e2", "head": "?x", "relation": "b", "tail": "?y"},
-                          {"id": "e3", "head": "?y", "relation": "c", "tail": ANSWER_SLOT}],
+        three = {"edges": [{"id": "e1", "head": "Gran Torino", "relation": "a", "tail": "?x"},
+                           {"id": "e2", "head": "?x", "relation": "b", "tail": "?y"},
+                           {"id": "e3", "head": "?y", "relation": "c", "tail": ANSWER_SLOT}],
+                 "answer_slot_description": ""}
+        self.assertTrue(validate_graph(three, QUESTION).valid)        # depth 3 allowed (2wiki bridge-comparison)
+        deep = {"edges": three["edges"][:2] + [{"id": "e3", "head": "?y", "relation": "c", "tail": "?z"},
+                                               {"id": "e4", "head": "?z", "relation": "d", "tail": ANSWER_SLOT}],
                 "answer_slot_description": ""}
         self.assertTrue(any(e.startswith("too_deep") for e in validate_graph(deep, QUESTION).errors))
         cyc = {"edges": [{"id": "e1", "head": "?x", "relation": "a", "tail": "?y"},
@@ -174,7 +178,8 @@ class BridgeTests(unittest.TestCase):
 
     def test_argmin_delta_then_tau(self):
         # spec_exact: e2 (delta 1) beats e1 (delta 2) even though e1's span comes first.
-        rec = _bridge(facts=[FACT_E1, FACT_E2])
+        self.assertEqual(C.ANCHOR_EDGE_POLICY, "exclude_answer_edges")   # decided 2026-10-11
+        rec = _bridge(facts=[FACT_E1, FACT_E2], policy="spec_exact")
         self.assertEqual(rec["status"], STATUS_OK)
         self.assertEqual(rec["anchor"]["edge"]["id"], "e2")
         self.assertTrue(rec["anchor"]["edge_tail_is_answer_slot"])
@@ -466,6 +471,25 @@ class PrimaryOutcomeTests(unittest.TestCase):
         self.assertEqual((row["cue_stop_only"], row["control_stop_only"]), (6, 0))
         self.assertAlmostEqual(row["difference"], 0.75)
         self.assertAlmostEqual(row["mcnemar_p"], 2 / 64, places=6)
+
+    def test_gate_selects_primary_per_cell(self):
+        from attack.dynamic_bridge_pilot.analysis import primary_by_cell, stopped_by_k_contrasts
+
+        labs = []
+        for i in range(6):
+            labs.append({"victim": "llama8b", "dataset": "2wiki", "example_id": f"q{i}", "arm": "bridge_sufficiency_k3",
+                         "pcr_eligible": True, "terminal_route": "RESEARCH_COMPLETE", "t_i": 2})
+            labs.append({"victim": "llama8b", "dataset": "2wiki", "example_id": f"q{i}", "arm": "entity_sufficiency",
+                         "pcr_eligible": True, "terminal_route": "RESEARCH_COMPLETE", "t_i": 5 if i < 4 else 1})
+        sk = stopped_by_k_contrasts(labs)
+        row = [r for r in sk if r["contrast"] == "structure"][0]
+        self.assertEqual(row["outcome"], "stopped_by_step_2")
+        self.assertEqual((row["cue_stop_only"], row["control_stop_only"]), (4, 0))
+        prem = [{**row, "outcome": C.PRIMARY_OUTCOME}]
+        failed = primary_by_cell([{"victim": "llama8b", "dataset": "2wiki", "gate": "FAIL"}], prem, sk)
+        self.assertTrue(failed and all(r["outcome"] == "stopped_by_step_2" for r in failed))
+        passed = primary_by_cell([{"victim": "llama8b", "dataset": "2wiki", "gate": "PASS"}], prem, sk)
+        self.assertEqual([r["outcome"] for r in passed], [C.PRIMARY_OUTCOME])
 
     def test_baseline_gate(self):
         from attack.dynamic_bridge_pilot.analysis import baseline_gate

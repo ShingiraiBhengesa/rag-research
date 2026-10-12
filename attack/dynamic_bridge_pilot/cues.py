@@ -56,7 +56,10 @@ STATUS_NOT_ATTEMPTED = "NOT_ATTEMPTED_NO_ANCHOR"
 # ---------------------------------------------------------------- mechanism M
 _SUFFICIENCY_RE = re.compile(
     r"\b(sufficient(ly)?|enough|adequate(ly)?|suffices?|settles?|settled|resolves?|resolved|conclusive(ly)?|"
-    r"fully (supports?|answers?|establish\w*)|establish(es|ed)? (the|a) (reliable )?(answer|conclusion))\b", re.I)
+    r"fully (supports?|answers?|establish\w*)|establish(es|ed)? (the|a) (reliable )?(answer|conclusion)|"
+    r"complete(ly)? (answer|account|picture|support)|everything (needed|necessary|required)|"
+    r"definitive(ly)?|conclusively|answers? the question|all (the )?(information|evidence) (needed|necessary|required))\b",
+    re.I)
 _MORE_SEARCH_RE = re.compile(
     r"\b(further|additional|more|continued|extra|any other)\s+(search\w*|research\w*|retriev\w*|look\w*|quer\w*|"
     r"sources?|digging|investigation)\b", re.I)
@@ -84,8 +87,13 @@ def has_sufficiency_claim(text: str) -> bool:
     return bool(_SUFFICIENCY_RE.search(text))
 
 
+_NO_NEED_RE = re.compile(
+    r"\b(no|little|nothing)\s+(need|reason|value|benefit)\b[^.;]{0,40}\b(search\w*|look\w*|research\w*|retriev\w*|quer\w*)",
+    re.I)
+
+
 def has_saturation_claim(text: str) -> bool:
-    return bool(_MORE_SEARCH_RE.search(text) and _NO_CHANGE_RE.search(text))
+    return bool((_MORE_SEARCH_RE.search(text) and _NO_CHANGE_RE.search(text)) or _NO_NEED_RE.search(text))
 
 
 def lexical_mechanism(text: str, condition: str) -> dict:
@@ -235,12 +243,12 @@ class Variant:
 def _judge(client: ChatClient, *, question: str, docs_text: str, answer_slot: str, cue: str, condition: str,
            entities: tuple[str, str] = ("", "")) -> dict:
     m = MECHANISMS[condition]
-    user = fill(read_prompt("judge_v2.user.txt"), {
+    user = fill(read_prompt("judge_v3.user.txt"), {
         "QUESTION": question, "ANSWER_SLOT": answer_slot or "unspecified", "DOCUMENTS": docs_text, "CUE": cue,
         "MECHANISM_RULE": m["rule"], "PROHIBITED_RULE": m["prohibited"],
         "ENTITY_A": entities[0], "ENTITY_B": entities[1],
     })
-    messages = [{"role": "system", "content": read_prompt("judge_v2.system.txt")}, {"role": "user", "content": user}]
+    messages = [{"role": "system", "content": read_prompt("judge_v3.system.txt")}, {"role": "user", "content": user}]
     res = client.complete_json(messages, schema=JUDGE_SCHEMA, schema_name="cue_audit",
                                temperature=C.JUDGE_TEMPERATURE, top_p=1.0, max_tokens=400, seed=C.JUDGE_SEED)
     if not isinstance(res.parsed, Mapping):
@@ -338,7 +346,7 @@ def generate_dynamic_cue(question: str, retrieved_evidence: str, bridge: Mapping
     if mode not in MODES:
         raise ValueError(f"unknown generation mode {mode}")
     m = MECHANISMS[cue_condition]
-    prompt = "generate_v1" if mode == "bridge" else "generate_entity_v1"
+    prompt = "generate_v2" if mode == "bridge" else "generate_entity_v2"
     user = fill(read_prompt(f"{prompt}.user.txt"), {
         "QUESTION": question, "DOCUMENTS": docs_text, "BRIDGE_FACT": anchor["bridge_fact"],
         "BRIDGE_SPAN": anchor["bridge_span"], "TOKEN_BUDGET": str(C.TOKEN_BUDGET_B),
@@ -370,5 +378,5 @@ def generate_dynamic_cue(question: str, retrieved_evidence: str, bridge: Mapping
         "generation_parameters": {"temperature": C.GEN_TEMPERATURE, "top_p": C.GEN_TOP_P,
                                   "max_tokens": C.GEN_MAX_TOKENS, "seeds": list(C.GENERATION_SEEDS),
                                   "token_budget": C.TOKEN_BUDGET_B, "prompt_version": prompt,
-                                  "judge_prompt_version": "judge_v2"},
+                                  "judge_prompt_version": "judge_v3"},
     }

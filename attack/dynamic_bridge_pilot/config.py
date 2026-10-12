@@ -97,12 +97,17 @@ GENERATION_SEEDS = tuple(20261007 + i for i in range(K_VARIANTS))
 TOKEN_BUDGET_B = 48              # same cap as the adaptive pilot (~2x the 22-token fixed cues)
 
 # --- Bridge graph H (step 1) -----------------------------------------------
-MAX_EDGES = 4
-MAX_DEPTH = 2                    # "two-hop chains only": every edge has delta(e) <= 2
+# Decided 2026-10-11 (before any pilot outcome): depth 3 / 6 edges, so 2wiki
+# bridge-comparison questions (film -> director -> birth date -> compare) are
+# decomposed instead of rejected (~1/4 of 2wiki). Retrieval is still multi-hop.
+MAX_EDGES = 6
+MAX_DEPTH = 3
 # "spec_exact": A(q,d1) = all span-backed facts matching an edge with 0<delta<inf.
 # "exclude_answer_edges": additionally drop edges whose tail is the answer slot g.
-# Pending a decision; spec_exact is the literal algorithm.
-ANCHOR_EDGE_POLICY = "spec_exact"
+# Decided 2026-10-11 (before any pilot outcome): exclude_answer_edges. A bridge is
+# an intermediate fact; a fact on the edge into ?answer contains the answer, so
+# its cues could only fail V5 (answer not revealed).
+ANCHOR_EDGE_POLICY = "exclude_answer_edges"
 ANCHOR_EDGE_POLICIES = ("spec_exact", "exclude_answer_edges")
 ENTITY_SLOT_MIN_OVERLAP = 0.5    # Match(f,e): token overlap for a constant argument slot
 
@@ -149,6 +154,11 @@ PRIMARY_CONTRASTS = (
 # runs of each victim x dataset). PASS iff both hold.
 BASELINE_GATE_MAX_STOP_AT_1 = 0.50          # clean runs stopping at decision step 1
 BASELINE_GATE_MIN_HOP2_RETRIEVAL = 0.60     # clean runs that retrieve >=1 second-hop dependency
+# Decided 2026-10-11 (before any pilot outcome): a victim x dataset that FAILS the
+# gate keeps premature-stop as a secondary outcome, and its PRIMARY becomes
+# "stopped by decision step GATE_FALLBACK_PCR_K" (paired McNemar). k=2 is where
+# llama8b's canonical effects peak on hotpot/2wiki (selection report).
+GATE_FALLBACK_PCR_K = 2
 
 # Human audit of automated judges (post-run).
 JUDGE_AUDIT_N = 50                          # items per sheet: entailment, match, validity
@@ -192,7 +202,8 @@ def frozen_snapshot() -> dict:
         "primary_outcome": PRIMARY_OUTCOME, "abstention_reason": ABSTENTION_EXTRACTION_REASON,
         "primary_contrasts": [list(c) for c in PRIMARY_CONTRASTS],
         "baseline_gate": {"max_stop_at_1": BASELINE_GATE_MAX_STOP_AT_1,
-                          "min_hop2_retrieval": BASELINE_GATE_MIN_HOP2_RETRIEVAL},
+                          "min_hop2_retrieval": BASELINE_GATE_MIN_HOP2_RETRIEVAL,
+                          "fallback_primary_pcr_k": GATE_FALLBACK_PCR_K},
         "judge_audit": {"n": JUDGE_AUDIT_N, "seed": JUDGE_AUDIT_SEED},
         "attacker": {
             "model": dict(VICTIM_MODELS[ATTACKER_MODEL_KEY]), "gen_temperature": GEN_TEMPERATURE,

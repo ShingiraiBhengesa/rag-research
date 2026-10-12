@@ -55,21 +55,21 @@ def mcnemar_exact_p(b: int, c: int) -> float:
     return min(1.0, 2 * tail)
 
 
-def primary_outcome_contrasts(labels: list[dict]) -> list[dict]:
-    """PRIMARY OUTCOME per contrast: paired on questions where both arms are
-    primary_eligible. Reports both rates, the paired difference (cue - control)
-    with a bootstrap CI, the discordant counts and the exact McNemar p-value."""
+def binary_outcome_contrasts(labels: list[dict], outcome, eligible, outcome_name: str) -> list[dict]:
+    """Paired binary outcome per contrast: both arms eligible on the same question.
+    Rates, paired difference (cue - control) with bootstrap CI, discordant counts,
+    exact McNemar p."""
     by: dict = defaultdict(dict)
     for lab in labels:
-        if lab.get("primary_eligible"):
-            by[(lab["victim"], lab["dataset"], lab["arm"])][lab["example_id"]] = bool(lab["premature_stop_no_hop2"])
+        if eligible(lab):
+            by[(lab["victim"], lab["dataset"], lab["arm"])][lab["example_id"]] = bool(outcome(lab))
     rows = []
     for victim, dataset in sorted({(v, d) for v, d, _ in by}):
         for name, cue, ctl, tier, meaning in CONTRASTS:
             a, b = by.get((victim, dataset, cue), {}), by.get((victim, dataset, ctl), {})
             ids = sorted(a.keys() & b.keys())
-            row = {"victim": victim, "dataset": dataset, "contrast": name, "tier": tier, "cue_arm": cue,
-                   "control_arm": ctl, "question": meaning, "n_paired": len(ids)}
+            row = {"victim": victim, "dataset": dataset, "outcome": outcome_name, "contrast": name, "tier": tier,
+                   "cue_arm": cue, "control_arm": ctl, "question": meaning, "n_paired": len(ids)}
             if ids:
                 diff = np.array([int(a[e]) - int(b[e]) for e in ids], dtype=float)
                 lo, hi = _paired_mean_ci(diff)
@@ -82,6 +82,33 @@ def primary_outcome_contrasts(labels: list[dict]) -> list[dict]:
                            mcnemar_p=round(mcnemar_exact_p(cue_only, ctl_only), 6))
             rows.append(row)
     return rows
+
+
+def primary_outcome_contrasts(labels: list[dict]) -> list[dict]:
+    """PRIMARY OUTCOME: premature stop (no second-hop evidence), paired per question."""
+    return binary_outcome_contrasts(labels, lambda l: l["premature_stop_no_hop2"],
+                                    lambda l: bool(l.get("primary_eligible")), C.PRIMARY_OUTCOME)
+
+
+def stopped_by_k_contrasts(labels: list[dict], k: int = C.GATE_FALLBACK_PCR_K) -> list[dict]:
+    """Stopped by decision step k (canonical PCR@k event), paired per question."""
+    return binary_outcome_contrasts(
+        labels, lambda l: l["terminal_route"] in PCR_NUMERATOR_ROUTES and l.get("t_i") is not None and l["t_i"] <= k,
+        lambda l: bool(l.get("pcr_eligible")), f"stopped_by_step_{k}")
+
+
+def primary_by_cell(gate_rows: list[dict], premature: list[dict], stopped_k: list[dict]) -> list[dict]:
+    """Pre-specified rule: PASS -> premature-stop table; FAIL (or no gate) -> stopped-by-step-k."""
+    gate = {(r["victim"], r["dataset"]): r["gate"] for r in gate_rows}
+    out = []
+    for r in premature:
+        if gate.get((r["victim"], r["dataset"])) == "PASS":
+            out.append({**r, "gate": "PASS"})
+    for r in stopped_k:
+        g = gate.get((r["victim"], r["dataset"]), "MISSING")
+        if g != "PASS":
+            out.append({**r, "gate": g})
+    return out
 
 
 def secondary_by_arm(labels: list[dict]) -> list[dict]:
@@ -443,14 +470,14 @@ def summarize(labels: Iterable[dict], contrasts: list[dict], answers: list[dict]
               primary: list[dict] | None = None, secondary: list[dict] | None = None) -> str:
     lines = ["# Pilot summary (generated)", "",
              "Runs are never truncated: every run reaches final_report_generation. PCR@30 = end of budget.", "",
-             "## PRIMARY: premature stop (no second-hop evidence retrieved), paired per question", "",
+             "## PRIMARY (per cell: premature stop if the baseline gate PASSED, else stopped by step k), paired per question", "",
              "| victim | dataset | contrast | tier | n | cue rate | control rate | diff [95% CI] | McNemar p |",
              "|---|---|---|---|---|---|---|---|---|"]
     for r in primary or []:
         if not r.get("n_paired"):
-            lines.append(f"| {r['victim']} | {r['dataset']} | {r['contrast']} | {r['tier']} | 0 | | | | |")
+            lines.append(f"| {r['victim']} | {r['dataset']} | {r['contrast']} [{r.get('outcome', '')}] | {r['tier']} | 0 | | | | |")
             continue
-        lines.append(f"| {r['victim']} | {r['dataset']} | {r['contrast']} | {r['tier']} | {r['n_paired']} | "
+        lines.append(f"| {r['victim']} | {r['dataset']} | {r['contrast']} [{r.get('outcome', '')}] | {r['tier']} | {r['n_paired']} | "
                      f"{r['cue_rate']:.3f} | {r['control_rate']:.3f} | {100 * r['difference']:+.1f} "
                      f"[{100 * r['ci_lower']:.1f}, {100 * r['ci_upper']:.1f}] | {r['mcnemar_p']:.4g} |")
     if secondary:
