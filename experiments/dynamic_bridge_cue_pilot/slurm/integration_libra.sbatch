@@ -28,7 +28,7 @@ export SMOKE_PROVISIONAL_LAMBDA=1 MAX_QUESTIONS="${MAX_QUESTIONS:-1}"
 V="${VICTIM:-qwen14b}"; DS="${DATASET:-hotpot}"
 echo "[integ] commit $(git -C "$REPO" rev-parse HEAD) node $(hostname) cell $V/$DS max_q $MAX_QUESTIONS"
 D="$REPO/experiments/dynamic_bridge_cue_pilot/nrp/run_phase.sh"
-bash "$D" decompose smoke
+[[ "${SKIP_DECOMPOSE:-0}" == 1 ]] || bash "$D" decompose smoke   # parallel jobs: only one decomposes; cells wait for its marker
 bash "$D" cell smoke "$V" "$DS"
 cd "$REPO"; export PYTHONPATH="$REPO:$REPO/open_deep_research/src" HF_HUB_OFFLINE=1
 "$PY_AN" -B -m attack.dynamic_bridge_pilot.cli analyze --split smoke --state-dir "$STATE_DIR" --results-dir "$RESULTS_DIR" --victims "$V" --datasets "$DS"
