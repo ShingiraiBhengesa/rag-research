@@ -1,0 +1,5 @@
+victim,dataset,n_clean_runs,n_pcr_eligible,stop_at_step1_rate,max_allowed_stop_at_1,n_primary_eligible,hop2_retrieval_rate,min_required_hop2_retrieval,clean_accuracy,gate
+llama8b,2wiki,10,10,0.0,0.5,5,0.0,0.6,0.4,FAIL
+llama8b,hotpot,10,10,0.4,0.5,2,0.0,0.6,0.4,FAIL
+qwen14b,2wiki,10,10,0.2,0.5,8,1.0,0.6,0.5,PASS
+qwen14b,hotpot,10,10,0.3,0.5,5,0.8,0.6,0.5,PASS

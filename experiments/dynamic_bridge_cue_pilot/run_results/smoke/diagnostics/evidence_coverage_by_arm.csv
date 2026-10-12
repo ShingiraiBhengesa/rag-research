@@ -1,0 +1,7 @@
+victim,dataset,arm,n,mean_coverage,full_coverage_rate,boundaries_used
+qwen14b,hotpot,bridge_sufficiency_k1,1,1.0,1.0,"{""final_input_coverage_fraction"": 1}"
+qwen14b,hotpot,bridge_sufficiency_k3,1,1.0,1.0,"{""final_input_coverage_fraction"": 1}"
+qwen14b,hotpot,entity_sufficiency,1,1.0,1.0,"{""final_input_coverage_fraction"": 1}"
+qwen14b,hotpot,fixed_saturation,3,1.0,1.0,"{""final_input_coverage_fraction"": 3}"
+qwen14b,hotpot,fixed_sufficiency,3,1.0,1.0,"{""final_input_coverage_fraction"": 3}"
+qwen14b,hotpot,neutral,3,1.0,1.0,"{""final_input_coverage_fraction"": 3}"

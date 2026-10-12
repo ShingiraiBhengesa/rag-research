@@ -1,0 +1,2 @@
+victim,dataset,n_questions,bridge_OK,bridge_NO_ANCHOR,pool_ok_bridge_suff,pool_ok_bridge_sat,pool_ok_entity_suff,pool_ok_unsupported_suff,ran_neutral,ran_fixed_sufficiency,ran_entity_sufficiency,ran_bridge_sufficiency_k1,ran_bridge_sufficiency_k3,ran_unsupported_sufficiency,ran_fixed_saturation,ran_bridge_saturation_k3,arms_ran,arms_not_run,injection_failures,n_expected_questions,n_questions_with_all_arm_records,complete
+qwen14b,hotpot,3,2,1,1,0,1,0,3,3,1,1,1,0,3,0,12,12,0,3,3,True

@@ -5,6 +5,8 @@ The 12-condition implementation is untouched and stays recoverable. The only
 shared hook used is the existing production-no-op `PILOT_SUFFIX_OVERRIDE_KEY`
 in `attack/runtime/cues.py`.
 
+**λ = equal weights (pre-specified, 2026-10-11; see `lambda/lambda_frozen.json`).**
+
 **Status (2026-10-11): redesigned per Zhen's review (option B, 8 arms), tested
 offline; dev stage 1 (decompose, clean anchors, cue generation) submitted on
 Libra.** Order: dev (cue rating → λ freeze → all eight arms), then full = canonical n450.
@@ -100,8 +102,10 @@ Every PCR contrast is reported on two question sets:
 1. dev stage 1 (Libra)     sbatch slurm/dev_libra.sbatch from a worktree at the pushed commit:
                            decompose, clean anchors, cue pools (no arms; no freeze yet),
                            then baseline-gate on the dev anchors and the cue-rating sheet
-2. rate cues blind, fit λ  rate run_results/dev/dev_cue_ratings_blank.csv (AUDIT_RUBRIC.md)
-                           cli fit-lambda --split dev --ratings <rated csv>
+2. λ                      pre-specified EQUAL weights (user decision 2026-10-11: automate;
+                           no manual rating). lambda/lambda_frozen.json records the dev
+                           sensitivity: selection depends on λ in 32/66 pools; equal weights
+                           agree with 87% of the λ simplex there
 3. freeze (the open design decisions were settled 2026-10-11; see below)
                            cli freeze -> freeze_manifest.json; commit + push
 4. dev stage 2             same cells at the frozen commit: select + all eight arms; analyze; review

@@ -1,0 +1,19 @@
+{
+  "equal_weights_baseline": null,
+  "grid_step": null,
+  "l1_from_equal": 0.0,
+  "lambda": {
+    "align": 0.25,
+    "clarity": 0.25,
+    "fidelity": 0.25,
+    "ground": 0.25
+  },
+  "lambda_hash": "d524df32165afa63e4593b016bd72f976e3bd17efd8e5eb4fc20084cd6032997",
+  "n_groups": 0,
+  "n_rated_variants": 0,
+  "pairwise_concordance": null,
+  "raters": [],
+  "rationale": "Pre-specified equal weights (user decision 2026-10-11: automate, no manual ratings). Dev stage 1 (commit 26356428): 66 valid K3 pools; selection depends on lambda in 32; within those, equal weights agree with 87% of the simplex grid. The K1-vs-K3 contrast tests whether selection drives the effect.",
+  "source": "pre-specified equal weights (no fitting)",
+  "top1_agreement": null
+}

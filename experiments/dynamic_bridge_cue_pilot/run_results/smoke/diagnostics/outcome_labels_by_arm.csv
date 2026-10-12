@@ -1,0 +1,9 @@
+victim,dataset,arm,correct_completion,incorrect_completion,premature_direct_answer,premature_research_complete,other_termination_or_failure,not_run,total
+qwen14b,hotpot,bridge_saturation_k3,0,0,0,0,0,3,3
+qwen14b,hotpot,bridge_sufficiency_k1,0,1,0,0,0,2,3
+qwen14b,hotpot,bridge_sufficiency_k3,0,1,0,0,0,2,3
+qwen14b,hotpot,entity_sufficiency,0,1,0,0,0,2,3
+qwen14b,hotpot,fixed_saturation,1,2,0,0,0,0,3
+qwen14b,hotpot,fixed_sufficiency,1,2,0,0,0,0,3
+qwen14b,hotpot,neutral,1,2,0,0,0,0,3
+qwen14b,hotpot,unsupported_sufficiency,0,0,0,0,0,3,3

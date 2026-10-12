@@ -1,0 +1,14 @@
+victim,dataset,contrast,cue_arm,control_arm,n_answer_paired,both_correct,control_correct_cue_wrong,control_wrong_cue_correct,both_wrong,net_harm,accuracy_delta,accuracy_delta_ci,n_evidence_paired,paired_evidence_loss,evidence_loss_ci
+qwen14b,hotpot,structure,bridge_sufficiency_k3,entity_sufficiency,1,0,0,0,1,0,0.0,"[0.0, 0.0]",1,0.0,"[0.0, 0.0]"
+qwen14b,hotpot,truth,bridge_sufficiency_k3,unsupported_sufficiency,,,,,,,,,,,
+qwen14b,hotpot,selection,bridge_sufficiency_k3,bridge_sufficiency_k1,1,0,0,0,1,0,0.0,"[0.0, 0.0]",1,0.0,"[0.0, 0.0]"
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,bridge_sufficiency_k3,fixed_sufficiency,1,0,0,0,1,0,0.0,"[0.0, 0.0]",1,0.0,"[0.0, 0.0]"
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,bridge_saturation_k3,fixed_saturation,,,,,,,,,,,
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,bridge_saturation_k3,bridge_sufficiency_k3,,,,,,,,,,,
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,fixed_sufficiency,neutral,3,1,0,0,2,0,0.0,"[0.0, 0.0]",3,0.0,"[0.0, 0.0]"
+qwen14b,hotpot,fixed_saturation_vs_neutral,fixed_saturation,neutral,3,1,0,0,2,0,0.0,"[0.0, 0.0]",3,0.0,"[0.0, 0.0]"
+qwen14b,hotpot,bridge_k3_vs_neutral,bridge_sufficiency_k3,neutral,1,0,0,0,1,0,0.0,"[0.0, 0.0]",1,0.0,"[0.0, 0.0]"
+qwen14b,hotpot,bridge_k1_vs_neutral,bridge_sufficiency_k1,neutral,1,0,0,0,1,0,0.0,"[0.0, 0.0]",1,0.0,"[0.0, 0.0]"
+qwen14b,hotpot,entity_vs_neutral,entity_sufficiency,neutral,1,0,0,0,1,0,0.0,"[0.0, 0.0]",1,0.0,"[0.0, 0.0]"
+qwen14b,hotpot,unsupported_vs_neutral,unsupported_sufficiency,neutral,,,,,,,,,,,
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,bridge_saturation_k3,neutral,,,,,,,,,,,

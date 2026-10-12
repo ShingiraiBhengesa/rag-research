@@ -1,0 +1,7 @@
+victim,dataset,arm,n,n_correct,accuracy
+qwen14b,hotpot,bridge_sufficiency_k1,1,0,0.0
+qwen14b,hotpot,bridge_sufficiency_k3,1,0,0.0
+qwen14b,hotpot,entity_sufficiency,1,0,0.0
+qwen14b,hotpot,fixed_saturation,3,1,0.3333
+qwen14b,hotpot,fixed_sufficiency,3,1,0.3333
+qwen14b,hotpot,neutral,3,1,0.3333

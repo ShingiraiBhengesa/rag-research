@@ -1,0 +1,14 @@
+victim,dataset,outcome,contrast,tier,cue_arm,control_arm,question,n_paired,cue_rate,control_rate,difference,ci_lower,ci_upper,cue_stop_only,control_stop_only,mcnemar_p,gate
+qwen14b,hotpot,stopped_by_step_2,structure,primary,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,1,0.0,0.0,0.0,0.0,0.0,0,0,1.0,FAIL
+qwen14b,hotpot,stopped_by_step_2,truth,primary,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,0,,,,,,,,,FAIL
+qwen14b,hotpot,stopped_by_step_2,selection,primary,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,1,0.0,0.0,0.0,0.0,0.0,0,0,1.0,FAIL
+qwen14b,hotpot,stopped_by_step_2,bridge_k3_vs_fixed_sufficiency,secondary,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),1,0.0,0.0,0.0,0.0,0.0,0,0,1.0,FAIL
+qwen14b,hotpot,stopped_by_step_2,bridge_sat_k3_vs_fixed_saturation,secondary,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),0,,,,,,,,,FAIL
+qwen14b,hotpot,stopped_by_step_2,bridge_sat_k3_vs_bridge_suff_k3,secondary,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",0,,,,,,,,,FAIL
+qwen14b,hotpot,stopped_by_step_2,fixed_sufficiency_vs_neutral,secondary,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,3,0.6667,0.6667,0.0,0.0,0.0,0,0,1.0,FAIL
+qwen14b,hotpot,stopped_by_step_2,fixed_saturation_vs_neutral,secondary,fixed_saturation,neutral,replicates canonical fixed-cue effect,3,0.6667,0.6667,0.0,0.0,0.0,0,0,1.0,FAIL
+qwen14b,hotpot,stopped_by_step_2,bridge_k3_vs_neutral,secondary,bridge_sufficiency_k3,neutral,total effect,1,0.0,0.0,0.0,0.0,0.0,0,0,1.0,FAIL
+qwen14b,hotpot,stopped_by_step_2,bridge_k1_vs_neutral,secondary,bridge_sufficiency_k1,neutral,total effect,1,0.0,0.0,0.0,0.0,0.0,0,0,1.0,FAIL
+qwen14b,hotpot,stopped_by_step_2,entity_vs_neutral,secondary,entity_sufficiency,neutral,total effect,1,0.0,0.0,0.0,0.0,0.0,0,0,1.0,FAIL
+qwen14b,hotpot,stopped_by_step_2,unsupported_vs_neutral,secondary,unsupported_sufficiency,neutral,total effect,0,,,,,,,,,FAIL
+qwen14b,hotpot,stopped_by_step_2,bridge_sat_k3_vs_neutral,secondary,bridge_saturation_k3,neutral,total effect,0,,,,,,,,,FAIL
