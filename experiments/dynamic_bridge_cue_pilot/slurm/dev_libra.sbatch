@@ -26,6 +26,7 @@ export PY_CUES=/home/sbhengesa/.conda/envs/vllm/bin/python
 PY_AN=/home/sbhengesa/.conda/envs/whitebox/bin/python
 export HF_HOME="${HF_HOME:-$HOME/.cache/huggingface}"
 export STATE_DIR=/home/sbhengesa/rag-research/experiments/dynamic_bridge_cue_pilot/state
+export SERVE_ENV_SCRIPT="$REPO/experiments/dynamic_bridge_cue_pilot/slurm/libra_vllm_toolchain.sh"
 export RESULTS_DIR=/home/sbhengesa/rag-research/experiments/dynamic_bridge_cue_pilot/run_results
 echo "[dev] commit $(git -C "$REPO" rev-parse HEAD)  node $(hostname)  gpu ${CUDA_VISIBLE_DEVICES:-?}"
 D="$REPO/experiments/dynamic_bridge_cue_pilot/nrp/run_phase.sh"

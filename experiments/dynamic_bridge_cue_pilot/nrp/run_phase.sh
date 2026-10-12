@@ -12,7 +12,7 @@
 # outputs), HF_HOME. Optional PY_CUES: python with torch+transformers for the
 # cue phase's NLI check (default PY_ODR; on Libra the odr env lacks torch, so
 # the smoke sbatch points PY_CUES at the vllm env).
-# Optional: SMOKE_PROVISIONAL_LAMBDA=1 (smoke only), MAX_QUESTIONS (smoke/dev only),
+# Optional: SERVE_ENV_SCRIPT (sourced around the vLLM server only), SMOKE_PROVISIONAL_LAMBDA=1 (smoke only), MAX_QUESTIONS (smoke/dev only),
 # STOP_AFTER=anchor (cell mode: run only the clean anchor runs, e.g. to evaluate
 # the baseline gate before any cue or arm work), NUM_SHARDS (cell mode; shard index from SHARD or the Indexed Job's
 # JOB_COMPLETION_INDEX). Shard i takes every NUM_SHARDS-th question and writes
@@ -50,11 +50,14 @@ serve() {
   stop_server
   read -r MID REV PARSER < <(model_args "$1")
   echo "[serve] $1 $MID@$REV"
-  "$PY_VLLM" -m vllm.entrypoints.openai.api_server \
+  # Optional SERVE_ENV_SCRIPT is sourced in a subshell around the server only
+  # (Libra needs the canonical system-GCC toolchain for Triton JIT; NRP doesn't).
+  ( if [[ -n "${SERVE_ENV_SCRIPT:-}" ]]; then source "$SERVE_ENV_SCRIPT"; fi
+    exec "$PY_VLLM" -m vllm.entrypoints.openai.api_server \
     --model "$MID" --revision "$REV" --served-model-name "$MID" --host 127.0.0.1 --port "$PORT" \
     --dtype bfloat16 --gpu-memory-utilization "${GPU_MEM_UTIL:-0.90}" --max-model-len 32768 \
     --tensor-parallel-size 1 --generation-config vllm --enable-auto-tool-choice \
-    --tool-call-parser "$PARSER" --enforce-eager > "$STATE_DIR/logs/vllm_${1}_$(date +%s).log" 2>&1 &
+    --tool-call-parser "$PARSER" --enforce-eager ) > "$STATE_DIR/logs/vllm_${1}_$(date +%s).log" 2>&1 &
   SERVER_PID=$!
   for _ in $(seq 1 180); do
     curl -sf "http://127.0.0.1:$PORT/v1/models" >/dev/null && { echo "[serve] ready"; return 0; }
