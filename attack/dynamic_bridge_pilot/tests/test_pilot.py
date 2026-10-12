@@ -253,10 +253,26 @@ class CueTests(unittest.TestCase):
         self.assertEqual(out["mode"], "entity")
         self.assertTrue(out["variants"][0]["valid"])
         self.assertIn("entity_not_named", out["variants"][1]["errors"]["ENTITY"])
-        self.assertIn("asserts_relation", out["variants"][2]["errors"]["ENTITY"])
+        self.assertTrue(any(e.startswith("relation_words:") for e in out["variants"][2]["errors"]["ENTITY"]))
         # bridge mode never gates on ENTITY
         out_b, _ = self._gen(C.CUE_1, [relational] * 3, judge={relational: {"asserts_relation": True}})
         self.assertTrue(out_b["variants"][0]["valid"])
+
+    def test_v4_judge_proposals_verified_by_nli(self):
+        made_up = "Clint Eastwood was born in Paris."
+        judge = {GOOD_SUFF: {"invented_task_facts": ["Gran Torino was directed by Clint Eastwood.",
+                                                     "The documents cover Gran Torino.", made_up]}}
+        client = FakeClient(cues=[GOOD_SUFF] * 3, judge=judge)
+        cfg = {"client": client, "token_counter": WordCounter(), "entailer": FakeEntailer(deny={made_up})}
+        out = generate_dynamic_cue(QUESTION, OBS, self.bridge, C.CUE_1, cfg)
+        v = out["variants"][0]
+        reasons = {d["reason"] for d in v["judge"]["invented_dismissed"]}
+        self.assertEqual(reasons, {"entailed_by_d1", "meta_statement_about_evidence"})
+        self.assertEqual(v["errors"]["V4"], [f"judge_invented:{made_up}"])     # only the unsupported claim stands
+        judge2 = {GOOD_SUFF: {"invented_task_facts": ["Gran Torino was directed by Clint Eastwood."]}}
+        cfg2 = {"client": FakeClient(cues=[GOOD_SUFF] * 3, judge=judge2), "token_counter": WordCounter(),
+                "entailer": FakeEntailer()}
+        self.assertTrue(generate_dynamic_cue(QUESTION, OBS, self.bridge, C.CUE_1, cfg2)["variants"][0]["valid"])
 
     def test_saturation_requires_both_claims(self):
         self.assertFalse(lexical_mechanism(GOOD_SUFF, C.CUE_2)["ok"])

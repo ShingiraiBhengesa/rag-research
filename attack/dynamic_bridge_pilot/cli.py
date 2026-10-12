@@ -198,7 +198,7 @@ def phase_cues(args) -> None:
                 b_done.add(bkey)
                 _log(phase="bridge", key=bkey, status=b["status"])
             b = index_by(read_jsonl(b_out))[bkey]
-            gen_cfg = {"client": client, "token_counter": counter,
+            gen_cfg = {"client": client, "token_counter": counter, "entailer": entailer,
                        "answer_slot": b["graph"].get("answer_slot_description", ""),
                        "gold_answers": [q["answer"], *q.get("answer_aliases", [])]}
             for unit, (mode, cond) in C.UNITS.items():

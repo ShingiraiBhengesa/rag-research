@@ -189,6 +189,9 @@ JUDGE_SCHEMA = {
 GENERATE_SCHEMA = {"type": "object", "properties": {"cue": {"type": "string"}}, "required": ["cue"]}
 MODES = ("bridge", "entity")
 GATES = ("V1", "V2", "V3", "V4", "V5", "COPY", "ENTITY")
+_META_RE = re.compile(r"^\s*(the\s+)?(retrieved\s+|provided\s+|available\s+|search\s+)?"
+                      r"(documents?|evidence|information|sources?|passages?|results?|data)\b", re.I)
+_SENT_SPLIT = re.compile(r"(?<=[.!?])\s+")
 
 
 def format_errors(cue: Any) -> list[str]:
@@ -259,7 +262,7 @@ def _judge(client: ChatClient, *, question: str, docs_text: str, answer_slot: st
 def evaluate_variant(v: Variant, *, client: ChatClient, token_counter: TokenCounter, question: str,
                      observation_text: str, docs_text: str, answer_slot: str, condition: str,
                      anchor: Mapping[str, Any], gold_answers: Sequence[str], mode: str = "bridge",
-                     exempt: Sequence[str] = ()) -> Variant:
+                     exempt: Sequence[str] = (), entailer=None, d1_sentences: Sequence[str] = ()) -> Variant:
     """Applies every gate. `exempt` names gates that are recorded but do not
     count toward validity (only the unsupported-bridge arm uses it, for V4)."""
     cue = v.cue
@@ -287,7 +290,21 @@ def evaluate_variant(v: Variant, *, client: ChatClient, token_counter: TokenCoun
     v.errors["V3"] = [] if v.lexical_mechanism["ok"] else ["lexical_mechanism_failed"]
     v.judge["mechanism_verdict_recorded_not_gating"] = preserves
     det = deterministic_task_fact_errors(cue, question, observation_text)
-    invented = list(v.judge.get("invented_task_facts") or []) if judged else []
+    proposed = list(v.judge.get("invented_task_facts") or []) if judged else []
+    # The judge's proposals are verified with the grounding NLI check: integration
+    # runs showed it listing the verbatim, NLI-verified bridge fact and meta
+    # sentences ("The documents cover X") as invented. A proposal stands only if
+    # it is not a statement about the evidence and no d1 sentence entails it.
+    invented, dismissed = [], []
+    for claim in proposed:
+        if _META_RE.match(claim or ""):
+            dismissed.append({"claim": claim, "reason": "meta_statement_about_evidence"})
+        elif entailer is not None and any(entailer.entails(premise=s_, hypothesis=claim).entails
+                                          for s_ in (d1_sentences or ())):
+            dismissed.append({"claim": claim, "reason": "entailed_by_d1"})
+        else:
+            invented.append(claim)
+    v.judge["invented_dismissed"] = dismissed
     v.checks["V4"] = judged and not det and not invented
     v.errors["V4"] = det + [f"judge_invented:{x}" for x in invented] + ([] if judged else ["judge_unavailable"])
     states = bool(v.judge.get("states_final_answer")) if judged else True
@@ -297,11 +314,15 @@ def evaluate_variant(v: Variant, *, client: ChatClient, token_counter: TokenCoun
     v.checks["COPY"] = not v.fixed_similarity["copies_fixed_suffix"]
     v.errors["COPY"] = [] if v.checks["COPY"] else [f"copies_fixed_suffix:{v.fixed_similarity['max_similarity']}"]
     if mode == "entity":
+        # Deterministic: both entities named, and none of a*'s relation words
+        # (its statement minus the two entities' tokens) appear in the cue.
+        # The judge's asserts_relation is recorded only (it flagged correct cues).
         named = [overlap(cue, e) >= C.ENTITY_SLOT_MIN_OVERLAP for e in entities]
-        relation = bool(v.judge.get("asserts_relation")) if judged else True
-        v.checks["ENTITY"] = all(named) and judged and not relation
+        rel_words = content_tokens(anchor["bridge_fact"]) - content_tokens(entities[0]) - content_tokens(entities[1])
+        leaked = sorted(rel_words & content_tokens(cue))
+        v.checks["ENTITY"] = all(named) and not leaked
         v.errors["ENTITY"] = ([] if all(named) else ["entity_not_named"]) + \
-                             (["asserts_relation" if judged else "judge_unavailable"] if relation else [])
+                             ([f"relation_words:{leaked}"] if leaked else [])
     else:
         v.checks["ENTITY"] = True
         v.errors["ENTITY"] = []
@@ -348,6 +369,7 @@ def generate_dynamic_cue(question: str, retrieved_evidence: str, bridge: Mapping
     docs = parse_observation(retrieved_evidence)
     docs_text = documents_for_prompt(docs)
     obs_text = "\n".join(d.title + "\n" + d.text for d in docs)
+    d1_sentences = [x for d in docs for x in _SENT_SPLIT.split(d.text) if x.strip()]
     if mode not in MODES:
         raise ValueError(f"unknown generation mode {mode}")
     m = MECHANISMS[cue_condition]
@@ -371,7 +393,8 @@ def generate_dynamic_cue(question: str, retrieved_evidence: str, bridge: Mapping
         variants.append(evaluate_variant(
             v, client=client, token_counter=token_counter, question=question, observation_text=obs_text,
             docs_text=docs_text, answer_slot=generation_config.get("answer_slot", ""), condition=cue_condition,
-            anchor=anchor, gold_answers=generation_config.get("gold_answers", ()), mode=mode))
+            anchor=anchor, gold_answers=generation_config.get("gold_answers", ()), mode=mode,
+            entailer=generation_config.get("entailer"), d1_sentences=d1_sentences))
     n_valid = sum(v.valid for v in variants)
     return {
         "condition": cue_condition,
