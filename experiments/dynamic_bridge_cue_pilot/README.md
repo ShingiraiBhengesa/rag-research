@@ -176,6 +176,29 @@ On real runs, still pending: Qwen, Llama, HotpotQA and 2Wiki runs; each arm runn
 2. **Decomposition depth 3 / 6 edges** (was 2 / 4). 2wiki bridge-comparison questions ("which film's director was born first") are genuinely film → director → birth date → compare. The integration run showed them rejected under depth 2, which would have excluded about a quarter of 2wiki.
 3. **Baseline-gate fallback.** The gate thresholds are unchanged. A victim × dataset that fails the gate keeps premature-stop as a secondary outcome, and its primary becomes **stopped by step 2** (`GATE_FALLBACK_PCR_K`, paired McNemar); `pcr/primary_by_cell.csv` applies the rule. On canonical clean runs llama8b retrieves second-hop evidence in only about 17–35% of scoreable questions (qwen14b about 82–85%), so llama is expected to fail the gate. k = 2 is where llama's canonical effects peak on these datasets.
 
+## Validity and grounding changes from the integration and dev runs (2026-10-11, before λ and the freeze)
+
+The real-model runs (jobs 173946–173969) showed that the LLM judge is unreliable as a gate. It repeatedly:
+- failed V3 because it judged whether "the evidence is sufficient" was *true*;
+- listed the verbatim, NLI-verified bridge fact and meta-sentences as invented facts;
+- read relations into entity cues that stated none;
+- treated a single d₁ fact (one battle's date) as revealing the answer.
+
+The changes:
+1. **V3:** gated lexically (the required claims present, prohibited claims absent). The judge's verdict is recorded and feeds Fidelity.
+2. **V4:** the deterministic screen, plus judge-proposed invented facts that survive NLI verification (dismissed when they are meta-statements or entailed by a d₁ sentence). Dismissals are recorded.
+3. **V5:** the algorithm's AnswerFillH(u)=0, checked on H (a* is not on an edge into ?answer). The judge's answer verdict and the gold-string check are audit-only.
+4. **ENTITY:** deterministic. Both entities must be named, and none of a*'s relation words may appear.
+5. **Prompts:**
+   - the generator no longer sees the fixed text (it primed verbatim copies);
+   - the fact must be restated with nothing added;
+   - the claim sentence states no fact.
+6. **Decomposition:** one repair round with the validator's errors. Dev went from 18/20 to 20/20 valid graphs.
+7. **Grounding premise:** "<doc title>. <span>". Pronoun sentences ("He was the son of …") can now ground facts. qwen/2wiki dev bridges went from 3/10 to 7/10.
+8. **Unsupported distractors:** the candidate pool also includes same-kind entities proposed at temperature 0 and found verbatim in d₁.
+
+Dev stage 1 (commit 26356428): 25/40 questions bridged (qwen hotpot 4, qwen 2wiki 7, llama hotpot 6, llama 2wiki 8). Every bridged question has a valid bridge-Suff pool except 4 in llama/2wiki. The unsupported arm is available on 12/25. Dev baseline gate: qwen PASS on both datasets; llama FAIL on both (clean second-hop retrieval 0%), as predicted from the canonical data, so stopped-by-step-2 is llama's primary (decision 3).
+
 ## Known issues
 
 1. Comparison questions decompose as parallel branches, not as a chain. They are kept, not filtered.
