@@ -63,10 +63,19 @@ serve() {
   done
   echo "[serve] timeout" >&2; exit 1
 }
-stop_server() { [[ -n "$SERVER_PID" ]] && kill "$SERVER_PID" 2>/dev/null && wait "$SERVER_PID" 2>/dev/null; SERVER_PID=""; true; }
-trap stop_server EXIT
+# `wait` on a server we just killed returns 143; under set -e that must not end the script.
+stop_server() {
+  if [[ -n "$SERVER_PID" ]]; then
+    kill "$SERVER_PID" 2>/dev/null || true
+    wait "$SERVER_PID" 2>/dev/null || true
+  fi
+  SERVER_PID=""
+}
+trap 'rc=$?; stop_server; exit $rc' EXIT
 
-n_failures() { cat "$STATE_DIR/$SPLIT/failures/"*.jsonl 2>/dev/null | wc -l; }
+# `|| true` inside the group: with pipefail, a missing failures/ glob would
+# otherwise fail the pipeline and silently kill the script under set -e.
+n_failures() { { cat "$STATE_DIR/$SPLIT/failures/"*.jsonl 2>/dev/null || true; } | wc -l; }
 
 phase() {  # phase <marker-name> <cli args...>
   local name="$1"; shift
