@@ -1,2 +1,2 @@
-qwen_llama_results_bundle/data/answer_run_level.csv filter=lfs diff=lfs merge=lfs -text
-qwen_llama_results_bundle/qwen_llama_results_workbook.xlsx filter=lfs diff=lfs merge=lfs -text
+results/whitebox/e1_fixed_cue_matrix/qwen_llama/data/answer_run_level.csv filter=lfs diff=lfs merge=lfs -text
+results/whitebox/e1_fixed_cue_matrix/qwen_llama/qwen_llama_results_workbook.xlsx filter=lfs diff=lfs merge=lfs -text
