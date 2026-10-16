@@ -1,0 +1,5 @@
+victim,dataset,n_questions,bridge_OK,bridge_NO_FACTS,bridge_NO_ANCHOR,bridge_DECOMPOSE_INVALID,bridge_ANCHOR_VICTIM_FAILURE,pool_ok_bridge_suff,pool_ok_bridge_sat,pool_ok_entity_suff,pool_ok_unsupported_suff,ran_neutral,ran_fixed_sufficiency,ran_entity_sufficiency,ran_bridge_sufficiency_k1,ran_bridge_sufficiency_k3,ran_unsupported_sufficiency,ran_fixed_saturation,ran_bridge_saturation_k3,arms_ran,arms_not_run,injection_failures,n_expected_questions,n_questions_with_all_arm_records,complete
+llama8b,2wiki,450,268,135,41,3,3,246,211,213,192,447,447,213,246,246,192,447,211,2449,1151,0,450,450,True
+llama8b,hotpot,450,227,78,67,67,11,205,183,209,97,439,439,209,205,205,96,439,183,2215,1385,0,450,450,True
+qwen14b,2wiki,450,285,115,47,3,,268,230,246,202,450,450,246,268,268,201,450,230,2563,1037,0,450,450,True
+qwen14b,hotpot,450,256,60,66,68,,235,203,240,107,450,450,240,235,235,106,450,203,2369,1231,0,450,450,True

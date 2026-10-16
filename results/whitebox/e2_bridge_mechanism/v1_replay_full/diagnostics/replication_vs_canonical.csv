@@ -1,0 +1,13 @@
+victim,dataset,arm,canonical_condition,n_matched,same_stop_step_rate,same_route_rate,pcr@1_pilot,pcr@1_canonical,pcr@2_pilot,pcr@2_canonical,pcr@5_pilot,pcr@5_canonical,pcr@30_pilot,pcr@30_canonical
+llama8b,2wiki,fixed_saturation,Natural_PreRegisteredSufficiencySaturation,443,0.246,0.8668,0.0135,0.0113,0.9097,0.2415,0.9932,0.8578,1.0,1.0
+llama8b,2wiki,fixed_sufficiency,Natural_PreRegisteredSufficiency,443,0.2122,0.8691,0.009,0.0135,0.8284,0.219,0.9594,0.842,1.0,1.0
+llama8b,2wiki,neutral,NaturalClean,425,0.0918,0.8753,0.0165,0.04,0.2212,0.1082,0.7153,0.7412,1.0,0.9953
+llama8b,hotpot,fixed_saturation,Natural_PreRegisteredSufficiencySaturation,429,0.4126,0.7995,0.021,0.035,0.9161,0.4406,0.9907,0.9091,1.0,1.0
+llama8b,hotpot,fixed_sufficiency,Natural_PreRegisteredSufficiency,429,0.331,0.8065,0.021,0.042,0.8485,0.4126,0.958,0.8951,1.0,1.0
+llama8b,hotpot,neutral,NaturalClean,413,0.1792,0.8257,0.046,0.0339,0.2906,0.109,0.7869,0.7433,1.0,0.9976
+qwen14b,2wiki,fixed_saturation,Natural_PreRegisteredSufficiencySaturation,448,0.4665,0.6049,0.3594,0.5,0.7054,0.817,0.9219,0.9509,1.0,1.0
+qwen14b,2wiki,fixed_sufficiency,Natural_PreRegisteredSufficiency,449,0.4922,0.6036,0.4143,0.5323,0.7327,0.8241,0.931,0.9465,0.9978,1.0
+qwen14b,2wiki,neutral,NaturalClean,444,0.2703,0.5698,0.1126,0.3108,0.4302,0.6824,0.8716,0.9279,1.0,1.0
+qwen14b,hotpot,fixed_saturation,Natural_PreRegisteredSufficiencySaturation,446,0.361,0.5336,0.3139,0.5381,0.6009,0.7623,0.8475,0.9417,1.0,1.0
+qwen14b,hotpot,fixed_sufficiency,Natural_PreRegisteredSufficiency,445,0.3933,0.5573,0.364,0.5596,0.6135,0.7708,0.8719,0.9416,1.0,1.0
+qwen14b,hotpot,neutral,NaturalClean,443,0.2325,0.535,0.0655,0.2393,0.298,0.5756,0.6862,0.9007,1.0,1.0
