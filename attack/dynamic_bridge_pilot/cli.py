@@ -541,9 +541,53 @@ def phase_judge_agreement(args) -> None:
         _log(phase="judge-agreement", **r)
 
 
+def phase_fidelity_check(args) -> None:
+    """Does a fresh neutral arm reproduce its anchor run exactly? Same first observation
+    (d1 hash), same episode-0 decision sequence, same stopping step and route."""
+    from analysis.canonical.canonical_completion import build_canonical_record
+    from analysis.completion_inventory import RowRecord
+    from analysis.trace_parser import parse_trace_file
+    from attack.dynamic_bridge_pilot.analysis import write_csv
+
+    def summary(tp, victim, ds, ex):
+        rec = build_canonical_record(RowRecord(model=victim, dataset=ds, condition="NaturalClean", shard_index=0,
+                                               example_id=ex, final_status="ok", error="", trace_path=tp,
+                                               trace_exists=True, valid_answer=None, row_index_in_shard=0,
+                                               run_id="x"))
+        ep = parse_trace_file(Path(tp)).episodes
+        seq = [tuple(d.tool_call_names) for d in ep[0].decisions] if ep else []
+        return rec.terminal_route, rec.first_terminal_post_observation_step, seq
+
+    rows = []
+    for victim in args.victims or C.PILOT_VICTIMS:
+        for ds in args.datasets:
+            anchors = index_by(_read_all(args, "anchors", f"{victim}_{ds}"))
+            for r in _read_all(args, "arms", f"{victim}_{ds}"):
+                if r["arm"] != "neutral" or r["status"] not in ("ran", "d1_mismatch"):
+                    continue
+                a = anchors.get(f"{victim}|{ds}|{r['example_id']}")
+                if not a or a.get("status") == VICTIM_FAILURE:
+                    continue
+                fa, fn = summary(a["anchor_trace_path"], victim, ds, r["example_id"]), \
+                    summary(r["trace_path"], victim, ds, r["example_id"])
+                rows.append({"victim": victim, "dataset": ds, "example_id": r["example_id"],
+                             "d1_identical": r["status"] == "ran", "route_identical": fa[0] == fn[0],
+                             "stop_step_identical": fa[1] == fn[1], "decisions_identical": fa[2] == fn[2]})
+    out = (Path(args.results_dir) / args.split if args.results_dir else EXP_DIR / "diagnostics" / args.split)
+    write_csv(out / "fidelity_check.csv", rows)
+    for victim in args.victims or C.PILOT_VICTIMS:
+        for ds in args.datasets:
+            rr = [x for x in rows if (x["victim"], x["dataset"]) == (victim, ds)]
+            if rr:
+                _log(phase="fidelity-check", victim=victim, dataset=ds, n=len(rr),
+                     **{k: round(sum(x[k] for x in rr) / len(rr), 4) for k in
+                        ("d1_identical", "decisions_identical", "stop_step_identical", "route_identical")})
+
+
 PHASES = {"decompose": phase_decompose, "anchor": phase_anchor, "cues": phase_cues, "select": phase_select,
           "arms": phase_arms, "analyze": phase_analyze, "audit-export": phase_audit_export,
           "fit-lambda": phase_fit_lambda, "baseline-gate": phase_baseline_gate,
+          "fidelity-check": phase_fidelity_check,
           "judge-audit-export": phase_judge_audit_export, "judge-agreement": phase_judge_agreement, "freeze": phase_freeze, "verify-freeze": phase_verify_freeze}
 
 
@@ -581,7 +625,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     if not 0 <= args.shard < max(args.num_shards, 1):
         ap.error("--shard must be in [0, --num-shards)")
     if args.phase in ("analyze", "audit-export", "fit-lambda", "freeze", "verify-freeze", "decompose",
-                      "baseline-gate", "judge-audit-export", "judge-agreement") and args.num_shards > 1:
+                      "baseline-gate", "judge-audit-export", "judge-agreement", "fidelity-check") and args.num_shards > 1:
         ap.error(f"{args.phase} is not sharded; it reads/writes every shard")
     if args.split in C.FROZEN_SPLITS and args.max_questions:
         ap.error(f"--max-questions is not allowed on {args.split} (no subsetting of frozen splits)")

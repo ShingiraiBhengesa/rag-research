@@ -887,6 +887,12 @@ def get_today_str() -> str:
     Returns:
         Human-readable date string in format like 'Mon Jan 15, 2024'
     """
+    # Additive, production-no-op hook for the dynamic bridge-cue pilot: when
+    # V3_PINNED_TODAY is set, prompts use that date so a fresh arm run sees the
+    # exact prompts its anchor run saw (canonical production never sets it).
+    pinned = os.environ.get("V3_PINNED_TODAY")
+    if pinned:
+        return pinned
     now = datetime.now()
     return f"{now:%a} {now:%b} {now.day}, {now:%Y}"
 

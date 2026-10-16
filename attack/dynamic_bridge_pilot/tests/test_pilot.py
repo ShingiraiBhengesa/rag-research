@@ -708,8 +708,10 @@ class VictimPathTests(unittest.TestCase):
                   "tool_message_hash": hash_text(out, length=32), "shared_prefix_hash": "sp", "attacked_observation": inject}
             return {"events": [ev], "trace_path": "", "run_id": request.run_id, "condition": request.condition}
 
+        dated = Path(tempfile.mkdtemp()) / "anchor.json"
+        dated.write_text(json.dumps({"x": "today's date is Mon Oct 12, 2026."}))
         anchor_rec = {"anchor": {"first_search_queries": ["q"]}, "clean_observation": OBS,
-                      "clean_observation_hash": hash_text(OBS, length=32)}
+                      "clean_observation_hash": hash_text(OBS, length=32), "anchor_trace_path": str(dated)}
         ctx = R.VictimContext(victim_key="qwen14b", model=mock.Mock(), traces_root=Path(tempfile.mkdtemp()))
         plan = R.ArmPlan("bridge_sufficiency_k3", C.CUE_1, GOOD_SUFF, "dynamic", True)
         q = {"example_id": "ex1", "question": QUESTION}
@@ -763,6 +765,58 @@ class VictimFailureTests(unittest.TestCase):
             fail = Path(d) / "failures.jsonl"
             self.assertIsNone(cli._retry(boom, unit="u", failures=fail))
             self.assertEqual(len(read_jsonl(fail)), 1)
+
+
+class FreshArmTests(unittest.TestCase):
+    def test_date_pin_is_scoped_and_no_op_by_default(self):
+        import os
+
+        try:
+            from open_deep_research.utils import get_today_str
+        except ModuleNotFoundError:
+            self.skipTest("agent dependencies (langchain) not installed in this env; run in the odr env")
+
+        self.assertNotEqual(get_today_str(), "Mon Oct 12, 2026") if "V3_PINNED_TODAY" not in os.environ else None
+        os.environ["V3_PINNED_TODAY"] = "Mon Oct 12, 2026"
+        try:
+            self.assertEqual(get_today_str(), "Mon Oct 12, 2026")
+        finally:
+            os.environ.pop("V3_PINNED_TODAY")
+
+    def test_anchor_date_and_fresh_run_d1_mismatch(self):
+        from unittest import mock
+
+        from attack.dynamic_bridge_pilot import runner as R
+        from attack.runtime.hashing import hash_text
+        import os
+
+        with tempfile.TemporaryDirectory() as d:
+            tp = Path(d) / "anchor.json"
+            tp.write_text(json.dumps({"x": "For context, today's date is Mon Oct 12, 2026."}))
+            anchor_rec = {"anchor": {}, "anchor_trace_path": str(tp), "clean_observation": OBS,
+                          "clean_observation_hash": hash_text(OBS, length=32)}
+            self.assertEqual(R.anchor_prompt_date(anchor_rec), "Mon Oct 12, 2026")
+            seen = {}
+
+            async def fake_run(request):
+                seen["date"] = os.environ.get("V3_PINNED_TODAY"); seen["replay"] = request.replay_anchor
+                other = OBS + " (different results)"
+                ev = {"event_type": "benchmark_search", "base_tool_message_hash": hash_text(other, length=32),
+                      "tool_message_hash": hash_text(other, length=32)}
+                return {"events": [ev], "trace_path": "", "run_id": request.run_id}
+
+            ctx = R.VictimContext(victim_key="qwen14b", model=mock.Mock(), traces_root=Path(d))
+            plan = R.ArmPlan("neutral", "NaturalClean", None, "none", True)
+            with mock.patch.object(R, "run_single_condition", fake_run), \
+                 mock.patch.object(R, "_victim_request", lambda **kw: mock.Mock(
+                     condition=kw["condition"], cue_overrides=kw["cue_overrides"], run_id=kw["run_id"],
+                     replay_anchor=kw["replay_anchor"])):
+                rec = R.run_arm(ctx, plan, dataset="hotpot", q={"example_id": "e", "question": QUESTION},
+                                paths={"corpus": "c", "evidence": "e"}, anchor_rec=anchor_rec)
+            self.assertEqual(seen["date"], "Mon Oct 12, 2026")      # prompts pinned to the anchor's date
+            self.assertIsNone(seen["replay"])                         # fresh run, no replay
+            self.assertEqual(rec["status"], "d1_mismatch")           # different first observation -> excluded
+            self.assertNotIn("V3_PINNED_TODAY", os.environ)           # pin is scoped to the run
 
 
 class ClientTests(unittest.TestCase):

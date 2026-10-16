@@ -74,10 +74,11 @@ def label_run(arm_rec: Mapping[str, Any], manifest_row: Mapping[str, Any]) -> di
     base = {k: arm_rec.get(k) for k in ("victim", "dataset", "example_id", "arm", "runtime_condition", "status",
                                          "skip_reason", "trace_path", "run_id")}
     if arm_rec.get("status") != "ran":
-        label = "victim_execution_failure" if arm_rec.get("status") == "victim_failure" else "not_run"
+        label = {"victim_failure": "victim_execution_failure",
+                 "d1_mismatch": "d1_mismatch"}.get(arm_rec.get("status"), "not_run")
         return {**base, "pcr_eligible": False, "outcome_label": label, "terminal_route": "",
                 "t_i": None, "primary_eligible": False, "premature_stop_no_hop2": None,
-                "primary_na_reason": "victim_execution_failure" if label != "not_run" else "arm_not_run"}
+                "primary_na_reason": label if label != "not_run" else "arm_not_run"}
     rec = build_canonical_record(_row(arm_rec))
     out = {**base, "pcr_eligible": rec.pcr_eligible, "pcr_exclusion_reason": rec.pcr_exclusion_reason,
            "terminal_route": rec.terminal_route, "t_i": rec.first_terminal_post_observation_step,

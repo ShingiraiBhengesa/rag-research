@@ -25,6 +25,7 @@ CANONICAL_DEPENDENCIES = (
     "analysis/canonical/canonical_completion.py", "analysis/evidence.py", "analysis/trace_parser.py",
     "attack/answer_scoring/answer_evaluator_v2.py",
     "open_deep_research/src/open_deep_research/deep_researcher.py",
+    "open_deep_research/src/open_deep_research/utils.py",
 )
 
 

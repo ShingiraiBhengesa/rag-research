@@ -28,18 +28,44 @@ from attack.runtime.hashing import hash_text, stable_hash
 from attack.runtime.runner import V3ModelConfig, _build_replay_anchor, run_single_condition
 
 
-def _run_victim(request) -> dict:
+_DATE_RE = None
+
+
+def anchor_prompt_date(anchor_rec: Mapping[str, Any]) -> str:
+    """The date string the anchor run's prompts used ("Mon Oct 12, 2026")."""
+    import re
+
+    text = Path(anchor_rec["anchor_trace_path"]).read_text(encoding="utf-8")
+    dates = sorted(set(re.findall(r"today's date is ([A-Z][a-z]{2} [A-Z][a-z]{2} \d{1,2}, \d{4})", text)))
+    if len(dates) != 1:
+        raise RuntimeError(f"anchor trace has {len(dates)} distinct prompt dates: {dates}")
+    return dates[0]
+
+
+def _run_victim(request, pinned_today: str | None = None) -> dict:
     """One fresh victim run. The canonical runner is async (production calls it via
     asyncio.run). The canonical search tool keeps per-process counters keyed by
     run_id that gate the one-shot injection; clear them first so a technical retry
     of the same run_id is injected exactly like the first attempt."""
     from attack.runtime import benchmark_search as bs
 
+    import os
+
     rid = request.run_id
     bs._RUN_INJECTION_COUNTS.pop(rid, None)
     for key in [k for k in bs._RUN_SEARCH_COUNTS if k[0] == rid]:
         bs._RUN_SEARCH_COUNTS.pop(key, None)
-    return asyncio.run(run_single_condition(request))
+    previous = os.environ.get("V3_PINNED_TODAY")
+    try:
+        if pinned_today:
+            os.environ["V3_PINNED_TODAY"] = pinned_today
+        return asyncio.run(run_single_condition(request))
+    finally:
+        if pinned_today:
+            if previous is None:
+                os.environ.pop("V3_PINNED_TODAY", None)
+            else:
+                os.environ["V3_PINNED_TODAY"] = previous
 
 
 def unit_key(*parts: str) -> str:
@@ -139,8 +165,11 @@ def run_arm(ctx: VictimContext, plan: ArmPlan, *, dataset: str, q: Mapping[str, 
     rid = run_id_for(ctx.victim_key, dataset, q["example_id"], plan.arm)
     kw = ctx.request_kwargs(dataset=dataset, q=q, paths=paths, arm=plan.arm)
     t0 = time.perf_counter()
+    fresh = C.ARM_EXECUTION == "fresh_pinned_date"
     trace = _run_victim(_victim_request(condition=plan.runtime_condition, run_id=rid,
-                                        replay_anchor=anchor_rec["anchor"], cue_overrides=overrides, **kw))
+                                        replay_anchor=None if fresh else anchor_rec["anchor"],
+                                        cue_overrides=overrides, **kw),
+                        pinned_today=anchor_prompt_date(anchor_rec) if fresh else None)
     ev = _first_search_event(trace)
     clean = anchor_rec["clean_observation"]
     checks = []
@@ -148,7 +177,9 @@ def run_arm(ctx: VictimContext, plan: ArmPlan, *, dataset: str, q: Mapping[str, 
         checks.append("clean_prefix_diverged_from_anchor")
     if ev.get("tool_message_hash") != expected_tool_message_hash(clean, effective_suffix or None):
         checks.append("victim_observation_not_exact_clean_plus_suffix")
-    return {**base, "status": "ran", "run_id": rid, "suffix": effective_suffix,
+    d1_matches = ev.get("base_tool_message_hash") == anchor_rec["clean_observation_hash"]
+    return {**base, "status": "ran" if d1_matches else "d1_mismatch", "arm_execution": C.ARM_EXECUTION,
+            "run_id": rid, "suffix": effective_suffix,
             "suffix_hash": hash_text(effective_suffix, length=None) if effective_suffix else "",
             "trace_path": str(trace.get("trace_path") or ""),
             "base_tool_message_hash": ev.get("base_tool_message_hash"),

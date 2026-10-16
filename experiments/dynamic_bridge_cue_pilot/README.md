@@ -214,6 +214,21 @@ They are now recorded once as **victim execution failures**, the same way the ca
 
 Genuine infrastructure errors still retry and block. No successful run is affected. The pilot was re-frozen with this change (freeze manifest updated). Arm shards that had not yet started were resubmitted from the new commit; completed anchor and arm records were kept.
 
+## v1 → v2: arms rerun fresh (2026-10-16)
+
+The v1 full run replicated the canonical study poorly for the neutral and fixed arms. For example, qwen's neutral stop-at-step-1 rate was 4–13% in v1 against 24–31% canonically. Diagnosis on about 120 questions per cell:
+- The pilot's **fresh** anchor runs reproduce the canonical numbers.
+- The **replayed** arms do not.
+
+The cause is that replay re-inserted only part of the anchor's pre-injection turns:
+- Qwen's first researcher turn usually pairs `tavily_search` with `think_tool` (39/60). Replay kept only the search, which shifts every later decision by one step.
+- At the supervisor level, replay injected only `ConductResearch`.
+- Llama trajectories also diverged after the first step.
+
+v2 therefore runs every arm **fresh**, as the canonical study does, with the prompt date pinned to the anchor run's date (`V3_PINNED_TODAY`, an additive hook in `open_deep_research/utils.py`; production never sets it). An arm whose first observation differs from the anchor's d₁ is recorded as `d1_mismatch` and excluded, because its cue was built for the anchor's d₁. `cli fidelity-check` reports how often a fresh neutral arm reproduces its anchor run exactly. That rate is the go/no-go check on dev.
+
+Anchors, decompositions, bridges, cue pools and selections are unchanged and reused. The v1 arm records and traces are kept under `state/<split>/v1_replay/`.
+
 ## Known issues
 
 1. Comparison questions decompose as parallel branches, not as a chain. They are kept, not filtered.

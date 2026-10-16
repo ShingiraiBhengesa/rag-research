@@ -9,10 +9,12 @@
     "attack/runtime/benchmark_search.py": "0355d32913b270225a58d5c0ffd2bb0aa47d0b7583af4f81c9636e1c89202ae1",
     "attack/runtime/cues.py": "58e451220f2dd9d35350dc024e12f518b21bbbf7323542c2755f9d33c48d1604",
     "attack/runtime/runner.py": "455e2549f7ca31560ce8111d2ae6435d72bdfe479193bce49904a0a40dbf27ce",
-    "open_deep_research/src/open_deep_research/deep_researcher.py": "2e6c5259759b63c2aa98b825f39a117558e39ee052392b04a9260a445a875fff"
+    "open_deep_research/src/open_deep_research/deep_researcher.py": "2e6c5259759b63c2aa98b825f39a117558e39ee052392b04a9260a445a875fff",
+    "open_deep_research/src/open_deep_research/utils.py": "3cc160e9ad61f70c99f91acfddff41f3060e3b4463ff29c5c43e0e5cb6df2390"
   },
   "config_snapshot": {
     "abstention_reason": "refusal",
+    "arm_execution": "fresh_pinned_date",
     "arms": {
       "bridge_saturation_k3": {
         "runtime_condition": "Natural_PreRegisteredSufficiencySaturation",
@@ -189,8 +191,8 @@
       }
     }
   },
-  "config_snapshot_hash": "cb8791288a56d60c311e0f23c847a6b42bf7b7c9695a1f85499abbecaa8adc40",
-  "git_head_at_freeze": "9800d7c922dea428b1d79268c9db3b1b9671a189",
+  "config_snapshot_hash": "452d8b68bf35754a244568179b901c54bb96497e68fbca8d09a1338ec2fba3f2",
+  "git_head_at_freeze": "35841b362a1b45f6af290b0d9a23c0521da64193",
   "lambda": {
     "align": 0.25,
     "clarity": 0.25,
@@ -199,21 +201,21 @@
   },
   "lambda_hash": "d524df32165afa63e4593b016bd72f976e3bd17efd8e5eb4fc20084cd6032997",
   "lambda_source": "pre-specified equal weights (no fitting)",
-  "manifest_hash": "e8c2ade5db4e714c8e9130e40d29add93326c48b28893ab910a70de31daa7c82",
+  "manifest_hash": "00f771eac68ec5bc44631e7f465e40a2693023acdfa97e9b915cbc0f47e8cffd",
   "package_files": {
     "attack/dynamic_bridge_pilot/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "attack/dynamic_bridge_pilot/analysis.py": "cc72545ec82b7907b902261d14d7429efbde5980820bd1a62070ba31311adbd7",
+    "attack/dynamic_bridge_pilot/analysis.py": "d4dca33475490b98bbae6623eb3f831ae838533a6ff4070250ffa18bb86b6509",
     "attack/dynamic_bridge_pilot/audit.py": "05b33ff5b3b278ab177719c1b0f2ab896e9721435803396a0576da15927c3786",
     "attack/dynamic_bridge_pilot/bridge.py": "a6a61043f9189ec6684f01852b557d4d95c592fb935177de90b101f63d77d8a9",
-    "attack/dynamic_bridge_pilot/cli.py": "678992ee03402f413eed178ba40dc96b3871190810d091575d2c64e5851bb79a",
-    "attack/dynamic_bridge_pilot/config.py": "c870436efbd8fc7e3b3cca161c03d4d2d21c8328ca1f3a793355d98dc0b88c10",
+    "attack/dynamic_bridge_pilot/cli.py": "2b8f9de63fd090811d4f7792e6acdfcab08b7e21bf27d246e0331ae87dcff292",
+    "attack/dynamic_bridge_pilot/config.py": "e54e9e6a3840158f59b7e4d26b88436abd20fcb65f4dddf0151df838f4a356c9",
     "attack/dynamic_bridge_pilot/cues.py": "c19db8637e59f946b882b7f428968b5aed4e555d7ea7424358e1ec15f361a4b0",
     "attack/dynamic_bridge_pilot/entail.py": "5b014946f8d656c901527441c5b18b257775351574d272a0fed3619ca3c6eff1",
-    "attack/dynamic_bridge_pilot/freeze.py": "e72000fca2996f6c355dbcac90aec9913419b988fbe40f7410609398fdb0036f",
+    "attack/dynamic_bridge_pilot/freeze.py": "14a64913598b14dac734f3e64a5433814b4efa832c66847db8081b311f08344d",
     "attack/dynamic_bridge_pilot/lambda_fit.py": "b3a390d5b9ff5e3ba59dba94bf9d3d26a2a31920e72057e808576d364cd98781",
     "attack/dynamic_bridge_pilot/llm.py": "0075b055edfe9ce888407a8be65cafb778c83e68045df71fc1da7008a80918da",
     "attack/dynamic_bridge_pilot/observation.py": "87f46ce3a919d326bc1cb65adf696d90e414505c124da97dc5e324a4b33833af",
-    "attack/dynamic_bridge_pilot/outcomes.py": "d2efcf60c01e252c2ac0e464a8a91dea1ab81d50df89e3ddcf35650122cbf999",
+    "attack/dynamic_bridge_pilot/outcomes.py": "fc1f7d93f16782f1e21a9a4b571b74d9aad140973b435f5b7582fc3300d359b8",
     "attack/dynamic_bridge_pilot/paths.py": "278c8f019a6dd8f4603b6c4e55f612b963da1a84d75525ce1b802b180fba42bc",
     "attack/dynamic_bridge_pilot/prompts/decompose_v1.system.txt": "810ffc0096310c0eb07d2b6bdaf11613e312140f404e960be4173b512bc8e49b",
     "attack/dynamic_bridge_pilot/prompts/decompose_v1.user.txt": "fe7464a45914377cdd1cc77eb90f8d5049c12fcd47e4783a21df9feae34dbc0e",
@@ -229,7 +231,7 @@
     "attack/dynamic_bridge_pilot/prompts/generate_v2.user.txt": "e289a7885e5415bbd5d23ae6029003aa46e580af6dfb8aca5202f1333fa2407d",
     "attack/dynamic_bridge_pilot/prompts/judge_v3.system.txt": "cfa51b932c2c325c121b638be0f0ca7b3b89fbfca814ac27bb1c04f7ea601840",
     "attack/dynamic_bridge_pilot/prompts/judge_v3.user.txt": "bec4837bc21dd37eff4eb7e2a1b5d6acc974c62c33a65f31f22b042e28f83d43",
-    "attack/dynamic_bridge_pilot/runner.py": "d266d45787963fa4e6d8587291e7f41f6e5f5aafe8d9e2eb65cf48f2b203c932",
+    "attack/dynamic_bridge_pilot/runner.py": "689a09f9b54352e7a295206560fbd4a85dda8263d6e79f1c9c491af4d7e3d3d4",
     "attack/dynamic_bridge_pilot/selection_report.py": "9f22f140e9b5f7461d0c797ee4dc9d07c9b48c5a767efd567d9cbbb269ae581a",
     "attack/dynamic_bridge_pilot/splits.py": "b8144c0c57222bc71804f9606f50f9e7077693dbbebc4ef17b417c46d9e1c935",
     "attack/dynamic_bridge_pilot/store.py": "9220549c207fa8cc6cc6d445362bd519cd691b8ab774ef0c42f86b54819efd42",

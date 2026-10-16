@@ -180,6 +180,15 @@ PCR_CHECKPOINTS = (1, 2, 3, 5, 10, 30)
 
 MAX_TECHNICAL_RETRIES = 2
 
+# Arm execution (changed 2026-10-16 after v1): "replay" re-inserted a partial
+# copy of the anchor's pre-injection turns (it dropped companion think_tool
+# calls and supervisor planning), which changed victim behaviour vs fresh runs.
+# "fresh_pinned_date" runs every arm fresh, like the canonical study, with the
+# prompt date pinned to the anchor run's date; an arm whose first observation
+# differs from the anchor's d1 is recorded as d1_mismatch and excluded.
+ARM_EXECUTION = "fresh_pinned_date"
+ARM_EXECUTIONS = ("replay", "fresh_pinned_date")
+
 
 def frozen_snapshot() -> dict:
     """Every scientific setting, for the freeze manifest."""
@@ -215,6 +224,7 @@ def frozen_snapshot() -> dict:
                   "entity_slot_min_overlap": ENTITY_SLOT_MIN_OVERLAP},
         "nli": {"model_id": NLI_MODEL_ID, "revision": NLI_REVISION, "entail_min_prob": NLI_ENTAIL_MIN_PROB},
         "copy_gate_max_similarity": COPY_GATE_MAX_SIMILARITY,
+        "arm_execution": ARM_EXECUTION,
         "score_features": list(SCORE_FEATURES),
         "premature_evidence_boundary": list(PREMATURE_EVIDENCE_BOUNDARY),
         "splits": {"seed": SPLIT_SEED, "smoke": SMOKE_PER_DATASET, "dev": DEV_PER_DATASET,
