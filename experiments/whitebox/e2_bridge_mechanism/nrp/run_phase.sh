@@ -52,7 +52,10 @@ serve() {
   echo "[serve] $1 $MID@$REV"
   # Optional SERVE_ENV_SCRIPT is sourced in a subshell around the server only
   # (Libra needs the canonical system-GCC toolchain for Triton JIT; NRP doesn't).
-  ( if [[ -n "${SERVE_ENV_SCRIPT:-}" ]]; then source "$SERVE_ENV_SCRIPT"; fi
+  # VLLM_SERVER_DEV_MODE=1 exposes POST /reset_prefix_cache, which the pilot calls
+  # before every victim run (config.RESET_PREFIX_CACHE).
+  ( export VLLM_SERVER_DEV_MODE=1
+    if [[ -n "${SERVE_ENV_SCRIPT:-}" ]]; then source "$SERVE_ENV_SCRIPT"; fi
     exec "$PY_VLLM" -m vllm.entrypoints.openai.api_server \
     --model "$MID" --revision "$REV" --served-model-name "$MID" --host 127.0.0.1 --port "$PORT" \
     --dtype bfloat16 --gpu-memory-utilization "${GPU_MEM_UTIL:-0.90}" --max-model-len 32768 \

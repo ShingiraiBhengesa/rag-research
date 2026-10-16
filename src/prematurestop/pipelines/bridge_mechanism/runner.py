@@ -42,6 +42,19 @@ def anchor_prompt_date(anchor_rec: Mapping[str, Any]) -> str:
     return dates[0]
 
 
+def reset_prefix_cache(base_url: str, timeout: float = 60.0) -> None:
+    """POST /reset_prefix_cache on the victim's vLLM server (needs VLLM_SERVER_DEV_MODE=1).
+    Raises on failure: running without the reset would silently reintroduce drift."""
+    import urllib.request
+
+    root = base_url.rstrip("/")
+    root = root[:-3] if root.endswith("/v1") else root
+    req = urllib.request.Request(root + "/reset_prefix_cache", data=b"", method="POST")
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        if resp.status != 200:
+            raise RuntimeError(f"reset_prefix_cache returned HTTP {resp.status}")
+
+
 def _run_victim(request, pinned_today: str | None = None) -> dict:
     """One fresh victim run. The canonical runner is async (production calls it via
     asyncio.run). The canonical search tool keeps per-process counters keyed by
@@ -55,6 +68,8 @@ def _run_victim(request, pinned_today: str | None = None) -> dict:
     bs._RUN_INJECTION_COUNTS.pop(rid, None)
     for key in [k for k in bs._RUN_SEARCH_COUNTS if k[0] == rid]:
         bs._RUN_SEARCH_COUNTS.pop(key, None)
+    if C.RESET_PREFIX_CACHE:
+        reset_prefix_cache(request.model.base_url)
     previous = os.environ.get("V3_PINNED_TODAY")
     try:
         if pinned_today:

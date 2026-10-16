@@ -716,6 +716,7 @@ class VictimPathTests(unittest.TestCase):
         plan = R.ArmPlan("bridge_sufficiency_k3", C.CUE_1, GOOD_SUFF, "dynamic", True)
         q = {"example_id": "ex1", "question": QUESTION}
         with mock.patch.object(R, "run_single_condition", fake_run), \
+             mock.patch.object(R, "reset_prefix_cache", lambda url: None), \
              mock.patch.object(R, "_victim_request", lambda **kw: mock.Mock(**{k: kw[k] for k in
                                                                               ("condition", "cue_overrides", "run_id")})):
             first = R.run_arm(ctx, plan, dataset="hotpot", q=q, paths={"corpus": "c", "evidence": "e"}, anchor_rec=anchor_rec)
@@ -808,6 +809,7 @@ class FreshArmTests(unittest.TestCase):
             ctx = R.VictimContext(victim_key="qwen14b", model=mock.Mock(), traces_root=Path(d))
             plan = R.ArmPlan("neutral", "NaturalClean", None, "none", True)
             with mock.patch.object(R, "run_single_condition", fake_run), \
+             mock.patch.object(R, "reset_prefix_cache", lambda url: None), \
                  mock.patch.object(R, "_victim_request", lambda **kw: mock.Mock(
                      condition=kw["condition"], cue_overrides=kw["cue_overrides"], run_id=kw["run_id"],
                      replay_anchor=kw["replay_anchor"])):
@@ -817,6 +819,32 @@ class FreshArmTests(unittest.TestCase):
             self.assertIsNone(seen["replay"])                         # fresh run, no replay
             self.assertEqual(rec["status"], "d1_mismatch")           # different first observation -> excluded
             self.assertNotIn("V3_PINNED_TODAY", os.environ)           # pin is scoped to the run
+
+
+class PrefixCacheTests(unittest.TestCase):
+    def test_reset_called_before_every_victim_run(self):
+        from unittest import mock
+
+        from prematurestop.pipelines.bridge_mechanism import runner as R
+
+        calls = []
+
+        async def fake_run(request):
+            calls.append("run")
+            return {"events": []}
+
+        req = mock.Mock(run_id="r1", model=mock.Mock(base_url="http://127.0.0.1:9/v1"))
+        with mock.patch.object(R, "run_single_condition", fake_run), \
+             mock.patch.object(R, "reset_prefix_cache", lambda url: calls.append(("reset", url))):
+            R._run_victim(req)
+            R._run_victim(req)
+        self.assertEqual(calls, [("reset", "http://127.0.0.1:9/v1"), "run", ("reset", "http://127.0.0.1:9/v1"), "run"])
+
+    def test_reset_failure_is_an_error(self):
+        from prematurestop.pipelines.bridge_mechanism import runner as R
+
+        with self.assertRaises(Exception):
+            R.reset_prefix_cache("http://127.0.0.1:9/v1", timeout=1)   # nothing listening -> must raise
 
 
 class ClientTests(unittest.TestCase):

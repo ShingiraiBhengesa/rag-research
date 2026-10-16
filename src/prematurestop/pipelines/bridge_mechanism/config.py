@@ -189,6 +189,15 @@ MAX_TECHNICAL_RETRIES = 2
 ARM_EXECUTION = "fresh_pinned_date"
 ARM_EXECUTIONS = ("replay", "fresh_pinned_date")
 
+# Clear vLLM's prefix cache before every victim run (2026-10-16). In the v2 dev
+# test, the first arm of each question (neutral) reproduced its anchor's first
+# search 40/40, but later arms of the same question only ~30%: once a
+# question's prompt is cached, vLLM takes a different numerical path and greedy
+# decoding drifts. Resetting puts every run in the same cold state as the
+# anchor run (the canonical study ran each question once per server, so it
+# never hit this). The server must run with VLLM_SERVER_DEV_MODE=1.
+RESET_PREFIX_CACHE = True
+
 
 def frozen_snapshot() -> dict:
     """Every scientific setting, for the freeze manifest."""
@@ -224,7 +233,7 @@ def frozen_snapshot() -> dict:
                   "entity_slot_min_overlap": ENTITY_SLOT_MIN_OVERLAP},
         "nli": {"model_id": NLI_MODEL_ID, "revision": NLI_REVISION, "entail_min_prob": NLI_ENTAIL_MIN_PROB},
         "copy_gate_max_similarity": COPY_GATE_MAX_SIMILARITY,
-        "arm_execution": ARM_EXECUTION,
+        "arm_execution": ARM_EXECUTION, "reset_prefix_cache": RESET_PREFIX_CACHE,
         "score_features": list(SCORE_FEATURES),
         "premature_evidence_boundary": list(PREMATURE_EVIDENCE_BOUNDARY),
         "splits": {"seed": SPLIT_SEED, "smoke": SMOKE_PER_DATASET, "dev": DEV_PER_DATASET,
