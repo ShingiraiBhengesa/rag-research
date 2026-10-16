@@ -1,230 +1,198 @@
-# White-Box RAG Control-Flow Evaluation
+# prematurestop
 
-This repository contains the code for a white-box evaluation of control-flow
-failure modes in Open Deep Research (ODR), an agentic RAG system that iterates
-between search, reasoning, and `ResearchComplete`.
+**Premature-completion attacks on agentic retrieval-augmented generation.**
 
-The publishable experiment is the benchmark-local production matrix,
-implemented in `attack/` and analyzed in `analysis/`. Only the search
-provider is replaced with deterministic local retrieval; the ODR graph,
-prompts, supervisor, researcher subgraph, `think_tool`, `ResearchComplete`,
-compression, and final report generation all execute through
-`open_deep_research/`.
+An agentic RAG system decides on its own when it has gathered enough evidence
+to stop searching and answer. This repository studies how a short piece of
+text planted in a retrieved document, which we call a *cue*, can push that
+decision forward. The agent stops before it has retrieved the evidence a
+multi-hop question needs, so its answer is built on incomplete evidence.
 
-This is the only version of the experiment. Earlier iteration used an
-internal "v3" label and a `whitebox_attack/` wrapper directory; both have
-been dropped from every path, module, and import (2026-09-14) since there
-is nothing else to disambiguate from. Pre-final code and superseded result
-directories are kept, not deleted, under `archive/` for provenance.
+The victim system is [Open Deep Research](https://github.com/langchain-ai/open_deep_research)
+(ODR), a LangGraph supervisor/researcher agent. It is run unmodified except
+for a local, deterministic search backend and a set of logging and
+reproducibility hooks (see [`third_party/open_deep_research/PATCHES.md`](third_party/open_deep_research/PATCHES.md)).
+
+All current experiments are **white-box**: we serve the victim models
+ourselves (vLLM) and record full agent traces. A black-box track (hosted APIs,
+no trace access) will be added later under the same `experiments/` and
+`results/` hierarchy as `blackbox/`.
+
+---
+
+## The two experiments
+
+| | E1 — fixed-cue matrix | E2 — bridge mechanism |
+|---|---|---|
+| Question | Do fixed cues cause premature completion, and how much? | *Why* do they work: structure, truth, or selection of the bridge fact? |
+| Conditions | 12 (clean, neutral, continue-search, 7 fixed cues, 2 oracle) | 8 arms (neutral, fixed and generated sufficiency/saturation cues, entity-only, unsupported) |
+| Victims | Qwen2.5-14B, Llama-3.1-8B, Gemma-3-27B, gpt-oss-20b | Qwen2.5-14B, Llama-3.1-8B |
+| Datasets | HotpotQA, 2WikiMultihopQA, MuSiQue, MultiHop-RAG | HotpotQA, 2WikiMultihopQA |
+| n | 450 questions per dataset × condition | Same canonical 450 questions per dataset |
+| Status | **Complete.** Results in `results/whitebox/e1_fixed_cue_matrix/` | v1 complete but superseded (see caveat); v2 pending |
+| Experiment folder | [`experiments/whitebox/e1_fixed_cue_matrix/`](experiments/whitebox/e1_fixed_cue_matrix/README.md) | [`experiments/whitebox/e2_bridge_mechanism/`](experiments/whitebox/e2_bridge_mechanism/README.md) |
+
+### Outcomes (shared by both experiments)
+
+* **PCR@k: post-observation completion rate.** This is the fraction of runs in
+  which the agent's researcher declares `ResearchComplete` within *k* decisions
+  after the cued observation. It is the primary measure of premature stopping.
+  The single authoritative implementation is
+  `src/prematurestop/evaluation/completion.py`.
+* **Evidence coverage.** This is the fraction of the dataset's annotated gold
+  supporting documents that the agent actually retrieved, and that reached
+  the final report.
+* **Final-answer accuracy.** This is semantic answer correctness against the
+  gold answer (`src/prematurestop/evaluation/answer_scoring.py`).
+
+Runs are always carried to the final answer. The study never truncates a run
+at a fixed step, because evidence coverage and answer accuracy need the full
+trajectory.
+
+### Threat model (white-box)
+
+The attacker controls the content of **one** document that the agent
+retrieves on its first search (d1). It cannot change the question, the
+prompts, the model or any other document. The cue is appended to d1's text,
+and everything after that is the agent's own behaviour.
+
+---
 
 ## Repository layout
 
 ```text
-rag-research/
-├── attack/                 # production experiment code (see attack/README.md) -- only the
-│   │                          # current attack: nothing superseded or one-off lives here
-│   ├── runtime/                 # frozen system imported live by SLURM jobs
-│   ├── launch/                    # matrix/sbatch/validation/submission generator
-│   ├── answer_scoring/             # validated semantic-accuracy procedure, used by analysis/
-│   └── tests/                        # 70 tests
-├── analysis/                # canonical offline evaluation (see analysis/README.md)
-│   ├── canonical/                # canonical PCR/completion-route implementation + audit trail
-│   └── tests/                      # 41 tests (+ 21 in canonical/)
-├── open_deep_research/       # the ODR agent itself (graph, prompts, state, config, tools)
-├── results/                  # production data: matrix, traces, evaluation outputs (git-ignored
-│   │                          # except matrix/prelaunch/evaluation summaries -- see Results Policy)
-├── archive/                  # superseded code and result directories -- kept on disk for
-│   │                          # provenance, entirely git-ignored (see .gitignore)
-├── requirements-whitebox.txt  # pinned deps for the "whitebox" environment (see Environment setup)
-└── PUBLISHING.md              # active-job lock, publication checklist, deferred cleanup log
+prematurestop/
+├── src/prematurestop/            # the Python package (all project code)
+│   ├── system/                   # the victim harness: runs ODR against local search
+│   │   ├── runner.py             #   run one question under one condition, write the trace
+│   │   ├── benchmark_search.py   #   deterministic BM25 "web_search" over the benchmark corpus
+│   │   ├── models.py             #   victim model registry (served model IDs, tool parsers)
+│   │   └── tool_parsers/         #   vLLM tool-call parser plugins (Gemma-3, gpt-oss)
+│   ├── data/                     # datasets: question manifests, corpora, gold evidence, splits
+│   ├── cues/                     # attack conditions
+│   │   ├── fixed/                #   E1 fixed cue texts and the condition registry
+│   │   └── dynamic/              #   E2 bridge-anchored cue generator (decompose → anchor →
+│   │                             #   generate K → validity gates V1–V5 → score → select)
+│   ├── evaluation/               # outcome definitions: trace parsing, PCR, evidence, answers
+│   ├── stats/                    # paired bootstrap, McNemar, multiple-comparison control
+│   ├── infra/                    # hashing, append-only checkpoint store
+│   ├── pipelines/                # experiment orchestration
+│   │   ├── fixed_cue_matrix/     #   E1: matrix generation, SLURM arrays, runtime gate
+│   │   └── bridge_mechanism/     #   E2: phases, freeze manifest, analysis
+│   ├── analysis/fixed_cue_matrix/  # E1 result bundles, audits, paper figures
+│   └── paths.py                  # every filesystem location, defined once
+├── third_party/open_deep_research/  # vendored victim agent + PATCHES.md
+├── experiments/whitebox/         # per-experiment design docs, freeze manifests, launch scripts
+│   ├── e1_fixed_cue_matrix/
+│   └── e2_bridge_mechanism/
+├── results/whitebox/             # published, citable results (CSV / Markdown / figures)
+│   ├── e1_fixed_cue_matrix/
+│   └── e2_bridge_mechanism/
+├── tests/                        # unit tests, mirroring src/ layout
+├── docs/                         # changelog, audits, legacy notes from earlier layouts
+├── environments/                 # pinned dependency lists per environment role
+└── pyproject.toml
 ```
 
-## Environment setup
+Gitignored, local only:
 
-Reproducing a full production run needs three separate conda/virtualenv
-environments (Python 3.11 in all three here), matching the three roles a
-production SLURM job plays -- serve the model, run the ODR graph, and
-drive/validate/analyze everything else:
+* `local_data/` holds raw victim traces, per-run records, corpora, manifests
+  and logs. Its location can be overridden with `PREMATURESTOP_LOCAL_DATA`.
+* `archive/` holds superseded pilots and notes, kept for provenance.
 
-| Env (example name) | Role | How to build it |
+---
+
+## Results: where to look first
+
+| You want | Open |
+|---|---|
+| E1 headline numbers for Qwen-14B / Llama-8B | `results/whitebox/e1_fixed_cue_matrix/qwen_llama/MASTER_RESULTS.md` |
+| E1 Gemma-27B / gpt-oss-20b | `results/whitebox/e1_fixed_cue_matrix/gemma_gptoss/RESULTS.md` |
+| Canonical metric definitions and all-model PCR tables | `results/whitebox/e1_fixed_cue_matrix/canonical/chapter3_final_source_of_truth.md` |
+| Exact text of every E1 cue | `results/whitebox/e1_fixed_cue_matrix/canonical/condition_metadata.csv` |
+| Evidence coverage and per-hop analysis | `results/whitebox/e1_fixed_cue_matrix/evidence_hop_coverage/`, `.../evidence_distributions/` |
+| E2 results so far (with caveat) | `results/whitebox/e2_bridge_mechanism/README.md` |
+
+Every table is a plain CSV next to a Markdown summary that cites it.
+
+**One file is stored compressed.** Uncompressed, the per-run answer table
+`gemma_gptoss/data/answer_run_level.csv` is 160 MB, which is over GitHub's
+limit. It is committed as `answer_run_level.csv.gz`, which is 48 MB. pandas
+reads it directly with `pd.read_csv("....csv.gz")`, or you can decompress it
+with `gunzip -k`.
+
+---
+
+## Setup
+
+Python 3.11. The project uses three environments because a run has three
+roles: serve the model, run the agent, analyse. They have incompatible
+dependencies.
+
+| Role | What runs there | Install |
 |---|---|---|
-| `whitebox` | Runs `attack/tests`, `analysis/`, `attack/launch/generate_production_arrays.py`, `attack/runtime/runtime_gate.py` and `production_manifest.py` (the launch/validation/analysis harness -- never the ODR graph itself) | `pip install -r requirements-whitebox.txt` |
-| `odr` | Runs the actual ODR graph during a production shard (`attack/runtime/runner.py`, `benchmark_search.py`, `production_runner.py`) | `pip install -e open_deep_research/` (its `pyproject.toml` declares langgraph/langchain and everything else needed) |
-| `vllm` | Serves the model being evaluated over an OpenAI-compatible endpoint | Install `vllm` (tested against `vllm==0.23.0`, `torch==2.11.0`, `triton==3.6.0`, `xgrammar==0.2.2`) per the [vLLM docs](https://docs.vllm.ai/) for your hardware |
+| **analysis** | tests, analysis, launch generation | `pip install -r environments/analysis.txt && pip install -e .` |
+| **agent** | the ODR graph during a run | `pip install -e third_party/open_deep_research && pip install -e .` |
+| **serving** | vLLM OpenAI-compatible server for the victim; also the E2 cue generator and NLI checker | `pip install vllm==0.23.0` (bf16, no quantisation) |
 
-The generated sbatch scripts (`attack/launch/generate_production_arrays.py`)
-hardcode absolute interpreter paths for these three envs
-(`WHITEBOX_PYTHON`/`ODR_PYTHON`/`VLLM_CONDA_ENV` near the top of that file) --
-update those constants to point at your own environments before generating
-new scripts. Everything else in this repository (paths, model IDs, dataset
-names) is already repo-relative and machine-independent.
-
-No GPU is required to run the test suite, `analysis.cli`, or `--mode
-validate`/`--mode generate` (`--local-files-only` avoids any network calls) --
-only actually executing a production shard or the runtime gate needs a GPU
-(via the `vllm`/`odr` environments).
-
-## Final production scope
-
-Final models:
-
-- `qwen14b`: `Qwen/Qwen2.5-14B-Instruct` -- **complete** (432/432 shards)
-- `llama8b`: `meta-llama/Llama-3.1-8B-Instruct` -- **complete** (432/432 shards)
-- `gemma27b`: `google/gemma-3-27b-it` -- **re-running** (0/432 shards as of
-  2026-09-14; its first run, 432/432 shards finished 2026-09-13, was found
-  to have used a misconfigured vLLM tool-call parser and is quarantined --
-  see `PUBLISHING.md`)
-- `gpt_oss_20b`: `openai/gpt-oss-20b` -- **blocked** (0/432 shards; dead SLURM
-  dependency, see `PUBLISHING.md`; being fixed and resubmitted)
-
-Final datasets: HotpotQA, 2WikiMultiHopQA, MuSiQue, MultiHopRAG.
-
-Final conditions are defined in `attack/runtime/cues.py` (12 total; see
-`analysis/canonical/condition_metadata.csv` for the full verbatim cue-text
-table). The final production matrix is recorded at:
-
-```text
-results/matrix/v3_final_production_matrix.json
-```
-
-`qwen7b` is not part of the final production matrix; its artifacts are
-quarantined under `results/quarantine/` and excluded from all final
-aggregate claims.
-
-## Notable findings from the gemma27b investigation
-
-Two distinct things were found while analyzing gemma27b's first completed
-run, one about this repository's own analysis code and one about the
-production pipeline's vLLM configuration:
-
-1. **Trace-parser gap (fixed, applies to all models)**: ODR's
-   `force_benchmark_search` safety net logs its synthetic tool call on the
-   *following* `researcher_tools` event rather than the researcher decision's
-   own event, which the offline trace parser didn't originally recognize as
-   a valid PCR branch point. Fixing this materially corrected `llama8b`'s
-   already-reported completion statistics too (~5% of rows). Fix details in
-   `analysis/CHANGELOG.md`.
-2. **vLLM tool-call parser misconfiguration (fixed, gemma27b-specific)**:
-   gemma27b's first production run (432/432 shards, 2026-09-13) was served
-   with `--tool-call-parser functiongemma`, which is documented as being for
-   a completely different, unrelated model (`google/functiongemma-270m-it`)
-   and never recognized `google/gemma-3-27b-it`'s actual
-   ` ```tool_code``` `-fenced tool calls. That run's ~99% "no tool call"
-   rate was an artifact of this misconfiguration, not a finding about the
-   model. A custom parser (`attack/runtime/gemma3_tool_code_parser.py`) was
-   written, confirmed working live against a real vLLM+gemma-3-27b-it
-   endpoint, and gemma27b's production arrays were resubmitted with the fix
-   on 2026-09-14; the broken run's data is quarantined under
-   `archive/legacy_results/gemma27b_broken_functiongemma_parser_run_20260913/`.
-   Full writeup: `analysis/canonical/gemma27b_analysis/gemma27b_results_synthesis.md`.
-
-## Primary code paths
-
-- `attack/runtime/production_models.py` -- final model allowlist.
-- `attack/runtime/production_manifest.py` -- frozen dataset manifests.
-- `attack/launch/generate_production_arrays.py` -- matrix, sbatch,
-  prelaunch validation, and duplicate-safe submission.
-- `attack/runtime/runtime_gate.py` -- per-model runtime validation before
-  production shards execute.
-- `attack/runtime/production_runner.py` -- array shard execution.
-- `analysis/` -- canonical offline evaluation pipeline (PCR/completion
-  routes, evidence coverage, answer accuracy, pairing).
-- `open_deep_research/src/open_deep_research/` -- the ODR graph, prompts,
-  state, configuration, and tool plumbing.
-
-## Reproducibility commands
-
-Validate the frozen matrix and scripts:
+Point the launchers at your interpreters with these variables:
 
 ```bash
-/home/sbhengesa/.conda/envs/whitebox/bin/python -B \
-  -m attack.launch.generate_production_arrays \
-  --mode validate \
-  --production-root results \
-  --local-files-only
+export PREMATURESTOP_ANALYSIS_PYTHON=/path/to/analysis/bin/python
+export PREMATURESTOP_AGENT_PYTHON=/path/to/agent/bin/python
+export PREMATURESTOP_VLLM_ENV=/path/to/serving/env
+export PREMATURESTOP_LOCAL_DATA=/path/to/local_data   # optional; default <repo>/local_data
 ```
 
-Submit missing final arrays without duplicating active jobs:
+If the package isn't installed, put both source roots on the path:
 
 ```bash
-/home/sbhengesa/.conda/envs/whitebox/bin/python -B \
-  -m attack.launch.generate_production_arrays \
-  --mode submit \
-  --production-root results
+export PYTHONPATH="$PWD/src:$PWD/third_party/open_deep_research/src"
 ```
 
-Refresh canonical aggregate outputs after jobs complete:
+No GPU is needed for the tests, the analysis, or generating launch scripts.
+A GPU is needed only to actually run the victim.
+
+### Tests
 
 ```bash
-python -m analysis.cli --stage all \
-  --production-root results \
-  --output-root results/evaluation/v3_final_completed_qwen_llama_20260914
+python -m unittest discover -s tests -t .
 ```
 
-Run the full test suite (131 tests: 70 in `attack/tests` + 41 in
-`analysis/tests` + 20 in `analysis/canonical`; a further 47 tests for
-archived/superseded evaluators live at `archive/legacy_evaluators`, kept on
-disk for provenance but not run as part of routine verification):
+The tests need numpy and matplotlib. Tests for the vLLM tool parsers skip
+themselves unless `vllm` / `openai_harmony` are importable.
 
-```bash
-python -m unittest discover -s attack/tests
-python -m unittest discover -s analysis/tests
-python -m unittest analysis.canonical.test_canonical_completion
-```
+---
 
-## Current publication rule
+## Reproducibility rules
 
-While SLURM jobs from the final matrix are queued or running (currently:
-`gpt_oss_20b`), do not rename, delete, or edit the runtime-imported files
-listed in `attack/README.md`'s "Active-Job Lock" section (everything under
-`attack/runtime/`, `attack/launch/generate_production_arrays.py`, and the
-ODR modules). Queued jobs import those files from this working tree when
-they start.
+These rules held for every run reported here.
 
-Safe cleanup during active jobs is limited to documentation, the
-`analysis/` package, ignored validation artifacts, and quarantine/archive
-moves that do not change final-model run directories.
+1. **Frozen before running.** Each experiment writes a freeze manifest with
+   SHA-256 hashes of its code, prompts, splits and victim settings, and
+   verifies it at job start. A run with a hash mismatch refuses to start.
+2. **Deterministic victim.** Temperature 0 with a fixed seed. vLLM serves
+   with `--generation-config vllm`, bf16 and eager mode on L40/H100 GPUs. No
+   quantisation is used.
+3. **No silent dropping.** Every question in the manifest gets a row,
+   including technical failures. Those rows carry a status and a reason, so
+   the denominators are always visible.
+4. **Paired design.** Every condition runs on the same questions as its
+   control. Contrasts are paired: bootstrap CIs and McNemar tests.
+5. **Append-only records.** Run outputs are fsync'd JSONL checkpoints, so
+   resuming a run never overwrites a finished row.
 
-## Results policy
+---
 
-Raw traces, logs, caches, and per-shard runtime files are intentionally
-ignored by git. Publishable outputs are the final matrix, prelaunch report,
-submission records, and aggregate evaluation tables/reports under:
+## History
 
-```text
-results/evaluation/v3_final_completed_qwen_llama_20260914/
-results/evaluation/final_production/
-```
+The code was reorganised into this layout on 2026-10-16. Every file was moved
+with `git mv`, so `git log --follow <file>` shows its full history. The
+old→new path table is `docs/MIGRATION_2026-10-16.md`. The
+pre-restructure branches are kept as `archive/*` tags. The previous top-level
+README is preserved at `docs/notes/README_pre_restructure_legacy.md`.
 
-`v3_final_completed_qwen_llama_20260914/` (2 models: qwen14b, llama8b) is
-the current output directory. The earlier
-`v3_final_completed_qwen_llama_gemma_20260913/` (3 models, including
-gemma27b) is quarantined under
-`archive/legacy_results/gemma27b_broken_functiongemma_parser_run_20260913/`
--- its gemma27b numbers are invalid (misconfigured vLLM tool-call parser,
-see `PUBLISHING.md`); it is superseded, not deleted, and is not the current
-publishable directory.
+## Contact
 
-Within `v3_final_completed_qwen_llama_20260914/`, only the small
-aggregate tables are tracked (`pcr/`, `statistics/`, `by_model_dataset/`,
-`answers/final_answer_summary.csv`). The large raw/per-row artifacts in the
-same directory -- `answers/final_answer_predictions.jsonl` (~99M),
-`evidence/*.csv` (per-example rows, ~320k/~64k lines), and all of `audits/`
-(row/violation-level audit CSVs) -- are git-ignored: fully reproducible from
-traces + code via `analysis.cli`, not needed to verify or cite the paper's
-claims, and too large to publish.
-
-The aggregate report must be regenerated after `gpt_oss_20b`'s final jobs
-finish before all-four-model paper numbers are cited.
-
-## Reorganization history
-
-2026-09-13/14: the codebase was restructured twice for publication
-readiness -- first an internal `whitebox_attack/v3/` subpackage split, then
-a full top-level flattening dropping the `whitebox_`/`v3` naming entirely
-(`whitebox_attack/v3/*` → `attack/*`, `whitebox_attack/v3/analysis/` →
-`analysis/`, `whitebox_paper_results/e2e_full_system_v3/production/` →
-`results/`). All pre-final code and superseded result directories were
-moved to `archive/`, never deleted. See `analysis/canonical/reorg_prep/`
-for the exact scripts that performed both moves, and `attack/README.md` /
-`analysis/README.md` for the resulting package layouts.
+Shingirai Bhengesa, Saint Louis University. This is PhD research in progress;
+please ask before citing numbers from `results/`.

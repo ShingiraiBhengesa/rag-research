@@ -1,0 +1,23 @@
+# Dependencies for the "whitebox" environment: the attack/analysis harness
+# itself (attack/tests, analysis/, src/prematurestop/pipelines/fixed_cue_matrix/launch.py,
+# src/prematurestop/pipelines/fixed_cue_matrix/runtime_gate.py, src/prematurestop/data/manifests.py). Does
+# NOT run the ODR graph directly -- see docs/notes/PUBLISHING_legacy.md / README.md for the
+# separate "odr" (open_deep_research + langgraph) and "vllm" (model serving)
+# environments a full production run also needs.
+#
+# Derived from an import audit of attack/ and analysis/ (grep for
+# non-stdlib imports), pinned to the exact versions verified working in this
+# project's own environment. Python 3.11.
+datasets==5.0.0
+matplotlib==3.11.0
+numpy==2.4.6
+transformers==5.12.1
+# Added for src/prematurestop/analysis/fixed_cue_matrix/results_bundle/ (thesis results-bundle
+# generator): pandas for CSV/markdown/.xlsx table assembly, openpyxl as its
+# .xlsx write engine, tabulate for DataFrame.to_markdown().
+pandas==3.0.3
+openpyxl==3.1.5
+tabulate==0.10.0
+# scipy: PchipInterpolator for figures_bundle.py's monotone-smoothed PCR
+# condition-group grid figures (plot_pcr_condition_grid).
+scipy==1.17.1

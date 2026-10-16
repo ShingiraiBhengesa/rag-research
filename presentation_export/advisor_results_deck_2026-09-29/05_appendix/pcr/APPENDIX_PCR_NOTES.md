@@ -1,5 +1,0 @@
-# PCR Appendix — scope note
-
-Contains, per model, the full (non-macro-averaged) stepwise PCR table (`pcr_stepwise.csv`, every model x dataset x condition x step 1-30), the terminal-route decomposition, the run inventory (sample and eligibility counts), the paired-delta table with CIs, the condition-comparison manifest, that bundle's own `VALIDATION_GATES.csv`, and the pre-existing dataset-level (not averaged) attack-panel figures.
-
-**Not included**: `pcr_run_level.csv` (per-example rows, 3.5-4.4MB per bundle) and `run_level_evidence_hops.csv` (8.8MB) -- the stepwise/summary tables above already provide full detail at the (model, dataset, condition, step) granularity this export's Phase 6 asked for; the per-example row-level files are unnecessary for an advisor-meeting deck and were excluded per the source rules' instruction to avoid files larger than necessary when a canonical summary is sufficient. Both per-example files remain, unmodified, at their original canonical locations if needed.

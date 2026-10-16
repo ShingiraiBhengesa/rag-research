@@ -1,120 +1,58 @@
-# Model weights
+# ---------------------------------------------------------------------------
+# prematurestop .gitignore
+# Tracked: code (src/, tests/, third_party/), experiment configs (experiments/),
+# published results (results/), documentation (docs/), environments/.
+# Not tracked: anything large, regenerable, personal, or archived.
+# ---------------------------------------------------------------------------
+
+# --- archived experiments and notes (kept locally, not published) ----------
+archive/
+
+# --- local raw data: traces, per-run records, manifests, corpora, logs ------
+# See src/prematurestop/paths.py (LOCAL_DATA / $PREMATURESTOP_LOCAL_DATA).
+local_data/
+
+# --- experiment runtime state written next to configs (kept out of git) -----
+experiments/**/state/
+experiments/**/run_results/
+experiments/**/nrp/k8s/rendered/
+experiments/**/lambda/*ratings*.csv
+
+# --- files above GitHub's 100 MB limit: committed gzipped (.csv.gz) instead ---
+results/whitebox/e1_fixed_cue_matrix/gemma_gptoss/data/answer_run_level.csv
+
+# --- model weights, containers, archives -----------------------------------
 *.bin
 *.safetensors
 *.pt
 *.pth
-
-# Large data files
-*.tsv.gz
+*.sif
 *.tar
-raglab_data/
-hf_data/
+*.tar.gz
+*.tsv.gz
+*.zip
 
-# Temp files
-*_tmp
+# --- logs and cluster output ------------------------------------------------
+*.out
+*.err
+logs/
+
+# --- python / tooling -------------------------------------------------------
 __pycache__/
 *.pyc
-.cache/
-eval_data/
-
-# Singularity/Apptainer container images (large binary files)
-*.sif
-
-# Python build artifacts
 *.egg-info/
 dist/
 build/
 .pytest_cache/
+.ipynb_checkpoints/
+.cache/
+.venv/
+venv/
 
-# SLURM job logs and per-run output (stdout/stderr, not part of the codebase)
-open_deep_research/logs/
-attack/logs/
-*.out
-*.err
-
-# DuckDuckGo search cache (runtime, reproducible on demand)
-results/ddg_cache/
-
-# Runtime traces, backups, and local scratch files
-results/*.bak
-results/*.jsonl.bak
-.local_quarantine/
-
-# Full-system raw production artifacts are local-only (traces, per-shard
-# scratch, caches). The final matrix, launch records, and aggregate reports
-# are small enough to publish, so they're explicitly un-ignored below.
-results/*
-!results/matrix/
-results/matrix/*
-!results/matrix/v3_final_production_matrix.json
-!results/prelaunch/
-results/prelaunch/*
-!results/prelaunch/PRELAUNCH_REPORT.json
-!results/submissions/
-results/submissions/*
-!results/submissions/submission_*.json
-!results/evaluation/
-results/evaluation/*
-!results/evaluation/final_production/
-results/evaluation/final_production/*
-!results/evaluation/final_production/*.csv
-!results/evaluation/final_production/*.json
-!results/evaluation/final_production/*.md
-
-# Each v3_final_completed_* evaluation output directory mixes small
-# aggregate tables (pcr/, statistics/, by_model_dataset/,
-# answers/final_answer_summary.csv -- a few hundred KB total, the actual
-# paper-facing outputs) with large raw per-row/per-example dumps
-# (answers/final_answer_predictions.jsonl, evidence/*.csv, audits/*) that
-# are fully reproducible from traces + code via `analysis.cli` and don't
-# belong in git. Only the aggregates are un-ignored below, per directory
-# (a directory not listed here -- e.g. a future all-models run -- needs the
-# same block added once it's generated).
-!results/evaluation/v3_final_completed_qwen_llama_20260914/
-results/evaluation/v3_final_completed_qwen_llama_20260914/*
-!results/evaluation/v3_final_completed_qwen_llama_20260914/pcr/
-!results/evaluation/v3_final_completed_qwen_llama_20260914/statistics/
-!results/evaluation/v3_final_completed_qwen_llama_20260914/by_model_dataset/
-!results/evaluation/v3_final_completed_qwen_llama_20260914/answers/
-results/evaluation/v3_final_completed_qwen_llama_20260914/answers/*
-!results/evaluation/v3_final_completed_qwen_llama_20260914/answers/final_answer_summary.csv
-
-# analysis/canonical/ is otherwise a small, fully-tracked code+writeup
-# package, but a handful of raw per-row audit outputs (43k-65k rows each,
-# 1.8M-6.2M) and one provenance zip bundle ended up sitting alongside it.
-# All are reproducible on demand from results/ via their generating script
-# (canonical_completion.py, retrieval_equivalence.py,
-# final_gap_audit/direct_exit_content_audit.py) and aren't needed to verify
-# any claim in the small aggregate tables that ARE tracked -- ignore only
-# these specific files, not the directories they live in.
-analysis/canonical/canonical_run_level_completion.csv
-analysis/canonical/retrieval_equivalence_by_pair.csv
-analysis/canonical/final_gap_audit/direct_exit_content_audit.csv
-analysis/canonical/final_gap_audit/chapter3_final_gap_audit_bundle.zip
-
-# Archived/superseded code and result directories -- kept on local disk for
-# provenance, but not tracked in git at all (large raw data plus superseded
-# code that would otherwise clutter the publishable tree).
-archive/
-
-# Chapter-3-methodology audit trail: git-status/inventory snapshots and zip
-# bundles used locally to verify each reorganization pass was behavior-
-# preserving, and as the restore source for PRELAUNCH_REPORT.json /
-# v3_final_production_matrix.json if a --mode generate/validate re-run
-# overwrites them (see PUBLISHING.md, "Provenance preservation"). Audit
-# trail, not a paper deliverable -- kept on local disk, not git-tracked.
-chapter3_methodology_audit/
-
-# Claude Code internal metadata, and other local agent-tool config dirs
-# unrelated to the paper (empty placeholders some tools create on disk).
+# --- editors / OS / personal -----------------------------------------------
+.vscode/
+.idea/
+.DS_Store
 .claude/
-.agents/
-.codex/
-
-# Cluster-only directories unrelated to this project's ODR/attack line of work
-adaptive-rag/
-self-rag/
-scripts/
-
-# >100 MB (GitHub per-file limit); regenerable from traces via the results-bundle generator
-gemma_gptoss_results_bundle/data/answer_run_level.csv
+/HANDOVER*.md
+*.bak

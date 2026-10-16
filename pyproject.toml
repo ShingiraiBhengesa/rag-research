@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prematurestop"
+version = "0.1.0"
+description = "Premature-completion attacks on agentic retrieval-augmented generation: white-box studies on Open Deep Research."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Shingirai Bhengesa" }]
+# Runtime dependencies differ by role (agent, model serving, analysis);
+# see environments/ for the pinned per-role requirement files.
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"prematurestop.cues.dynamic" = ["prompts/*.txt"]
