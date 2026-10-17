@@ -1,4 +1,4 @@
-# prematurestop: Premature-Completion Attacks on Agentic RAG
+Premature-Completion Attacks on Agentic RAG
 
 This project studies **premature completion** in agentic retrieval-augmented
 generation (RAG). An agentic RAG system decides for itself when it has gathered
@@ -527,14 +527,3 @@ sbatch experiments/whitebox/e2_bridge_mechanism/slurm/full_array_libra.sbatch
    never overwrites a finished row.
 
 ---
-
-## History
-
-On 2026-10-16 the repository was reorganised into this layout, and the package
-was named `prematurestop`. Every file was moved with `git mv`, so
-`git log --follow <file>` shows its full history. Old paths are mapped in
-[`docs/MIGRATION_2026-10-16.md`](docs/MIGRATION_2026-10-16.md). The README from
-before the restructure is in `docs/notes/README_pre_restructure_legacy.md`.
-
-**Contact:** Shingirai Bhengesa, Saint Louis University. This is PhD research
-in progress; please ask before citing numbers.
