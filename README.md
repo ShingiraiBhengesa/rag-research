@@ -1,4 +1,4 @@
-Premature-Completion Attacks on Agentic RAG
+# Premature-Completion Attacks on Agentic RAG
 
 This project studies **premature completion** in agentic retrieval-augmented
 generation (RAG). An agentic RAG system decides for itself when it has gathered
