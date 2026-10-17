@@ -126,7 +126,7 @@ def _load_shard_rows(model: str, dataset: str, condition: str, shard_index: int,
                 continue
             row = json.loads(line)
             trace_path = config.normalize_stored_trace_path(str(row.get("trace_path") or ""))
-            trace_exists = bool(trace_path) and (config.REPO_ROOT / trace_path).exists()
+            trace_exists = bool(trace_path) and config.resolve_stored_path(trace_path).exists()
             rows.append(
                 RowRecord(
                     model=model,

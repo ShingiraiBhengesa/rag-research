@@ -100,7 +100,7 @@ class MasterRow:
 
 def build_master_row(row: RowRecord, production_root: Path) -> MasterRow:
     config.assert_path_not_excluded(row.trace_path)
-    full_path = Path(row.trace_path) if Path(row.trace_path).is_absolute() else config.REPO_ROOT / row.trace_path
+    full_path = config.resolve_stored_path(row.trace_path)
     raw = load_trace_json(full_path)
     pt = parse_trace(raw, trace_path=str(full_path))
     ep0 = pt.first_episode

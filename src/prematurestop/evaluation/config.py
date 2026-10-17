@@ -58,6 +58,23 @@ def normalize_stored_trace_path(trace_path: str) -> str:
         return "results/" + trace_path[len(_STALE_PRODUCTION_ROOT_PREFIX):]
     return trace_path
 
+
+def resolve_stored_path(stored_path) -> Path:
+    """Locate a file whose path was stored in a run record.
+
+    Run records store paths relative to the *original* repository root, where
+    the production data lived at `results/` (e.g. `results/traces/qwen14b/...`).
+    Since the 2026-10-16 restructure that data lives under the local data root
+    (`DEFAULT_PRODUCTION_ROOT`, i.e. `$PREMATURESTOP_LOCAL_DATA`), so a
+    `results/`-prefixed path resolves there. Absolute paths pass through.
+    """
+    p = Path(normalize_stored_trace_path(str(stored_path)))
+    if p.is_absolute():
+        return p
+    if p.parts and p.parts[0] == "results":
+        return DEFAULT_PRODUCTION_ROOT.joinpath(*p.parts[1:])
+    return REPO_ROOT / p
+
 # ---------------------------------------------------------------------------
 # Model-family scope: hard include/exclude lists
 # ---------------------------------------------------------------------------

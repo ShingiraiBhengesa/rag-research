@@ -55,7 +55,7 @@ def _first_search_event(trace: dict) -> dict:
 
 def extract_fingerprint(model: str, dataset: str, condition: str, example_id: str, trace_path: str) -> HashFingerprint:
     config.assert_path_not_excluded(trace_path)
-    full_path = trace_path if Path(trace_path).is_absolute() else config.REPO_ROOT / trace_path
+    full_path = config.resolve_stored_path(trace_path)
     try:
         with open(full_path, "r", encoding="utf-8") as fh:
             trace = json.load(fh)
@@ -75,7 +75,7 @@ def extract_fingerprint(model: str, dataset: str, condition: str, example_id: st
 
 
 def _load_raw_trace(trace_path: str) -> dict:
-    full_path = trace_path if Path(trace_path).is_absolute() else config.REPO_ROOT / trace_path
+    full_path = config.resolve_stored_path(trace_path)
     with open(full_path, "r", encoding="utf-8") as fh:
         return json.load(fh)
 

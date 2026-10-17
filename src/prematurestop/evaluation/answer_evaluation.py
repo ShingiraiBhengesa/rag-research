@@ -86,7 +86,7 @@ def build_answer_record(
 ) -> AnswerRecord:
     manifest = load_manifest(dataset, production_root)
     entry = manifest.get(example_id)
-    full_path = trace_path if Path(trace_path).is_absolute() else config.REPO_ROOT / trace_path
+    full_path = config.resolve_stored_path(trace_path)
     pt = parse_trace_file(Path(full_path))
 
     if entry is None or not pt.reached_final_report_generation or not pt.final_report:

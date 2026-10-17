@@ -62,7 +62,7 @@ class PCRRecord:
 
 def _parse_one(model: str, dataset: str, condition: str, example_id: str, trace_path: str) -> PCRRecord:
     try:
-        pt = parse_trace_file(Path(config.REPO_ROOT) / trace_path if not Path(trace_path).is_absolute() else Path(trace_path))
+        pt = parse_trace_file(config.resolve_stored_path(trace_path))
     except Exception as exc:  # noqa: BLE001 -- must never crash the batch; report as a structural failure
         return PCRRecord(
             model=model, dataset=dataset, condition=condition, example_id=example_id, trace_path=trace_path,

@@ -192,7 +192,7 @@ def _process_row(row: DirectExitRow) -> dict:
     if not row.trace_path:
         return {**base, "extraction_error": "trace_path_not_found", "content_category": UNCLEAR, "needs_human_review": False}
     try:
-        full_path = row.trace_path if Path(row.trace_path).is_absolute() else config.REPO_ROOT / row.trace_path
+        full_path = config.resolve_stored_path(row.trace_path)
         pt = parse_trace_file(full_path)
         ep0 = pt.first_episode
         if ep0 is None or row.first_terminal_post_observation_step < 1 or row.first_terminal_post_observation_step > len(ep0.post_branch_decisions):

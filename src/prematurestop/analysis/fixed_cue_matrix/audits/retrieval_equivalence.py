@@ -96,7 +96,7 @@ def extract_first_search_fingerprint(trace_path: Path) -> FirstSearchFingerprint
 def _process_row(row: RowRecord) -> tuple[str, FirstSearchFingerprint]:
     if row.final_status != "ok" or not row.trace_exists:
         return row.trace_path, FirstSearchFingerprint(found=False, parse_error="execution_failure_or_missing_trace")
-    path = row.trace_path if Path(row.trace_path).is_absolute() else config.REPO_ROOT / row.trace_path
+    path = config.resolve_stored_path(row.trace_path)
     return row.trace_path, extract_first_search_fingerprint(path)
 
 

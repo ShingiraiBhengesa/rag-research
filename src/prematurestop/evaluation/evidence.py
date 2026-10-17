@@ -236,7 +236,7 @@ def _normalized_required_paragraph_ids(required_paragraph_ids: tuple[str, ...]) 
 
 def build_evidence_record(model: str, dataset: str, condition: str, example_id: str, trace_path: str) -> EvidenceRecord:
     config.assert_path_not_excluded(trace_path)
-    full_path = trace_path if Path(trace_path).is_absolute() else config.REPO_ROOT / trace_path
+    full_path = config.resolve_stored_path(trace_path)
     raw = load_trace_json(Path(full_path))
     pt = parse_trace(raw, trace_path=str(full_path))
 

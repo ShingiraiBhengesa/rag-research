@@ -56,3 +56,7 @@ venv/
 .claude/
 /HANDOVER*.md
 *.bak
+
+# --- personal: agent instructions and private analysis notes --------------------
+CLAUDE.md
+/notes/

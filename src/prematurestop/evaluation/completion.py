@@ -334,7 +334,7 @@ def build_canonical_record(row: RowRecord) -> CanonicalCompletionRecord:
         )
 
     try:
-        pt: ParsedTrace = parse_trace_file(Path(config.REPO_ROOT) / row.trace_path if not Path(row.trace_path).is_absolute() else Path(row.trace_path))
+        pt: ParsedTrace = parse_trace_file(config.resolve_stored_path(row.trace_path))
     except (TraceParseError, OSError, ValueError) as exc:
         return CanonicalCompletionRecord(
             **base,
