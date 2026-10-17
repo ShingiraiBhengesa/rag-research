@@ -9,7 +9,7 @@ reading the new canonical CSVs directly, so no numbers are recomputed, only
 reformatted. Unlike `paper_tables.py` (one file per table type per model),
 the spec's required `appendix/` directory (section 4) lists exactly one file
 per table type covering both models -- each `.tex` file below loops over
-the bundle's `CANONICAL_BUNDLE_MODELS` internally instead of being split per model.
+the bundle's `bundle_models()` internally instead of being split per model.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ import pandas as pd
 from prematurestop.evaluation import config
 
 from .comparisons import COMPARISONS
-from .scope import CANONICAL_BUNDLE_MODELS
+from .scope import bundle_models
 
 
 def _read_csv(path: Path) -> list[dict]:
@@ -128,7 +128,7 @@ def build_main_chapter_tables_md(data_dir: Path, model: str | None = None) -> st
     stepwise = _read_csv(data_dir / "pcr_stepwise.csv")
     checkpoints = _pcr_at_checkpoints(stepwise)
     run_inv = {(r["model"], r["dataset"], r["condition"]): r for r in _read_csv(data_dir / "run_inventory.csv")}
-    models = (model,) if model else CANONICAL_BUNDLE_MODELS
+    models = (model,) if model else bundle_models()
 
     lines = []
     for m in models:
@@ -191,7 +191,7 @@ def build_full_pcr_tables_md(data_dir: Path, model: str | None = None) -> str:
         df = df.copy()
         df["step"] = df["step"].astype(int)
         df["pcr"] = pd.to_numeric(df["pcr"], errors="coerce")
-        models = (model,) if model else CANONICAL_BUNDLE_MODELS
+        models = (model,) if model else bundle_models()
         for m in models:
             for dataset in config.DATASETS:
                 sub = df[(df["model"] == m) & (df["dataset"] == dataset)]
@@ -395,7 +395,7 @@ def build_full_pcr_tables_tex(data_dir: Path) -> str:
         delta_checkpoints.setdefault(key, {})[step] = r
 
     lines = [r"% Appendix: full PCR@{1,5,10,30} values, all 12 conditions, both models (spec 8)"]
-    for model in CANONICAL_BUNDLE_MODELS:
+    for model in bundle_models():
         for dataset in config.DATASETS:
             lines += [
                 r"\begin{table}[t]", r"\centering",
@@ -418,7 +418,7 @@ def build_full_pcr_tables_tex(data_dir: Path) -> str:
             lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
 
     lines.append(r"% Full paired PCR deltas at PCR@{1,5,10,30} (spec 8; every-step values in data/pcr_paired_deltas_stepwise.csv)")
-    for model in CANONICAL_BUNDLE_MODELS:
+    for model in bundle_models():
         for dataset in config.DATASETS:
             lines += [
                 r"\begin{table}[t]", r"\centering",
@@ -448,7 +448,7 @@ def build_full_route_tables_tex(data_dir: Path) -> str:
         last_per_cell[(r["model"], r["dataset"], r["condition"])] = r
     routes = ("RESEARCH_COMPLETE", "NO_TOOL_DIRECT_EXIT", "MAX_BUDGET_EXIT", "TOOL_OR_PARSER_FAILURE", "TRACE_LOGGING_FAILURE", "EXECUTION_FAILURE", "OTHER_VALID_ROUTE")
     lines = [r"% Appendix: final terminal-route tallies, all 7 canonical routes, both models (spec 8)"]
-    for model in CANONICAL_BUNDLE_MODELS:
+    for model in bundle_models():
         for dataset in config.DATASETS:
             lines += [
                 r"\begin{table}[t]", r"\centering",
@@ -473,7 +473,7 @@ def build_evidence_tables_tex(data_dir: Path) -> str:
         r"% Appendix: complete evidence tables, both models (spec 8)",
         r"% paired_evidence_loss = control_mean_coverage - cue_mean_coverage (spec 3.2 sign convention)",
     ]
-    for model in CANONICAL_BUNDLE_MODELS:
+    for model in bundle_models():
         lines += [
             r"\begin{table}[t]", r"\centering",
             rf"\caption{{Paired evidence loss, {_esc(config.DISPLAY_MODEL_NAMES.get(model, model))}. Positive = "
@@ -496,7 +496,7 @@ def build_evidence_tables_tex(data_dir: Path) -> str:
 def build_answer_tables_tex(data_dir: Path) -> str:
     rows = _read_csv(data_dir / "answer_summary.csv")
     lines = [r"% Appendix: complete answer tables, both models (spec 8) -- pre-adjudication, see needs_adjudication_flag"]
-    for model in CANONICAL_BUNDLE_MODELS:
+    for model in bundle_models():
         lines += [
             r"\begin{table}[t]", r"\centering",
             rf"\caption{{Final-answer accuracy (pre-adjudication), {_esc(config.DISPLAY_MODEL_NAMES.get(model, model))}.}}",

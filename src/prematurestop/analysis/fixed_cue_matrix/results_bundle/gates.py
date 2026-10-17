@@ -18,7 +18,7 @@ from pathlib import Path
 
 from prematurestop.evaluation import config
 
-from .scope import CANONICAL_BUNDLE_MODELS
+from .scope import bundle_models
 
 
 class GateResult:
@@ -51,16 +51,16 @@ def _to_bool(v):
 
 def gate_1_full_matrix(data_dir: Path) -> GateResult:
     """Expected matrix is derived from this bundle's own locked
-    `CANONICAL_BUNDLE_MODELS`, never from `config.INCLUDED_MODELS` directly
+    `bundle_models()`, never from `config.INCLUDED_MODELS` directly
     -- that repo-wide setting can change for reasons unrelated to this
     bundle (e.g. a model temporarily re-entering production), and this
     gate's expectation must not move when it does."""
     rows = _read_csv(data_dir / "run_inventory.csv")
-    expected = set(product(CANONICAL_BUNDLE_MODELS, config.DATASETS, config.CONDITIONS))
+    expected = set(product(bundle_models(), config.DATASETS, config.CONDITIONS))
     present = {(r["model"], r["dataset"], r["condition"]) for r in rows}
     missing = expected - present
     return GateResult(
-        1, "Qwen14B/Llama8B have the expected 12-condition, 4-dataset matrix",
+        1, f"{'/'.join(bundle_models())} have the expected 12-condition, 4-dataset matrix",
         not missing, f"{len(present)}/{len(expected)} cells present" + (f"; missing: {sorted(missing)[:5]}" if missing else ""),
     )
 

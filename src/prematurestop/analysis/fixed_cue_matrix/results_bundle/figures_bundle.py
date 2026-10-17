@@ -35,7 +35,7 @@ from prematurestop.evaluation import config
 from prematurestop.evaluation.evidence import build_evidence_records, summarize_by_cell
 from prematurestop.analysis.fixed_cue_matrix.paper_evaluation.figures import CONDITION_COLORS, DPI, _save, plot_evidence_progression
 
-from .scope import CANONICAL_BUNDLE_MODELS
+from .scope import bundle_models
 from prematurestop.paths import RESULTS_E1_CANONICAL
 
 
@@ -90,7 +90,7 @@ def generate_pcr_figures(data_dir: Path, fig_root: Path) -> None:
     both-models, all-12-condition, smoothed grid below; removed rather than
     kept alongside it to avoid two different "the" PCR curve figures."""
     stepwise = _read_csv(data_dir / "pcr_stepwise.csv")
-    for model in CANONICAL_BUNDLE_MODELS:
+    for model in bundle_models():
         for dataset in config.DATASETS:
             plot_pcr_curve_stepwise(
                 stepwise, model, dataset, config.CONDITIONS,
@@ -267,7 +267,7 @@ def _slugify(label: str) -> str:
 
 def generate_pcr_attack_panels(data_dir: Path, fig_root: Path) -> None:
     stepwise = _read_csv(data_dir / "pcr_stepwise.csv")
-    for model in CANONICAL_BUNDLE_MODELS:
+    for model in bundle_models():
         for group_label, baseline_cond, attack_conds in PCR_GRID_ROWS:
             plot_pcr_attack_panels(
                 stepwise, model, group_label, baseline_cond, attack_conds,
@@ -361,7 +361,7 @@ def generate_evidence_figures(production_root: Path, fig_root: Path, max_workers
     match, no adapter needed."""
     from prematurestop.evaluation.completion_inventory import _row_is_valid, build_inventory
 
-    inventory = build_inventory(production_root, models=CANONICAL_BUNDLE_MODELS)
+    inventory = build_inventory(production_root, models=bundle_models())
     valid_rows = [r for r in inventory.rows if _row_is_valid(r)]
     evidence_records = build_evidence_records(valid_rows, max_workers=max_workers)
     summary_rows = summarize_by_cell(evidence_records)
@@ -373,7 +373,7 @@ def plot_paired_answer_flips(rows: list[dict], out_dir: Path) -> None:
     (spec section 8's "Paired answer-flip summary"). Self-contained --
     `answer_paired_flips.csv` (`answer_evaluation.compute_paired_answer_transitions`'s
     output) already has exactly the 4 flip categories + n_pairs + net_harm."""
-    for model in CANONICAL_BUNDLE_MODELS:
+    for model in bundle_models():
         model_rows = [r for r in rows if r["model"] == model]
         if not model_rows:
             continue
@@ -512,7 +512,7 @@ def generate_trace_raster_figures(data_dir: Path, fig_root: Path) -> None:
     if not mechanism_rows or not answer_rows:
         return
     raster_comparisons = ("Epistemic Confirmation vs Natural Neutral", "Fixed Sufficiency Saturation vs Natural Neutral")
-    for model in CANONICAL_BUNDLE_MODELS:
+    for model in bundle_models():
         for comparison_name in raster_comparisons:
             plot_paired_trace_raster(mechanism_rows, answer_rows, model, "hotpot", comparison_name, fig_root / "trace_rasters")
 

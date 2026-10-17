@@ -24,7 +24,7 @@ from prematurestop.evaluation.evidence import build_evidence_records
 
 from . import answer_ext, evidence_ext, freeze_manifest, gates, mechanism_ext, paired_deltas, pcr_full, process_metrics, retrieval_equivalence_ext, run_inventory
 from .comparisons import COMPARISONS, write_condition_comparison_manifest_csv
-from .scope import CANONICAL_BUNDLE_MODELS
+from .scope import CANONICAL_BUNDLE_MODELS, bundle_models, set_bundle_models
 from prematurestop.paths import RESULTS_E1_QWEN_LLAMA
 
 
@@ -36,7 +36,7 @@ def run_stage_data(bundle_root: Path, production_root: Path, max_workers: int) -
     # Explicit scope, not config.INCLUDED_MODELS -- see scope.py's docstring.
     # This bundle's committed output must not change if a third model
     # temporarily enters config.INCLUDED_MODELS for an unrelated reason.
-    inventory = build_inventory(production_root, models=CANONICAL_BUNDLE_MODELS)
+    inventory = build_inventory(production_root, models=bundle_models())
     print(f"       {len(inventory.rows)} rows across {len(inventory.cells)} cells")
     # canonical_completion/retrieval_equivalence guard per-row internally
     # (row.final_status != "ok" or not row.trace_exists -> a non-crashing
@@ -128,7 +128,7 @@ def run_stage_workbook(bundle_root: Path) -> None:
     from . import workbook
 
     print("Generating .xlsx workbook...")
-    workbook.write_workbook(bundle_root / "data", bundle_root / "qwen_llama_results_workbook.xlsx")
+    workbook.write_workbook(bundle_root / "data", bundle_root / f"{bundle_root.name}_results_workbook.xlsx")
 
 
 def run_stage_docs(bundle_root: Path) -> None:
@@ -144,7 +144,11 @@ def main() -> int:
     parser.add_argument("--production-root", type=Path, default=config.DEFAULT_PRODUCTION_ROOT)
     parser.add_argument("--stage", choices=("data", "figures", "tables", "workbook", "docs", "all"), default="data")
     parser.add_argument("--max-workers", type=int, default=8)
+    parser.add_argument("--models", default=",".join(CANONICAL_BUNDLE_MODELS),
+                        help="comma-separated model keys this bundle covers "
+                             "(default: the locked Qwen14B/Llama8B scope)")
     args = parser.parse_args()
+    set_bundle_models(m.strip() for m in args.models.split(",") if m.strip())
 
     args.bundle_root.mkdir(parents=True, exist_ok=True)
     (args.bundle_root / "data").mkdir(parents=True, exist_ok=True)

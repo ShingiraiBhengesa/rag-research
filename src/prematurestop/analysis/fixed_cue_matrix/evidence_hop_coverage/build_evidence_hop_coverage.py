@@ -54,7 +54,9 @@ from prematurestop.evaluation import completion as cc
 from prematurestop.evaluation.completion_inventory import RowRecord, _row_is_valid, build_inventory
 from prematurestop.evaluation.evidence import _cumulative_union_coverage, _paragraph_index
 from prematurestop.analysis.fixed_cue_matrix.results_bundle.comparisons import COMPARISONS
-from prematurestop.analysis.fixed_cue_matrix.results_bundle.scope import CANONICAL_BUNDLE_MODELS
+from prematurestop.analysis.fixed_cue_matrix.results_bundle.scope import (
+    CANONICAL_BUNDLE_MODELS, bundle_models, set_bundle_models,
+)
 from prematurestop.evaluation.trace_parser import load_trace_json, parse_trace
 from prematurestop.evaluation.trace_schema import ParsedTrace
 from prematurestop.paths import RESULTS_E1
@@ -214,7 +216,7 @@ def build_evidence_hop_record(row: RowRecord, canonical: cc.CanonicalCompletionR
     if not _row_is_valid(row):
         return _ineligible_record(row, "invalid_row_final_status_or_missing_trace")
 
-    full_path = Path(row.trace_path) if Path(row.trace_path).is_absolute() else config.REPO_ROOT / row.trace_path
+    full_path = config.resolve_stored_path(row.trace_path)
     raw = load_trace_json(full_path)
     pt = parse_trace(raw, trace_path=str(full_path))
 
@@ -553,14 +555,15 @@ def build_manual_validation_sample(records: list[EvidenceHopRecord], per_dataset
 
     for dataset, recs in by_dataset.items():
         recs = sorted(recs, key=lambda r: (r.model, r.example_id, r.condition))
-        buckets = {
-            ("qwen14b", "complete"): [r for r in recs if r.model == "qwen14b" and r.local_full_evidence is True],
-            ("qwen14b", "incomplete"): [r for r in recs if r.model == "qwen14b" and r.local_full_evidence is False],
-            ("llama8b", "complete"): [r for r in recs if r.model == "llama8b" and r.local_full_evidence is True],
-            ("llama8b", "incomplete"): [r for r in recs if r.model == "llama8b" and r.local_full_evidence is False],
-            ("qwen14b", "max_budget_exit"): [r for r in recs if r.model == "qwen14b" and r.max_budget_exit],
-            ("llama8b", "max_budget_exit"): [r for r in recs if r.model == "llama8b" and r.max_budget_exit],
-        }
+        # One bucket per (model, stratum), in the original qwen/llama order when
+        # those are the bundle models: complete, incomplete, then budget exits.
+        buckets = {}
+        for stratum in ("complete", "incomplete"):
+            for m in bundle_models():
+                want = stratum == "complete"
+                buckets[(m, stratum)] = [r for r in recs if r.model == m and r.local_full_evidence is want]
+        for m in bundle_models():
+            buckets[(m, "max_budget_exit")] = [r for r in recs if r.model == m and r.max_budget_exit]
         chosen: list[EvidenceHopRecord] = []
         for key, bucket in buckets.items():
             if bucket:
@@ -802,8 +805,8 @@ def gate_14_manual_sample_coverage(manual_rows: list[dict]) -> GateResult:
             problems.append(f"{dataset}: only {len(rows)} rows (<5)")
             continue
         models_present = {row["model"] for row in rows}
-        if models_present != set(CANONICAL_BUNDLE_MODELS):
-            problems.append(f"{dataset}: missing model(s) {set(CANONICAL_BUNDLE_MODELS) - models_present}")
+        if models_present != set(bundle_models()):
+            problems.append(f"{dataset}: missing model(s) {set(bundle_models()) - models_present}")
         routes_present = {row["terminal_route"] for row in rows}
         if len(routes_present) < 2:
             problems.append(f"{dataset}: only one terminal route present ({routes_present})")
@@ -1277,7 +1280,10 @@ def main() -> int:
     parser.add_argument("--production-root", type=Path, default=config.DEFAULT_PRODUCTION_ROOT)
     parser.add_argument("--pcr-bundle-dir", type=Path, default=Path("results/whitebox/e1_fixed_cue_matrix/qwen_llama/data"))
     parser.add_argument("--max-workers", type=int, default=8)
+    parser.add_argument("--models", default=",".join(CANONICAL_BUNDLE_MODELS),
+                        help="comma-separated model keys (default: the locked Qwen14B/Llama8B scope)")
     args = parser.parse_args()
+    set_bundle_models(m.strip() for m in args.models.split(",") if m.strip())
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -1293,7 +1299,7 @@ def main() -> int:
     # package's committed output shares the PCR bundle's frozen scope and
     # must not change if a third model temporarily enters
     # config.INCLUDED_MODELS for an unrelated reason.
-    inventory = build_inventory(args.production_root, models=CANONICAL_BUNDLE_MODELS)
+    inventory = build_inventory(args.production_root, models=bundle_models())
     print(f"  {len(inventory.rows)} rows across {len(inventory.cells)} cells")
 
     print("Building canonical PCR records (reused, unmodified logic)...")

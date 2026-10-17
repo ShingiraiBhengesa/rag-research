@@ -17,7 +17,7 @@ from pathlib import Path
 from prematurestop.evaluation import config
 from prematurestop.evaluation.completion_inventory import CellInventory, InventoryResult, RowRecord
 
-from .scope import CANONICAL_BUNDLE_MODELS
+from .scope import bundle_models
 
 
 def _git_head(repo_root: Path) -> str:
@@ -46,12 +46,12 @@ def _unique_hashes(rows: list[RowRecord]) -> dict[str, dict[str, list[str]]]:
 def build_manifest(inventory: InventoryResult, repo_root: Path, generated_at: str) -> dict:
     active_for_included = [
         j for j in inventory.active_jobs
-        if any(m in j.get("job_name", "") for m in CANONICAL_BUNDLE_MODELS) and "error" not in j
+        if any(m in j.get("job_name", "") for m in bundle_models()) and "error" not in j
     ]
     return {
         "generated_at": generated_at,
         "git_commit": _git_head(repo_root),
-        "included_models": list(CANONICAL_BUNDLE_MODELS),
+        "included_models": list(bundle_models()),
         "datasets": list(config.DATASETS),
         "conditions": list(config.CONDITIONS),
         "production_root": str(config.DEFAULT_PRODUCTION_ROOT),
@@ -66,8 +66,8 @@ def build_manifest(inventory: InventoryResult, repo_root: Path, generated_at: st
         ],
         "active_slurm_jobs_for_included_models": active_for_included,
         "note": (
-            "active_slurm_jobs_for_included_models must be empty for qwen14b/llama8b "
-            "-- both models are frozen/complete inputs for this bundle."
+            f"active_slurm_jobs_for_included_models must be empty for {'/'.join(bundle_models())} "
+            "-- every included model is a frozen/complete input for this bundle."
         ),
     }
 

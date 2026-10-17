@@ -28,6 +28,42 @@ from prematurestop.evaluation import config
 
 from . import tables_bundle
 from .comparisons import COMPARISONS
+from .scope import bundle_models
+
+# Facts about how a model was run that every report on it must state.
+MODEL_SCOPE_NOTES: dict[str, list[str]] = {
+    "gpt_oss_20b": [
+        "**Parser difference across datasets.** gpt_oss_20b/2wiki was served with the "
+        "lenient Harmony tool-call parser plugin "
+        "(`src/prematurestop/system/tool_parsers/gptoss_lenient_harmony.py`, submitted "
+        "2026-09-28, runs 2026-10-03/04); hotpot, musique and multihoprag were served "
+        "without it (2026-09-14/15). All 12 conditions within a dataset share one "
+        "parser, so within-dataset paired contrasts are valid; cross-dataset "
+        "comparisons for gpt_oss_20b mix two serving configurations, and its "
+        "technical-failure rates are not comparable across datasets.",
+    ],
+    "gemma27b": [
+        "Served with the custom `gemma3_tool_code` parser "
+        "(`src/prematurestop/system/tool_parsers/gemma3_tool_code.py`) for every dataset; "
+        "an earlier run with the wrong `functiongemma` parser is quarantined and excluded.",
+    ],
+}
+
+
+def _models() -> tuple[str, ...]:
+    return bundle_models()
+
+
+def _models_text(sep: str = ", ") -> str:
+    return sep.join(_models())
+
+
+def _scope_notes_lines() -> list[str]:
+    lines: list[str] = []
+    for m in _models():
+        for note in MODEL_SCOPE_NOTES.get(m, []):
+            lines += [f"- `{m}`: {note}"]
+    return lines
 
 
 def _read_csv(path: Path) -> list[dict]:
@@ -50,11 +86,13 @@ TODO_MARKER = "_TODO(human): "
 
 
 def write_readme(bundle_root: Path) -> None:
-    text = """# results/whitebox/e1_fixed_cue_matrix/qwen_llama
+    name = bundle_root.name
+    models = _models()
+    text = """# results/whitebox/e1_fixed_cue_matrix/@NAME@
 
-Frozen, verified results bundle for the completed `qwen14b`/`llama8b`
-production runs (12 conditions x 4 datasets x 2 models). Built from
-`results/traces/{qwen14b,llama8b}/` and `results/runs/{qwen14b,llama8b}/`
+Frozen, verified results bundle for the completed `@MODELS_SLASH@`
+production runs (12 conditions x 4 datasets x @N@ models). Built from
+`results/traces/{@MODELS_COMMA@}/` and `results/runs/{@MODELS_COMMA@}/`
 via `src/prematurestop/evaluation/completion.py` (the sole authoritative
 PCR/route/eligibility source -- see
 `results/whitebox/e1_fixed_cue_matrix/canonical/chapter3_final_source_of_truth.md`).
@@ -63,7 +101,7 @@ PCR/route/eligibility source -- see
 
     conda activate whitebox
     python -m prematurestop.analysis.fixed_cue_matrix.results_bundle.build_bundle \\
-        --bundle-root results/whitebox/e1_fixed_cue_matrix/qwen_llama --stage all
+        --bundle-root results/whitebox/e1_fixed_cue_matrix/@NAME@ --models @MODELS_COMMA@ --stage all
 
 `--stage data` (default) runs steps 1-11 (freeze through validation gates)
 and writes everything under `data/`. `--stage figures`/`--stage tables`/
@@ -88,23 +126,28 @@ generator in `src/prematurestop/analysis/fixed_cue_matrix/results_bundle/`, not 
 - `figures/` -- PNG+PDF+caption triples, one per figure, organized by type.
 - `appendix/` -- the same numbers as LaTeX booktabs tables, for direct
   inclusion in the thesis appendix.
-- `qwen_llama_results_workbook.xlsx` -- one sheet per `data/*.csv`.
+- `@NAME@_results_workbook.xlsx` -- one sheet per `data/*.csv`.
 - `analysis_manifest.json` -- the data freeze: git commit, input file
-  hashes, shard completion, active-job check (must be empty for these two
-  models).
+  hashes, shard completion, active-job check (must be empty for the
+  included models).
 - `data/VALIDATION_GATES.csv` -- the 13 validation gates (spec section 10);
   the bundle is not final until every row here is PASS.
 
 ## Locked scope and definitions
 
-Models: qwen14b, llama8b only. Datasets: HotpotQA, 2WikiMultiHopQA,
+Models: @MODELS_COMMA@ only. Datasets: HotpotQA, 2WikiMultiHopQA,
 MuSiQue, MultiHopRAG. All 12 production conditions. PCR = **Post-observation
 Completion Rate**, never "Premature" -- see `MASTER_RESULTS.md` section 1
-for the full locked-definitions text. Gemma27b and GPT-OSS-20B are excluded
-from this bundle until their run matrices pass the same completion/
-eligibility checks; legacy Attack-A/WGAR/Cue-Only/Bridge-Fact results live
+for the full locked-definitions text. The other production models have
+their own sibling bundle under `results/whitebox/e1_fixed_cue_matrix/`;
+legacy Attack-A/WGAR/Cue-Only/Bridge-Fact results live
 under `archive/legacy_results/`, never merged here (gate 13 checks this).
 """
+    notes = _scope_notes_lines()
+    if notes:
+        text += "\n## Scope notes\n\n" + "\n".join(notes) + "\n"
+    text = (text.replace("@NAME@", name).replace("@MODELS_SLASH@", "/".join(models))
+            .replace("@MODELS_COMMA@", ",".join(models)).replace("@N@", str(len(models))))
     bundle_root.mkdir(parents=True, exist_ok=True)
     (bundle_root / "README.md").write_text(text, encoding="utf-8")
 
@@ -213,9 +256,9 @@ evidence or a worse final answer?
 
 ## Slide 2 -- Data freeze and scope
 
-- Models: Qwen2.5-14B-Instruct, Llama-3.1-8B-Instruct.
+- Models: {", ".join(config.DISPLAY_MODEL_NAMES.get(m, m) for m in _models())}.
 - Datasets: HotpotQA, 2WikiMultiHopQA, MuSiQue, MultiHopRAG.
-- 12 conditions x 4 datasets x 2 models, {total_valid} valid completed runs
+- 12 conditions x 4 datasets x {len(_models())} models, {total_valid} valid completed runs
   total [table: data/run_inventory.csv].
 - Validation gates: {n_pass}/{len(gates_rows)} passing as of this brief's
   generation [table: data/VALIDATION_GATES.csv] -- {TODO_MARKER}if not
@@ -431,12 +474,17 @@ def write_master_results(bundle_root: Path, data_dir: Path) -> None:
         "",
     ]
     lines += _data_freeze_section(bundle_root, data_dir)
-    lines += _per_model_section("7.2", "qwen14b", data_dir)
-    lines += _per_model_section("7.3", "llama8b", data_dir)
+    notes = _scope_notes_lines()
+    if notes:
+        lines += ["### Scope notes", ""] + notes + [""]
+    models = _models()
+    for i, model in enumerate(models):
+        lines += _per_model_section(f"7.{i + 2}", model, data_dir)
+    n = len(models) + 2
     lines += [
-        "## 7.4 Direct model comparison",
+        f"## 7.{n} Direct model comparison",
         "",
-        f"{TODO_MARKER}compare qwen14b and llama8b on baseline completion trajectory, cue-induced "
+        f"{TODO_MARKER}compare {' and '.join(models)} on baseline completion trajectory, cue-induced "
         f"PCR shift, route composition, search reduction, supervisor recovery, evidence loss, "
         f"final-answer degradation, and technical/tool-calling failure behavior -- cite "
         f"`data/pcr_stepwise.csv`, `data/pcr_paired_deltas_stepwise.csv`, "
@@ -445,13 +493,13 @@ def write_master_results(bundle_root: Path, data_dir: Path) -> None:
         f"raw percentages across models without first showing their different baseline rates and "
         f"denominators (`data/run_inventory.csv`)._",
         "",
-        "## 7.5 Dataset comparison",
+        f"## 7.{n + 1} Dataset comparison",
         "",
         f"{TODO_MARKER}discuss HotpotQA, 2WikiMultiHopQA, MuSiQue, and MultiHopRAG separately "
         f"before any pooled statement -- note differences in corpus size, distractors, hop count, "
-        f"and evidence representation. Cite the per-dataset sections in 7.2/7.3 above._",
+        f"and evidence representation. Cite the per-dataset sections in 7.2-7.{n - 1} above._",
         "",
-        "## 7.6 Main findings and negative findings",
+        f"## 7.{n + 2} Main findings and negative findings",
         "",
         f"{TODO_MARKER}this section MUST include both positive and negative results. A cue that "
         f"changes PCR but not evidence or answer accuracy is a process-level effect, not proven "
@@ -461,7 +509,7 @@ def write_master_results(bundle_root: Path, data_dir: Path) -> None:
         f"(`data/route_decomposition_stepwise.csv`'s `final_n_TOOL_OR_PARSER_FAILURE`/"
         f"`final_n_TRACE_LOGGING_FAILURE`) is not evidence of clean robustness -- check those "
         f"counts before writing a robustness claim. Do not write this section until "
-        f"`data/VALIDATION_GATES.csv` is all-PASS and sections 7.2-7.5 above are complete._",
+        f"`data/VALIDATION_GATES.csv` is all-PASS and sections 7.2-7.{n + 1} above are complete._",
         "",
     ]
     (bundle_root / "MASTER_RESULTS.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
