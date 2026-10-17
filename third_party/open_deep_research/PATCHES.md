@@ -31,7 +31,7 @@ Nothing else under `src/` differs from upstream.
 * **`utils.py` (`get_all_tools`):** when `search_api == benchmark_local`, the
   search tool is `prematurestop.system.benchmark_search.benchmark_search`, a
   deterministic BM25 index over the benchmark corpus. It is exposed under the
-  same tool name, `web_search`, so the model sees the same tool interface as
+  ODR tool name, `tavily_search`, so the model sees the same tool interface as
   upstream.
 * **`deep_researcher.py`:** two forced steps guarantee that every question
   has a first observation (d1), the point where cues are injected:
