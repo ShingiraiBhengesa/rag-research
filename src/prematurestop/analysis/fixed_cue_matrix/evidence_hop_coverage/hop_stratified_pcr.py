@@ -35,7 +35,7 @@ from prematurestop.evaluation import config
 from prematurestop.evaluation import completion as cc
 from prematurestop.analysis.fixed_cue_matrix.results_bundle.comparisons import COMPARISONS
 from prematurestop.analysis.fixed_cue_matrix.results_bundle.paired_deltas import STEPWISE_BOOTSTRAP_ITERATIONS, _bootstrap_all_steps, _t_i_array
-from prematurestop.paths import RESULTS_E1_QWEN_LLAMA
+from prematurestop.paths import RESULTS_E1, RESULTS_E1_QWEN_LLAMA
 
 END_OF_BUDGET_STEP = 30
 
@@ -210,8 +210,16 @@ def _write_csv(path: Path, rows: list[dict]) -> None:
 
 
 def main() -> int:
-    output_dir = RESULTS_E1 / "evidence_hop_coverage"
-    pcr_run_level_path = RESULTS_E1_QWEN_LLAMA / "data" / "pcr_run_level.csv"
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--bundle-data", type=Path, default=RESULTS_E1_QWEN_LLAMA / "data",
+                        help="results bundle data/ folder holding pcr_run_level.csv")
+    parser.add_argument("--output-dir", type=Path, default=RESULTS_E1 / "evidence_hop_coverage",
+                        help="evidence-hop folder holding run_level_evidence_hops.csv (outputs go here)")
+    args = parser.parse_args()
+    output_dir = args.output_dir
+    pcr_run_level_path = args.bundle_data / "pcr_run_level.csv"
     run_level_evidence_hops_path = output_dir / "run_level_evidence_hops.csv"
 
     print("Loading canonical records from pcr_run_level.csv (no trace re-parsing)...")

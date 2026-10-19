@@ -35,7 +35,7 @@ from prematurestop.analysis.fixed_cue_matrix.paper_evaluation.recovery import (
     RECOVERY_REDELEGATED_PARTIAL,
     RECOVERY_UNRESOLVED,
 )
-from prematurestop.paths import RESULTS_E1_QWEN_LLAMA
+from prematurestop.paths import RESULTS_E1, RESULTS_E1_QWEN_LLAMA
 
 QLB_DATA = RESULTS_E1_QWEN_LLAMA / "data"
 EHC_DIR = RESULTS_E1 / "evidence_hop_coverage"
@@ -83,15 +83,18 @@ def build_supervisor_recovery_summary() -> list[dict]:
     out = []
     for (model, dataset, condition), recs in sorted(grouped.items()):
         n_total = len(recs)
+        # Every row gets the same columns. Runs with no recovery label (technical
+        # failures, label "unknown") are counted separately and are NOT part of
+        # the re-delegation base -- otherwise failures would count as re-delegated.
         counts = {col: 0 for col in _CATEGORY_COLS.values()}
+        counts["n_unrecognized_label"] = 0
         for r in recs:
             col = _CATEGORY_COLS.get(r["later_evidence_recovery"])
             if col:
                 counts[col] += 1
             else:
-                counts.setdefault("n_unrecognized_label", 0)
                 counts["n_unrecognized_label"] += 1
-        n_redelegated = n_total - counts["n_no_redelegation"]
+        n_redelegated = n_total - counts["n_no_redelegation"] - counts["n_unrecognized_label"]
         n_restored = counts["n_redelegated_fully_restored"] + counts["n_redelegated_partially_restored"]
         out.append(
             {
@@ -197,9 +200,9 @@ def gate_17_recovery_counts_sum(rows: list[dict]) -> GateResult:
         category_sum = sum(r[col] for col in _CATEGORY_COLS.values()) + r.get("n_unrecognized_label", 0)
         if category_sum != r["n_total"]:
             violations.append((r["model"], r["dataset"], r["condition"]))
-        if r["n_redelegated"] != r["n_total"] - r["n_no_redelegation"]:
+        if r["n_redelegated"] != r["n_total"] - r["n_no_redelegation"] - r.get("n_unrecognized_label", 0):
             violations.append((r["model"], r["dataset"], r["condition"], "n_redelegated_mismatch"))
-    return GateResult(17, "Recovery category counts sum to n_total, n_redelegated = n_total - n_no_redelegation", not violations, f"{len(violations)} violations")
+    return GateResult(17, "Recovery category counts sum to n_total, n_redelegated = n_total - n_no_redelegation - n_unrecognized_label", not violations, f"{len(violations)} violations")
 
 
 def gate_18_evidence_boundary_merge_complete(rows: list[dict]) -> GateResult:
@@ -211,7 +214,9 @@ def gate_18_evidence_boundary_merge_complete(rows: list[dict]) -> GateResult:
 
 
 def append_gates_csv(new_results: list[GateResult], path: Path) -> None:
-    existing = _read_csv(path)
+    new_ids = {str(g.gate_id) for g in new_results}
+    # Replace, never duplicate, gates this run re-evaluates.
+    existing = [r for r in _read_csv(path) if r["gate_id"] not in new_ids]
     with open(path, "w", newline="", encoding="utf-8") as fh:
         writer = csv.writer(fh)
         writer.writerow(["gate_id", "description", "status", "detail"])
@@ -307,6 +312,16 @@ def write_report(recovery_rows: list[dict], boundary_rows: list[dict], new_gates
 
 
 def main() -> int:
+    import argparse
+
+    global QLB_DATA, EHC_DIR
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--bundle-data", type=Path, default=QLB_DATA,
+                        help="results bundle data/ folder (process_metrics, evidence_summary, pcr deltas)")
+    parser.add_argument("--output-dir", type=Path, default=EHC_DIR,
+                        help="evidence-hop folder (inputs and outputs)")
+    args = parser.parse_args()
+    QLB_DATA, EHC_DIR = args.bundle_data, args.output_dir
     print("Building supervisor_recovery_summary.csv...")
     recovery_rows = build_supervisor_recovery_summary()
     _write_csv(EHC_DIR / "supervisor_recovery_summary.csv", recovery_rows)
