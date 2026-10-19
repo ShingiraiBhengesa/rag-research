@@ -47,7 +47,7 @@ from prematurestop.pipelines.bridge_mechanism.paths import resolve_state_path
 
 
 def _row(arm_rec: Mapping[str, Any]) -> RowRecord:
-    tp = arm_rec.get("trace_path") or ""
+    tp = str(resolve_state_path(arm_rec["trace_path"])) if arm_rec.get("trace_path") else ""
     exists = bool(tp) and Path(tp).exists()
     return RowRecord(model=arm_rec["victim"], dataset=arm_rec["dataset"], condition=arm_rec["runtime_condition"],
                      shard_index=0, example_id=arm_rec["example_id"], final_status="ok" if exists else "error",

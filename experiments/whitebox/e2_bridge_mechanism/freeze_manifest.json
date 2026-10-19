@@ -193,7 +193,7 @@
     }
   },
   "config_snapshot_hash": "e216a1719fd02bada14e487a0b6a7e935e00101f3a9a8894de1ae70b159f973b",
-  "git_head_at_freeze": "ecbebc615ee400720dfa55e53059173ba0f30fc1",
+  "git_head_at_freeze": "a8b173914b68382c7bdf456c5c7fb8d20986f192",
   "lambda": {
     "align": 0.25,
     "clarity": 0.25,
@@ -202,7 +202,7 @@
   },
   "lambda_hash": "d524df32165afa63e4593b016bd72f976e3bd17efd8e5eb4fc20084cd6032997",
   "lambda_source": "pre-specified equal weights (no fitting)",
-  "manifest_hash": "2196086ebf214fe5e72b7a4e850ee27293771b8c32bfb295d717dce34a3ddca7",
+  "manifest_hash": "859ea3d4862c2382036e007a88ff6a0289bc00cabaab7360abd34637eec69540",
   "package_files": {
     "src/prematurestop/cues/dynamic/__init__.py": "4af69c0a342fd403f959672e4ba9709a1b0a96c837693a499a70936042ec965a",
     "src/prematurestop/cues/dynamic/bridge.py": "790d4a6caea569771a85e03737e9f680ec8e490d592a2d372d292bb130fd8207",
@@ -233,7 +233,7 @@
     "src/prematurestop/pipelines/bridge_mechanism/cli.py": "947bcd0d325ac8022c3f15976f94b3220afc097044587ac7b4c49bad38099a23",
     "src/prematurestop/pipelines/bridge_mechanism/config.py": "c05cba17ffbe6bc6b625028987638bf8c44697f158a50e0e7e489a2649b48621",
     "src/prematurestop/pipelines/bridge_mechanism/freeze.py": "8cef9d406be348a4c5f51aa3324cc7981fbe679fea189683852aee94a6cf4018",
-    "src/prematurestop/pipelines/bridge_mechanism/outcomes.py": "3bf9ff06e20da98a64860bf72946e26281048c9194e2561d15f9628331499a37",
+    "src/prematurestop/pipelines/bridge_mechanism/outcomes.py": "eff6306ad36a29fe0c3a700337984ae209c7dcb39ad87585d78e6ee77155094f",
     "src/prematurestop/pipelines/bridge_mechanism/paths.py": "78e47c321603f0ed16f776de5fe742fc061f9cc37ec6058b5b76644cb98a575e",
     "src/prematurestop/pipelines/bridge_mechanism/runner.py": "d7b76e3e106ac086bc9cf405fac786c2ff1be5dcb040f701b4051a32c209f93d",
     "src/prematurestop/pipelines/bridge_mechanism/selection_report.py": "7fc4f6e21de6971287dfd3e709e662e0b14e49c437ebf9912f2e1731c555ddd8",
