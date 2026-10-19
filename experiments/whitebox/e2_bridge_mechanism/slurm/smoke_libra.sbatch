@@ -12,8 +12,8 @@
 #SBATCH --cpus-per-task=12
 #SBATCH --mem=120G
 #SBATCH --time=12:00:00
-#SBATCH --output=results/logs/dynamic_bridge_cue_pilot/%x_%j.out
-#SBATCH --error=results/logs/dynamic_bridge_cue_pilot/%x_%j.err
+#SBATCH --output=local_data/logs/e2_bridge_mechanism/%x_%j.out
+#SBATCH --error=local_data/logs/e2_bridge_mechanism/%x_%j.err
 set -euo pipefail
 export REPO="${SLURM_SUBMIT_DIR:-$PWD}"
 export PY_ODR=$HOME/.conda/envs/odr/bin/python

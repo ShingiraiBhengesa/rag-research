@@ -114,7 +114,7 @@ if [[ "$SPLIT" == "smoke" && "${SMOKE_PROVISIONAL_LAMBDA:-0}" == "1" ]]; then SE
 # freeze is committed, so the post-freeze commit re-runs this cell and picks
 # up where the pre-freeze commit stopped). full: everything, freeze verified first.
 RUN_ARMS=1
-if [[ "$SPLIT" == "dev" && ! -f "$REPO/experiments/dynamic_bridge_cue_pilot/freeze_manifest.json" ]]; then RUN_ARMS=0; fi
+if [[ "$SPLIT" == "dev" && ! -f "$REPO/experiments/whitebox/e2_bridge_mechanism/freeze_manifest.json" ]]; then RUN_ARMS=0; fi
 if [[ "$SPLIT" == "full" ]]; then "$PY_ODR" -B -m prematurestop.pipelines.bridge_mechanism.cli verify-freeze --split full; fi
 export PILOT_SHARD="$SHARD" PILOT_NUM_SHARDS="$NUM_SHARDS"   # read by the cell phases below
 
