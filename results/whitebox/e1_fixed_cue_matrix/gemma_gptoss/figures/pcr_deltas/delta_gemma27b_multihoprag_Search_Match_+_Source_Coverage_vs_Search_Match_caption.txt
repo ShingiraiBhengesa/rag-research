@@ -1,0 +1,1 @@
+Search Match + Source Coverage vs Search Match, Gemma-3-27B-IT / MultiHopRAG. Positive = cue condition completed MORE by step k than control (attack accelerated completion). Shaded band = paired bootstrap 95% CI on the exact same paired eligible set both curves use. Source: data/pcr_paired_deltas_stepwise.csv.

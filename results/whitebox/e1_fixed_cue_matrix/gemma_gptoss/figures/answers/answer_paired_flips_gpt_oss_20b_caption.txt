@@ -1,0 +1,1 @@
+Paired answer-flip composition, GPT-OSS-20B, pooled across the 4 datasets (per-dataset counts in data/answer_paired_flips.csv). Pre-adjudication automatic semantic labels -- see needs_adjudication_flag counts in answer_run_level.csv before citing as final accuracy (spec 3.3).

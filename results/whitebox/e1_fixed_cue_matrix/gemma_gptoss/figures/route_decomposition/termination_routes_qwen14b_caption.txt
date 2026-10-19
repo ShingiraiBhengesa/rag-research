@@ -1,0 +1,1 @@
+Termination-route composition, Qwen2.5-14B-Instruct, main-paper conditions. Denominator per bar = all valid completed rows in that (dataset, condition) cell (pcr_terminal_route_summary.csv). 'Other' and 'technical error' are always kept separate, never combined.

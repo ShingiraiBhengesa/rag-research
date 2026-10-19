@@ -202,7 +202,16 @@ class ImitatedToolCallReconstructionTests(unittest.TestCase):
         self.assertTrue(result.has_tool_calls)
         self.assertFalse(result.reconstructed_from_imitated_history_text)
 
-    @unittest.skipUnless(GEMMA_IMITATED_TOOL_CALL_TRACE.exists(), "requires a production trace fixture on this machine")
+    # The fixture is a live production trace, not a frozen copy. This example was
+    # hand-verified on 2026-10-07; the Gemma shard holding it was re-run on
+    # 2026-10-11 and the new trace no longer contains imitated tool-call text.
+    # So the test runs only while the fixture still shows the pattern it checks.
+    # The parsing logic itself is covered by the synthetic tests above.
+    @unittest.skipUnless(
+        GEMMA_IMITATED_TOOL_CALL_TRACE.exists()
+        and "Assistant requested tool call" in GEMMA_IMITATED_TOOL_CALL_TRACE.read_text(encoding="utf-8"),
+        "production fixture missing, or re-run since it was hand-verified (no imitated tool-call text)",
+    )
     def test_real_gemma27b_trace_second_decision_is_reconstructed(self):
         """Hand-verified real trace: decision 0 is a genuine tavily_search
         tool call; decision 1 has empty tool_calls= but its content imitates

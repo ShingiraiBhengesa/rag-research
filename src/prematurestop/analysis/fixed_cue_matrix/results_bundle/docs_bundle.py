@@ -40,12 +40,14 @@ MODEL_SCOPE_NOTES: dict[str, list[str]] = {
         "without it (2026-09-14/15). All 12 conditions within a dataset share one "
         "parser, so within-dataset paired contrasts are valid; cross-dataset "
         "comparisons for gpt_oss_20b mix two serving configurations, and its "
-        "technical-failure rates are not comparable across datasets.",
+        "technical-failure rates are not comparable across datasets "
+        "(per-cell failures: [table: data/run_inventory.csv]).",
     ],
     "gemma27b": [
         "Served with the custom `gemma3_tool_code` parser "
         "(`src/prematurestop/system/tool_parsers/gemma3_tool_code.py`) for every dataset; "
-        "an earlier run with the wrong `functiongemma` parser is quarantined and excluded.",
+        "an earlier run with the wrong `functiongemma` parser is quarantined and excluded "
+        "[table: results/whitebox/e1_fixed_cue_matrix/canonical/gemma27b_results_synthesis.md].",
     ],
 }
 
@@ -409,7 +411,7 @@ def _per_model_section(section_num: str, model: str, data_dir: Path) -> list[str
         "### Answer accuracy and paired flips (pre-adjudication) [table: data/answer_summary.csv, data/answer_paired_flips.csv]",
         "",
         "Automatic semantic labels, not adjudicated accuracy (spec 3.3) -- see `needs_adjudication_flag` "
-        "counts in `data/answer_run_level.csv` before citing.",
+        "counts in [table: data/answer_run_level.csv] before citing.",
         "",
     ]
     lines.append(tables_bundle.build_answer_tables_md(data_dir, model=model))
@@ -450,13 +452,14 @@ def write_master_results(bundle_root: Path, data_dir: Path) -> None:
         "PCR@k is the cumulative fraction of eligible runs with T_i <= k; one researcher-node "
         "decision (including think_tool) is one step; the full curve uses steps 1-29, PCR@30 "
         "is the end-of-budget summary. The raw DIRECT_ANSWER implementation label is displayed "
-        "as no-tool exit throughout this bundle, never as proof of a concise answer.",
+        "as no-tool exit throughout this bundle, never as proof of a concise answer. "
+        "[table: results/whitebox/e1_fixed_cue_matrix/canonical/chapter3_final_source_of_truth.md]",
         "",
         "Evidence deficit = 1 - coverage. Paired evidence loss = control coverage minus cue "
         "coverage (`data/evidence_summary.csv::paired_evidence_loss`) -- note this is the "
         "*opposite* sign direction from `data/pcr_paired_deltas_stepwise.csv::delta_pcr` "
         "(cue minus control); both independently mean \"positive = attack made it worse.\" "
-        "See `tables/TABLE_INDEX.md`.",
+        "See [table: tables/TABLE_INDEX.md].",
         "",
         "**This bundle's evidence-loss numbers measure final-report-input coverage** "
         "(citation-based, what `final_report_generation` actually received) -- a "
@@ -470,7 +473,7 @@ def write_master_results(bundle_root: Path, data_dir: Path) -> None:
         "",
         "Main downstream answer measure is semantic Answer Accuracy with adjudication status "
         "visible (`needs_adjudication_flag`); automatic semantic labels are not adjudicated "
-        "accuracy until the blinded review is complete (spec 3.3).",
+        "accuracy until the blinded review is complete (spec 3.3) [table: data/answer_run_level.csv].",
         "",
     ]
     lines += _data_freeze_section(bundle_root, data_dir)

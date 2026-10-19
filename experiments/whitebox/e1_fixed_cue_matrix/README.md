@@ -88,8 +88,15 @@ current paths.
   the *next* event, so the parser originally missed it. The fix changed
   Llama-8B's completion statistics on about 5% of rows. See
   `docs/CHANGELOG_analysis.md`.
-* **gpt-oss Harmony parser.** There is a lenient parser for gpt-oss-20b's
-  Harmony format, `system/tool_parsers/gptoss_lenient_harmony.py`. It was
-  built and tested, but it is not used in the reported gpt-oss run.
-  `results/whitebox/e1_fixed_cue_matrix/gemma_gptoss/RESULTS.md` states the
-  scope.
+* **gpt-oss Harmony parser.** In September, vLLM's parsing of gpt-oss-20b's
+  Harmony format crashed on malformed output. This caused about 270–380
+  failed runs in each of HotpotQA, MuSiQue and MultiHop-RAG, and it blocked
+  2Wiki entirely. The lenient parser `system/tool_parsers/gptoss_lenient_harmony.py`
+  was then added. **2Wiki was run with it (2026-10-03/04) and has no parser
+  failures; the other three datasets were not re-run.**
+  * Within each dataset, all 12 conditions share one parser, so paired cue
+    effects are valid.
+  * Cross-dataset comparisons for gpt-oss mix two serving setups.
+
+  `results/whitebox/e1_fixed_cue_matrix/gemma_gptoss/README.md` ("Scope notes")
+  states this wherever gpt-oss numbers appear.

@@ -1,14 +1,14 @@
 gate_id,description,status,detail
-1,"gemma27b (4 datasets) + gpt_oss_20b (3 datasets, 2wiki excluded) have the expected 12-condition matrix",PASS,84/84 in-scope cells present; gpt_oss_20b/2wiki correctly excluded=True
+1,"gemma27b/gpt_oss_20b have the expected 12-condition, 4-dataset matrix",PASS,96/96 cells present
 2,Every PCR curve is monotonic nondecreasing,PASS,0 violations
 3,No qualifying completion step exceeds 29,PASS,"0 stepwise rows > 30, 0 run-level steps > 29"
-4,pcr == research_complete_pcr + no_tool_exit_pcr on every row,PASS,0 violations out of 2520 rows
+4,pcr == research_complete_pcr + no_tool_exit_pcr on every row,PASS,0 violations out of 2880 rows
 5,Every paired N is no greater than either condition's eligible N,PASS,0 violations
 6,No row is silently imputed from another condition,PASS,0 suspicious rows (structurally guaranteed by build_strict_pairs's exclude-not-impute behavior)
 7,"Coverage, recall, PCR, and accuracy values lie in [0,1]",PASS,0 out-of-range values
 8,Full-hop status agrees with complete evidence coverage,PASS,0 disagreements
 9,The four answer-flip cells sum to paired answer N,PASS,0 mismatches
 10,Every figure value can be joined exactly to a canonical CSV row,PASS,spot-check passed
-11,Every number in MASTER_RESULTS.md has a table/file reference,FAIL,17 lines with an un-cited bare number (spot-check regex; review manually)
+11,Every number in MASTER_RESULTS.md has a table/file reference,PASS,0 lines with an un-cited bare number (spot-check regex; review manually)
 12,"Adjudication flag present, never silently mixed into ""accuracy""",PASS,"answer_run_level has flag=True, answer_summary has denominator column=True"
 13,No legacy (WGAR/Attack-A/Cue-Only/Bridge-Fact) material in bundle CSVs,PASS,"0 legacy-label hits, 0 non-canonical conditions"

@@ -24,9 +24,13 @@ import json
 import random
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
-ANSWER_RUN_LEVEL = REPO_ROOT / "qwen_llama_results_bundle" / "data" / "answer_run_level.csv"
-MANIFEST_DIR = REPO_ROOT / "results" / "manifests"
+import os
+
+REPO_ROOT = Path(__file__).resolve().parents[5]
+BUNDLE_ROOT = Path(__file__).resolve().parents[1]  # results/whitebox/e1_fixed_cue_matrix/qwen_llama
+ANSWER_RUN_LEVEL = BUNDLE_ROOT / "data" / "answer_run_level.csv"
+# Raw manifests live in the gitignored local data root (see src/prematurestop/paths.py).
+MANIFEST_DIR = Path(os.environ.get("PREMATURESTOP_LOCAL_DATA", REPO_ROOT / "local_data")) / "manifests"
 OUTPUT_DIR = Path(__file__).resolve().parent
 
 DETERMINISTIC_SEED = 20260910  # analysis/config.py::DETERMINISTIC_SEED, reused verbatim

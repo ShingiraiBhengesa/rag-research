@@ -1,0 +1,118 @@
+% Appendix: complete answer tables, both models (spec 8) -- pre-adjudication, see needs_adjudication_flag
+\begin{table}[t]
+\centering
+\caption{Final-answer accuracy (pre-adjudication), Gemma-3-27B-IT.}
+\begin{tabular}{llrrrr}
+\toprule
+Dataset & Condition & $n$ & Semantic Acc \% & EM & F1 \\
+\midrule
+HotpotQA & Clean & 450 & 37.6 & 0.149 & 0.257 \\
+HotpotQA & Neutral & 450 & 35.8 & 0.127 & 0.237 \\
+HotpotQA & ContinueSearch & 450 & 38.7 & 0.131 & 0.250 \\
+HotpotQA & Epistemic confirmation & 450 & 38.0 & 0.131 & 0.252 \\
+HotpotQA & Search-match cue & 450 & 37.6 & 0.122 & 0.240 \\
+HotpotQA & Source coverage & 450 & 37.8 & 0.136 & 0.252 \\
+HotpotQA & Epistemic confirmation + source & 450 & 41.6 & 0.144 & 0.257 \\
+HotpotQA & Search-match + source & 450 & 40.0 & 0.140 & 0.257 \\
+HotpotQA & PreRegisteredSufficiency & 450 & 38.2 & 0.131 & 0.249 \\
+HotpotQA & PreRegisteredSufficiencySaturation & 450 & 36.7 & 0.140 & 0.258 \\
+HotpotQA & Oracle Neutral & 450 & 42.4 & 0.153 & 0.279 \\
+HotpotQA & Oracle PreRegisteredSufficiencySaturation & 450 & 42.4 & 0.142 & 0.280 \\
+2WikiMultiHopQA & Clean & 450 & 34.7 & 0.100 & 0.249 \\
+2WikiMultiHopQA & Neutral & 450 & 36.9 & 0.102 & 0.255 \\
+2WikiMultiHopQA & ContinueSearch & 450 & 35.6 & 0.102 & 0.256 \\
+2WikiMultiHopQA & Epistemic confirmation & 450 & 32.7 & 0.093 & 0.242 \\
+2WikiMultiHopQA & Search-match cue & 450 & 33.8 & 0.104 & 0.251 \\
+2WikiMultiHopQA & Source coverage & 450 & 34.2 & 0.102 & 0.242 \\
+2WikiMultiHopQA & Epistemic confirmation + source & 450 & 35.8 & 0.089 & 0.242 \\
+2WikiMultiHopQA & Search-match + source & 450 & 32.4 & 0.104 & 0.248 \\
+2WikiMultiHopQA & PreRegisteredSufficiency & 450 & 35.1 & 0.100 & 0.248 \\
+2WikiMultiHopQA & PreRegisteredSufficiencySaturation & 350 & 37.1 & 0.109 & 0.271 \\
+2WikiMultiHopQA & Oracle Neutral & 450 & 40.2 & 0.113 & 0.275 \\
+2WikiMultiHopQA & Oracle PreRegisteredSufficiencySaturation & 450 & 40.2 & 0.129 & 0.284 \\
+MuSiQue & Clean & 450 & 21.3 & 0.033 & 0.131 \\
+MuSiQue & Neutral & 400 & 18.5 & 0.048 & 0.134 \\
+MuSiQue & ContinueSearch & 450 & 19.3 & 0.051 & 0.140 \\
+MuSiQue & Epistemic confirmation & 450 & 18.7 & 0.044 & 0.133 \\
+MuSiQue & Search-match cue & 450 & 18.7 & 0.053 & 0.142 \\
+MuSiQue & Source coverage & 450 & 17.6 & 0.049 & 0.140 \\
+MuSiQue & Epistemic confirmation + source & 450 & 17.3 & 0.047 & 0.129 \\
+MuSiQue & Search-match + source & 450 & 20.0 & 0.049 & 0.146 \\
+MuSiQue & PreRegisteredSufficiency & 450 & 18.2 & 0.056 & 0.149 \\
+MuSiQue & PreRegisteredSufficiencySaturation & 450 & 19.8 & 0.056 & 0.150 \\
+MuSiQue & Oracle Neutral & 450 & 23.6 & 0.076 & 0.167 \\
+MuSiQue & Oracle PreRegisteredSufficiencySaturation & 450 & 25.8 & 0.064 & 0.186 \\
+MultiHopRAG & Clean & 450 & 32.9 & 0.224 & 0.248 \\
+MultiHopRAG & Neutral & 450 & 32.9 & 0.196 & 0.225 \\
+MultiHopRAG & ContinueSearch & 450 & 28.4 & 0.169 & 0.197 \\
+MultiHopRAG & Epistemic confirmation & 450 & 31.3 & 0.209 & 0.235 \\
+MultiHopRAG & Search-match cue & 450 & 28.7 & 0.184 & 0.207 \\
+MultiHopRAG & Source coverage & 450 & 28.9 & 0.189 & 0.213 \\
+MultiHopRAG & Epistemic confirmation + source & 450 & 29.1 & 0.187 & 0.217 \\
+MultiHopRAG & Search-match + source & 450 & 30.0 & 0.182 & 0.212 \\
+MultiHopRAG & PreRegisteredSufficiency & 450 & 28.7 & 0.202 & 0.223 \\
+MultiHopRAG & PreRegisteredSufficiencySaturation & 450 & 32.4 & 0.198 & 0.227 \\
+MultiHopRAG & Oracle Neutral & 450 & 27.8 & 0.162 & 0.192 \\
+MultiHopRAG & Oracle PreRegisteredSufficiencySaturation & 450 & 30.7 & 0.200 & 0.227 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Final-answer accuracy (pre-adjudication), GPT-OSS-20B.}
+\begin{tabular}{llrrrr}
+\toprule
+Dataset & Condition & $n$ & Semantic Acc \% & EM & F1 \\
+\midrule
+HotpotQA & Clean & 432 & 38.2 & 0.134 & 0.262 \\
+HotpotQA & Neutral & 390 & 37.9 & 0.133 & 0.249 \\
+HotpotQA & ContinueSearch & 428 & 36.2 & 0.147 & 0.268 \\
+HotpotQA & Epistemic confirmation & 427 & 41.0 & 0.148 & 0.287 \\
+HotpotQA & Search-match cue & 405 & 37.0 & 0.123 & 0.245 \\
+HotpotQA & Source coverage & 422 & 39.6 & 0.135 & 0.271 \\
+HotpotQA & Epistemic confirmation + source & 426 & 41.3 & 0.157 & 0.283 \\
+HotpotQA & Search-match + source & 401 & 37.4 & 0.127 & 0.247 \\
+HotpotQA & PreRegisteredSufficiency & 417 & 36.5 & 0.144 & 0.259 \\
+HotpotQA & PreRegisteredSufficiencySaturation & 418 & 40.9 & 0.134 & 0.264 \\
+HotpotQA & Oracle Neutral & 426 & 40.6 & 0.141 & 0.284 \\
+HotpotQA & Oracle PreRegisteredSufficiencySaturation & 423 & 43.0 & 0.149 & 0.295 \\
+2WikiMultiHopQA & Clean & 450 & 35.8 & 0.084 & 0.231 \\
+2WikiMultiHopQA & Neutral & 450 & 34.0 & 0.084 & 0.224 \\
+2WikiMultiHopQA & ContinueSearch & 450 & 34.2 & 0.080 & 0.218 \\
+2WikiMultiHopQA & Epistemic confirmation & 450 & 35.8 & 0.087 & 0.226 \\
+2WikiMultiHopQA & Search-match cue & 450 & 34.7 & 0.087 & 0.228 \\
+2WikiMultiHopQA & Source coverage & 400 & 37.8 & 0.087 & 0.239 \\
+2WikiMultiHopQA & Epistemic confirmation + source & 450 & 34.7 & 0.087 & 0.233 \\
+2WikiMultiHopQA & Search-match + source & 450 & 31.8 & 0.069 & 0.207 \\
+2WikiMultiHopQA & PreRegisteredSufficiency & 450 & 36.7 & 0.093 & 0.239 \\
+2WikiMultiHopQA & PreRegisteredSufficiencySaturation & 450 & 36.7 & 0.084 & 0.233 \\
+2WikiMultiHopQA & Oracle Neutral & 450 & 38.4 & 0.096 & 0.248 \\
+2WikiMultiHopQA & Oracle PreRegisteredSufficiencySaturation & 450 & 39.8 & 0.089 & 0.245 \\
+MuSiQue & Clean & 423 & 17.7 & 0.043 & 0.135 \\
+MuSiQue & Neutral & 426 & 16.9 & 0.028 & 0.118 \\
+MuSiQue & ContinueSearch & 426 & 15.3 & 0.038 & 0.125 \\
+MuSiQue & Epistemic confirmation & 428 & 18.5 & 0.030 & 0.133 \\
+MuSiQue & Search-match cue & 425 & 15.8 & 0.024 & 0.109 \\
+MuSiQue & Source coverage & 424 & 13.2 & 0.024 & 0.104 \\
+MuSiQue & Epistemic confirmation + source & 426 & 14.3 & 0.028 & 0.113 \\
+MuSiQue & Search-match + source & 431 & 16.0 & 0.032 & 0.133 \\
+MuSiQue & PreRegisteredSufficiency & 432 & 13.9 & 0.028 & 0.120 \\
+MuSiQue & PreRegisteredSufficiencySaturation & 433 & 14.1 & 0.025 & 0.116 \\
+MuSiQue & Oracle Neutral & 429 & 16.1 & 0.037 & 0.117 \\
+MuSiQue & Oracle PreRegisteredSufficiencySaturation & 426 & 16.7 & 0.035 & 0.128 \\
+MultiHopRAG & Clean & 410 & 36.1 & 0.288 & 0.340 \\
+MultiHopRAG & Neutral & 418 & 36.1 & 0.282 & 0.332 \\
+MultiHopRAG & ContinueSearch & 418 & 35.4 & 0.275 & 0.327 \\
+MultiHopRAG & Epistemic confirmation & 412 & 37.4 & 0.289 & 0.338 \\
+MultiHopRAG & Search-match cue & 419 & 37.0 & 0.303 & 0.350 \\
+MultiHopRAG & Source coverage & 418 & 37.8 & 0.301 & 0.347 \\
+MultiHopRAG & Epistemic confirmation + source & 412 & 39.3 & 0.320 & 0.372 \\
+MultiHopRAG & Search-match + source & 414 & 37.9 & 0.290 & 0.344 \\
+MultiHopRAG & PreRegisteredSufficiency & 424 & 36.8 & 0.300 & 0.348 \\
+MultiHopRAG & PreRegisteredSufficiencySaturation & 422 & 36.0 & 0.287 & 0.334 \\
+MultiHopRAG & Oracle Neutral & 426 & 37.3 & 0.291 & 0.338 \\
+MultiHopRAG & Oracle PreRegisteredSufficiencySaturation & 424 & 36.1 & 0.288 & 0.333 \\
+\bottomrule
+\end{tabular}
+\end{table}

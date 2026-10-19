@@ -176,8 +176,9 @@ datasets × 12 conditions × 450 = **86,400 runs**.
    condition and writes `trace.json`. That file contains every Supervisor and
    Researcher event, tool call, observation and the final report.
 4. `analysis/fixed_cue_matrix/cli.py` turns traces into PCR, evidence and
-   answer tables. `analysis/fixed_cue_matrix/results_bundle/` and
-   `gemma_gptoss_bundle/` build the publication bundles.
+   answer tables. `analysis/fixed_cue_matrix/results_bundle/build_bundle.py`
+   builds a publication bundle for any set of models (`--models`; default
+   Qwen/Llama). It is used once for Qwen/Llama and once for Gemma/gpt-oss.
 
 ---
 
@@ -353,8 +354,9 @@ prematurestop/
 │   │
 │   └── analysis/fixed_cue_matrix/       # E1 publication analysis
 │       ├── cli.py                       #   staged analysis entry point
-│       ├── results_bundle/              #   Qwen/Llama bundle (tables, figures, docs)
-│       ├── gemma_gptoss_bundle/         #   Gemma/gpt-oss bundle
+│       ├── results_bundle/              #   publication bundle for any model set (--models):
+│       │                                #   data, figures, tables, docs, cue-effect report,
+│       │                                #   adjudication packet
 │       ├── evidence_hop_coverage/       #   per-hop evidence and recovery analysis
 │       ├── evidence_distributions/      #   evidence-coverage distribution figures
 │       ├── paper_evaluation/            #   paper-level evaluation tables

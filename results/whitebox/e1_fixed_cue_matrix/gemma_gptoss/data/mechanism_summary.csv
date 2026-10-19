@@ -1,0 +1,378 @@
+model,dataset,comparison_name,stratum,n,n_attack_less_evidence_ep0,pct_attack_less_evidence_ep0,n_attack_more_evidence_ep0,pct_attack_more_evidence_ep0,n_equal_evidence_ep0,n_supervisor_recovery_narrowed_gap,pct_supervisor_recovery_narrowed_gap
+gemma27b,hotpot,Natural Neutral vs Natural Clean,same_completion_step,320,26,8.125,22,6.875,272,5,1.5625
+gemma27b,hotpot,Natural Neutral vs Natural Clean,attack_completed_earlier,80,17,21.25,3,3.75,60,5,6.25
+gemma27b,hotpot,Natural Neutral vs Natural Clean,attack_completed_later,50,2,4.0,5,10.0,43,2,4.0
+gemma27b,hotpot,Epistemic Confirmation vs Natural Neutral,same_completion_step,295,25,8.474576271186441,21,7.11864406779661,249,14,4.745762711864407
+gemma27b,hotpot,Epistemic Confirmation vs Natural Neutral,attack_completed_earlier,99,18,18.181818181818183,4,4.040404040404041,77,6,6.0606060606060606
+gemma27b,hotpot,Epistemic Confirmation vs Natural Neutral,attack_completed_later,56,0,0.0,15,26.785714285714285,41,0,0.0
+gemma27b,hotpot,Search Match vs Natural Neutral,same_completion_step,294,26,8.843537414965986,21,7.142857142857143,247,8,2.7210884353741496
+gemma27b,hotpot,Search Match vs Natural Neutral,attack_completed_earlier,93,21,22.580645161290324,0,0.0,72,2,2.150537634408602
+gemma27b,hotpot,Search Match vs Natural Neutral,attack_completed_later,63,1,1.5873015873015872,22,34.92063492063492,40,0,0.0
+gemma27b,hotpot,Fixed Sufficiency vs Natural Neutral,attack_completed_later,46,6,13.043478260869565,14,30.434782608695652,26,1,2.1739130434782608
+gemma27b,hotpot,Fixed Sufficiency vs Natural Neutral,same_completion_step,275,23,8.363636363636363,21,7.636363636363637,231,8,2.909090909090909
+gemma27b,hotpot,Fixed Sufficiency vs Natural Neutral,attack_completed_earlier,129,30,23.25581395348837,3,2.3255813953488373,96,10,7.751937984496124
+gemma27b,hotpot,Fixed Sufficiency Saturation vs Natural Neutral,same_completion_step,270,15,5.555555555555555,25,9.25925925925926,230,4,1.4814814814814814
+gemma27b,hotpot,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_earlier,136,30,22.058823529411764,2,1.4705882352941178,104,4,2.9411764705882355
+gemma27b,hotpot,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_later,44,3,6.818181818181818,17,38.63636363636363,24,1,2.272727272727273
+gemma27b,hotpot,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),same_completion_step,292,26,8.904109589041095,20,6.8493150684931505,246,10,3.4246575342465753
+gemma27b,hotpot,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_earlier,113,27,23.893805309734514,4,3.5398230088495577,82,9,7.964601769911504
+gemma27b,hotpot,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_later,45,0,0.0,11,24.444444444444443,34,2,4.444444444444445
+gemma27b,hotpot,Natural_search_match_cue vs Natural Clean (total end-to-end change),same_completion_step,296,33,11.14864864864865,20,6.756756756756757,243,5,1.6891891891891893
+gemma27b,hotpot,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_earlier,105,22,20.952380952380953,3,2.857142857142857,80,3,2.857142857142857
+gemma27b,hotpot,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_later,49,1,2.0408163265306123,14,28.571428571428573,34,1,2.0408163265306123
+gemma27b,hotpot,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_later,35,6,17.142857142857142,7,20.0,22,1,2.857142857142857
+gemma27b,hotpot,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_earlier,143,35,24.475524475524477,4,2.797202797202797,104,11,7.6923076923076925
+gemma27b,hotpot,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),same_completion_step,272,26,9.558823529411764,17,6.25,229,4,1.4705882352941178
+gemma27b,hotpot,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),same_completion_step,258,24,9.30232558139535,20,7.751937984496124,214,3,1.1627906976744187
+gemma27b,hotpot,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_earlier,154,34,22.07792207792208,7,4.545454545454546,113,5,3.2467532467532467
+gemma27b,hotpot,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_later,38,2,5.2631578947368425,12,31.57894736842105,24,1,2.6315789473684212
+gemma27b,hotpot,Continue Search vs Natural Neutral,attack_completed_later,113,2,1.7699115044247788,23,20.353982300884955,88,0,0.0
+gemma27b,hotpot,Continue Search vs Natural Neutral,same_completion_step,298,24,8.053691275167786,25,8.389261744966444,249,10,3.3557046979865772
+gemma27b,hotpot,Continue Search vs Natural Neutral,attack_completed_earlier,39,9,23.076923076923077,0,0.0,30,0,0.0
+gemma27b,hotpot,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_earlier,173,0,0.0,0,0.0,173,0,0.0
+gemma27b,hotpot,Oracle Complete-Saturation vs Oracle Complete-Neutral,same_completion_step,256,0,0.0,0,0.0,256,0,0.0
+gemma27b,hotpot,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_later,21,0,0.0,0,0.0,21,0,0.0
+gemma27b,hotpot,Source Coverage vs Natural Neutral,same_completion_step,289,26,8.996539792387543,22,7.612456747404845,241,11,3.8062283737024223
+gemma27b,hotpot,Source Coverage vs Natural Neutral,attack_completed_earlier,81,18,22.22222222222222,1,1.2345679012345678,62,6,7.407407407407407
+gemma27b,hotpot,Source Coverage vs Natural Neutral,attack_completed_later,80,0,0.0,13,16.25,67,2,2.5
+gemma27b,hotpot,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,same_completion_step,321,24,7.4766355140186915,18,5.607476635514018,279,9,2.803738317757009
+gemma27b,hotpot,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_later,70,5,7.142857142857143,16,22.857142857142858,49,4,5.714285714285714
+gemma27b,hotpot,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_earlier,59,15,25.423728813559322,2,3.389830508474576,42,5,8.474576271186441
+gemma27b,hotpot,Search Match + Source Coverage vs Search Match,attack_completed_later,50,1,2.0,13,26.0,36,0,0.0
+gemma27b,hotpot,Search Match + Source Coverage vs Search Match,same_completion_step,331,13,3.9274924471299095,30,9.06344410876133,288,8,2.416918429003021
+gemma27b,hotpot,Search Match + Source Coverage vs Search Match,attack_completed_earlier,69,15,21.73913043478261,2,2.898550724637681,52,6,8.695652173913043
+gemma27b,2wiki,Natural Neutral vs Natural Clean,same_completion_step,345,23,6.666666666666667,26,7.536231884057971,296,13,3.7681159420289854
+gemma27b,2wiki,Natural Neutral vs Natural Clean,attack_completed_later,57,1,1.7543859649122806,14,24.56140350877193,42,1,1.7543859649122806
+gemma27b,2wiki,Natural Neutral vs Natural Clean,attack_completed_earlier,48,14,29.166666666666668,1,2.0833333333333335,33,2,4.166666666666667
+gemma27b,2wiki,Epistemic Confirmation vs Natural Neutral,same_completion_step,314,30,9.554140127388536,14,4.45859872611465,270,17,5.414012738853503
+gemma27b,2wiki,Epistemic Confirmation vs Natural Neutral,attack_completed_earlier,97,34,35.05154639175258,6,6.185567010309279,57,8,8.24742268041237
+gemma27b,2wiki,Epistemic Confirmation vs Natural Neutral,attack_completed_later,39,2,5.128205128205129,13,33.333333333333336,24,0,0.0
+gemma27b,2wiki,Search Match vs Natural Neutral,same_completion_step,319,24,7.523510971786834,21,6.58307210031348,274,19,5.956112852664577
+gemma27b,2wiki,Search Match vs Natural Neutral,attack_completed_earlier,93,27,29.032258064516128,7,7.526881720430108,59,8,8.602150537634408
+gemma27b,2wiki,Search Match vs Natural Neutral,attack_completed_later,38,4,10.526315789473685,12,31.57894736842105,22,2,5.2631578947368425
+gemma27b,2wiki,Fixed Sufficiency vs Natural Neutral,attack_completed_earlier,129,46,35.65891472868217,6,4.651162790697675,77,5,3.875968992248062
+gemma27b,2wiki,Fixed Sufficiency vs Natural Neutral,same_completion_step,295,22,7.4576271186440675,28,9.491525423728813,245,12,4.067796610169491
+gemma27b,2wiki,Fixed Sufficiency vs Natural Neutral,attack_completed_later,26,1,3.8461538461538463,12,46.15384615384615,13,3,11.538461538461538
+gemma27b,2wiki,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_earlier,88,25,28.40909090909091,7,7.954545454545454,56,5,5.681818181818182
+gemma27b,2wiki,Fixed Sufficiency Saturation vs Natural Neutral,same_completion_step,238,17,7.142857142857143,14,5.882352941176471,207,6,2.5210084033613445
+gemma27b,2wiki,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_later,24,1,4.166666666666667,14,58.333333333333336,9,1,4.166666666666667
+gemma27b,2wiki,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_later,37,2,5.405405405405405,10,27.027027027027028,25,0,0.0
+gemma27b,2wiki,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),same_completion_step,323,32,9.907120743034056,17,5.2631578947368425,274,20,6.191950464396285
+gemma27b,2wiki,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_earlier,90,29,32.22222222222222,3,3.3333333333333335,58,6,6.666666666666667
+gemma27b,2wiki,Natural_search_match_cue vs Natural Clean (total end-to-end change),same_completion_step,327,28,8.562691131498472,21,6.422018348623853,278,22,6.72782874617737
+gemma27b,2wiki,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_later,38,3,7.894736842105263,14,36.8421052631579,21,0,0.0
+gemma27b,2wiki,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_earlier,85,22,25.88235294117647,4,4.705882352941177,59,7,8.235294117647058
+gemma27b,2wiki,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),same_completion_step,298,24,8.053691275167786,27,9.060402684563758,247,14,4.697986577181208
+gemma27b,2wiki,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_earlier,123,38,30.89430894308943,2,1.6260162601626016,83,4,3.252032520325203
+gemma27b,2wiki,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_later,29,1,3.4482758620689653,12,41.37931034482759,16,1,3.4482758620689653
+gemma27b,2wiki,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),same_completion_step,240,12,5.0,15,6.25,213,6,2.5
+gemma27b,2wiki,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_earlier,84,24,28.571428571428573,6,7.142857142857143,54,6,7.142857142857143
+gemma27b,2wiki,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_later,26,1,3.8461538461538463,14,53.84615384615385,11,0,0.0
+gemma27b,2wiki,Continue Search vs Natural Neutral,attack_completed_earlier,51,19,37.254901960784316,4,7.8431372549019605,28,6,11.764705882352942
+gemma27b,2wiki,Continue Search vs Natural Neutral,same_completion_step,335,28,8.35820895522388,17,5.074626865671642,290,21,6.268656716417911
+gemma27b,2wiki,Continue Search vs Natural Neutral,attack_completed_later,64,2,3.125,18,28.125,44,1,1.5625
+gemma27b,2wiki,Oracle Complete-Saturation vs Oracle Complete-Neutral,same_completion_step,305,0,0.0,0,0.0,305,0,0.0
+gemma27b,2wiki,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_earlier,135,0,0.0,0,0.0,135,0,0.0
+gemma27b,2wiki,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_later,10,0,0.0,0,0.0,10,0,0.0
+gemma27b,2wiki,Source Coverage vs Natural Neutral,same_completion_step,333,27,8.108108108108109,21,6.306306306306307,285,19,5.7057057057057055
+gemma27b,2wiki,Source Coverage vs Natural Neutral,attack_completed_later,46,3,6.521739130434782,18,39.130434782608695,25,2,4.3478260869565215
+gemma27b,2wiki,Source Coverage vs Natural Neutral,attack_completed_earlier,71,18,25.35211267605634,1,1.408450704225352,52,6,8.450704225352112
+gemma27b,2wiki,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,same_completion_step,328,19,5.7926829268292686,26,7.926829268292683,283,11,3.3536585365853657
+gemma27b,2wiki,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_earlier,58,13,22.413793103448278,0,0.0,45,3,5.172413793103448
+gemma27b,2wiki,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_later,63,3,4.761904761904762,32,50.79365079365079,28,3,4.761904761904762
+gemma27b,2wiki,Search Match + Source Coverage vs Search Match,same_completion_step,336,16,4.761904761904762,24,7.142857142857143,296,15,4.464285714285714
+gemma27b,2wiki,Search Match + Source Coverage vs Search Match,attack_completed_earlier,54,16,29.62962962962963,2,3.7037037037037037,36,5,9.25925925925926
+gemma27b,2wiki,Search Match + Source Coverage vs Search Match,attack_completed_later,60,4,6.666666666666667,20,33.333333333333336,36,2,3.3333333333333335
+gemma27b,musique,Natural Neutral vs Natural Clean,attack_completed_earlier,64,19,29.6875,3,4.6875,42,8,12.5
+gemma27b,musique,Natural Neutral vs Natural Clean,same_completion_step,290,30,10.344827586206897,37,12.758620689655173,223,11,3.793103448275862
+gemma27b,musique,Natural Neutral vs Natural Clean,attack_completed_later,45,4,8.88888888888889,14,31.11111111111111,27,3,6.666666666666667
+gemma27b,musique,Epistemic Confirmation vs Natural Neutral,same_completion_step,269,34,12.639405204460967,46,17.100371747211895,189,10,3.717472118959108
+gemma27b,musique,Epistemic Confirmation vs Natural Neutral,attack_completed_earlier,79,29,36.70886075949367,3,3.7974683544303796,47,7,8.860759493670885
+gemma27b,musique,Epistemic Confirmation vs Natural Neutral,attack_completed_later,52,4,7.6923076923076925,20,38.46153846153846,28,4,7.6923076923076925
+gemma27b,musique,Search Match vs Natural Neutral,same_completion_step,272,38,13.970588235294118,42,15.441176470588236,192,12,4.411764705882353
+gemma27b,musique,Search Match vs Natural Neutral,attack_completed_earlier,74,23,31.08108108108108,4,5.405405405405405,47,5,6.756756756756757
+gemma27b,musique,Search Match vs Natural Neutral,attack_completed_later,54,5,9.25925925925926,25,46.2962962962963,24,4,7.407407407407407
+gemma27b,musique,Fixed Sufficiency vs Natural Neutral,attack_completed_earlier,93,25,26.881720430107528,5,5.376344086021505,63,6,6.451612903225806
+gemma27b,musique,Fixed Sufficiency vs Natural Neutral,same_completion_step,259,42,16.216216216216218,43,16.602316602316602,174,12,4.633204633204633
+gemma27b,musique,Fixed Sufficiency vs Natural Neutral,attack_completed_later,48,2,4.166666666666667,22,45.833333333333336,24,1,2.0833333333333335
+gemma27b,musique,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_earlier,116,31,26.724137931034484,9,7.758620689655173,76,7,6.0344827586206895
+gemma27b,musique,Fixed Sufficiency Saturation vs Natural Neutral,same_completion_step,246,36,14.634146341463415,45,18.29268292682927,165,11,4.471544715447155
+gemma27b,musique,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_later,38,3,7.894736842105263,16,42.10526315789474,19,2,5.2631578947368425
+gemma27b,musique,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),same_completion_step,295,32,10.847457627118644,42,14.23728813559322,221,14,4.745762711864407
+gemma27b,musique,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_earlier,100,30,30.0,12,12.0,58,7,7.0
+gemma27b,musique,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_later,54,4,7.407407407407407,20,37.03703703703704,30,3,5.555555555555555
+gemma27b,musique,Natural_search_match_cue vs Natural Clean (total end-to-end change),same_completion_step,296,35,11.824324324324325,38,12.837837837837839,223,12,4.054054054054054
+gemma27b,musique,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_earlier,97,29,29.896907216494846,13,13.402061855670103,55,5,5.154639175257732
+gemma27b,musique,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_later,56,6,10.714285714285714,24,42.857142857142854,26,3,5.357142857142857
+gemma27b,musique,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_earlier,115,31,26.956521739130434,15,13.043478260869565,69,6,5.217391304347826
+gemma27b,musique,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),same_completion_step,287,38,13.240418118466899,43,14.982578397212544,206,17,5.923344947735192
+gemma27b,musique,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_later,47,8,17.02127659574468,20,42.5531914893617,19,2,4.25531914893617
+gemma27b,musique,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_earlier,137,37,27.00729927007299,12,8.75912408759124,88,8,5.839416058394161
+gemma27b,musique,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),same_completion_step,278,39,14.028776978417266,43,15.467625899280575,196,14,5.0359712230215825
+gemma27b,musique,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_later,34,2,5.882352941176471,23,67.6470588235294,9,0,0.0
+gemma27b,musique,Continue Search vs Natural Neutral,same_completion_step,289,42,14.53287197231834,37,12.802768166089965,210,18,6.228373702422146
+gemma27b,musique,Continue Search vs Natural Neutral,attack_completed_later,63,2,3.1746031746031744,26,41.26984126984127,35,2,3.1746031746031744
+gemma27b,musique,Continue Search vs Natural Neutral,attack_completed_earlier,48,16,33.333333333333336,0,0.0,32,6,12.5
+gemma27b,musique,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_earlier,188,0,0.0,0,0.0,188,0,0.0
+gemma27b,musique,Oracle Complete-Saturation vs Oracle Complete-Neutral,same_completion_step,226,0,0.0,0,0.0,226,0,0.0
+gemma27b,musique,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_later,36,0,0.0,0,0.0,36,0,0.0
+gemma27b,musique,Source Coverage vs Natural Neutral,same_completion_step,281,43,15.302491103202847,42,14.946619217081851,196,17,6.049822064056939
+gemma27b,musique,Source Coverage vs Natural Neutral,attack_completed_earlier,59,17,28.8135593220339,4,6.779661016949152,38,5,8.474576271186441
+gemma27b,musique,Source Coverage vs Natural Neutral,attack_completed_later,60,5,8.333333333333334,25,41.666666666666664,30,3,5.0
+gemma27b,musique,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,same_completion_step,309,39,12.62135922330097,44,14.239482200647249,226,15,4.854368932038835
+gemma27b,musique,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_later,82,3,3.658536585365854,23,28.048780487804876,56,3,3.658536585365854
+gemma27b,musique,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_earlier,59,16,27.11864406779661,5,8.474576271186441,38,5,8.474576271186441
+gemma27b,musique,Search Match + Source Coverage vs Search Match,attack_completed_later,73,5,6.8493150684931505,24,32.87671232876713,44,2,2.73972602739726
+gemma27b,musique,Search Match + Source Coverage vs Search Match,same_completion_step,318,30,9.433962264150944,37,11.635220125786164,251,17,5.345911949685535
+gemma27b,musique,Search Match + Source Coverage vs Search Match,attack_completed_earlier,59,23,38.983050847457626,2,3.389830508474576,34,5,8.474576271186441
+gemma27b,multihoprag,Natural Neutral vs Natural Clean,same_completion_step,239,5,2.092050209205021,6,2.510460251046025,228,1,0.41841004184100417
+gemma27b,multihoprag,Natural Neutral vs Natural Clean,attack_completed_earlier,107,3,2.803738317757009,2,1.8691588785046729,102,3,2.803738317757009
+gemma27b,multihoprag,Natural Neutral vs Natural Clean,attack_completed_later,104,1,0.9615384615384616,4,3.8461538461538463,99,0,0.0
+gemma27b,multihoprag,Epistemic Confirmation vs Natural Neutral,attack_completed_later,98,1,1.0204081632653061,8,8.16326530612245,89,0,0.0
+gemma27b,multihoprag,Epistemic Confirmation vs Natural Neutral,attack_completed_earlier,123,6,4.878048780487805,0,0.0,117,0,0.0
+gemma27b,multihoprag,Epistemic Confirmation vs Natural Neutral,same_completion_step,229,4,1.7467248908296944,3,1.3100436681222707,222,1,0.4366812227074236
+gemma27b,multihoprag,Search Match vs Natural Neutral,same_completion_step,230,5,2.1739130434782608,5,2.1739130434782608,220,2,0.8695652173913043
+gemma27b,multihoprag,Search Match vs Natural Neutral,attack_completed_later,107,1,0.9345794392523364,4,3.7383177570093458,102,0,0.0
+gemma27b,multihoprag,Search Match vs Natural Neutral,attack_completed_earlier,113,8,7.079646017699115,0,0.0,105,2,1.7699115044247788
+gemma27b,multihoprag,Fixed Sufficiency vs Natural Neutral,attack_completed_earlier,189,18,9.523809523809524,0,0.0,171,5,2.6455026455026456
+gemma27b,multihoprag,Fixed Sufficiency vs Natural Neutral,attack_completed_later,67,1,1.492537313432836,5,7.462686567164179,61,0,0.0
+gemma27b,multihoprag,Fixed Sufficiency vs Natural Neutral,same_completion_step,194,4,2.0618556701030926,4,2.0618556701030926,186,3,1.5463917525773196
+gemma27b,multihoprag,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_earlier,175,16,9.142857142857142,0,0.0,159,3,1.7142857142857142
+gemma27b,multihoprag,Fixed Sufficiency Saturation vs Natural Neutral,same_completion_step,210,5,2.380952380952381,4,1.9047619047619047,201,0,0.0
+gemma27b,multihoprag,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_later,65,1,1.5384615384615385,2,3.076923076923077,62,0,0.0
+gemma27b,multihoprag,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_later,97,0,0.0,9,9.278350515463918,88,0,0.0
+gemma27b,multihoprag,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_earlier,113,6,5.3097345132743365,1,0.8849557522123894,106,1,0.8849557522123894
+gemma27b,multihoprag,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),same_completion_step,240,7,2.9166666666666665,6,2.5,227,0,0.0
+gemma27b,multihoprag,Natural_search_match_cue vs Natural Clean (total end-to-end change),same_completion_step,238,6,2.5210084033613445,1,0.42016806722689076,231,1,0.42016806722689076
+gemma27b,multihoprag,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_later,106,0,0.0,7,6.60377358490566,99,2,1.8867924528301887
+gemma27b,multihoprag,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_earlier,106,4,3.7735849056603774,0,0.0,102,1,0.9433962264150944
+gemma27b,multihoprag,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_earlier,178,16,8.98876404494382,1,0.5617977528089888,161,5,2.808988764044944
+gemma27b,multihoprag,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_later,62,1,1.6129032258064515,3,4.838709677419355,58,0,0.0
+gemma27b,multihoprag,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),same_completion_step,210,2,0.9523809523809523,4,1.9047619047619047,204,3,1.4285714285714286
+gemma27b,multihoprag,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_earlier,175,15,8.571428571428571,0,0.0,160,2,1.1428571428571428
+gemma27b,multihoprag,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),same_completion_step,214,4,1.8691588785046729,2,0.9345794392523364,208,1,0.4672897196261682
+gemma27b,multihoprag,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_later,61,0,0.0,4,6.557377049180328,57,0,0.0
+gemma27b,multihoprag,Continue Search vs Natural Neutral,same_completion_step,248,6,2.4193548387096775,5,2.0161290322580645,237,1,0.4032258064516129
+gemma27b,multihoprag,Continue Search vs Natural Neutral,attack_completed_earlier,92,5,5.434782608695652,0,0.0,87,0,0.0
+gemma27b,multihoprag,Continue Search vs Natural Neutral,attack_completed_later,110,1,0.9090909090909091,8,7.2727272727272725,101,0,0.0
+gemma27b,multihoprag,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_earlier,192,0,0.0,0,0.0,192,0,0.0
+gemma27b,multihoprag,Oracle Complete-Saturation vs Oracle Complete-Neutral,same_completion_step,201,0,0.0,0,0.0,201,0,0.0
+gemma27b,multihoprag,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_later,57,0,0.0,0,0.0,57,0,0.0
+gemma27b,multihoprag,Source Coverage vs Natural Neutral,same_completion_step,227,6,2.643171806167401,5,2.202643171806167,216,2,0.8810572687224669
+gemma27b,multihoprag,Source Coverage vs Natural Neutral,attack_completed_later,115,2,1.7391304347826086,7,6.086956521739131,106,1,0.8695652173913043
+gemma27b,multihoprag,Source Coverage vs Natural Neutral,attack_completed_earlier,108,9,8.333333333333334,0,0.0,99,3,2.7777777777777777
+gemma27b,multihoprag,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_earlier,109,6,5.504587155963303,0,0.0,103,1,0.9174311926605505
+gemma27b,multihoprag,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,same_completion_step,241,6,2.4896265560165975,5,2.074688796680498,230,2,0.8298755186721992
+gemma27b,multihoprag,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_later,100,1,1.0,6,6.0,93,0,0.0
+gemma27b,multihoprag,Search Match + Source Coverage vs Search Match,attack_completed_later,110,0,0.0,10,9.090909090909092,100,1,0.9090909090909091
+gemma27b,multihoprag,Search Match + Source Coverage vs Search Match,attack_completed_earlier,108,8,7.407407407407407,0,0.0,100,0,0.0
+gemma27b,multihoprag,Search Match + Source Coverage vs Search Match,same_completion_step,232,6,2.586206896551724,9,3.8793103448275863,217,2,0.8620689655172413
+gpt_oss_20b,hotpot,Natural Neutral vs Natural Clean,same_completion_step,73,5,6.8493150684931505,6,8.219178082191782,62,3,4.109589041095891
+gpt_oss_20b,hotpot,Natural Neutral vs Natural Clean,attack_completed_earlier,154,19,12.337662337662337,9,5.8441558441558445,126,5,3.2467532467532467
+gpt_oss_20b,hotpot,Natural Neutral vs Natural Clean,attack_completed_later,148,15,10.135135135135135,22,14.864864864864865,111,13,8.783783783783784
+gpt_oss_20b,hotpot,Natural Neutral vs Natural Clean,incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,hotpot,Epistemic Confirmation vs Natural Neutral,attack_completed_earlier,142,21,14.788732394366198,11,7.746478873239437,110,10,7.042253521126761
+gpt_oss_20b,hotpot,Epistemic Confirmation vs Natural Neutral,same_completion_step,65,3,4.615384615384615,12,18.46153846153846,50,3,4.615384615384615
+gpt_oss_20b,hotpot,Epistemic Confirmation vs Natural Neutral,attack_completed_later,160,8,5.0,28,17.5,124,10,6.25
+gpt_oss_20b,hotpot,Epistemic Confirmation vs Natural Neutral,incomparable_or_missing_completion,4,0,0.0,1,25.0,3,0,0.0
+gpt_oss_20b,hotpot,Search Match vs Natural Neutral,attack_completed_earlier,158,22,13.924050632911392,15,9.49367088607595,121,14,8.860759493670885
+gpt_oss_20b,hotpot,Search Match vs Natural Neutral,attack_completed_later,139,16,11.510791366906474,23,16.546762589928058,100,8,5.755395683453237
+gpt_oss_20b,hotpot,Search Match vs Natural Neutral,same_completion_step,53,1,1.8867924528301887,4,7.547169811320755,48,1,1.8867924528301887
+gpt_oss_20b,hotpot,Search Match vs Natural Neutral,incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,hotpot,Fixed Sufficiency vs Natural Neutral,attack_completed_earlier,200,38,19.0,16,8.0,146,16,8.0
+gpt_oss_20b,hotpot,Fixed Sufficiency vs Natural Neutral,attack_completed_later,111,6,5.405405405405405,22,19.81981981981982,83,4,3.6036036036036037
+gpt_oss_20b,hotpot,Fixed Sufficiency vs Natural Neutral,same_completion_step,52,5,9.615384615384615,7,13.461538461538462,40,5,9.615384615384615
+gpt_oss_20b,hotpot,Fixed Sufficiency vs Natural Neutral,incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,hotpot,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_earlier,199,42,21.105527638190956,21,10.552763819095478,136,25,12.56281407035176
+gpt_oss_20b,hotpot,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_later,113,7,6.1946902654867255,22,19.469026548672566,84,11,9.734513274336283
+gpt_oss_20b,hotpot,Fixed Sufficiency Saturation vs Natural Neutral,same_completion_step,47,8,17.02127659574468,6,12.76595744680851,33,3,6.382978723404255
+gpt_oss_20b,hotpot,Fixed Sufficiency Saturation vs Natural Neutral,incomparable_or_missing_completion,2,0,0.0,1,50.0,1,0,0.0
+gpt_oss_20b,hotpot,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_earlier,162,31,19.135802469135804,19,11.728395061728396,112,13,8.024691358024691
+gpt_oss_20b,hotpot,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_later,179,10,5.58659217877095,31,17.318435754189945,138,11,6.145251396648045
+gpt_oss_20b,hotpot,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),same_completion_step,64,5,7.8125,8,12.5,51,4,6.25
+gpt_oss_20b,hotpot,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),incomparable_or_missing_completion,3,0,0.0,2,66.66666666666667,1,0,0.0
+gpt_oss_20b,hotpot,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_earlier,181,34,18.784530386740332,14,7.734806629834254,133,17,9.392265193370166
+gpt_oss_20b,hotpot,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_later,154,13,8.441558441558442,28,18.181818181818183,113,7,4.545454545454546
+gpt_oss_20b,hotpot,Natural_search_match_cue vs Natural Clean (total end-to-end change),same_completion_step,49,4,8.16326530612245,5,10.204081632653061,40,2,4.081632653061225
+gpt_oss_20b,hotpot,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_earlier,213,36,16.901408450704224,17,7.981220657276995,160,17,7.981220657276995
+gpt_oss_20b,hotpot,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_later,138,16,11.594202898550725,29,21.014492753623188,93,11,7.971014492753623
+gpt_oss_20b,hotpot,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),same_completion_step,52,8,15.384615384615385,7,13.461538461538462,37,4,7.6923076923076925
+gpt_oss_20b,hotpot,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_earlier,230,37,16.08695652173913,13,5.6521739130434785,180,28,12.173913043478262
+gpt_oss_20b,hotpot,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_later,113,3,2.6548672566371683,28,24.778761061946902,82,4,3.5398230088495577
+gpt_oss_20b,hotpot,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),same_completion_step,55,10,18.181818181818183,7,12.727272727272727,38,7,12.727272727272727
+gpt_oss_20b,hotpot,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,hotpot,Continue Search vs Natural Neutral,attack_completed_earlier,155,24,15.483870967741936,16,10.32258064516129,115,15,9.67741935483871
+gpt_oss_20b,hotpot,Continue Search vs Natural Neutral,same_completion_step,53,4,7.547169811320755,7,13.20754716981132,42,2,3.7735849056603774
+gpt_oss_20b,hotpot,Continue Search vs Natural Neutral,attack_completed_later,162,12,7.407407407407407,19,11.728395061728396,131,9,5.555555555555555
+gpt_oss_20b,hotpot,Continue Search vs Natural Neutral,incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,hotpot,Oracle Complete-Saturation vs Oracle Complete-Neutral,same_completion_step,77,0,0.0,0,0.0,77,0,0.0
+gpt_oss_20b,hotpot,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_earlier,221,0,0.0,0,0.0,221,0,0.0
+gpt_oss_20b,hotpot,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_later,107,0,0.0,0,0.0,107,0,0.0
+gpt_oss_20b,hotpot,Oracle Complete-Saturation vs Oracle Complete-Neutral,incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,hotpot,Source Coverage vs Natural Neutral,attack_completed_earlier,161,33,20.496894409937887,12,7.453416149068323,116,21,13.043478260869565
+gpt_oss_20b,hotpot,Source Coverage vs Natural Neutral,same_completion_step,75,7,9.333333333333334,10,13.333333333333334,58,2,2.6666666666666665
+gpt_oss_20b,hotpot,Source Coverage vs Natural Neutral,attack_completed_later,130,7,5.384615384615385,23,17.692307692307693,100,4,3.076923076923077
+gpt_oss_20b,hotpot,Source Coverage vs Natural Neutral,incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,hotpot,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_later,152,12,7.894736842105263,23,15.131578947368421,117,6,3.9473684210526314
+gpt_oss_20b,hotpot,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_earlier,183,32,17.48633879781421,11,6.0109289617486334,140,17,9.289617486338798
+gpt_oss_20b,hotpot,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,same_completion_step,67,10,14.925373134328359,5,7.462686567164179,52,4,5.970149253731344
+gpt_oss_20b,hotpot,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,incomparable_or_missing_completion,4,1,25.0,0,0.0,3,1,25.0
+gpt_oss_20b,hotpot,Search Match + Source Coverage vs Search Match,attack_completed_earlier,167,30,17.964071856287426,15,8.982035928143713,122,13,7.7844311377245505
+gpt_oss_20b,hotpot,Search Match + Source Coverage vs Search Match,attack_completed_later,137,8,5.839416058394161,21,15.328467153284672,108,8,5.839416058394161
+gpt_oss_20b,hotpot,Search Match + Source Coverage vs Search Match,same_completion_step,71,10,14.084507042253522,6,8.450704225352112,55,2,2.816901408450704
+gpt_oss_20b,2wiki,Natural Neutral vs Natural Clean,attack_completed_earlier,180,24,13.333333333333334,19,10.555555555555555,137,19,10.555555555555555
+gpt_oss_20b,2wiki,Natural Neutral vs Natural Clean,attack_completed_later,159,14,8.80503144654088,30,18.867924528301888,115,17,10.69182389937107
+gpt_oss_20b,2wiki,Natural Neutral vs Natural Clean,same_completion_step,107,4,3.7383177570093458,5,4.672897196261682,98,8,7.4766355140186915
+gpt_oss_20b,2wiki,Natural Neutral vs Natural Clean,incomparable_or_missing_completion,2,0,0.0,0,0.0,2,0,0.0
+gpt_oss_20b,2wiki,Epistemic Confirmation vs Natural Neutral,attack_completed_earlier,188,32,17.02127659574468,15,7.9787234042553195,141,30,15.957446808510639
+gpt_oss_20b,2wiki,Epistemic Confirmation vs Natural Neutral,attack_completed_later,168,16,9.523809523809524,32,19.047619047619047,120,18,10.714285714285714
+gpt_oss_20b,2wiki,Epistemic Confirmation vs Natural Neutral,same_completion_step,93,13,13.978494623655914,10,10.75268817204301,70,17,18.27956989247312
+gpt_oss_20b,2wiki,Epistemic Confirmation vs Natural Neutral,incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,2wiki,Search Match vs Natural Neutral,attack_completed_earlier,186,30,16.129032258064516,13,6.989247311827957,143,32,17.204301075268816
+gpt_oss_20b,2wiki,Search Match vs Natural Neutral,attack_completed_later,164,25,15.24390243902439,31,18.902439024390244,108,18,10.975609756097562
+gpt_oss_20b,2wiki,Search Match vs Natural Neutral,same_completion_step,98,9,9.183673469387756,8,8.16326530612245,81,9,9.183673469387756
+gpt_oss_20b,2wiki,Search Match vs Natural Neutral,incomparable_or_missing_completion,2,0,0.0,0,0.0,2,0,0.0
+gpt_oss_20b,2wiki,Fixed Sufficiency vs Natural Neutral,attack_completed_earlier,231,39,16.883116883116884,25,10.822510822510823,167,31,13.41991341991342
+gpt_oss_20b,2wiki,Fixed Sufficiency vs Natural Neutral,attack_completed_later,131,19,14.50381679389313,29,22.137404580152673,83,17,12.977099236641221
+gpt_oss_20b,2wiki,Fixed Sufficiency vs Natural Neutral,same_completion_step,85,13,15.294117647058824,5,5.882352941176471,67,12,14.117647058823529
+gpt_oss_20b,2wiki,Fixed Sufficiency vs Natural Neutral,incomparable_or_missing_completion,3,0,0.0,0,0.0,3,0,0.0
+gpt_oss_20b,2wiki,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_earlier,222,42,18.91891891891892,12,5.405405405405405,168,30,13.513513513513514
+gpt_oss_20b,2wiki,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_later,128,13,10.15625,19,14.84375,96,10,7.8125
+gpt_oss_20b,2wiki,Fixed Sufficiency Saturation vs Natural Neutral,same_completion_step,98,13,13.26530612244898,11,11.224489795918368,74,12,12.244897959183673
+gpt_oss_20b,2wiki,Fixed Sufficiency Saturation vs Natural Neutral,incomparable_or_missing_completion,2,0,0.0,0,0.0,2,0,0.0
+gpt_oss_20b,2wiki,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_earlier,203,30,14.77832512315271,24,11.822660098522167,149,35,17.24137931034483
+gpt_oss_20b,2wiki,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_later,168,18,10.714285714285714,32,19.047619047619047,118,19,11.30952380952381
+gpt_oss_20b,2wiki,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),same_completion_step,76,9,11.842105263157896,7,9.210526315789474,60,7,9.210526315789474
+gpt_oss_20b,2wiki,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,2wiki,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_earlier,204,31,15.196078431372548,17,8.333333333333334,156,29,14.215686274509803
+gpt_oss_20b,2wiki,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_later,160,19,11.875,28,17.5,113,19,11.875
+gpt_oss_20b,2wiki,Natural_search_match_cue vs Natural Clean (total end-to-end change),same_completion_step,82,6,7.317073170731708,9,10.975609756097562,67,3,3.658536585365854
+gpt_oss_20b,2wiki,Natural_search_match_cue vs Natural Clean (total end-to-end change),incomparable_or_missing_completion,2,0,0.0,0,0.0,2,0,0.0
+gpt_oss_20b,2wiki,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_later,127,18,14.173228346456693,22,17.322834645669293,87,16,12.598425196850394
+gpt_oss_20b,2wiki,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_earlier,240,38,15.833333333333334,26,10.833333333333334,176,33,13.75
+gpt_oss_20b,2wiki,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),same_completion_step,78,9,11.538461538461538,10,12.820512820512821,59,11,14.102564102564102
+gpt_oss_20b,2wiki,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),incomparable_or_missing_completion,3,0,0.0,1,33.333333333333336,2,0,0.0
+gpt_oss_20b,2wiki,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),same_completion_step,75,8,10.666666666666666,6,8.0,61,14,18.666666666666668
+gpt_oss_20b,2wiki,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_earlier,246,45,18.29268292682927,19,7.723577235772358,182,31,12.601626016260163
+gpt_oss_20b,2wiki,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_later,125,12,9.6,22,17.6,91,11,8.8
+gpt_oss_20b,2wiki,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),incomparable_or_missing_completion,2,0,0.0,0,0.0,2,0,0.0
+gpt_oss_20b,2wiki,Continue Search vs Natural Neutral,same_completion_step,96,12,12.5,7,7.291666666666667,77,5,5.208333333333333
+gpt_oss_20b,2wiki,Continue Search vs Natural Neutral,attack_completed_earlier,144,16,11.11111111111111,16,11.11111111111111,112,15,10.416666666666666
+gpt_oss_20b,2wiki,Continue Search vs Natural Neutral,attack_completed_later,206,30,14.563106796116505,32,15.533980582524272,144,29,14.077669902912621
+gpt_oss_20b,2wiki,Continue Search vs Natural Neutral,incomparable_or_missing_completion,3,0,0.0,1,33.333333333333336,2,0,0.0
+gpt_oss_20b,2wiki,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_earlier,224,0,0.0,0,0.0,224,0,0.0
+gpt_oss_20b,2wiki,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_later,131,0,0.0,0,0.0,131,0,0.0
+gpt_oss_20b,2wiki,Oracle Complete-Saturation vs Oracle Complete-Neutral,same_completion_step,94,0,0.0,0,0.0,94,0,0.0
+gpt_oss_20b,2wiki,Oracle Complete-Saturation vs Oracle Complete-Neutral,incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,2wiki,Source Coverage vs Natural Neutral,same_completion_step,96,9,9.375,12,12.5,75,6,6.25
+gpt_oss_20b,2wiki,Source Coverage vs Natural Neutral,attack_completed_earlier,161,23,14.285714285714286,15,9.316770186335404,123,18,11.180124223602485
+gpt_oss_20b,2wiki,Source Coverage vs Natural Neutral,attack_completed_later,139,18,12.949640287769784,24,17.26618705035971,97,15,10.79136690647482
+gpt_oss_20b,2wiki,Source Coverage vs Natural Neutral,incomparable_or_missing_completion,2,0,0.0,0,0.0,2,0,0.0
+gpt_oss_20b,2wiki,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_earlier,188,30,15.957446808510639,19,10.106382978723405,139,27,14.361702127659575
+gpt_oss_20b,2wiki,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_later,165,19,11.515151515151516,31,18.78787878787879,115,16,9.696969696969697
+gpt_oss_20b,2wiki,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,same_completion_step,93,11,11.827956989247312,10,10.75268817204301,72,9,9.67741935483871
+gpt_oss_20b,2wiki,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,incomparable_or_missing_completion,2,0,0.0,0,0.0,2,0,0.0
+gpt_oss_20b,2wiki,Search Match + Source Coverage vs Search Match,same_completion_step,88,8,9.090909090909092,10,11.363636363636363,70,11,12.5
+gpt_oss_20b,2wiki,Search Match + Source Coverage vs Search Match,attack_completed_later,189,20,10.582010582010582,26,13.756613756613756,143,20,10.582010582010582
+gpt_oss_20b,2wiki,Search Match + Source Coverage vs Search Match,attack_completed_earlier,169,21,12.42603550295858,22,13.017751479289942,126,20,11.834319526627219
+gpt_oss_20b,2wiki,Search Match + Source Coverage vs Search Match,incomparable_or_missing_completion,3,0,0.0,1,33.333333333333336,2,0,0.0
+gpt_oss_20b,musique,Natural Neutral vs Natural Clean,attack_completed_earlier,189,52,27.513227513227513,23,12.16931216931217,114,27,14.285714285714286
+gpt_oss_20b,musique,Natural Neutral vs Natural Clean,attack_completed_later,139,15,10.79136690647482,42,30.215827338129497,82,22,15.827338129496402
+gpt_oss_20b,musique,Natural Neutral vs Natural Clean,same_completion_step,74,10,13.513513513513514,6,8.108108108108109,58,13,17.56756756756757
+gpt_oss_20b,musique,Natural Neutral vs Natural Clean,incomparable_or_missing_completion,2,0,0.0,0,0.0,2,0,0.0
+gpt_oss_20b,musique,Epistemic Confirmation vs Natural Neutral,same_completion_step,73,6,8.219178082191782,13,17.80821917808219,54,6,8.219178082191782
+gpt_oss_20b,musique,Epistemic Confirmation vs Natural Neutral,attack_completed_earlier,166,41,24.698795180722893,29,17.46987951807229,96,31,18.674698795180724
+gpt_oss_20b,musique,Epistemic Confirmation vs Natural Neutral,attack_completed_later,164,24,14.634146341463415,38,23.170731707317074,102,18,10.975609756097562
+gpt_oss_20b,musique,Epistemic Confirmation vs Natural Neutral,incomparable_or_missing_completion,2,0,0.0,1,50.0,1,0,0.0
+gpt_oss_20b,musique,Search Match vs Natural Neutral,attack_completed_later,169,20,11.834319526627219,48,28.402366863905325,101,20,11.834319526627219
+gpt_oss_20b,musique,Search Match vs Natural Neutral,attack_completed_earlier,177,42,23.728813559322035,29,16.384180790960453,106,31,17.51412429378531
+gpt_oss_20b,musique,Search Match vs Natural Neutral,same_completion_step,54,9,16.666666666666668,10,18.51851851851852,35,7,12.962962962962964
+gpt_oss_20b,musique,Search Match vs Natural Neutral,incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,musique,Fixed Sufficiency vs Natural Neutral,same_completion_step,67,11,16.417910447761194,8,11.940298507462687,48,7,10.447761194029852
+gpt_oss_20b,musique,Fixed Sufficiency vs Natural Neutral,attack_completed_later,138,27,19.565217391304348,37,26.81159420289855,74,15,10.869565217391305
+gpt_oss_20b,musique,Fixed Sufficiency vs Natural Neutral,attack_completed_earlier,203,62,30.541871921182267,32,15.763546798029557,109,35,17.24137931034483
+gpt_oss_20b,musique,Fixed Sufficiency vs Natural Neutral,incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,musique,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_later,146,16,10.95890410958904,45,30.82191780821918,85,14,9.58904109589041
+gpt_oss_20b,musique,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_earlier,185,53,28.64864864864865,31,16.756756756756758,101,41,22.16216216216216
+gpt_oss_20b,musique,Fixed Sufficiency Saturation vs Natural Neutral,same_completion_step,75,15,20.0,12,16.0,48,9,12.0
+gpt_oss_20b,musique,Fixed Sufficiency Saturation vs Natural Neutral,incomparable_or_missing_completion,2,1,50.0,0,0.0,1,1,50.0
+gpt_oss_20b,musique,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_earlier,205,53,25.853658536585368,28,13.658536585365853,124,37,18.048780487804876
+gpt_oss_20b,musique,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_later,148,22,14.864864864864865,40,27.027027027027028,86,17,11.486486486486486
+gpt_oss_20b,musique,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),same_completion_step,50,8,16.0,12,24.0,30,8,16.0
+gpt_oss_20b,musique,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),incomparable_or_missing_completion,1,0,0.0,1,100.0,0,0,0.0
+gpt_oss_20b,musique,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_earlier,187,57,30.481283422459892,30,16.0427807486631,100,31,16.577540106951872
+gpt_oss_20b,musique,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_later,144,18,12.5,47,32.638888888888886,79,24,16.666666666666668
+gpt_oss_20b,musique,Natural_search_match_cue vs Natural Clean (total end-to-end change),same_completion_step,67,13,19.402985074626866,19,28.35820895522388,35,9,13.432835820895523
+gpt_oss_20b,musique,Natural_search_match_cue vs Natural Clean (total end-to-end change),incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,musique,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_earlier,228,61,26.75438596491228,26,11.403508771929825,141,41,17.982456140350877
+gpt_oss_20b,musique,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_later,112,15,13.392857142857142,27,24.107142857142858,70,11,9.821428571428571
+gpt_oss_20b,musique,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),same_completion_step,64,16,25.0,9,14.0625,39,12,18.75
+gpt_oss_20b,musique,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,musique,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_earlier,221,67,30.316742081447963,34,15.384615384615385,120,51,23.076923076923077
+gpt_oss_20b,musique,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_later,136,14,10.294117647058824,38,27.941176470588236,84,14,10.294117647058824
+gpt_oss_20b,musique,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),same_completion_step,50,11,22.0,10,20.0,29,11,22.0
+gpt_oss_20b,musique,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),incomparable_or_missing_completion,2,2,100.0,0,0.0,0,1,50.0
+gpt_oss_20b,musique,Continue Search vs Natural Neutral,attack_completed_earlier,148,35,23.64864864864865,33,22.2972972972973,80,23,15.54054054054054
+gpt_oss_20b,musique,Continue Search vs Natural Neutral,attack_completed_later,173,20,11.560693641618498,52,30.057803468208093,101,20,11.560693641618498
+gpt_oss_20b,musique,Continue Search vs Natural Neutral,same_completion_step,79,10,12.658227848101266,8,10.126582278481013,61,10,12.658227848101266
+gpt_oss_20b,musique,Continue Search vs Natural Neutral,incomparable_or_missing_completion,3,1,33.333333333333336,0,0.0,2,0,0.0
+gpt_oss_20b,musique,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_earlier,226,0,0.0,0,0.0,226,0,0.0
+gpt_oss_20b,musique,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_later,104,0,0.0,0,0.0,104,0,0.0
+gpt_oss_20b,musique,Oracle Complete-Saturation vs Oracle Complete-Neutral,same_completion_step,77,0,0.0,0,0.0,77,0,0.0
+gpt_oss_20b,musique,Source Coverage vs Natural Neutral,attack_completed_later,166,20,12.048192771084338,51,30.72289156626506,95,15,9.036144578313253
+gpt_oss_20b,musique,Source Coverage vs Natural Neutral,attack_completed_earlier,170,36,21.176470588235293,21,12.352941176470589,113,23,13.529411764705882
+gpt_oss_20b,musique,Source Coverage vs Natural Neutral,same_completion_step,62,10,16.129032258064516,11,17.741935483870968,41,9,14.516129032258064
+gpt_oss_20b,musique,Source Coverage vs Natural Neutral,incomparable_or_missing_completion,1,1,100.0,0,0.0,0,1,100.0
+gpt_oss_20b,musique,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_earlier,164,39,23.78048780487805,27,16.463414634146343,98,25,15.24390243902439
+gpt_oss_20b,musique,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_later,174,25,14.367816091954023,47,27.011494252873565,102,19,10.919540229885058
+gpt_oss_20b,musique,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,same_completion_step,66,9,13.636363636363637,12,18.181818181818183,45,8,12.121212121212121
+gpt_oss_20b,musique,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,incomparable_or_missing_completion,1,1,100.0,0,0.0,0,0,0.0
+gpt_oss_20b,musique,Search Match + Source Coverage vs Search Match,attack_completed_earlier,174,49,28.160919540229884,29,16.666666666666668,96,37,21.264367816091955
+gpt_oss_20b,musique,Search Match + Source Coverage vs Search Match,attack_completed_later,176,31,17.613636363636363,55,31.25,90,16,9.090909090909092
+gpt_oss_20b,musique,Search Match + Source Coverage vs Search Match,same_completion_step,58,7,12.068965517241379,3,5.172413793103448,48,7,12.068965517241379
+gpt_oss_20b,multihoprag,Natural Neutral vs Natural Clean,attack_completed_earlier,182,7,3.8461538461538463,2,1.098901098901099,173,4,2.197802197802198
+gpt_oss_20b,multihoprag,Natural Neutral vs Natural Clean,same_completion_step,59,1,1.694915254237288,1,1.694915254237288,57,0,0.0
+gpt_oss_20b,multihoprag,Natural Neutral vs Natural Clean,attack_completed_later,139,0,0.0,8,5.755395683453237,131,1,0.7194244604316546
+gpt_oss_20b,multihoprag,Epistemic Confirmation vs Natural Neutral,attack_completed_later,161,1,0.6211180124223602,8,4.968944099378882,152,3,1.8633540372670807
+gpt_oss_20b,multihoprag,Epistemic Confirmation vs Natural Neutral,attack_completed_earlier,163,11,6.748466257668712,2,1.2269938650306749,150,3,1.8404907975460123
+gpt_oss_20b,multihoprag,Epistemic Confirmation vs Natural Neutral,same_completion_step,59,0,0.0,0,0.0,59,1,1.694915254237288
+gpt_oss_20b,multihoprag,Epistemic Confirmation vs Natural Neutral,incomparable_or_missing_completion,2,0,0.0,0,0.0,2,0,0.0
+gpt_oss_20b,multihoprag,Search Match vs Natural Neutral,attack_completed_later,152,0,0.0,6,3.9473684210526314,146,4,2.6315789473684212
+gpt_oss_20b,multihoprag,Search Match vs Natural Neutral,attack_completed_earlier,178,13,7.303370786516854,2,1.1235955056179776,163,5,2.808988764044944
+gpt_oss_20b,multihoprag,Search Match vs Natural Neutral,same_completion_step,62,1,1.6129032258064515,1,1.6129032258064515,60,1,1.6129032258064515
+gpt_oss_20b,multihoprag,Fixed Sufficiency vs Natural Neutral,same_completion_step,68,3,4.411764705882353,0,0.0,65,1,1.4705882352941178
+gpt_oss_20b,multihoprag,Fixed Sufficiency vs Natural Neutral,attack_completed_later,138,1,0.7246376811594203,7,5.072463768115942,130,0,0.0
+gpt_oss_20b,multihoprag,Fixed Sufficiency vs Natural Neutral,attack_completed_earlier,188,12,6.382978723404255,1,0.5319148936170213,175,5,2.6595744680851063
+gpt_oss_20b,multihoprag,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_earlier,220,13,5.909090909090909,3,1.3636363636363635,204,7,3.1818181818181817
+gpt_oss_20b,multihoprag,Fixed Sufficiency Saturation vs Natural Neutral,attack_completed_later,114,1,0.8771929824561403,7,6.140350877192983,106,1,0.8771929824561403
+gpt_oss_20b,multihoprag,Fixed Sufficiency Saturation vs Natural Neutral,same_completion_step,58,0,0.0,1,1.7241379310344827,57,2,3.4482758620689653
+gpt_oss_20b,multihoprag,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),same_completion_step,68,4,5.882352941176471,3,4.411764705882353,61,3,4.411764705882353
+gpt_oss_20b,multihoprag,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_earlier,174,8,4.597701149425287,4,2.2988505747126435,162,3,1.7241379310344827
+gpt_oss_20b,multihoprag,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),attack_completed_later,134,1,0.746268656716418,7,5.223880597014926,126,2,1.492537313432836
+gpt_oss_20b,multihoprag,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),incomparable_or_missing_completion,1,0,0.0,0,0.0,1,0,0.0
+gpt_oss_20b,multihoprag,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_later,129,0,0.0,11,8.527131782945736,118,0,0.0
+gpt_oss_20b,multihoprag,Natural_search_match_cue vs Natural Clean (total end-to-end change),attack_completed_earlier,201,9,4.477611940298507,1,0.4975124378109453,191,6,2.985074626865672
+gpt_oss_20b,multihoprag,Natural_search_match_cue vs Natural Clean (total end-to-end change),same_completion_step,52,5,9.615384615384615,1,1.9230769230769231,46,2,3.8461538461538463
+gpt_oss_20b,multihoprag,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_earlier,224,11,4.910714285714286,2,0.8928571428571429,211,5,2.232142857142857
+gpt_oss_20b,multihoprag,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),attack_completed_later,114,0,0.0,5,4.385964912280702,109,0,0.0
+gpt_oss_20b,multihoprag,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),same_completion_step,49,1,2.0408163265306123,1,2.0408163265306123,47,0,0.0
+gpt_oss_20b,multihoprag,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_earlier,241,11,4.564315352697095,2,0.8298755186721992,228,7,2.904564315352697
+gpt_oss_20b,multihoprag,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),attack_completed_later,95,2,2.1052631578947367,7,7.368421052631579,86,1,1.0526315789473684
+gpt_oss_20b,multihoprag,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),same_completion_step,51,0,0.0,2,3.9215686274509802,49,0,0.0
+gpt_oss_20b,multihoprag,Continue Search vs Natural Neutral,attack_completed_later,194,1,0.5154639175257731,8,4.123711340206185,185,1,0.5154639175257731
+gpt_oss_20b,multihoprag,Continue Search vs Natural Neutral,attack_completed_earlier,142,12,8.450704225352112,2,1.408450704225352,128,5,3.5211267605633805
+gpt_oss_20b,multihoprag,Continue Search vs Natural Neutral,same_completion_step,53,0,0.0,2,3.7735849056603774,51,1,1.8867924528301887
+gpt_oss_20b,multihoprag,Continue Search vs Natural Neutral,incomparable_or_missing_completion,2,0,0.0,0,0.0,2,0,0.0
+gpt_oss_20b,multihoprag,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_earlier,218,0,0.0,0,0.0,218,0,0.0
+gpt_oss_20b,multihoprag,Oracle Complete-Saturation vs Oracle Complete-Neutral,attack_completed_later,119,0,0.0,0,0.0,119,0,0.0
+gpt_oss_20b,multihoprag,Oracle Complete-Saturation vs Oracle Complete-Neutral,same_completion_step,66,0,0.0,0,0.0,66,0,0.0
+gpt_oss_20b,multihoprag,Source Coverage vs Natural Neutral,same_completion_step,59,1,1.694915254237288,1,1.694915254237288,57,1,1.694915254237288
+gpt_oss_20b,multihoprag,Source Coverage vs Natural Neutral,attack_completed_later,160,0,0.0,10,6.25,150,0,0.0
+gpt_oss_20b,multihoprag,Source Coverage vs Natural Neutral,attack_completed_earlier,170,13,7.647058823529412,1,0.5882352941176471,156,6,3.5294117647058822
+gpt_oss_20b,multihoprag,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,same_completion_step,56,1,1.7857142857142858,0,0.0,55,0,0.0
+gpt_oss_20b,multihoprag,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_earlier,170,7,4.117647058823529,2,1.1764705882352942,161,4,2.3529411764705883
+gpt_oss_20b,multihoprag,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,attack_completed_later,155,4,2.5806451612903225,8,5.161290322580645,143,5,3.225806451612903
+gpt_oss_20b,multihoprag,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,incomparable_or_missing_completion,2,0,0.0,0,0.0,2,0,0.0
+gpt_oss_20b,multihoprag,Search Match + Source Coverage vs Search Match,attack_completed_earlier,154,8,5.194805194805195,2,1.2987012987012987,144,3,1.948051948051948
+gpt_oss_20b,multihoprag,Search Match + Source Coverage vs Search Match,attack_completed_later,154,0,0.0,6,3.896103896103896,148,1,0.6493506493506493
+gpt_oss_20b,multihoprag,Search Match + Source Coverage vs Search Match,same_completion_step,80,0,0.0,0,0.0,80,0,0.0

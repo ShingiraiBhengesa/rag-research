@@ -54,7 +54,10 @@ def build_manifest(inventory: InventoryResult, repo_root: Path, generated_at: st
         "included_models": list(bundle_models()),
         "datasets": list(config.DATASETS),
         "conditions": list(config.CONDITIONS),
-        "production_root": str(config.DEFAULT_PRODUCTION_ROOT),
+        # Repo-relative when the data lives inside the repo (never a personal absolute path).
+        "production_root": (str(config.DEFAULT_PRODUCTION_ROOT.relative_to(config.REPO_ROOT))
+                            if config.DEFAULT_PRODUCTION_ROOT.is_relative_to(config.REPO_ROOT)
+                            else "$PREMATURESTOP_LOCAL_DATA"),
         "input_file_hashes_by_model_dataset": _unique_hashes(inventory.rows),
         "shard_completion": [
             {

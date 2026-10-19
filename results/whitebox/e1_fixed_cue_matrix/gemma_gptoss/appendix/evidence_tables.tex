@@ -1,0 +1,135 @@
+% Appendix: complete evidence tables, both models (spec 8)
+% paired_evidence_loss = control_mean_coverage - cue_mean_coverage (spec 3.2 sign convention)
+\begin{table}[t]
+\centering
+\caption{Paired evidence loss, Gemma-3-27B-IT. Positive = cue condition lost evidence relative to control.}
+\begin{tabular}{llrrr}
+\toprule
+Dataset & Comparison & $n_{\text{paired}}$ & Paired loss & 95\% CI \\
+\midrule
+2WikiMultiHopQA & Natural Neutral vs Natural Clean & 450 & 0.009 & [-0.008, 0.026] \\
+2WikiMultiHopQA & Epistemic Confirmation vs Natural Neutral & 450 & 0.023 & [0.003, 0.043] \\
+2WikiMultiHopQA & Search Match vs Natural Neutral & 450 & 0.000 & [-0.019, 0.019] \\
+2WikiMultiHopQA & Fixed Sufficiency vs Natural Neutral & 450 & 0.011 & [-0.011, 0.033] \\
+2WikiMultiHopQA & Fixed Sufficiency Saturation vs Natural Neutral & 350 & 0.012 & [-0.009, 0.034] \\
+2WikiMultiHopQA & Natural\_epistemic\_confirmation vs Natural Clean (total end-to-end change) & 450 & 0.032 & [0.012, 0.052] \\
+2WikiMultiHopQA & Natural\_search\_match\_cue vs Natural Clean (total end-to-end change) & 450 & 0.009 & [-0.010, 0.029] \\
+2WikiMultiHopQA & Natural\_PreRegisteredSufficiency vs Natural Clean (total end-to-end change) & 450 & 0.020 & [-0.001, 0.041] \\
+2WikiMultiHopQA & Natural\_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change) & 350 & 0.013 & [-0.008, 0.034] \\
+2WikiMultiHopQA & Continue Search vs Natural Neutral & 450 & 0.001 & [-0.018, 0.021] \\
+2WikiMultiHopQA & Oracle Complete-Saturation vs Oracle Complete-Neutral & 450 & 0.000 & [0.000, 0.000] \\
+2WikiMultiHopQA & Source Coverage vs Natural Neutral & 450 & -0.006 & [-0.026, 0.013] \\
+2WikiMultiHopQA & Epistemic Confirmation + Source Coverage vs Epistemic Confirmation & 449 & -0.013 & [-0.033, 0.007] \\
+2WikiMultiHopQA & Search Match + Source Coverage vs Search Match & 450 & -0.014 & [-0.033, 0.004] \\
+HotpotQA & Natural Neutral vs Natural Clean & 450 & 0.016 & [-0.004, 0.036] \\
+HotpotQA & Epistemic Confirmation vs Natural Neutral & 450 & -0.006 & [-0.026, 0.016] \\
+HotpotQA & Search Match vs Natural Neutral & 450 & 0.008 & [-0.013, 0.029] \\
+HotpotQA & Fixed Sufficiency vs Natural Neutral & 450 & 0.023 & [0.000, 0.047] \\
+HotpotQA & Fixed Sufficiency Saturation vs Natural Neutral & 450 & 0.011 & [-0.011, 0.033] \\
+HotpotQA & Natural\_epistemic\_confirmation vs Natural Clean (total end-to-end change) & 450 & 0.010 & [-0.011, 0.031] \\
+HotpotQA & Natural\_search\_match\_cue vs Natural Clean (total end-to-end change) & 450 & 0.023 & [0.002, 0.044] \\
+HotpotQA & Natural\_PreRegisteredSufficiency vs Natural Clean (total end-to-end change) & 450 & 0.039 & [0.017, 0.062] \\
+HotpotQA & Natural\_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change) & 450 & 0.027 & [0.003, 0.049] \\
+HotpotQA & Continue Search vs Natural Neutral & 450 & -0.012 & [-0.033, 0.009] \\
+HotpotQA & Oracle Complete-Saturation vs Oracle Complete-Neutral & 450 & 0.000 & [0.000, 0.000] \\
+HotpotQA & Source Coverage vs Natural Neutral & 450 & 0.004 & [-0.016, 0.024] \\
+HotpotQA & Epistemic Confirmation + Source Coverage vs Epistemic Confirmation & 450 & 0.011 & [-0.009, 0.030] \\
+HotpotQA & Search Match + Source Coverage vs Search Match & 450 & -0.022 & [-0.043, -0.002] \\
+MultiHopRAG & Natural Neutral vs Natural Clean & 450 & -0.002 & [-0.008, 0.003] \\
+MultiHopRAG & Epistemic Confirmation vs Natural Neutral & 450 & 0.002 & [-0.003, 0.007] \\
+MultiHopRAG & Search Match vs Natural Neutral & 450 & 0.003 & [-0.002, 0.008] \\
+MultiHopRAG & Fixed Sufficiency vs Natural Neutral & 450 & 0.006 & [-0.001, 0.012] \\
+MultiHopRAG & Fixed Sufficiency Saturation vs Natural Neutral & 450 & 0.009 & [0.003, 0.014] \\
+MultiHopRAG & Natural\_epistemic\_confirmation vs Natural Clean (total end-to-end change) & 450 & -0.001 & [-0.007, 0.006] \\
+MultiHopRAG & Natural\_search\_match\_cue vs Natural Clean (total end-to-end change) & 450 & 0.001 & [-0.004, 0.006] \\
+MultiHopRAG & Natural\_PreRegisteredSufficiency vs Natural Clean (total end-to-end change) & 450 & 0.003 & [-0.002, 0.009] \\
+MultiHopRAG & Natural\_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change) & 450 & 0.007 & [0.002, 0.012] \\
+MultiHopRAG & Continue Search vs Natural Neutral & 450 & 0.001 & [-0.004, 0.007] \\
+MultiHopRAG & Oracle Complete-Saturation vs Oracle Complete-Neutral & 450 & 0.000 & [0.000, 0.000] \\
+MultiHopRAG & Source Coverage vs Natural Neutral & 450 & 0.002 & [-0.004, 0.007] \\
+MultiHopRAG & Epistemic Confirmation + Source Coverage vs Epistemic Confirmation & 450 & 0.000 & [-0.005, 0.005] \\
+MultiHopRAG & Search Match + Source Coverage vs Search Match & 450 & -0.002 & [-0.008, 0.004] \\
+MuSiQue & Natural Neutral vs Natural Clean & 399 & 0.001 & [-0.023, 0.025] \\
+MuSiQue & Epistemic Confirmation vs Natural Neutral & 400 & -0.001 & [-0.028, 0.026] \\
+MuSiQue & Search Match vs Natural Neutral & 400 & -0.003 & [-0.030, 0.023] \\
+MuSiQue & Fixed Sufficiency vs Natural Neutral & 400 & 0.007 & [-0.020, 0.035] \\
+MuSiQue & Fixed Sufficiency Saturation vs Natural Neutral & 400 & 0.007 & [-0.019, 0.034] \\
+MuSiQue & Natural\_epistemic\_confirmation vs Natural Clean (total end-to-end change) & 449 & -0.004 & [-0.029, 0.021] \\
+MuSiQue & Natural\_search\_match\_cue vs Natural Clean (total end-to-end change) & 449 & -0.002 & [-0.028, 0.022] \\
+MuSiQue & Natural\_PreRegisteredSufficiency vs Natural Clean (total end-to-end change) & 449 & -0.001 & [-0.028, 0.026] \\
+MuSiQue & Natural\_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change) & 449 & 0.010 & [-0.017, 0.036] \\
+MuSiQue & Continue Search vs Natural Neutral & 400 & -0.016 & [-0.041, 0.008] \\
+MuSiQue & Oracle Complete-Saturation vs Oracle Complete-Neutral & 450 & 0.000 & [0.000, 0.000] \\
+MuSiQue & Source Coverage vs Natural Neutral & 400 & -0.003 & [-0.029, 0.024] \\
+MuSiQue & Epistemic Confirmation + Source Coverage vs Epistemic Confirmation & 450 & -0.007 & [-0.031, 0.016] \\
+MuSiQue & Search Match + Source Coverage vs Search Match & 450 & -0.007 & [-0.031, 0.016] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Paired evidence loss, GPT-OSS-20B. Positive = cue condition lost evidence relative to control.}
+\begin{tabular}{llrrr}
+\toprule
+Dataset & Comparison & $n_{\text{paired}}$ & Paired loss & 95\% CI \\
+\midrule
+2WikiMultiHopQA & Natural Neutral vs Natural Clean & 448 & -0.006 & [-0.025, 0.013] \\
+2WikiMultiHopQA & Epistemic Confirmation vs Natural Neutral & 450 & -0.011 & [-0.029, 0.007] \\
+2WikiMultiHopQA & Search Match vs Natural Neutral & 450 & 0.005 & [-0.015, 0.025] \\
+2WikiMultiHopQA & Fixed Sufficiency vs Natural Neutral & 450 & 0.008 & [-0.012, 0.028] \\
+2WikiMultiHopQA & Fixed Sufficiency Saturation vs Natural Neutral & 450 & 0.027 & [0.007, 0.048] \\
+2WikiMultiHopQA & Natural\_epistemic\_confirmation vs Natural Clean (total end-to-end change) & 448 & -0.018 & [-0.037, 0.001] \\
+2WikiMultiHopQA & Natural\_search\_match\_cue vs Natural Clean (total end-to-end change) & 448 & -0.001 & [-0.021, 0.020] \\
+2WikiMultiHopQA & Natural\_PreRegisteredSufficiency vs Natural Clean (total end-to-end change) & 448 & 0.003 & [-0.017, 0.023] \\
+2WikiMultiHopQA & Natural\_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change) & 448 & 0.022 & [0.000, 0.044] \\
+2WikiMultiHopQA & Continue Search vs Natural Neutral & 449 & 0.006 & [-0.014, 0.026] \\
+2WikiMultiHopQA & Oracle Complete-Saturation vs Oracle Complete-Neutral & 450 & 0.000 & [0.000, 0.000] \\
+2WikiMultiHopQA & Source Coverage vs Natural Neutral & 398 & 0.005 & [-0.014, 0.024] \\
+2WikiMultiHopQA & Epistemic Confirmation + Source Coverage vs Epistemic Confirmation & 448 & 0.015 & [-0.003, 0.032] \\
+2WikiMultiHopQA & Search Match + Source Coverage vs Search Match & 449 & -0.006 & [-0.026, 0.014] \\
+HotpotQA & Natural Neutral vs Natural Clean & 376 & 0.001 & [-0.020, 0.024] \\
+HotpotQA & Epistemic Confirmation vs Natural Neutral & 371 & -0.026 & [-0.047, -0.005] \\
+HotpotQA & Search Match vs Natural Neutral & 351 & -0.001 & [-0.024, 0.020] \\
+HotpotQA & Fixed Sufficiency vs Natural Neutral & 364 & 0.000 & [-0.025, 0.025] \\
+HotpotQA & Fixed Sufficiency Saturation vs Natural Neutral & 361 & -0.008 & [-0.033, 0.017] \\
+HotpotQA & Natural\_epistemic\_confirmation vs Natural Clean (total end-to-end change) & 408 & -0.017 & [-0.038, 0.004] \\
+HotpotQA & Natural\_search\_match\_cue vs Natural Clean (total end-to-end change) & 384 & 0.004 & [-0.018, 0.026] \\
+HotpotQA & Natural\_PreRegisteredSufficiency vs Natural Clean (total end-to-end change) & 403 & 0.000 & [-0.022, 0.022] \\
+HotpotQA & Natural\_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change) & 399 & -0.009 & [-0.030, 0.011] \\
+HotpotQA & Continue Search vs Natural Neutral & 371 & 0.000 & [-0.023, 0.023] \\
+HotpotQA & Oracle Complete-Saturation vs Oracle Complete-Neutral & 406 & 0.000 & [0.000, 0.000] \\
+HotpotQA & Source Coverage vs Natural Neutral & 367 & 0.003 & [-0.020, 0.025] \\
+HotpotQA & Epistemic Confirmation + Source Coverage vs Epistemic Confirmation & 406 & 0.021 & [0.002, 0.039] \\
+HotpotQA & Search Match + Source Coverage vs Search Match & 375 & 0.011 & [-0.012, 0.035] \\
+MultiHopRAG & Natural Neutral vs Natural Clean & 380 & -0.002 & [-0.007, 0.003] \\
+MultiHopRAG & Epistemic Confirmation vs Natural Neutral & 385 & 0.000 & [-0.005, 0.005] \\
+MultiHopRAG & Search Match vs Natural Neutral & 392 & 0.001 & [-0.005, 0.006] \\
+MultiHopRAG & Fixed Sufficiency vs Natural Neutral & 394 & 0.006 & [0.001, 0.011] \\
+MultiHopRAG & Fixed Sufficiency Saturation vs Natural Neutral & 392 & 0.001 & [-0.004, 0.006] \\
+MultiHopRAG & Natural\_epistemic\_confirmation vs Natural Clean (total end-to-end change) & 377 & -0.002 & [-0.007, 0.003] \\
+MultiHopRAG & Natural\_search\_match\_cue vs Natural Clean (total end-to-end change) & 382 & -0.001 & [-0.007, 0.005] \\
+MultiHopRAG & Natural\_PreRegisteredSufficiency vs Natural Clean (total end-to-end change) & 387 & 0.003 & [-0.003, 0.009] \\
+MultiHopRAG & Natural\_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change) & 387 & 0.000 & [-0.005, 0.006] \\
+MultiHopRAG & Continue Search vs Natural Neutral & 391 & 0.001 & [-0.004, 0.006] \\
+MultiHopRAG & Oracle Complete-Saturation vs Oracle Complete-Neutral & 403 & 0.000 & [0.000, 0.000] \\
+MultiHopRAG & Source Coverage vs Natural Neutral & 389 & 0.002 & [-0.004, 0.008] \\
+MultiHopRAG & Epistemic Confirmation + Source Coverage vs Epistemic Confirmation & 383 & 0.002 & [-0.003, 0.007] \\
+MultiHopRAG & Search Match + Source Coverage vs Search Match & 388 & 0.003 & [-0.002, 0.007] \\
+MuSiQue & Natural Neutral vs Natural Clean & 404 & -0.001 & [-0.029, 0.027] \\
+MuSiQue & Epistemic Confirmation vs Natural Neutral & 405 & -0.004 & [-0.031, 0.022] \\
+MuSiQue & Search Match vs Natural Neutral & 401 & -0.012 & [-0.040, 0.016] \\
+MuSiQue & Fixed Sufficiency vs Natural Neutral & 409 & 0.028 & [-0.002, 0.058] \\
+MuSiQue & Fixed Sufficiency Saturation vs Natural Neutral & 408 & 0.001 & [-0.030, 0.031] \\
+MuSiQue & Natural\_epistemic\_confirmation vs Natural Clean (total end-to-end change) & 404 & -0.005 & [-0.035, 0.023] \\
+MuSiQue & Natural\_search\_match\_cue vs Natural Clean (total end-to-end change) & 399 & 0.001 & [-0.029, 0.032] \\
+MuSiQue & Natural\_PreRegisteredSufficiency vs Natural Clean (total end-to-end change) & 405 & 0.021 & [-0.006, 0.049] \\
+MuSiQue & Natural\_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change) & 409 & -0.001 & [-0.030, 0.028] \\
+MuSiQue & Continue Search vs Natural Neutral & 403 & -0.022 & [-0.049, 0.005] \\
+MuSiQue & Oracle Complete-Saturation vs Oracle Complete-Neutral & 407 & 0.000 & [0.000, 0.000] \\
+MuSiQue & Source Coverage vs Natural Neutral & 399 & -0.000 & [-0.026, 0.026] \\
+MuSiQue & Epistemic Confirmation + Source Coverage vs Epistemic Confirmation & 405 & -0.005 & [-0.033, 0.023] \\
+MuSiQue & Search Match + Source Coverage vs Search Match & 408 & 0.001 & [-0.027, 0.028] \\
+\bottomrule
+\end{tabular}
+\end{table}

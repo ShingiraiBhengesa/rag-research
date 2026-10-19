@@ -27,12 +27,12 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
-from analysis.answer_evaluation import TECHNICAL_FAILURE_REASONS
-from analysis.canonical.results_bundle.comparisons import COMPARISONS
+from prematurestop.evaluation.answer_evaluation import TECHNICAL_FAILURE_REASONS
+from prematurestop.analysis.fixed_cue_matrix.results_bundle.comparisons import COMPARISONS
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[5]
 ADJUDICATION_DIR = Path(__file__).resolve().parent
-DATA_DIR = REPO_ROOT / "qwen_llama_results_bundle" / "data"
+DATA_DIR = Path(__file__).resolve().parents[1] / "data"  # the qwen_llama bundle
 
 QUEUE_PATH = ADJUDICATION_DIR / "semantic_adjudication_queue.csv"
 KEY_PATH = ADJUDICATION_DIR / "semantic_adjudication_key.csv"

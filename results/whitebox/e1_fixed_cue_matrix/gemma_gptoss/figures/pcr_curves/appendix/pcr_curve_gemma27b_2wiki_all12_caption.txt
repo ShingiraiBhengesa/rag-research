@@ -1,0 +1,1 @@
+pcr_curve_gemma27b_2wiki_all12: PCR@k, Gemma-3-27B-IT on 2WikiMultiHopQA. Denominator = pcr_eligible runs (canonical_completion.py definition, see MASTER_RESULTS.md methodology section). Source: data/pcr_stepwise.csv.

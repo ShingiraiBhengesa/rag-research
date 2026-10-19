@@ -1,0 +1,891 @@
+{
+  "active_slurm_jobs_for_included_models": [],
+  "conditions": [
+    "NaturalClean",
+    "NaturalNeutral",
+    "NaturalContinueSearch",
+    "Natural_epistemic_confirmation",
+    "Natural_search_match_cue",
+    "Natural_source_coverage",
+    "Natural_epistemic_confirmation_source",
+    "Natural_search_match_source",
+    "Natural_PreRegisteredSufficiency",
+    "Natural_PreRegisteredSufficiencySaturation",
+    "OracleComplete_Neutral",
+    "OracleComplete_PreRegisteredSufficiencySaturation"
+  ],
+  "datasets": [
+    "hotpot",
+    "2wiki",
+    "musique",
+    "multihoprag"
+  ],
+  "generated_at": "2026-10-17T01:12:38-0500",
+  "git_commit": "bca0b16cf8cf17f4e6ed1197f727351d79a99e79",
+  "included_models": [
+    "gemma27b",
+    "gpt_oss_20b"
+  ],
+  "input_file_hashes_by_model_dataset": {
+    "gemma27b/2wiki": {
+      "corpus_sha256": [
+        "bad8049d41210d4f437e3da96daf0d5fbf777b04f3b28b697b0832ee110635c6"
+      ],
+      "evidence_sha256": [
+        "aa7c94568de3211c03681ec37eed45001d3581f7c6d217795cf1ba9f63d28051"
+      ],
+      "manifest_sha256": [
+        "4f1cc6236375201a128e03c0d074578e5fe93e75ebf4a32427fcf3d61ebe864f"
+      ]
+    },
+    "gemma27b/hotpot": {
+      "corpus_sha256": [
+        "0ad79a00e52db4d761d5ca1b83416890070052a2927e2e7c023860743cd815fb"
+      ],
+      "evidence_sha256": [
+        "bef0d66dae14e105e746e8a8814be8a839a2c7f6a960516f4eb99f53d56dbefc"
+      ],
+      "manifest_sha256": [
+        "1c44a02e3c1d8b17e7a5bff3c666586526513536a0c8d85ead50bad7dee88a92"
+      ]
+    },
+    "gemma27b/multihoprag": {
+      "corpus_sha256": [
+        "d5ffc4d08635e736eb47b582dc31baf3083553ff9a3051ed494755f86e7ab3ef"
+      ],
+      "evidence_sha256": [
+        "5ff257b9a7343581774cee0cfc2470c1df9b5a84089e6edcb267e28e48026cdf"
+      ],
+      "manifest_sha256": [
+        "dcc3c19c08b319299a55e4bfc2d8b781a2e9918b0f260eba67e64bf2a375fa92"
+      ]
+    },
+    "gemma27b/musique": {
+      "corpus_sha256": [
+        "711bf0b64bf21c3e0e2de3780791c5fd31d9a06921e51b6452e4650cedd532af"
+      ],
+      "evidence_sha256": [
+        "bc80c530a4eceb659070fe91e44c17e2c79660149f67cb3570a0b10935491ed6"
+      ],
+      "manifest_sha256": [
+        "995f584e1c466347d4c30deebbab7e38411170269bb077011061b09dd5d0ad2e"
+      ]
+    },
+    "gpt_oss_20b/2wiki": {
+      "corpus_sha256": [
+        "bad8049d41210d4f437e3da96daf0d5fbf777b04f3b28b697b0832ee110635c6"
+      ],
+      "evidence_sha256": [
+        "aa7c94568de3211c03681ec37eed45001d3581f7c6d217795cf1ba9f63d28051"
+      ],
+      "manifest_sha256": [
+        "4f1cc6236375201a128e03c0d074578e5fe93e75ebf4a32427fcf3d61ebe864f"
+      ]
+    },
+    "gpt_oss_20b/hotpot": {
+      "corpus_sha256": [
+        "0ad79a00e52db4d761d5ca1b83416890070052a2927e2e7c023860743cd815fb"
+      ],
+      "evidence_sha256": [
+        "bef0d66dae14e105e746e8a8814be8a839a2c7f6a960516f4eb99f53d56dbefc"
+      ],
+      "manifest_sha256": [
+        "1c44a02e3c1d8b17e7a5bff3c666586526513536a0c8d85ead50bad7dee88a92"
+      ]
+    },
+    "gpt_oss_20b/multihoprag": {
+      "corpus_sha256": [
+        "d5ffc4d08635e736eb47b582dc31baf3083553ff9a3051ed494755f86e7ab3ef"
+      ],
+      "evidence_sha256": [
+        "5ff257b9a7343581774cee0cfc2470c1df9b5a84089e6edcb267e28e48026cdf"
+      ],
+      "manifest_sha256": [
+        "dcc3c19c08b319299a55e4bfc2d8b781a2e9918b0f260eba67e64bf2a375fa92"
+      ]
+    },
+    "gpt_oss_20b/musique": {
+      "corpus_sha256": [
+        "711bf0b64bf21c3e0e2de3780791c5fd31d9a06921e51b6452e4650cedd532af"
+      ],
+      "evidence_sha256": [
+        "bc80c530a4eceb659070fe91e44c17e2c79660149f67cb3570a0b10935491ed6"
+      ],
+      "manifest_sha256": [
+        "995f584e1c466347d4c30deebbab7e38411170269bb077011061b09dd5d0ad2e"
+      ]
+    }
+  },
+  "note": "active_slurm_jobs_for_included_models must be empty for gemma27b/gpt_oss_20b -- every included model is a frozen/complete input for this bundle.",
+  "production_root": "local_data",
+  "shard_completion": [
+    {
+      "condition": "NaturalClean",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalNeutral",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalContinueSearch",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_cue",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_source_coverage",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation_source",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_source",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiency",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiencySaturation",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_Neutral",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_PreRegisteredSufficiencySaturation",
+      "dataset": "hotpot",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalClean",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalNeutral",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalContinueSearch",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_cue",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_source_coverage",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation_source",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_source",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiency",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiencySaturation",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 7,
+      "status": "PARTIAL \u2014 COMPLETED SHARDS ONLY"
+    },
+    {
+      "condition": "OracleComplete_Neutral",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_PreRegisteredSufficiencySaturation",
+      "dataset": "2wiki",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalClean",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalNeutral",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 8,
+      "status": "PARTIAL \u2014 COMPLETED SHARDS ONLY"
+    },
+    {
+      "condition": "NaturalContinueSearch",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_cue",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_source_coverage",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation_source",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_source",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiency",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiencySaturation",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_Neutral",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_PreRegisteredSufficiencySaturation",
+      "dataset": "musique",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalClean",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalNeutral",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalContinueSearch",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_cue",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_source_coverage",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation_source",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_source",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiency",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiencySaturation",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_Neutral",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_PreRegisteredSufficiencySaturation",
+      "dataset": "multihoprag",
+      "model": "gemma27b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalClean",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalNeutral",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "PARTIAL \u2014 COMPLETED SHARDS ONLY"
+    },
+    {
+      "condition": "NaturalContinueSearch",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_cue",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "PARTIAL \u2014 COMPLETED SHARDS ONLY"
+    },
+    {
+      "condition": "Natural_source_coverage",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation_source",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_source",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "PARTIAL \u2014 COMPLETED SHARDS ONLY"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiency",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiencySaturation",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_Neutral",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_PreRegisteredSufficiencySaturation",
+      "dataset": "hotpot",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalClean",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalNeutral",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalContinueSearch",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_cue",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_source_coverage",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 8,
+      "status": "PARTIAL \u2014 COMPLETED SHARDS ONLY"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation_source",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_source",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiency",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiencySaturation",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_Neutral",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_PreRegisteredSufficiencySaturation",
+      "dataset": "2wiki",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalClean",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalNeutral",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalContinueSearch",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_cue",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_source_coverage",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation_source",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_source",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiency",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiencySaturation",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_Neutral",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_PreRegisteredSufficiencySaturation",
+      "dataset": "musique",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalClean",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalNeutral",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "NaturalContinueSearch",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "PARTIAL \u2014 COMPLETED SHARDS ONLY"
+    },
+    {
+      "condition": "Natural_search_match_cue",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_source_coverage",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_epistemic_confirmation_source",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_search_match_source",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiency",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "Natural_PreRegisteredSufficiencySaturation",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_Neutral",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    },
+    {
+      "condition": "OracleComplete_PreRegisteredSufficiencySaturation",
+      "dataset": "multihoprag",
+      "model": "gpt_oss_20b",
+      "n_shards_expected": 9,
+      "n_shards_present": 9,
+      "status": "COMPLETE \u2014 FULL DATASET"
+    }
+  ]
+}

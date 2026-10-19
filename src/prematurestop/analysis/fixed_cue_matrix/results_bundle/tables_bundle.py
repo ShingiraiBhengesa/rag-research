@@ -156,7 +156,7 @@ def build_retrieval_equivalence_summary_md(data_dir: Path, model: str | None = N
         "Main result is the same-example end-to-end comparison (`n_readable_pairs` denominator); "
         "`n_identical_observation_sensitivity_population` is the stricter subset where retrieval was "
         "byte-identical before any cue suffix, with its own denominator (spec 5.6) -- see "
-        "`data/retrieval_equivalence.csv` for per-pair detail.",
+        "[table: data/retrieval_equivalence.csv] for per-pair detail.",
         "",
     ]
     re_rows = _retrieval_equivalence_summary_rows(data_dir)

@@ -1,0 +1,1 @@
+pcr_curve_gpt_oss_20b_musique_all12: PCR@k, GPT-OSS-20B on MuSiQue. Denominator = pcr_eligible runs (canonical_completion.py definition, see MASTER_RESULTS.md methodology section). Source: data/pcr_stepwise.csv.

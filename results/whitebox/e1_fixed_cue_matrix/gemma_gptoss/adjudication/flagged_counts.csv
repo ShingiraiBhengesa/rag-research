@@ -1,0 +1,9 @@
+model,dataset,display_model,n_flagged
+gemma27b,2wiki,Gemma-3-27B-IT,131
+gemma27b,hotpot,Gemma-3-27B-IT,76
+gemma27b,multihoprag,Gemma-3-27B-IT,100
+gemma27b,musique,Gemma-3-27B-IT,96
+gpt_oss_20b,2wiki,GPT-OSS-20B,54
+gpt_oss_20b,hotpot,GPT-OSS-20B,75
+gpt_oss_20b,multihoprag,GPT-OSS-20B,69
+gpt_oss_20b,musique,GPT-OSS-20B,47
