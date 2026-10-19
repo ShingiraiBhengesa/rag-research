@@ -1,0 +1,75 @@
+family,comparison,control,cue,stratum,value,model,n_pairs,ctl_correct_cue_wrong,ctl_wrong_cue_correct,net_harm_pp,ci_low_pp,ci_high_pp,mcnemar_p
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,d1_already_complete,False,all,3741,278,278,0.0,,,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,d1_already_complete,None,all,4,0,3,-75.0,,,0.25
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,d1_already_complete,True,all,3150,285,263,0.698,,,0.369693
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,hop_count,,all,4,0,3,-75.0,,,0.25
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,hop_count,2,all,4737,404,369,0.739,,,0.221345
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,hop_count,3,all,1173,85,79,0.512,,,0.696341
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,hop_count,4,all,981,74,93,-1.937,,,0.163459
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,d1_already_complete,False,all,3753,277,279,-0.053,,,0.966177
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,d1_already_complete,True,all,3154,271,288,-0.539,,,0.498613
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,hop_count,2,all,4735,377,406,-0.612,,,0.317002
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,hop_count,3,all,1191,89,93,-0.336,,,0.824098
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,hop_count,4,all,981,82,68,1.427,,,0.288456
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,d1_already_complete,False,all,3747,296,284,0.32,,,0.647888
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,d1_already_complete,True,all,3141,299,288,0.35,,,0.67983
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,hop_count,2,all,4716,420,390,0.636,,,0.308222
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,hop_count,3,all,1188,87,94,-0.589,,,0.655734
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,hop_count,4,all,984,88,88,0.0,,,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,d1_already_complete,False,all,3737,344,329,0.401,-0.937,1.82,0.589464
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,d1_already_complete,True,all,3138,330,316,0.446,-1.179,2.008,0.60905
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,hop_count,2,all,4722,473,458,0.318,-0.995,1.609,0.646379
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,hop_count,3,all,1175,100,99,0.085,-2.128,2.383,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,hop_count,4,all,978,101,88,1.329,-1.431,3.988,0.382785
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,d1_already_complete,False,all,3671,312,312,0.0,-1.362,1.28,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,d1_already_complete,True,all,3100,327,325,0.065,-1.484,1.71,0.968764
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,hop_count,2,all,4641,452,435,0.366,-0.84,1.638,0.591135
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,hop_count,3,all,1183,108,104,0.338,-1.944,2.705,0.83682
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,hop_count,4,all,947,79,98,-2.006,-4.857,0.634,0.175899
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,d1_already_complete,False,all,3805,300,300,0.0,,,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,d1_already_complete,None,all,4,0,1,-25.0,,,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,d1_already_complete,True,all,3166,285,279,0.19,,,0.833271
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,hop_count,,all,4,0,1,-25.0,,,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,hop_count,2,all,4792,408,395,0.271,,,0.671978
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,hop_count,3,all,1195,89,91,-0.167,,,0.940612
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,hop_count,4,all,984,88,93,-0.508,,,0.76632
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,d1_already_complete,False,all,3792,313,307,0.158,,,0.840871
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,d1_already_complete,None,all,4,0,2,-50.0,,,0.5
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,d1_already_complete,True,all,3153,301,264,1.173,,,0.129818
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,hop_count,,all,4,0,2,-50.0,,,0.5
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,hop_count,2,all,4768,451,383,1.426,,,0.020285
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,hop_count,3,all,1190,86,92,-0.504,,,0.707948
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,hop_count,4,all,987,77,96,-1.925,,,0.170972
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,d1_already_complete,False,all,3787,336,313,0.607,,,0.387837
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,d1_already_complete,None,all,11,0,3,-27.273,,,0.25
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,d1_already_complete,True,all,3162,331,298,1.044,,,0.201945
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,hop_count,,all,11,0,3,-27.273,,,0.25
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,hop_count,2,all,4791,481,424,1.19,,,0.062614
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,hop_count,3,all,1178,106,102,0.34,,,0.835282
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,hop_count,4,all,980,80,85,-0.51,,,0.755606
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,d1_already_complete,False,all,3727,331,312,0.51,,,0.477825
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,d1_already_complete,None,all,11,0,5,-45.455,,,0.0625
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,d1_already_complete,True,all,3123,314,294,0.64,,,0.440998
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,hop_count,,all,11,0,5,-45.455,,,0.0625
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,hop_count,2,all,4713,472,409,1.337,,,0.036663
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,hop_count,3,all,1188,111,100,0.926,,,0.491274
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,hop_count,4,all,949,62,97,-3.688,,,0.006823
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,d1_already_complete,True,all,6996,585,620,-0.5,,,0.327356
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,hop_count,2,all,4804,392,434,-0.874,,,0.15366
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,hop_count,3,all,1199,108,101,0.584,,,0.678222
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,hop_count,4,all,993,85,85,0.0,,,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,d1_already_complete,False,all,3701,288,282,0.162,,,0.834138
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,d1_already_complete,True,all,3130,308,296,0.383,,,0.654489
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,hop_count,2,all,4689,420,419,0.021,,,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,hop_count,3,all,1173,98,89,0.767,,,0.558652
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,hop_count,4,all,969,78,70,0.826,,,0.565172
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,d1_already_complete,False,all,3797,299,316,-0.448,,,0.518842
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,d1_already_complete,True,all,3159,325,310,0.475,,,0.578537
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,hop_count,2,all,4778,422,427,-0.105,,,0.89082
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,hop_count,3,all,1198,111,102,0.751,,,0.583692
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,hop_count,4,all,980,91,97,-0.612,,,0.715469
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,d1_already_complete,False,all,3814,272,293,-0.551,,,0.400141
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,d1_already_complete,True,all,3112,302,283,0.611,,,0.456779
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,hop_count,2,all,4749,390,415,-0.526,,,0.397629
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,hop_count,3,all,1191,100,91,0.756,,,0.562798
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,hop_count,4,all,986,84,70,1.42,,,0.294814

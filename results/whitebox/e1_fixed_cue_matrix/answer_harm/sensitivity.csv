@@ -1,0 +1,21 @@
+family,comparison,control,cue,sensitivity,model,n_pairs,ctl_correct_cue_wrong,ctl_wrong_cue_correct,net_harm_pp,ci_low_pp,ci_high_pp,mcnemar_p
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,S1_drop_adjudication_flagged,qwen14b,1763,159,148,0.624,-1.418,2.552,0.568254
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,S1_drop_adjudication_flagged,llama8b,1657,136,135,0.06,-1.871,1.992,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,S1_drop_adjudication_flagged,gemma27b,1695,196,177,1.121,-1.003,3.245,0.351349
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,S1_drop_adjudication_flagged,gpt_oss_20b,1575,156,159,-0.19,-2.413,2.032,0.910302
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,S1_drop_adjudication_flagged,all,6690,647,619,0.419,-0.598,1.45,0.447964
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,S2_drop_gptoss_without_lenient_parser,qwen14b,1796,165,153,0.668,-1.225,2.673,0.537401
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,S2_drop_gptoss_without_lenient_parser,llama8b,1710,142,143,-0.058,-2.047,1.93,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,S2_drop_gptoss_without_lenient_parser,gemma27b,1750,204,184,1.143,-1.086,3.371,0.334763
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,S2_drop_gptoss_without_lenient_parser,gpt_oss_20b,450,38,50,-2.667,-6.667,1.333,0.240793
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,S2_drop_gptoss_without_lenient_parser,all,5706,549,530,0.333,-0.806,1.455,0.583729
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,S1_drop_adjudication_flagged,qwen14b,1773,152,136,0.902,-0.959,2.82,0.37679
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,S1_drop_adjudication_flagged,llama8b,1663,142,126,0.962,-1.022,3.007,0.35955
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,S1_drop_adjudication_flagged,gemma27b,1595,175,177,-0.125,-2.445,2.132,0.957503
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,S1_drop_adjudication_flagged,gpt_oss_20b,1578,148,169,-1.331,-3.676,0.887,0.261273
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,S1_drop_adjudication_flagged,all,6609,617,608,0.136,-0.938,1.195,0.819214
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,S2_drop_gptoss_without_lenient_parser,qwen14b,1796,153,141,0.668,-1.169,2.617,0.521247
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,S2_drop_gptoss_without_lenient_parser,llama8b,1710,146,134,0.702,-1.228,2.573,0.511011
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,S2_drop_gptoss_without_lenient_parser,gemma27b,1650,185,188,-0.182,-2.364,2.182,0.91754
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,S2_drop_gptoss_without_lenient_parser,gpt_oss_20b,450,34,46,-2.667,-6.444,1.333,0.218518
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,S2_drop_gptoss_without_lenient_parser,all,5606,518,509,0.161,-0.945,1.284,0.802885

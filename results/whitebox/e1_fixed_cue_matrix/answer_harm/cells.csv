@@ -1,0 +1,225 @@
+family,comparison,control,cue,model,dataset,n_pairs,ctl_correct_cue_wrong,ctl_wrong_cue_correct,net_harm_pp,ci_low_pp,ci_high_pp,mcnemar_p,bh_q
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,qwen14b,hotpot,450,23,18,1.111,-1.556,3.778,0.532709,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,qwen14b,2wiki,450,28,33,-1.111,-4.444,2.222,0.608921,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,qwen14b,musique,449,31,25,1.336,-2.004,4.677,0.504404,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,qwen14b,multihoprag,450,23,35,-2.667,-6.0,0.667,0.148006,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,llama8b,hotpot,434,26,37,-2.535,-6.221,1.152,0.207368,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,llama8b,2wiki,440,33,24,2.045,-1.364,5.455,0.289244,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,llama8b,musique,434,21,17,0.922,-1.843,3.687,0.627103,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,llama8b,multihoprag,424,26,26,0.0,-3.302,3.066,1.0,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,gemma27b,hotpot,450,45,37,1.778,-2.0,5.778,0.439705,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,gemma27b,2wiki,450,41,51,-2.222,-6.222,2.222,0.348141,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,gemma27b,musique,400,37,27,2.5,-1.75,6.5,0.260435,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,gemma27b,multihoprag,450,58,58,0.0,-4.667,4.889,1.0,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,gpt_oss_20b,hotpot,378,37,31,1.587,-2.91,5.556,0.544612,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,gpt_oss_20b,2wiki,450,48,40,1.778,-2.444,5.778,0.455741,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,gpt_oss_20b,musique,406,38,36,0.493,-3.695,4.433,0.907561,1.0
+control,Natural Neutral vs Natural Clean,NaturalClean,NaturalNeutral,gpt_oss_20b,multihoprag,380,48,49,-0.263,-5.0,5.0,1.0,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,qwen14b,hotpot,450,20,27,-1.556,-4.444,1.333,0.381693,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,qwen14b,2wiki,450,30,24,1.333,-1.778,4.444,0.496617,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,qwen14b,musique,449,32,38,-1.336,-4.9,2.45,0.550413,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,qwen14b,multihoprag,450,30,24,1.333,-1.778,4.444,0.496617,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,llama8b,hotpot,437,32,29,0.686,-2.975,4.348,0.798153,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,llama8b,2wiki,442,23,25,-0.452,-3.394,2.489,0.885433,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,llama8b,musique,436,20,20,0.0,-2.752,2.752,1.0,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,llama8b,multihoprag,429,23,35,-2.797,-6.294,0.699,0.148006,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,gemma27b,hotpot,450,41,51,-2.222,-6.222,2.222,0.348141,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,gemma27b,2wiki,450,55,36,4.222,0.222,8.444,0.058574,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,gemma27b,musique,400,33,33,0.0,-3.75,4.0,1.0,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,gemma27b,multihoprag,450,62,55,1.556,-3.333,6.444,0.57929,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,gpt_oss_20b,hotpot,372,30,40,-2.688,-6.989,1.882,0.281979,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,gpt_oss_20b,2wiki,450,41,49,-1.778,-5.778,2.444,0.460792,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,gpt_oss_20b,musique,407,31,35,-0.983,-4.668,3.194,0.712231,1.0
+secondary_attack,Epistemic Confirmation vs Natural Neutral,NaturalNeutral,Natural_epistemic_confirmation,gpt_oss_20b,multihoprag,385,45,46,-0.26,-5.195,4.416,1.0,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,qwen14b,hotpot,450,33,35,-0.444,-3.778,3.556,0.903597,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,qwen14b,2wiki,450,55,45,2.222,-2.0,6.444,0.368202,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,qwen14b,musique,448,32,39,-1.562,-5.134,2.455,0.476688,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,qwen14b,multihoprag,449,28,30,-0.445,-3.786,2.895,0.895683,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,llama8b,hotpot,437,27,24,0.686,-2.517,3.661,0.779768,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,llama8b,2wiki,442,24,21,0.679,-2.262,3.62,0.765992,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,llama8b,musique,436,17,19,-0.459,-3.211,2.064,0.867939,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,llama8b,multihoprag,429,20,29,-2.098,-5.128,0.932,0.25287,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,gemma27b,hotpot,450,46,54,-1.778,-6.222,2.444,0.484118,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,gemma27b,2wiki,450,53,39,3.111,-1.111,7.556,0.174984,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,gemma27b,musique,400,31,34,-0.75,-4.75,3.25,0.804317,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,gemma27b,multihoprag,450,64,45,4.222,-0.222,8.667,0.084222,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,gpt_oss_20b,hotpot,352,40,33,1.989,-2.557,6.818,0.482789,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,gpt_oss_20b,2wiki,450,45,48,-0.667,-4.667,3.556,0.835846,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,gpt_oss_20b,musique,403,33,27,1.489,-2.233,5.459,0.518958,1.0
+secondary_attack,Search Match vs Natural Neutral,NaturalNeutral,Natural_search_match_cue,gpt_oss_20b,multihoprag,392,47,50,-0.765,-5.612,4.082,0.839214,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,qwen14b,hotpot,450,39,39,0.0,-3.778,4.0,1.0,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,qwen14b,2wiki,449,50,41,2.004,-2.227,6.236,0.401813,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,qwen14b,musique,447,36,37,-0.224,-4.027,3.579,1.0,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,qwen14b,multihoprag,450,40,36,0.889,-2.889,4.667,0.731009,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,llama8b,hotpot,432,48,39,2.083,-2.083,6.25,0.391191,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,llama8b,2wiki,438,33,44,-2.511,-6.164,1.598,0.254305,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,llama8b,musique,421,26,25,0.238,-3.088,3.325,1.0,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,llama8b,multihoprag,419,35,35,0.0,-3.819,4.057,1.0,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,gemma27b,hotpot,450,45,56,-2.444,-7.111,2.0,0.319727,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,gemma27b,2wiki,450,56,48,1.778,-2.667,6.444,0.492645,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,gemma27b,musique,400,39,35,1.0,-3.0,5.25,0.727547,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,gemma27b,multihoprag,450,64,45,4.222,-0.222,8.667,0.084222,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,gpt_oss_20b,hotpot,364,41,38,0.824,-3.846,5.769,0.822144,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,gpt_oss_20b,2wiki,450,38,50,-2.667,-6.667,1.333,0.240793,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,gpt_oss_20b,musique,411,38,26,2.92,-0.973,6.813,0.168643,1.0
+primary_attack,Fixed Sufficiency vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiency,gpt_oss_20b,multihoprag,394,46,51,-1.269,-6.345,3.553,0.684859,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,qwen14b,hotpot,450,32,37,-1.111,-4.444,2.667,0.630456,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,qwen14b,2wiki,449,52,31,4.677,0.891,8.686,0.027534,0.881088
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,qwen14b,musique,447,33,32,0.224,-3.356,3.579,1.0,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,qwen14b,multihoprag,450,36,41,-1.111,-4.889,2.667,0.648791,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,llama8b,hotpot,432,50,36,3.241,-0.926,7.407,0.160578,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,llama8b,2wiki,438,33,37,-0.913,-4.338,2.968,0.720203,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,llama8b,musique,421,25,28,-0.713,-4.038,2.613,0.783846,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,llama8b,multihoprag,419,38,33,1.193,-2.864,5.012,0.635308,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,gemma27b,hotpot,450,49,53,-0.889,-5.333,3.333,0.766604,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,gemma27b,2wiki,350,40,37,0.857,-4.0,5.714,0.819893,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,gemma27b,musique,400,37,41,-1.0,-5.25,3.25,0.734342,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,gemma27b,multihoprag,450,59,57,0.444,-4.222,5.333,0.926078,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,gpt_oss_20b,hotpot,362,35,49,-3.867,-9.116,1.105,0.155656,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,gpt_oss_20b,2wiki,450,34,46,-2.667,-6.444,1.333,0.218518,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,gpt_oss_20b,musique,411,35,27,1.946,-1.703,5.839,0.374152,1.0
+primary_attack,Fixed Sufficiency Saturation vs Natural Neutral,NaturalNeutral,Natural_PreRegisteredSufficiencySaturation,gpt_oss_20b,multihoprag,392,51,52,-0.255,-5.102,5.102,1.0,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,qwen14b,hotpot,450,25,27,-0.444,-3.556,2.667,0.889884,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,qwen14b,2wiki,450,36,35,0.222,-3.333,4.0,1.0,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,qwen14b,musique,450,35,35,0.0,-3.556,3.778,1.0,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,qwen14b,multihoprag,450,34,40,-1.333,-5.111,2.444,0.561381,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,llama8b,hotpot,434,27,34,-1.613,-5.3,2.074,0.442626,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,llama8b,2wiki,440,32,26,1.364,-2.045,4.773,0.511842,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,llama8b,musique,434,19,15,0.922,-1.613,3.456,0.607591,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,llama8b,multihoprag,424,23,34,-2.594,-6.368,0.943,0.18485,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,gemma27b,hotpot,450,41,43,-0.444,-4.222,3.778,0.913202,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,gemma27b,2wiki,450,47,38,2.0,-1.778,6.0,0.385669,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,gemma27b,musique,450,41,29,2.667,-0.889,6.444,0.188216,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,gemma27b,multihoprag,450,63,56,1.556,-3.333,6.667,0.582494,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,gpt_oss_20b,hotpot,411,43,50,-1.703,-6.083,2.92,0.53406,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,gpt_oss_20b,2wiki,450,42,42,0.0,-4.0,4.0,1.0,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,gpt_oss_20b,musique,405,30,32,-0.494,-4.444,3.457,0.899076,1.0
+secondary_attack,Natural_epistemic_confirmation vs Natural Clean (total end-to-end change),NaturalClean,Natural_epistemic_confirmation,gpt_oss_20b,multihoprag,377,47,44,0.796,-4.244,5.836,0.834081,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,qwen14b,hotpot,450,40,37,0.667,-3.111,4.444,0.819893,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,qwen14b,2wiki,450,48,43,1.111,-3.111,5.111,0.675222,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,qwen14b,musique,449,34,35,-0.223,-3.786,3.563,1.0,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,qwen14b,multihoprag,449,29,43,-3.118,-6.904,0.668,0.124918,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,llama8b,hotpot,434,30,37,-1.613,-5.069,2.304,0.463818,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,llama8b,2wiki,440,36,24,2.727,-0.682,6.136,0.155002,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,llama8b,musique,434,22,20,0.461,-2.535,3.226,0.877614,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,llama8b,multihoprag,424,23,32,-2.123,-5.66,1.179,0.28061,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,gemma27b,hotpot,450,39,39,0.0,-3.778,4.0,1.0,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,gemma27b,2wiki,450,44,40,0.889,-3.111,5.111,0.743644,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,gemma27b,musique,450,40,28,2.667,-0.889,6.444,0.18181,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,gemma27b,multihoprag,450,66,47,4.222,-0.444,9.111,0.089954,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,gpt_oss_20b,hotpot,388,37,32,1.289,-3.093,5.412,0.630456,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,gpt_oss_20b,2wiki,450,51,46,1.111,-3.111,5.556,0.684859,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,gpt_oss_20b,musique,399,36,30,1.504,-2.256,5.263,0.538583,1.0
+secondary_attack,Natural_search_match_cue vs Natural Clean (total end-to-end change),NaturalClean,Natural_search_match_cue,gpt_oss_20b,multihoprag,382,39,40,-0.262,-4.974,4.188,1.0,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,qwen14b,hotpot,450,39,34,1.111,-2.444,4.889,0.639973,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,qwen14b,2wiki,449,45,41,0.891,-3.118,4.9,0.746534,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,qwen14b,musique,448,35,30,1.116,-2.232,4.464,0.620145,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,qwen14b,multihoprag,450,33,41,-1.778,-5.333,2.222,0.415985,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,llama8b,hotpot,432,39,39,0.0,-3.935,4.167,1.0,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,llama8b,2wiki,439,41,45,-0.911,-4.784,3.417,0.746534,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,llama8b,musique,423,27,23,0.946,-2.364,4.019,0.671811,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,llama8b,multihoprag,420,35,35,0.0,-3.81,4.048,1.0,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,gemma27b,hotpot,450,40,43,-0.667,-4.667,3.333,0.826405,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,gemma27b,2wiki,450,40,42,-0.444,-4.444,3.333,0.912157,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,gemma27b,musique,450,49,35,3.111,-0.667,7.111,0.155656,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,gemma27b,multihoprag,450,64,45,4.222,-0.222,8.667,0.084222,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,gpt_oss_20b,hotpot,405,44,38,1.481,-2.963,5.926,0.581114,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,gpt_oss_20b,2wiki,450,49,53,-0.889,-5.333,3.333,0.766604,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,gpt_oss_20b,musique,407,39,22,4.177,0.246,7.862,0.039617,1.0
+secondary_attack,Natural_PreRegisteredSufficiency vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiency,gpt_oss_20b,multihoprag,387,48,48,0.0,-4.91,4.91,1.0,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,qwen14b,hotpot,450,33,33,0.0,-3.333,3.556,1.0,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,qwen14b,2wiki,449,52,36,3.563,-0.445,7.795,0.109295,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,qwen14b,musique,448,39,32,1.562,-2.009,5.134,0.476688,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,qwen14b,multihoprag,450,23,40,-3.778,-7.111,-0.444,0.042957,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,llama8b,hotpot,432,40,34,1.389,-2.315,5.556,0.561381,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,llama8b,2wiki,439,44,41,0.683,-3.417,4.784,0.828423,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,llama8b,musique,423,27,27,0.0,-3.31,3.31,1.0,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,llama8b,multihoprag,420,36,31,1.19,-2.619,5.0,0.625407,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,gemma27b,hotpot,450,42,38,0.889,-3.111,4.889,0.737554,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,gemma27b,2wiki,350,29,34,-1.429,-6.0,3.143,0.614655,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,gemma27b,musique,450,43,36,1.556,-2.222,5.556,0.499897,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,gemma27b,multihoprag,450,62,60,0.444,-4.444,5.556,0.927911,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,gpt_oss_20b,hotpot,403,44,51,-1.737,-6.452,2.978,0.538394,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,gpt_oss_20b,2wiki,450,45,49,-0.889,-4.889,3.333,0.757189,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,gpt_oss_20b,musique,410,37,22,3.659,0.0,7.317,0.067445,1.0
+secondary_attack,Natural_PreRegisteredSufficiencySaturation vs Natural Clean (total end-to-end change),NaturalClean,Natural_PreRegisteredSufficiencySaturation,gpt_oss_20b,multihoprag,387,49,47,0.517,-4.91,5.426,0.918778,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,qwen14b,hotpot,450,20,27,-1.556,-4.444,1.333,0.381693,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,qwen14b,2wiki,450,28,35,-1.556,-5.111,2.0,0.449963,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,qwen14b,musique,447,33,41,-1.79,-5.369,2.237,0.415985,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,qwen14b,multihoprag,450,33,29,0.889,-2.667,4.444,0.703537,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,llama8b,hotpot,437,37,23,3.204,-0.458,6.865,0.092461,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,llama8b,2wiki,442,26,26,0.0,-3.167,2.941,1.0,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,llama8b,musique,436,17,20,-0.688,-3.44,1.835,0.742829,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,llama8b,multihoprag,429,20,35,-3.497,-6.993,0.0,0.058064,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,gemma27b,hotpot,450,41,54,-2.889,-7.111,1.111,0.218054,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,gemma27b,2wiki,450,55,49,1.333,-3.111,6.0,0.624144,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,gemma27b,musique,400,28,32,-1.0,-4.75,2.75,0.698883,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,gemma27b,multihoprag,450,65,45,4.444,-0.222,9.111,0.069565,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,gpt_oss_20b,hotpot,372,40,33,1.882,-2.688,6.72,0.482789,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,gpt_oss_20b,2wiki,450,44,45,-0.222,-4.222,4.0,1.0,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,gpt_oss_20b,musique,407,34,28,1.474,-2.211,5.405,0.525773,1.0
+control,Continue Search vs Natural Neutral,NaturalNeutral,NaturalContinueSearch,gpt_oss_20b,multihoprag,391,42,40,0.512,-4.092,5.115,0.912157,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,qwen14b,hotpot,447,24,22,0.447,-2.461,3.356,0.882996,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,qwen14b,2wiki,450,29,30,-0.222,-3.556,3.111,1.0,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,qwen14b,musique,448,38,29,2.009,-1.786,5.804,0.328432,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,qwen14b,multihoprag,450,31,28,0.667,-2.667,4.0,0.794844,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,llama8b,hotpot,435,28,36,-1.839,-5.517,1.839,0.381733,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,llama8b,2wiki,443,39,37,0.451,-3.16,4.289,0.908777,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,llama8b,musique,427,32,40,-1.874,-5.621,2.342,0.409579,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,llama8b,multihoprag,426,28,25,0.704,-2.582,3.991,0.783846,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,gemma27b,hotpot,450,38,38,0.0,-3.556,3.778,1.0,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,gemma27b,2wiki,450,37,37,0.0,-3.778,3.556,1.0,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,gemma27b,musique,450,50,60,-2.222,-6.889,2.444,0.390927,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,gemma27b,multihoprag,450,48,61,-2.889,-7.333,1.778,0.250282,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,gpt_oss_20b,hotpot,406,38,49,-2.709,-7.143,1.724,0.283607,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,gpt_oss_20b,2wiki,450,39,45,-1.333,-5.111,2.667,0.585647,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,gpt_oss_20b,musique,411,30,33,-0.73,-4.623,2.92,0.801306,1.0
+control,Oracle Complete-Saturation vs Oracle Complete-Neutral,OracleComplete_Neutral,OracleComplete_PreRegisteredSufficiencySaturation,gpt_oss_20b,multihoprag,403,56,50,1.489,-3.226,6.452,0.627431,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,qwen14b,hotpot,450,33,37,-0.889,-4.222,2.889,0.720203,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,qwen14b,2wiki,450,43,40,0.667,-3.111,4.889,0.826405,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,qwen14b,musique,447,35,38,-0.671,-4.474,3.132,0.815121,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,qwen14b,multihoprag,450,34,33,0.222,-3.333,3.778,1.0,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,llama8b,hotpot,434,40,30,2.304,-1.382,6.221,0.281979,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,llama8b,2wiki,442,26,23,0.679,-2.489,3.62,0.77545,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,llama8b,musique,423,25,23,0.473,-2.6,3.546,0.885433,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,llama8b,multihoprag,427,22,22,0.0,-3.044,2.81,1.0,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,gemma27b,hotpot,450,43,52,-2.0,-6.222,2.222,0.41191,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,gemma27b,2wiki,450,56,44,2.667,-1.778,7.111,0.271253,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,gemma27b,musique,400,32,33,-0.25,-4.0,3.75,1.0,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,gemma27b,multihoprag,450,61,43,4.0,-0.667,8.444,0.095044,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,gpt_oss_20b,hotpot,367,37,44,-1.907,-6.812,2.725,0.505236,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,gpt_oss_20b,2wiki,400,32,43,-2.75,-6.75,1.75,0.248046,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,gpt_oss_20b,musique,402,33,20,3.234,-0.249,6.965,0.098371,1.0
+secondary_attack,Source Coverage vs Natural Neutral,NaturalNeutral,Natural_source_coverage,gpt_oss_20b,multihoprag,389,44,53,-2.314,-7.198,2.571,0.416775,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,qwen14b,hotpot,450,28,23,1.111,-2.0,4.0,0.575849,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,qwen14b,2wiki,450,43,40,0.667,-3.111,4.889,0.826405,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,qwen14b,musique,448,35,41,-1.339,-5.134,2.455,0.566573,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,qwen14b,multihoprag,450,37,42,-1.111,-4.889,2.667,0.652964,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,llama8b,hotpot,432,44,28,3.704,0.0,7.639,0.076369,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,llama8b,2wiki,438,35,51,-3.653,-7.763,0.457,0.105225,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,llama8b,musique,421,22,22,0.0,-3.088,2.85,1.0,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,llama8b,multihoprag,419,35,31,0.955,-2.625,4.773,0.712231,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,gemma27b,hotpot,450,36,52,-3.556,-7.556,0.444,0.109295,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,gemma27b,2wiki,450,40,54,-3.111,-7.333,1.111,0.179665,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,gemma27b,musique,450,37,31,1.333,-2.222,5.111,0.544612,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,gemma27b,multihoprag,450,67,57,2.222,-2.444,7.333,0.419074,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,gpt_oss_20b,hotpot,407,35,36,-0.246,-4.177,3.931,1.0,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,gpt_oss_20b,2wiki,450,48,43,1.111,-3.111,5.111,0.675222,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,gpt_oss_20b,musique,408,37,22,3.676,0.0,7.353,0.067445,1.0
+secondary_attack,Epistemic Confirmation + Source Coverage vs Epistemic Confirmation,Natural_epistemic_confirmation,Natural_epistemic_confirmation_source,gpt_oss_20b,multihoprag,383,45,53,-2.089,-7.05,2.872,0.479692,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,qwen14b,hotpot,449,27,30,-0.668,-4.009,2.673,0.791366,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,qwen14b,2wiki,449,26,24,0.445,-2.673,3.341,0.887725,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,qwen14b,musique,447,34,35,-0.224,-3.803,3.579,1.0,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,qwen14b,multihoprag,449,35,33,0.445,-3.118,4.009,0.903597,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,llama8b,hotpot,432,44,40,0.926,-3.241,5.093,0.743644,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,llama8b,2wiki,438,29,43,-3.196,-7.078,0.685,0.124918,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,llama8b,musique,421,28,22,1.425,-1.9,4.513,0.479888,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,llama8b,multihoprag,419,40,25,3.58,0.0,7.399,0.081682,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,gemma27b,hotpot,450,37,48,-2.444,-6.444,1.556,0.277999,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,gemma27b,2wiki,450,40,34,1.333,-2.222,5.111,0.561381,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,gemma27b,musique,450,25,31,-1.333,-4.667,2.0,0.504404,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,gemma27b,multihoprag,450,54,60,-1.333,-5.556,3.333,0.639769,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,gpt_oss_20b,hotpot,376,39,43,-1.064,-5.851,3.457,0.740653,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,gpt_oss_20b,2wiki,450,53,40,2.889,-1.333,7.333,0.213153,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,gpt_oss_20b,musique,408,28,29,-0.245,-3.676,3.186,1.0,1.0
+secondary_attack,Search Match + Source Coverage vs Search Match,Natural_search_match_cue,Natural_search_match_source,gpt_oss_20b,multihoprag,388,35,39,-1.031,-5.412,3.351,0.727547,1.0

@@ -15,5 +15,5 @@ gate_id,description,status,detail
 14,"Manual validation sample covers >=5 runs/dataset, both models, both routes where available",PASS,all datasets covered
 15,Every hop-stratified PCR curve is monotonic nondecreasing,PASS,0 violations
 16,Hop-stratified paired N never exceeds the unstratified paired N for the same cell,PASS,0 violations
-17,"Recovery category counts sum to n_total, n_redelegated = n_total - n_no_redelegation",PASS,0 violations
+17,"Recovery category counts sum to n_total, n_redelegated = n_total - n_no_redelegation - n_unrecognized_label",PASS,0 violations
 18,"Every (model,dataset,comparison) cell has both evidence boundaries present",PASS,0/112 cells missing one boundary

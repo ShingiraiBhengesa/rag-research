@@ -1,5 +1,8 @@
 # Evidence-incompleteness vs paired answer harm -- notes
 
+> **Superseded 2026-10-19** by `results/whitebox/e1_fixed_cue_matrix/answer_harm/ANSWER_HARM_RESULTS.md`. This v1 check pools attack and control comparisons and stratifies on the cue run's evidence alone, which is confounded with question difficulty. Keep for provenance; cite v2.
+
+
 Smallest justified next analysis after `EVIDENCE_HOP_RESULTS.md` (section 9). Tests whether pairs where the CUE condition was evidence-INCOMPLETE at local completion (`local_full_evidence == False` in `run_level_evidence_hops.csv`) show a higher control-correct/cue-wrong ("harmed") rate than pairs where the cue condition WAS evidence-complete, across every comparison in `analysis.canonical.results_bundle.comparisons.COMPARISONS`, pooled over all datasets/models/comparisons.
 
 **This is an association check only, not a causal or thesis-ready claim** -- pairs are pooled across comparisons/datasets for this top-line number; see `evidence_incomplete_vs_answer_harm.csv` for the full per-comparison, per-model, per-dataset breakdown (each row also carries its own McNemar p-value) before citing anything.

@@ -1277,6 +1277,7 @@ The sufficiency effect replicates in every dataset for both models [table: data/
 
 1. Earlier stopping does not translate into a consistent evidence loss: Saturation evidence loss is significant in only 2 of 8 cells, and at most +2.7 pp [table: data/evidence_summary.csv].
 2. Final-answer accuracy is not reliably affected: net flips range from -3.9 to +1.9 pp with no consistent sign [table: data/answer_paired_flips.csv]. A process-level effect is not shown to be downstream harm.
+   *Update 2026-10-19:* the paired analysis in `results/whitebox/e1_fixed_cue_matrix/answer_harm/` shows the mechanism behind this flat average. When the cue costs evidence at the final-report input, answers are worse by about 10 pp; when it gains evidence they are better by about as much. The sufficiency cues produce only a small net evidence loss, so the average effect is about +0.25 pp, below detection [table: answer_harm/mechanism.csv] [table: answer_harm/evidence_shift.csv].
 3. Gemma's PCR curves hit a ceiling by step 5 in every condition, so PCR@5+ cannot show effects for Gemma [table: data/pcr_stepwise.csv].
 4. gpt-oss carries elevated technical failures in three datasets (parser crashes), and one dataset was served with a different parser; robustness claims for gpt-oss must account for both [table: data/run_inventory.csv].
 
