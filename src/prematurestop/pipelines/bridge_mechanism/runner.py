@@ -26,6 +26,7 @@ from prematurestop.pipelines.bridge_mechanism import config as C
 from prematurestop.cues.fixed.registry import PILOT_SUFFIX_OVERRIDE_KEY, suffix_for_condition
 from prematurestop.infra.hashing import hash_text, stable_hash
 from prematurestop.system.runner import V3ModelConfig, _build_replay_anchor, run_single_condition
+from prematurestop.pipelines.bridge_mechanism.paths import resolve_state_path
 
 
 _DATE_RE = None
@@ -35,7 +36,7 @@ def anchor_prompt_date(anchor_rec: Mapping[str, Any]) -> str:
     """The date string the anchor run's prompts used ("Mon Oct 12, 2026")."""
     import re
 
-    text = Path(anchor_rec["anchor_trace_path"]).read_text(encoding="utf-8")
+    text = resolve_state_path(anchor_rec["anchor_trace_path"]).read_text(encoding="utf-8")
     dates = sorted(set(re.findall(r"today's date is ([A-Z][a-z]{2} [A-Z][a-z]{2} \d{1,2}, \d{4})", text)))
     if len(dates) != 1:
         raise RuntimeError(f"anchor trace has {len(dates)} distinct prompt dates: {dates}")

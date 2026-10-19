@@ -193,7 +193,7 @@
     }
   },
   "config_snapshot_hash": "e216a1719fd02bada14e487a0b6a7e935e00101f3a9a8894de1ae70b159f973b",
-  "git_head_at_freeze": "06362f6af4abe7ca3f34aee1e76a0253f3ea3f62",
+  "git_head_at_freeze": "ecbebc615ee400720dfa55e53059173ba0f30fc1",
   "lambda": {
     "align": 0.25,
     "clarity": 0.25,
@@ -202,7 +202,7 @@
   },
   "lambda_hash": "d524df32165afa63e4593b016bd72f976e3bd17efd8e5eb4fc20084cd6032997",
   "lambda_source": "pre-specified equal weights (no fitting)",
-  "manifest_hash": "b383b915e64363a14b0f04d671e18749a5bb482fbd4ccaf2aa0be7fc1743355d",
+  "manifest_hash": "2196086ebf214fe5e72b7a4e850ee27293771b8c32bfb295d717dce34a3ddca7",
   "package_files": {
     "src/prematurestop/cues/dynamic/__init__.py": "4af69c0a342fd403f959672e4ba9709a1b0a96c837693a499a70936042ec965a",
     "src/prematurestop/cues/dynamic/bridge.py": "790d4a6caea569771a85e03737e9f680ec8e490d592a2d372d292bb130fd8207",
@@ -230,12 +230,12 @@
     "src/prematurestop/pipelines/bridge_mechanism/__init__.py": "4af69c0a342fd403f959672e4ba9709a1b0a96c837693a499a70936042ec965a",
     "src/prematurestop/pipelines/bridge_mechanism/analysis.py": "2017f056931cc748be01784ab93d9eef1d9394b9905fb9d4c5906800693f06c4",
     "src/prematurestop/pipelines/bridge_mechanism/audit.py": "96a018833e894e70e0c1bda2cb2093a178dee10e0769a4c7af56b4cdad1df52d",
-    "src/prematurestop/pipelines/bridge_mechanism/cli.py": "3ca44fe84a09b11398bd2c38f8a1ab3a1c7daf181ac1ede054dd76195b71b3d2",
+    "src/prematurestop/pipelines/bridge_mechanism/cli.py": "947bcd0d325ac8022c3f15976f94b3220afc097044587ac7b4c49bad38099a23",
     "src/prematurestop/pipelines/bridge_mechanism/config.py": "c05cba17ffbe6bc6b625028987638bf8c44697f158a50e0e7e489a2649b48621",
     "src/prematurestop/pipelines/bridge_mechanism/freeze.py": "8cef9d406be348a4c5f51aa3324cc7981fbe679fea189683852aee94a6cf4018",
-    "src/prematurestop/pipelines/bridge_mechanism/outcomes.py": "03b9dc34b47728bfd5faa2fa9f847f600efb0e33e88e50c2d31b534b2b35252d",
-    "src/prematurestop/pipelines/bridge_mechanism/paths.py": "4f52c2099d14c19bdb83d9612242938657cc1156dfdf06a2cfd63157173652a3",
-    "src/prematurestop/pipelines/bridge_mechanism/runner.py": "14eac9ce7e8bd1c4a576c895947f3d1d9daa1a693a7b0828135023896824f15b",
+    "src/prematurestop/pipelines/bridge_mechanism/outcomes.py": "3bf9ff06e20da98a64860bf72946e26281048c9194e2561d15f9628331499a37",
+    "src/prematurestop/pipelines/bridge_mechanism/paths.py": "78e47c321603f0ed16f776de5fe742fc061f9cc37ec6058b5b76644cb98a575e",
+    "src/prematurestop/pipelines/bridge_mechanism/runner.py": "d7b76e3e106ac086bc9cf405fac786c2ff1be5dcb040f701b4051a32c209f93d",
     "src/prematurestop/pipelines/bridge_mechanism/selection_report.py": "7fc4f6e21de6971287dfd3e709e662e0b14e49c437ebf9912f2e1731c555ddd8",
     "src/prematurestop/pipelines/bridge_mechanism/splits.py": "575a704e023e8de893689470db231f113e667dd644a3cdbb66bc56d1ea4ad56d"
   },

@@ -43,6 +43,7 @@ from prematurestop.evaluation.evidence import build_evidence_record
 from prematurestop.evaluation.trace_parser import parse_trace_file, tool_call_query_strings
 from prematurestop.evaluation.answer_scoring import evaluate_answer_v2
 from prematurestop.pipelines.bridge_mechanism import config as C
+from prematurestop.pipelines.bridge_mechanism.paths import resolve_state_path
 
 
 def _row(arm_rec: Mapping[str, Any]) -> RowRecord:
@@ -89,16 +90,16 @@ def label_run(arm_rec: Mapping[str, Any], manifest_row: Mapping[str, Any]) -> di
     answer_correct, short_answer, final_report, abstained = None, None, "", None
     primary, primary_eligible, primary_na = None, False, "no_trace"
     search_calls_after_d1 = None
-    if Path(arm_rec["trace_path"]).exists():
+    if resolve_state_path(arm_rec["trace_path"]).exists():
         ev = build_evidence_record(arm_rec["victim"], arm_rec["dataset"], arm_rec["runtime_condition"],
-                                   arm_rec["example_id"], arm_rec["trace_path"])
+                                   arm_rec["example_id"], str(resolve_state_path(arm_rec["trace_path"])))
         ev_complete, boundary = _evidence_complete(ev)
         coverage = getattr(ev, boundary, None) if boundary else None
         out["evidence"] = {"injection_coverage": ev.injection_coverage_fraction,
                            "episode0_terminal_coverage": ev.episode0_terminal_coverage_fraction,
                            "final_input_coverage": ev.final_input_coverage_fraction,
                            "whole_run_retrieval_coverage": ev.whole_run_cumulative_retrieval_coverage_fraction}
-        pt = parse_trace_file(Path(arm_rec["trace_path"]))
+        pt = parse_trace_file(resolve_state_path(arm_rec["trace_path"]))
         final_report = pt.final_report or ""
         hop2 = set(pt.missing_dependency_ids_at_injection)
         events = [se for ep in pt.episodes for se in ep.search_events]
@@ -142,7 +143,7 @@ def trajectory_rows(arm_rec: Mapping[str, Any], label: Mapping[str, Any]) -> lis
     decisions after the branch-defining first search (the PCR step index)."""
     if arm_rec.get("status") != "ran" or not Path(arm_rec.get("trace_path") or "").exists():
         return []
-    pt = parse_trace_file(Path(arm_rec["trace_path"]))
+    pt = parse_trace_file(resolve_state_path(arm_rec["trace_path"]))
     rows = []
     for ep in pt.episodes:
         post = ep.post_branch_decisions if ep.episode_order == 0 else []

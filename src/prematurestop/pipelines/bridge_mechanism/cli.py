@@ -31,7 +31,7 @@ from pathlib import Path
 
 from prematurestop.pipelines.bridge_mechanism import config as C
 from prematurestop.pipelines.bridge_mechanism import freeze as F
-from prematurestop.pipelines.bridge_mechanism.paths import DEFAULT_SPLITS, split_paths
+from prematurestop.pipelines.bridge_mechanism.paths import DEFAULT_SPLITS, resolve_state_path, split_paths
 from prematurestop.paths import EXPERIMENT_E2, RESULTS_E1_QWEN_LLAMA
 from prematurestop.infra.store import append_jsonl, done_keys, index_by, read_jsonl
 
@@ -569,8 +569,8 @@ def phase_fidelity_check(args) -> None:
                 a = anchors.get(f"{victim}|{ds}|{r['example_id']}")
                 if not a or a.get("status") == VICTIM_FAILURE:
                     continue
-                fa, fn = summary(a["anchor_trace_path"], victim, ds, r["example_id"]), \
-                    summary(r["trace_path"], victim, ds, r["example_id"])
+                fa, fn = summary(str(resolve_state_path(a["anchor_trace_path"])), victim, ds, r["example_id"]), \
+                    summary(str(resolve_state_path(r["trace_path"])), victim, ds, r["example_id"])
                 rows.append({"victim": victim, "dataset": ds, "example_id": r["example_id"],
                              "d1_identical": r["status"] == "ran", "route_identical": fa[0] == fn[0],
                              "stop_step_identical": fa[1] == fn[1], "decisions_identical": fa[2] == fn[2]})
