@@ -11,6 +11,8 @@ below is computed directly from `data/pcr_paired_deltas_stepwise.csv`,
 `data/evidence_summary.csv`, and `data/answer_paired_flips.csv` — none are
 eyeballed off a figure.
 
+> **Correction (2026-10-19): Llama's peak is step 3, not 5.** This document reads Llama at @5. The step-by-step deltas in `data/pcr_paired_deltas_stepwise.csv` show Llama's cue effects peak at **step 3**, about 3x larger: Fixed Sufficiency +51.4 pp (vs +14.8 at @5), Sufficiency Saturation +55.7 (vs +16.1), Search Match +32.1 (vs +7.7), Epistemic Confirmation +24.5 (vs +8.5), all 4/4 datasets significant. The @5 numbers below are correct values at step 5, but step 3 is the right headline checkpoint for Llama.
+
 ## 0. How to read this document
 
 **Denominator and sign.** `pcr_eligible` runs only (see
