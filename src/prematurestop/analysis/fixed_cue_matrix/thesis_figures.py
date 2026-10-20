@@ -349,29 +349,32 @@ def stars(p):
 def fig5_7():
     me = {(r["cue"], r["transition"]): r for r in read(RESULTS_E1 / "answer_harm" / "mechanism.csv")
           if r["boundary"] == "final_report_input" and r["model"] == "all" and r["family"] == "primary_attack"}
-    classes = (("both_complete", "Both complete", ("#5DCAA5", "#9FE1CB")),
+    classes = (("both_complete", "Both complete", ("#9FE1CB", "#5DCAA5")),  # (left lighter, right darker)
                ("evidence_lost", "Cue lost evidence", (ORANGE, "#993C1D")),
                ("evidence_gained", "Cue gained evidence", ("#1D9E75", "#085041")),
-               ("both_incomplete", "Both incomplete", ("#5DCAA5", "#9FE1CB")))
-    fig = plt.figure(figsize=(8, 5 + 0.8))
-    ax = fig.add_axes((0.11, 0.3, 0.86, 0.64))
+               ("both_incomplete", "Both incomplete", ("#9FE1CB", "#5DCAA5")))
+    fig = plt.figure(figsize=(8, 6.4))
+    ax = fig.add_axes((0.11, 0.36, 0.86, 0.6))
     grid(ax)
     w = 0.36
     lows, highs = [], []
     for g, (cls, _, colors) in enumerate(classes):
-        for k, cue in enumerate((SUFF, SAT)):
-            r = me[(cue, cls)]
-            v, lo, hi, p = float(r["net_harm_pp"]), float(r["ci_low_pp"]), float(r["ci_high_pp"]), float(r["mcnemar_p"])
+        rows = [me[(cue, cls)] for cue in (SUFF, SAT)]
+        cis = [(float(r["ci_low_pp"]), float(r["ci_high_pp"])) for r in rows]
+        up = float(rows[0]["net_harm_pp"]) + float(rows[1]["net_harm_pp"]) >= 0
+        label_y = max(h for _, h in cis) + 0.8 if up else min(l for l, _ in cis) - 0.8  # one level per pair
+        for k, r in enumerate(rows):
+            v, (lo, hi), p = float(r["net_harm_pp"]), cis[k], float(r["mcnemar_p"])
             lows.append(lo); highs.append(hi)
             x = g + (k - 0.5) * (w + 0.04)
             ax.bar(x, v, width=w, color=colors[k], edgecolor="white")
             ax.errorbar(x, v, yerr=[[v - lo], [hi - v]], color=INK, lw=1.2, capsize=4)
-            s = stars(p)
-            if s:
-                ax.text(x, hi + 0.9 if v >= 0 else lo - 0.9, s, ha="center", va="bottom" if v >= 0 else "top",
-                        fontsize=13, color=INK)
+            ax.text(x, label_y, f"{v:+.1f}" + (f"\n{stars(p)}" if up and stars(p) else ""), ha="center",
+                    va="bottom" if up else "top", fontsize=10.5, color=INK, linespacing=1.1)
+            if not up and stars(p):
+                ax.text(x, label_y - 2.2, stars(p), ha="center", va="top", fontsize=10.5, color=INK)
     ax.axhline(0, color=INK, lw=1.5)
-    ax.set_ylim(min(-16, min(lows) - 2.5), max(14, max(highs) + 2.5))
+    ax.set_ylim(min(-16, min(lows) - 6), max(14, max(highs) + 6))
     ax.yaxis.set_major_formatter(plt.FuncFormatter(signed))
     ax.set_ylabel("Net answer harm (pp)", fontsize=11, color=INK_2)
     n = {cls: me[(SAT, cls)]["n_pairs"] for cls, *_ in classes}
@@ -381,10 +384,13 @@ def fig5_7():
     ax.legend([Patch(color="#a9a7a0"), Patch(color="#4a4944")],
               ["Fixed Sufficiency (left, lighter shade)", "Suff. + Saturation (right, darker shade)"],
               loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=2, frameon=False, fontsize=12, labelcolor=INK_2)
+    ax.text(0.5, -0.29, "Bars: net harm (pp) with 95% bootstrap CI.\nExact McNemar: *** p < 0.001,  ** p < 0.01,  "
+            "* p < 0.05;  no star = not significant.", transform=ax.transAxes, ha="center", va="top",
+            fontsize=10, color=INK_2, style="italic")
     lost = [float(me[(c, "evidence_lost")]["net_harm_pp"]) for c in (SUFF, SAT)]
     gained = [-float(me[(c, "evidence_gained")]["net_harm_pp"]) for c in (SUFF, SAT)]
     boxed_note(fig, f"Mechanism confirmed: losing evidence costs ≈{sum(lost) / 2:.0f} pp; gaining it helps "
-               f"≈{sum(gained) / 2:.0f} pp; unchanged evidence shows no effect.", 0.03, "#EAF3DE", "#3B6D11", width=80)
+               f"≈{sum(gained) / 2:.0f} pp; unchanged evidence shows no effect.", 0.02, "#EAF3DE", "#3B6D11", width=80)
     save(fig, "fig5_7_mechanism")
 
 
