@@ -17,9 +17,11 @@ hand. Regenerate all six with:
 
 ## Notes for captions
 
-- **Smoothing (5.1).** Curves are drawn with monotone (PCHIP) interpolation
-  through the 10 measured steps. They can't overshoot or dip, so each remains
-  a valid cumulative curve.
+- **Axis and smoothing (5.1).** The x-axis covers the full 30-decision horizon
+  on a log scale, because the cue effects (especially Gemma's step-1 jump,
+  23% → 42%) happen in steps 1–3. Dots mark the measured values at steps 1–5.
+  Curves use monotone (PCHIP) interpolation in log-step space, so they can't
+  overshoot or dip and each remains a valid cumulative curve.
 - **Routes (5.2).** These are measured shares of Neutral-condition runs:
 
   | Model | Explicit completion | No-tool exit | Budget | Technical failure |

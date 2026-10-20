@@ -74,11 +74,14 @@ def signed(x, _pos=None):
     return f"{x:+.0f}" if x else "0"
 
 
-def smooth(xs, ys):
+def smooth(xs, ys, log=False):
     """Monotone-preserving smooth curve (PCHIP): a CDF never overshoots or dips."""
     try:
         import numpy as np
         from scipy.interpolate import PchipInterpolator
+        if log:  # interpolate in log-step space so the curve is smooth on a log axis
+            fx = np.geomspace(xs[0], xs[-1], 400)
+            return fx, PchipInterpolator(np.log(xs), ys)(np.log(fx))
         fx = np.linspace(xs[0], xs[-1], 200)
         return fx, PchipInterpolator(xs, ys)(fx)
     except ImportError:
@@ -102,29 +105,32 @@ def fig5_1():
     series = ((NEUTRAL, "Neutral", BLUE, "-"), (SUFF, "Fixed Sufficiency", ORANGE, "-"),
               (SAT, "Suff. + Saturation", ORANGE, (0, (6, 3))), (CONT, "Continue Search", GREEN, (0, (6, 3))))
     fig, axes = plt.subplots(2, 2, figsize=(10, 8))
-    steps = list(range(1, 11))
+    steps = list(range(1, 31))  # full 30-decision horizon
     for ax, (m, name) in zip(axes.flat, MODELS):
         st = {(r["dataset"], r["condition"], int(r["step"])): float(r["pcr"]) for r in bdata(m, "pcr_stepwise")}
         grid(ax, "both")
         for cond, _, color, ls in series:
             ys = [100 * sum(st[(d, cond, k)] for d in DATASETS) / len(DATASETS) for k in steps]
-            fx, fy = smooth(steps, ys)
+            fx, fy = smooth(steps, ys, log=True)
             ax.plot(fx, fy, color=color, lw=2, ls=ls)
+            ax.plot(steps[:5], ys[:5], "o", color=color, ms=3.5, zorder=3)  # measured early steps
         ax.axvline(CHAR[m], color=REF, lw=1.2, ls=":")
-        ax.text(CHAR[m] + 0.15, 3, f"step {CHAR[m]}", color=REF, fontsize=9)
+        ax.text(CHAR[m] * 1.04, 3, f"step {CHAR[m]}", color=REF, fontsize=9)
         ax.set_title(name, fontsize=13, fontweight="normal", color=INK)
-        ax.set_xticks([1, 3, 5, 7, 10])
-        ax.set_xlim(1, 10)
+        ax.set_xscale("log")  # steps 1-5 carry the cue effects; log keeps them visible over 1-30
+        ax.set_xticks([1, 2, 3, 5, 10, 20, 30], ["1", "2", "3", "5", "10", "20", "30"])
+        ax.minorticks_off()
+        ax.set_xlim(0.92, 32)  # small pad so step-1 points sit off the spine
         ax.set_ylim(0, 100)
         ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:.0f}%"))
         ax.tick_params(labelsize=11, colors=INK_3)
-        ax.set_xlabel("Researcher decision after the cue", fontsize=11, color=INK_2)
+        ax.set_xlabel("Researcher decision after the cue (log scale)", fontsize=11, color=INK_2)
         ax.set_ylabel("PCR@k", fontsize=11, color=INK_2)
     handles = [Line2D([0], [0], color=c, lw=3, ls=ls) for _, _, c, ls in series]
     fig.legend(handles, [lab for _, lab, *_ in series], loc="lower center", ncol=4, frameon=False, fontsize=12,
                labelcolor=INK_2, bbox_to_anchor=(0.5, 0.035), handlelength=2.6)
-    fig.text(0.5, 0.005, "Gemma reaches 100% PCR by step 5 in every condition — its flat lines thereafter are a "
-             "ceiling artefact, not evidence of robustness.", ha="center", fontsize=10, color=INK_2, style="italic")
+    fig.text(0.5, 0.005, "Gemma's cue effect is concentrated at steps 1–2; it reaches 100% PCR by step 5 in every "
+             "condition, so its flat lines thereafter are a ceiling artefact, not robustness.", ha="center", fontsize=10, color=INK_2, style="italic")
     fig.tight_layout(rect=(0, 0.08, 1, 1))
     save(fig, "fig5_1_pcr_curves")
 
