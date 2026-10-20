@@ -245,6 +245,37 @@ v2 therefore runs every arm **fresh**, as the canonical study does, with the pro
 
 Anchors, decompositions, bridges, cue pools and selections are unchanged and reused. The v1 arm records and traces are kept under `state/<split>/v1_replay/`.
 
+## v2b full run: questions whose anchor predates the cache fix (recorded 2026-10-20, before any v2b outcome was read)
+
+**What happened.** The v2b full run (array 176494, code `4c94fd0a`) resets
+vLLM's prefix cache before every run. It is deterministic across arms: in all
+1,786 runnable questions, all 8 arms saw a byte-identical d₁. But the anchors
+were captured on 2026-10-11, before the reset existed. For 620 questions
+(27–45% per cell) the fresh d₁ differs from the anchor's d₁. Every arm of
+those questions is `d1_mismatch` and excluded, because its cue was built from a
+different d₁.
+
+**Decision (2026-10-20).**
+- The **primary analysis is v2b as run**: matched-d₁ questions only, with the
+  exclusions reported per cell and per contrast.
+- A re-anchoring rerun was considered and **deferred**. The procedure would be:
+  - use the v2b neutral run as the new anchor for exactly those 620 questions;
+  - regenerate bridge, cues and selection with the frozen pipeline;
+  - re-run their arms.
+- If it is done after v2b results have been read, it is **post-hoc** and will
+  be reported as such: a sensitivity/extension analysis, not a replacement for
+  the primary result.
+
+**Paired questions available now (matched only, of those that would be
+paired without the mismatch)**, counted from run statuses only:
+
+| Contrast | Llama 2Wiki | Llama HotpotQA | Qwen 2Wiki | Qwen HotpotQA |
+|---|---|---|---|---|
+| Structure (K3 vs entity) | 135 / 201 | 138 / 191 | 160 / 236 | 118 / 223 |
+| Truth (K3 vs unsupported) | 131 / 192 | 67 / 96 | 131 / 201 | 57 / 106 |
+| Selection (K3 vs K1) | 167 / 246 | 148 / 205 | 177 / 268 | 124 / 235 |
+| Fixed Sufficiency vs Neutral | 319 / 447 | 322 / 439 | 278 / 450 | 247 / 450 |
+
 ## Known issues
 
 1. Comparison questions decompose as parallel branches, not as a chain. They are kept, not filtered.
