@@ -14,6 +14,7 @@ is not yet published under `results/`.
 | `e2_pcr_curves` | PCR@k for Neutral, Fixed Sufficiency, Bridge K3, Entity-only, Unsupported, per model × dataset | `trajectories/run_labels.csv` (t_i), matched questions |
 | `e2_eicr` | Evidence-incomplete completion rate: Neutral, Fixed Sufficiency, Bridge K3, with 95% Wilson CIs | `trajectories/run_labels.csv` + `diagnostics/evidence_coverage.csv`, matched questions |
 | `e2_contrast_forest` | ΔPCR at the characteristic step (Qwen 1, Llama 3) for the 3 pre-registered and 2 secondary contrasts, HotpotQA and 2Wiki | `pcr/pcr_paired_contrasts.csv`, `all_paired` |
+| `figA1_bridge_cue_in_context` | Appendix Figure A.1: chain H, d₁ with the bridge span and the appended Bridge K3 cue, and the two real Qwen-14B paths (Neutral recovers; Bridge K3 stops with 1/2 evidence) for 2Wiki `c076e821…` | `python -m prematurestop.analysis.bridge_mechanism.figure_a1`; texts copied verbatim from the decomposition, trace, cue audit and run labels (listed in the module docstring) |
 
 ## Notes for captions
 
