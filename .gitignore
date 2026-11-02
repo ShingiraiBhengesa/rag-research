@@ -60,3 +60,6 @@ venv/
 # --- personal: agent instructions and private analysis notes --------------------
 CLAUDE.md
 /notes/
+
+# scratch output of scripts/thesis_figures (final figures live in results/thesis_figures/)
+/results/figures/

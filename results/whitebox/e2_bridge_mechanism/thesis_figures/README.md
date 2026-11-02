@@ -1,5 +1,8 @@
 # E2 thesis figures (v2b full run)
 
+> **Draft iteration — not the final thesis figures.** The figures printed in the
+> thesis are in [`results/thesis_figures/`](../../../thesis_figures/), with checksums.
+
 Print-ready figures for the E2 results chapter, at 300 DPI, as PDF and PNG.
 Every plotted value is read from the v2b full-run outputs; none are typed in
 by hand. Regenerate with:

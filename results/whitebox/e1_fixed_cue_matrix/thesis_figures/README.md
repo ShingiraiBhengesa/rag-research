@@ -1,5 +1,8 @@
 # E1 thesis figures
 
+> **Draft iteration — not the final thesis figures.** The figures printed in the
+> thesis are in [`results/thesis_figures/`](../../../thesis_figures/), with checksums.
+
 Print-ready figures for the E1 results chapter, at 300 DPI, as PDF and PNG.
 Every plotted value is read from the published CSVs; none are typed in by
 hand. Regenerate them with the command below. It also rewrites the two former
