@@ -2,8 +2,8 @@
 
 This repository accompanies the MSc thesis *Sufficient by Design:
 Observation-Level Sufficiency Cues Manipulate Completion Decisions in Agentic
-RAG* (Saint Louis University, 2026). Thesis PDF: `docs/thesis.pdf`
-*(placeholder: add the PDF or a link to the SLU repository)*.
+RAG* (Saint Louis University, 2026). Thesis: [Sufficient by Design (SLU, 2026)](https://example.com/thesis-link-placeholder)
+*(placeholder link, to be replaced)*.
 
 This project studies **completion manipulation** in agentic retrieval-augmented
 generation (RAG). A delegated Researcher decides for itself when it has

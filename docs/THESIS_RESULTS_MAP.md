@@ -1,8 +1,8 @@
 # Thesis → repository results map
 
 Maps the results reported in the thesis to the files in this repository that
-hold them. Thesis: `docs/thesis.pdf` *(placeholder: add the PDF or a link to
-the SLU repository)*.
+hold them. Thesis: [Sufficient by Design (SLU, 2026)](https://example.com/thesis-link-placeholder)
+*(placeholder link, to be replaced)*.
 
 Table and figure numbers follow the thesis draft; check them against the final
 PDF. Paths are relative to the repository root. `E1` is
