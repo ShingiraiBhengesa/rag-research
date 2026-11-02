@@ -1,7 +1,9 @@
-"""Print-ready E1 thesis figures (Figures 5.1-5.4, 5.6, 5.7).
+"""Print-ready E1 thesis figures (Figures 5.1-5.4), plus the out-of-scope answer-harm figures.
 
 Every plotted value is read from the published E1 CSVs; nothing is typed in by
-hand. Output: results/whitebox/e1_fixed_cue_matrix/thesis_figures/fig5_*.{pdf,png}
+hand. Output: results/whitebox/e1_fixed_cue_matrix/thesis_figures/fig5_*.{pdf,png}.
+The former 5.6/5.7 (answer harm) are outside the thesis scope and are written to
+results/whitebox/_out_of_scope/answer_harm/thesis_figures/ instead.
 
     python -m prematurestop.analysis.fixed_cue_matrix.thesis_figures
 
@@ -10,8 +12,8 @@ Data sources:
   5.2  */data/route_decomposition_stepwise.csv         (Neutral, pooled over datasets)
   5.3  */data/pcr_paired_deltas_stepwise.csv          (Δ at each model's characteristic step)
   5.4  evidence_hop_coverage*/evidence_hop_summary.csv (n-weighted over hop strata)
-  5.6  answer_harm/pooled.csv
-  5.7  answer_harm/mechanism.csv                       (final-report input, all models)
+  5.6  _out_of_scope/answer_harm/pooled.csv            (out of scope)
+  5.7  _out_of_scope/answer_harm/mechanism.csv         (out of scope; final-report input, all models)
 """
 from __future__ import annotations
 
@@ -26,7 +28,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 from matplotlib.patches import FancyBboxPatch, Patch, Rectangle  # noqa: E402
 
-from prematurestop.paths import RESULTS_E1
+from prematurestop.paths import RESULTS_ANSWER_HARM, RESULTS_E1
 
 OUT = RESULTS_E1 / "thesis_figures"
 MODELS = (("qwen14b", "Qwen-14B"), ("llama8b", "Llama-8B"), ("gemma27b", "Gemma-27B"), ("gpt_oss_20b", "gpt-oss-20b"))
@@ -62,12 +64,12 @@ def grid(ax, axis="y"):
         ax.spines[side].set_visible(False)
 
 
-def save(fig, stem):
-    OUT.mkdir(parents=True, exist_ok=True)
+def save(fig, stem, out=OUT):
+    out.mkdir(parents=True, exist_ok=True)
     for ext in ("pdf", "png"):
-        fig.savefig(OUT / f"{stem}.{ext}", bbox_inches="tight", facecolor="white")
+        fig.savefig(out / f"{stem}.{ext}", bbox_inches="tight", facecolor="white")
     plt.close(fig)
-    print(f"wrote {OUT / stem}.png")
+    print(f"wrote {out / stem}.png")
 
 
 def signed(x, _pos=None):
@@ -308,9 +310,9 @@ def fig5_4():
 
 # --------------------------------------------------------------------------- 5.6 average harm
 def fig5_6():
-    po = {(r["comparison"], r["model"]): r for r in read(RESULTS_E1 / "answer_harm" / "pooled.csv")
+    po = {(r["comparison"], r["model"]): r for r in read(RESULTS_ANSWER_HARM / "pooled.csv")
           if r["family"] == "primary_attack"}
-    comps = {r["cue"]: r["comparison"] for r in read(RESULTS_E1 / "answer_harm" / "pooled.csv") if r["family"] == "primary_attack"}
+    comps = {r["cue"]: r["comparison"] for r in read(RESULTS_ANSWER_HARM / "pooled.csv") if r["family"] == "primary_attack"}
     fig = plt.figure(figsize=(7, 4.5 + 0.7))
     ax = fig.add_axes((0.12, 0.3, 0.84, 0.62))
     grid(ax)
@@ -338,7 +340,7 @@ def fig5_6():
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.1), ncol=2, frameon=False, fontsize=12, labelcolor=INK_2)
     boxed_note(fig, "Null result ≠ safe. Detecting +0.25 pp at 80% power requires ~240,000 pairs — 35× the current 6,800.",
                0.03, "#FAEEDA", "#BA7517", width=70)
-    save(fig, "fig5_6_avg_harm")
+    save(fig, "fig5_6_avg_harm", RESULTS_ANSWER_HARM / "thesis_figures")
 
 
 # --------------------------------------------------------------------------- 5.7 mechanism
@@ -347,7 +349,7 @@ def stars(p):
 
 
 def fig5_7():
-    me = {(r["cue"], r["transition"]): r for r in read(RESULTS_E1 / "answer_harm" / "mechanism.csv")
+    me = {(r["cue"], r["transition"]): r for r in read(RESULTS_ANSWER_HARM / "mechanism.csv")
           if r["boundary"] == "final_report_input" and r["model"] == "all" and r["family"] == "primary_attack"}
     classes = (("both_complete", "Both complete", ("#9FE1CB", "#5DCAA5")),  # (left lighter, right darker)
                ("evidence_lost", "Cue lost evidence", (ORANGE, "#993C1D")),
@@ -391,7 +393,7 @@ def fig5_7():
     gained = [-float(me[(c, "evidence_gained")]["net_harm_pp"]) for c in (SUFF, SAT)]
     boxed_note(fig, f"Mechanism confirmed: losing evidence costs ≈{sum(lost) / 2:.0f} pp; gaining it helps "
                f"≈{sum(gained) / 2:.0f} pp; unchanged evidence shows no effect.", 0.02, "#EAF3DE", "#3B6D11", width=80)
-    save(fig, "fig5_7_mechanism")
+    save(fig, "fig5_7_mechanism", RESULTS_ANSWER_HARM / "thesis_figures")
 
 
 def main() -> int:

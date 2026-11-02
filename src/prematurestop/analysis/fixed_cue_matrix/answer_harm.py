@@ -1,7 +1,9 @@
 """Answer-harm analysis v2: does a cue make final answers worse, and where?
 
 Specification (written before this code ran):
-`results/whitebox/e1_fixed_cue_matrix/answer_harm/SPEC.md`.
+`results/whitebox/_out_of_scope/answer_harm/SPEC.md`.
+
+Out of thesis scope (final-answer accuracy); retained for provenance.
 
 Pure table joins, no trace re-parsing. For every pre-registered comparison and
 every model x dataset it pairs the control and cue runs of the same question
@@ -33,9 +35,9 @@ from pathlib import Path
 
 from prematurestop.analysis.fixed_cue_matrix.results_bundle.comparisons import COMPARISONS
 from prematurestop.evaluation import config
-from prematurestop.paths import LOCAL_DATA, RESULTS_E1
+from prematurestop.paths import LOCAL_DATA, RESULTS_ANSWER_HARM, RESULTS_E1
 
-OUT_DIR = RESULTS_E1 / "answer_harm"
+OUT_DIR = RESULTS_ANSWER_HARM
 EVIDENCE_FILES = (
     RESULTS_E1 / "evidence_hop_coverage" / "run_level_evidence_hops.csv",
     RESULTS_E1 / "evidence_hop_coverage_gemma_gptoss" / "run_level_evidence_hops.csv",

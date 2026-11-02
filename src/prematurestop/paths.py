@@ -36,6 +36,8 @@ RESULTS_E1_QWEN_LLAMA = RESULTS_E1 / "qwen_llama"
 RESULTS_E1_GEMMA_GPTOSS = RESULTS_E1 / "gemma_gptoss"
 RESULTS_E1_CANONICAL = RESULTS_E1 / "canonical"
 RESULTS_E2 = RESULTS / "whitebox" / "e2_bridge_mechanism"
+RESULTS_OUT_OF_SCOPE = RESULTS / "whitebox" / "_out_of_scope"  # kept for provenance, not reported in the thesis
+RESULTS_ANSWER_HARM = RESULTS_OUT_OF_SCOPE / "answer_harm"
 
 # --- local, gitignored raw data -----------------------------------------------------------------
 LOCAL_DATA = Path(os.environ.get("PREMATURESTOP_LOCAL_DATA", REPO_ROOT / "local_data")).resolve()
