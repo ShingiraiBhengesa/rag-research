@@ -1,10 +1,9 @@
 # Final thesis figures
 
 These are the six figures in the final thesis PDF, and only those. Files are
-named by thesis figure number. Other figure folders in this repository
-(`results/whitebox/*/thesis_figures/`, the result bundles' `figures/`) are
-earlier iterations or supporting material, not the figures printed in the
-thesis.
+named by thesis figure number. The plots in the result bundles' `figures/`
+folders are supporting material, not figures printed in the thesis. Earlier
+iterations were removed on 2026-11-02 and remain in git history.
 
 **Verify:** `sha256sum results/thesis_figures/fig*` and compare with the
 "Thesis PDF SHA-256" column. ✅ means the repo file is byte-identical to the

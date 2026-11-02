@@ -1,9 +1,0 @@
-victim,dataset,arm,n_runs,n_primary_eligible,premature_stop_rate,primary_not_scored,abstention_rate,mean_search_calls_after_d1
-qwen14b,hotpot,bridge_saturation_k3,0,0,,"{""arm_not_run"": 3}",,
-qwen14b,hotpot,bridge_sufficiency_k1,1,0,,"{""d1_already_has_all_required_evidence"": 1, ""arm_not_run"": 2}",1.0,2.0
-qwen14b,hotpot,bridge_sufficiency_k3,1,0,,"{""d1_already_has_all_required_evidence"": 1, ""arm_not_run"": 2}",0.0,10.0
-qwen14b,hotpot,entity_sufficiency,1,0,,"{""d1_already_has_all_required_evidence"": 1, ""arm_not_run"": 2}",0.0,9.0
-qwen14b,hotpot,fixed_saturation,3,0,,"{""d1_already_has_all_required_evidence"": 3}",0.3333,5.333
-qwen14b,hotpot,fixed_sufficiency,3,0,,"{""d1_already_has_all_required_evidence"": 3}",0.0,5.0
-qwen14b,hotpot,neutral,3,0,,"{""d1_already_has_all_required_evidence"": 3}",0.0,6.333
-qwen14b,hotpot,unsupported_sufficiency,0,0,,"{""arm_not_run"": 3}",,

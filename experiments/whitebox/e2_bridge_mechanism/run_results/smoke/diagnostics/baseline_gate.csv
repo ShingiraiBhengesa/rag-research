@@ -1,2 +1,0 @@
-victim,dataset,n_clean_runs,n_pcr_eligible,stop_at_step1_rate,max_allowed_stop_at_1,n_primary_eligible,hop2_retrieval_rate,min_required_hop2_retrieval,clean_accuracy,gate
-qwen14b,hotpot,3,3,0.6667,0.5,0,,0.6,0.6667,FAIL
