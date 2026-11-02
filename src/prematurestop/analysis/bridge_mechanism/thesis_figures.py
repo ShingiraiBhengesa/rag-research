@@ -12,7 +12,8 @@ Data sources (under the run directory, default local_data/e2_bridge_mechanism/ru
                        + diagnostics/evidence_coverage.csv     (coverage at the Researcher's stop)
   e2_contrast_forest   pcr/pcr_paired_contrasts.csv            (all_paired question set)
 
-Output: results/whitebox/e2_bridge_mechanism/thesis_figures/e2_*.{pdf,png}
+Output: results/figures/e2_thesis_figures/e2_*.{pdf,png} (gitignored scratch). These are earlier
+iterations; the E2 figures printed in the thesis (5.3, 5.4) come from scripts/thesis_figures/.
 """
 from __future__ import annotations
 
@@ -29,10 +30,10 @@ from matplotlib.lines import Line2D  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
 
 from prematurestop.analysis.fixed_cue_matrix import thesis_figures as e1  # shared style helpers
-from prematurestop.paths import LOCAL_DATA, RESULTS_E2
+from prematurestop.paths import LOCAL_DATA, RESULTS
 
 RUN_DIR = LOCAL_DATA / "e2_bridge_mechanism" / "run_results" / "full"
-OUT = RESULTS_E2 / "thesis_figures"
+OUT = RESULTS / "figures" / "e2_thesis_figures"  # gitignored scratch; final copies live in results/thesis_figures/
 MODELS = (("qwen14b", "Qwen"), ("llama8b", "Llama"))
 DATASETS = (("hotpot", "HotpotQA"), ("2wiki", "2Wiki"))
 CHAR = {"qwen14b": 1, "llama8b": 3}  # E1 characteristic steps
@@ -202,7 +203,7 @@ def fig_forest(run_dir: Path):
         ax.text(lim + 5.5, y, text, va="center", ha="right", fontsize=9, color=INK_2, alpha=max(alpha, 0.7))
     axes[0].set_yticks(range(len(CONTRASTS)), [lab for _, lab in CONTRASTS], fontsize=11, color=INK)
     axes[0].set_ylim(len(CONTRASTS) - 0.5, -0.5)  # Structure at top
-    axes[0].text(-lim + 0.5, 2.42, "pre-registered ↑   secondary ↓", fontsize=8.5, color=INK_3, va="bottom")
+    axes[0].text(-lim + 0.5, 2.42, "pre-specified ↑   secondary ↓", fontsize=8.5, color=INK_3, va="bottom")
     handles = [Line2D([0], [0], marker="o", ls="", ms=8, color=colors[v], mfc=mfc, alpha=a, mew=1.5)
                for v, _ in MODELS for mfc, a in ((colors[v], 1.0), ("white", 0.35))]
     labels = ["Qwen @ step 1, CI excludes 0", "Qwen, CI includes 0",
