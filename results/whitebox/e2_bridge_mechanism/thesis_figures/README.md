@@ -6,14 +6,15 @@ by hand. Regenerate with:
 
     python -m prematurestop.analysis.bridge_mechanism.thesis_figures [--run-dir DIR]
 
-The source run directory (`local_data/e2_bridge_mechanism/run_results/full/`)
-is not yet published under `results/`.
+The default run directory is `local_data/e2_bridge_mechanism/run_results/full/`.
+A published copy is in `results/whitebox/e2_bridge_mechanism/v2b_full/`; pass
+it as `--run-dir` to regenerate without local data.
 
 | File | Figure | Data source |
 |---|---|---|
 | `e2_pcr_curves` | PCR@k for Neutral, Fixed Sufficiency, Bridge K3, Entity-only, Unsupported, per model × dataset | `trajectories/run_labels.csv` (t_i), matched questions |
 | `e2_eicr` | Evidence-incomplete completion rate: Neutral, Fixed Sufficiency, Bridge K3, with 95% Wilson CIs | `trajectories/run_labels.csv` + `diagnostics/evidence_coverage.csv`, matched questions |
-| `e2_contrast_forest` | ΔPCR at the characteristic step (Qwen 1, Llama 3) for the 3 pre-registered and 2 secondary contrasts, HotpotQA and 2Wiki | `pcr/pcr_paired_contrasts.csv`, `all_paired` |
+| `e2_contrast_forest` | ΔPCR at the characteristic step (Qwen 1, Llama 3) for the 3 pre-specified and 2 secondary contrasts, HotpotQA and 2Wiki | `pcr/pcr_paired_contrasts.csv`, `all_paired` |
 | `figA1_bridge_cue_in_context` | Appendix Figure A.1: chain H, d₁ with the bridge span and the appended Bridge K3 cue, and the two real Qwen-14B paths (Neutral recovers; Bridge K3 stops with 1/2 evidence) for 2Wiki `c076e821…` | `python -m prematurestop.analysis.bridge_mechanism.figure_a1`; texts copied verbatim from the decomposition, trace, cue audit and run labels (listed in the module docstring) |
 
 ## Notes for captions
@@ -33,7 +34,7 @@ is not yet published under `results/`.
   | Llama 2Wiki | 163 | 42.3 | 46.0 | 45.4 |
 
 - **Forest plot.** Filled marker = 95% bootstrap CI excludes 0. These are
-  PCR-timing contrasts. They are not the pre-registered primary outcome
+  PCR-timing contrasts. They are not the pre-specified whole-run primary outcome
   (premature stop without hop-2 evidence), which was not significant in any
-  cell. For Llama, the step-3 view matches E1; E2's pre-registered Llama
+  cell (thesis Appendix A). For Llama, the step-3 view matches E1; E2's pre-specified Llama
   outcome after the failed baseline gate is stopped-by-step-2.

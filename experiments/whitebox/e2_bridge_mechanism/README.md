@@ -1,4 +1,20 @@
-# E2 — bridge mechanism (dynamic bridge-anchored cue pilot)
+# E2 — bridge-anchored study (dynamic bridge-anchored cues)
+
+> **How the thesis reports E2 (§5.6 and Appendix A).** The thesis run is the
+> **v2b full run** (see "v2b full run" below), published in
+> `results/whitebox/e2_bridge_mechanism/v2b_full/`.
+> - **Main evaluation:** the same local measures as E1 (ASR, PCR, EICR and
+>   paired coverage loss at the Researcher's stop), on matched questions where
+>   every compared arm has a valid anchor-matched run.
+> - **Whole-run premature stop** (Equation A.1): pre-specified as the primary
+>   outcome on 2026-10-11 (see "Outcomes" below, kept as recorded). The thesis
+>   reports it in **Appendix A**, because it falls outside the
+>   local-termination scope.
+> - **Final-answer accuracy:** recorded by the pipeline, but not reported for
+>   E2; it is out of scope.
+>
+> The design record below is kept as written at the time. It still uses the
+> word "pre-registered" in places; the thesis term is "pre-specified".
 
 Code:
 * `src/prematurestop/cues/dynamic/`: the cue generator.

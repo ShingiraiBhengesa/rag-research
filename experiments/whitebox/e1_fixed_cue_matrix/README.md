@@ -2,6 +2,11 @@
 
 **Status: complete.** Results: `results/whitebox/e1_fixed_cue_matrix/`.
 
+**Thesis scope.** The thesis reports E1 outcomes at the Researcher's local
+termination only: ASR, step reduction, PCR@k, EICR and evidence loss at the
+local stop. The final-answer (answer-harm) analysis is out of scope. Its
+results are archived in `results/whitebox/_out_of_scope/answer_harm/`.
+
 ## Design
 
 E1 crosses 4 victim models, 4 datasets and 12 conditions, with 450 questions
@@ -14,12 +19,14 @@ temperature 0.
 | Datasets | HotpotQA · 2WikiMultihopQA · MuSiQue · MultiHop-RAG |
 | Conditions | see below; exact cue text in `results/whitebox/e1_fixed_cue_matrix/canonical/condition_metadata.csv` |
 
-There are 12 conditions:
+There are 12 conditions. The thesis names are in bold, with code IDs in
+backticks. The code IDs are unchanged, because they key the frozen manifests,
+the published CSVs and the raw traces.
 
-* **`NaturalClean`**: no injection. This is the control.
-* **`NaturalNeutral`**: a neutral sentence of matched length is appended to
+* **Baseline** (`NaturalClean`): no injection. This is the control.
+* **Neutral** (`NaturalNeutral`): a neutral sentence of matched length is appended to
   d1. This controls for "any appended text".
-* **`NaturalContinueSearch`**: a cue that tells the agent to keep searching.
+* **Continue Search** (`NaturalContinueSearch`): a cue that tells the agent to keep searching.
   This tests the opposite direction.
 * **Seven fixed premature-completion cues:**
   * Epistemic Confirmation
@@ -27,10 +34,12 @@ There are 12 conditions:
   * Source Coverage
   * Epistemic Confirmation + Source Coverage
   * Search Match + Source Coverage
-  * Fixed Sufficiency
-  * Fixed Sufficiency Saturation
-* **Two oracle conditions:** all gold evidence is supplied at once, with
-  either the neutral or the saturation cue. These separate the cue's effect
+  * Fixed Sufficiency (`Natural_PreRegisteredSufficiency`)
+  * Suff. + Saturation (`Natural_PreRegisteredSufficiencySaturation`)
+* **Two oracle conditions**, Oracle-Neutral (`OracleComplete_Neutral`) and
+  Oracle-Saturation (`OracleComplete_PreRegisteredSufficiencySaturation`):
+  all gold evidence is supplied at once, with either the neutral or the
+  saturation cue. These separate the cue's effect
   from the effect of evidence that is actually missing.
 
 The condition registry is in `src/prematurestop/cues/fixed/registry.py`. The
@@ -48,8 +57,9 @@ cue families are documented in `src/prematurestop/cues/fixed/families.py`.
 3. The runner (`system/runner.py`) executes the full ODR graph per question.
    Search goes to `system/benchmark_search.py`, a local BM25 index over the
    dataset corpus. The cue is appended to the first retrieved document.
-4. `analysis/fixed_cue_matrix/cli.py` parses the traces and computes PCR,
-   evidence coverage and answer accuracy. It also writes the result bundles.
+4. `analysis/fixed_cue_matrix/cli.py` parses the traces and computes PCR
+   and evidence coverage (plus the out-of-scope answer accuracy). It also
+   writes the result bundles.
 
 ## Commands
 
