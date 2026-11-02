@@ -1,7 +1,8 @@
 """Print-ready E1 thesis figures (Figures 5.1-5.4), plus the out-of-scope answer-harm figures.
 
 Every plotted value is read from the published E1 CSVs; nothing is typed in by
-hand. Output: results/whitebox/e1_fixed_cue_matrix/thesis_figures/fig5_*.{pdf,png}.
+hand. Output: results/figures/e1_thesis_figures/ (gitignored scratch). fig5_1 is thesis Figure 5.1 and
+fig5_2_routes is thesis Figure 4.1; final copies are in results/thesis_figures/.
 The former 5.6/5.7 (answer harm) are outside the thesis scope and are written to
 results/whitebox/_out_of_scope/answer_harm/thesis_figures/ instead.
 
@@ -28,9 +29,9 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 from matplotlib.patches import FancyBboxPatch, Patch, Rectangle  # noqa: E402
 
-from prematurestop.paths import RESULTS_ANSWER_HARM, RESULTS_E1
+from prematurestop.paths import RESULTS, RESULTS_ANSWER_HARM, RESULTS_E1
 
-OUT = RESULTS_E1 / "thesis_figures"
+OUT = RESULTS / "figures" / "e1_thesis_figures"  # gitignored scratch; final copies live in results/thesis_figures/
 MODELS = (("qwen14b", "Qwen-14B"), ("llama8b", "Llama-8B"), ("gemma27b", "Gemma-27B"), ("gpt_oss_20b", "gpt-oss-20b"))
 BUNDLE = {"qwen14b": "qwen_llama", "llama8b": "qwen_llama", "gemma27b": "gemma_gptoss", "gpt_oss_20b": "gemma_gptoss"}
 EHC = {"qwen14b": "evidence_hop_coverage", "llama8b": "evidence_hop_coverage",
@@ -131,8 +132,6 @@ def fig5_1():
     handles = [Line2D([0], [0], color=c, lw=3, ls=ls) for _, _, c, ls in series]
     fig.legend(handles, [lab for _, lab, *_ in series], loc="lower center", ncol=4, frameon=False, fontsize=12,
                labelcolor=INK_2, bbox_to_anchor=(0.5, 0.035), handlelength=2.6)
-    fig.text(0.5, 0.005, "Gemma's cue effect is concentrated at steps 1–2; it reaches 100% PCR by step 5 in every "
-             "condition, so its flat lines thereafter are a ceiling artefact, not robustness.", ha="center", fontsize=10, color=INK_2, style="italic")
     fig.tight_layout(rect=(0, 0.08, 1, 1))
     save(fig, "fig5_1_pcr_curves")
 
@@ -177,9 +176,6 @@ def fig5_2():
     ax.legend([Patch(color=c) for _, c in cats], [c for c, _ in cats], loc="upper center", bbox_to_anchor=(0.5, -0.1),
               ncol=4, frameon=False, fontsize=12, labelcolor=INK_2, handlelength=1, handleheight=1)
     ax.set_title("How Neutral-condition episodes end (all four datasets)", fontsize=12, color=INK, loc="left")
-    fig.text(0.5, -0.06, f"Gemma never uses the explicit completion tool — "
-             f"{shares['gemma27b']['No-tool exit']:.0f}% of its episodes end via no-tool exit.",
-             ha="center", fontsize=10, color=INK_2, style="italic")
     fig.tight_layout()
     save(fig, "fig5_2_routes")
     return shares

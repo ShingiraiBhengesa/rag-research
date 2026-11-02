@@ -1,14 +1,15 @@
 # Thesis figure scripts
 
-These scripts generated Figures 5.1–5.4 of the final thesis, copied here from
+These scripts generated Figures 5.2–5.4 of the final thesis, copied here from
 the analysis notes where they were developed. Final outputs:
 `results/thesis_figures/`.
+
+Figures 4.1 and 5.1 come from `python -m prematurestop.analysis.fixed_cue_matrix.thesis_figures`.
 
 Run from the repository root with the analysis environment. Each script puts
 its own directory on `sys.path`, so the modules import each other directly:
 
 ```bash
-python scripts/thesis_figures/fig5_1_pcr_curves.py          # Figure 5.1
 python scripts/thesis_figures/fig5_2_step_boxplot.py        # Figure 5.2
 python scripts/thesis_figures/thesis_restructure_e2.py      # Figure 5.4 (fig_e2_forest); run before --cov
 python scripts/thesis_figures/thesis_restructure_e2.py --cov  # Figure 5.3 (fig_e2_pcr_cdf_common)
@@ -19,7 +20,7 @@ python scripts/thesis_figures/thesis_restructure_e2.py --cov  # Figure 5.3 (fig_
 | `thesis_restructure.py` | Shared style, constants and E1 paths (base module) |
 | `thesis_restructure_v2.py` | E1 statistics and helpers; `E2_DIR` points at `results/whitebox/e2_bridge_mechanism/v2b_full` |
 | `thesis_restructure_e2.py` | E2 analyses: forest plot and common-question PCR curves |
-| `fig5_1_pcr_curves.py`, `fig5_2_step_boxplot.py`, `fig_e2_pcr_cdf.py` | Single-figure scripts |
+| `fig5_2_step_boxplot.py`, `fig_e2_pcr_cdf.py` | Single-figure scripts |
 
 Outputs:
 

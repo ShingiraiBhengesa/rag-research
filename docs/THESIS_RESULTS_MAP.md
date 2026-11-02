@@ -32,7 +32,7 @@ The tables below map **results** to their data files.
 | Table 3.4 | The twelve conditions and exact cue text (code ID ↔ thesis name) | `E1/canonical/condition_metadata.csv` (`thesis_display_label`; README condition table) |
 | §5.1 | Run inventory: 86,400 planned, 84,098 PCR-eligible | `E1/*/data/run_inventory.csv`, `E1/canonical/final_sample_counts.csv` |
 | Table 5.1, 5.2 | ASR and step reduction D_q (cue vs reference, per model × dataset) | **Summary only.** Derived from per-run stopping steps in `E1/*/data/pcr_run_level.csv` (`first_terminal_post_observation_step`, `pcr_eligible`); no published ASR table |
-| Figure 5.1 | PCR curves on HotpotQA, by model | `results/thesis_figures/fig5_1_pcr_curves.pdf` ← `E1/*/data/pcr_stepwise.csv` (HotpotQA) |
+| Figure 5.1 | PCR curves by model, mean of 4 datasets | `results/thesis_figures/fig5_1_pcr_curves.pdf` ← `E1/*/data/pcr_stepwise.csv` |
 | Figure 4.1 | How Neutral episodes end (routes) | `results/thesis_figures/fig4_1_routes.pdf` ← `E1/*/data/route_decomposition_stepwise.csv` |
 | Figure 5.2 | Paired step reduction D_q, Fixed Sufficiency vs Neutral | `results/thesis_figures/fig5_2_step_boxplot.png` ← `E1/*/data/pcr_run_level.csv` |
 | Table 5.3 | EICR by model × dataset | `E1/evidence_hop_coverage/evidence_hop_summary.csv`, `E1/evidence_hop_coverage_gemma_gptoss/evidence_hop_summary.csv` (n-weighted over hop strata) |

@@ -454,7 +454,7 @@ prematurestop/
 │   ├── e2_bridge_mechanism/
 │   └── _out_of_scope/answer_harm/       #   final-answer analysis, not reported in the thesis
 ├── results/thesis_figures/              # ── the six figures printed in the thesis (+ checksums) ──
-├── scripts/thesis_figures/              # scripts that generated thesis Figures 5.1–5.4
+├── scripts/thesis_figures/              # scripts that generated thesis Figures 5.2–5.4
 │
 ├── tests/                               # unit tests, mirroring src/ (257 tests)
 │   ├── system/  data/  evaluation/  pipelines/  analysis/
