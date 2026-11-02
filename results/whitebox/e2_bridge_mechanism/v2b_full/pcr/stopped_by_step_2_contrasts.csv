@@ -1,0 +1,53 @@
+victim,dataset,outcome,contrast,tier,cue_arm,control_arm,question,n_paired,cue_rate,control_rate,difference,ci_lower,ci_upper,cue_stop_only,control_stop_only,mcnemar_p
+llama8b,2wiki,stopped_by_step_2,structure,primary,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,135,0.2444,0.2741,-0.0296,-0.0667,0.0074,1,5,0.21875
+llama8b,2wiki,stopped_by_step_2,truth,primary,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,131,0.2443,0.2519,-0.0076,-0.0382,0.0229,2,3,1.0
+llama8b,2wiki,stopped_by_step_2,selection,primary,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,167,0.2395,0.2635,-0.024,-0.0539,0.006,2,6,0.289062
+llama8b,2wiki,stopped_by_step_2,bridge_k3_vs_fixed_sufficiency,secondary,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),166,0.241,0.2771,-0.0361,-0.0663,-0.012,0,6,0.03125
+llama8b,2wiki,stopped_by_step_2,bridge_sat_k3_vs_fixed_saturation,secondary,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),143,0.1678,0.2727,-0.1049,-0.1608,-0.0559,0,15,6.1e-05
+llama8b,2wiki,stopped_by_step_2,bridge_sat_k3_vs_bridge_suff_k3,secondary,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",143,0.1678,0.2238,-0.0559,-0.1049,-0.0138,2,10,0.038574
+llama8b,2wiki,stopped_by_step_2,fixed_sufficiency_vs_neutral,secondary,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,314,0.2134,0.0732,0.1401,0.1019,0.1815,44,0,0.0
+llama8b,2wiki,stopped_by_step_2,fixed_saturation_vs_neutral,secondary,fixed_saturation,neutral,replicates canonical fixed-cue effect,314,0.2197,0.0732,0.1465,0.1083,0.1879,46,0,0.0
+llama8b,2wiki,stopped_by_step_2,bridge_k3_vs_neutral,secondary,bridge_sufficiency_k3,neutral,total effect,163,0.227,0.0859,0.1411,0.0798,0.2025,25,2,6e-06
+llama8b,2wiki,stopped_by_step_2,bridge_k1_vs_neutral,secondary,bridge_sufficiency_k1,neutral,total effect,163,0.2515,0.0859,0.1656,0.1104,0.227,27,0,0.0
+llama8b,2wiki,stopped_by_step_2,entity_vs_neutral,secondary,entity_sufficiency,neutral,total effect,140,0.25,0.0857,0.1643,0.1,0.2357,24,1,2e-06
+llama8b,2wiki,stopped_by_step_2,unsupported_vs_neutral,secondary,unsupported_sufficiency,neutral,total effect,127,0.2362,0.0945,0.1417,0.0787,0.2047,19,1,4e-05
+llama8b,2wiki,stopped_by_step_2,bridge_sat_k3_vs_neutral,secondary,bridge_saturation_k3,neutral,total effect,140,0.1571,0.0929,0.0643,0.0,0.1214,14,5,0.063568
+llama8b,hotpot,stopped_by_step_2,structure,primary,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,137,0.4745,0.4818,-0.0073,-0.0511,0.0365,5,6,1.0
+llama8b,hotpot,stopped_by_step_2,truth,primary,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,67,0.4776,0.4627,0.0149,-0.0299,0.0746,2,1,1.0
+llama8b,hotpot,stopped_by_step_2,selection,primary,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,147,0.4626,0.4558,0.0068,-0.0136,0.0272,2,1,1.0
+llama8b,hotpot,stopped_by_step_2,bridge_k3_vs_fixed_sufficiency,secondary,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),147,0.4626,0.4966,-0.034,-0.0748,0.0,2,7,0.179688
+llama8b,hotpot,stopped_by_step_2,bridge_sat_k3_vs_fixed_saturation,secondary,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),125,0.456,0.528,-0.072,-0.12,-0.032,0,9,0.003906
+llama8b,hotpot,stopped_by_step_2,bridge_sat_k3_vs_bridge_suff_k3,secondary,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",125,0.456,0.488,-0.032,-0.088,0.016,3,7,0.34375
+llama8b,hotpot,stopped_by_step_2,fixed_sufficiency_vs_neutral,secondary,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,316,0.3861,0.1076,0.2785,0.231,0.3292,88,0,0.0
+llama8b,hotpot,stopped_by_step_2,fixed_saturation_vs_neutral,secondary,fixed_saturation,neutral,replicates canonical fixed-cue effect,316,0.3987,0.1076,0.2911,0.2405,0.3418,92,0,0.0
+llama8b,hotpot,stopped_by_step_2,bridge_k3_vs_neutral,secondary,bridge_sufficiency_k3,neutral,total effect,145,0.4552,0.1517,0.3034,0.2207,0.3862,46,2,0.0
+llama8b,hotpot,stopped_by_step_2,bridge_k1_vs_neutral,secondary,bridge_sufficiency_k1,neutral,total effect,145,0.4483,0.1517,0.2966,0.2138,0.3793,46,3,0.0
+llama8b,hotpot,stopped_by_step_2,entity_vs_neutral,secondary,entity_sufficiency,neutral,total effect,144,0.4722,0.1528,0.3194,0.2361,0.4028,48,2,0.0
+llama8b,hotpot,stopped_by_step_2,unsupported_vs_neutral,secondary,unsupported_sufficiency,neutral,total effect,65,0.4615,0.1692,0.2923,0.1846,0.4154,20,1,2.1e-05
+llama8b,hotpot,stopped_by_step_2,bridge_sat_k3_vs_neutral,secondary,bridge_saturation_k3,neutral,total effect,124,0.4516,0.1774,0.2742,0.1935,0.3548,35,1,0.0
+qwen14b,2wiki,stopped_by_step_2,structure,primary,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,160,0.85,0.8063,0.0437,-0.0063,0.0938,13,6,0.167068
+qwen14b,2wiki,stopped_by_step_2,truth,primary,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,131,0.8321,0.8092,0.0229,-0.0305,0.084,9,6,0.607239
+qwen14b,2wiki,stopped_by_step_2,selection,primary,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,177,0.8475,0.8305,0.0169,-0.0113,0.0452,5,2,0.453125
+qwen14b,2wiki,stopped_by_step_2,bridge_k3_vs_fixed_sufficiency,secondary,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),177,0.8475,0.8927,-0.0452,-0.0904,0.0056,6,14,0.115318
+qwen14b,2wiki,stopped_by_step_2,bridge_sat_k3_vs_fixed_saturation,secondary,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),152,0.875,0.8684,0.0066,-0.0461,0.0592,9,8,1.0
+qwen14b,2wiki,stopped_by_step_2,bridge_sat_k3_vs_bridge_suff_k3,secondary,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",151,0.8742,0.8344,0.0397,-0.0002,0.0861,9,3,0.145996
+qwen14b,2wiki,stopped_by_step_2,fixed_sufficiency_vs_neutral,secondary,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,278,0.8561,0.6871,0.1691,0.1223,0.2194,50,3,0.0
+qwen14b,2wiki,stopped_by_step_2,fixed_saturation_vs_neutral,secondary,fixed_saturation,neutral,replicates canonical fixed-cue effect,278,0.8417,0.6871,0.1547,0.1114,0.205,48,5,0.0
+qwen14b,2wiki,stopped_by_step_2,bridge_k3_vs_neutral,secondary,bridge_sufficiency_k3,neutral,total effect,177,0.8475,0.7345,0.113,0.0621,0.1695,24,4,0.00018
+qwen14b,2wiki,stopped_by_step_2,bridge_k1_vs_neutral,secondary,bridge_sufficiency_k1,neutral,total effect,177,0.8305,0.7345,0.096,0.0395,0.1525,22,5,0.001514
+qwen14b,2wiki,stopped_by_step_2,entity_vs_neutral,secondary,entity_sufficiency,neutral,total effect,164,0.7988,0.75,0.0488,-0.0061,0.1098,16,8,0.15159
+qwen14b,2wiki,stopped_by_step_2,unsupported_vs_neutral,secondary,unsupported_sufficiency,neutral,total effect,131,0.8092,0.7328,0.0763,0.0,0.1603,19,9,0.087159
+qwen14b,2wiki,stopped_by_step_2,bridge_sat_k3_vs_neutral,secondary,bridge_saturation_k3,neutral,total effect,152,0.875,0.7303,0.1447,0.0855,0.2039,25,3,2.7e-05
+qwen14b,hotpot,stopped_by_step_2,structure,primary,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,118,0.7627,0.7458,0.0169,-0.0424,0.0847,8,6,0.790527
+qwen14b,hotpot,stopped_by_step_2,truth,primary,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,57,0.807,0.7368,0.0702,-0.0351,0.1754,7,3,0.34375
+qwen14b,hotpot,stopped_by_step_2,selection,primary,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,124,0.7661,0.7581,0.0081,-0.0403,0.0565,6,5,1.0
+qwen14b,hotpot,stopped_by_step_2,bridge_k3_vs_fixed_sufficiency,secondary,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),124,0.7661,0.8468,-0.0806,-0.1452,-0.0242,3,13,0.021271
+qwen14b,hotpot,stopped_by_step_2,bridge_sat_k3_vs_fixed_saturation,secondary,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),102,0.8235,0.8431,-0.0196,-0.0784,0.0297,3,5,0.726562
+qwen14b,hotpot,stopped_by_step_2,bridge_sat_k3_vs_bridge_suff_k3,secondary,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",101,0.8218,0.8317,-0.0099,-0.0693,0.0495,4,5,1.0
+qwen14b,hotpot,stopped_by_step_2,fixed_sufficiency_vs_neutral,secondary,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,247,0.7692,0.5466,0.2227,0.1699,0.2834,60,5,0.0
+qwen14b,hotpot,stopped_by_step_2,fixed_saturation_vs_neutral,secondary,fixed_saturation,neutral,replicates canonical fixed-cue effect,247,0.7854,0.5466,0.2389,0.1822,0.2996,64,5,0.0
+qwen14b,hotpot,stopped_by_step_2,bridge_k3_vs_neutral,secondary,bridge_sufficiency_k3,neutral,total effect,124,0.7661,0.5887,0.1774,0.1048,0.2581,24,2,1e-05
+qwen14b,hotpot,stopped_by_step_2,bridge_k1_vs_neutral,secondary,bridge_sufficiency_k1,neutral,total effect,124,0.7581,0.5887,0.1694,0.0887,0.2581,27,6,0.000324
+qwen14b,hotpot,stopped_by_step_2,entity_vs_neutral,secondary,entity_sufficiency,neutral,total effect,127,0.7244,0.5591,0.1654,0.1024,0.2362,22,1,6e-06
+qwen14b,hotpot,stopped_by_step_2,unsupported_vs_neutral,secondary,unsupported_sufficiency,neutral,total effect,57,0.7368,0.6316,0.1053,0.0,0.2281,9,3,0.145996
+qwen14b,hotpot,stopped_by_step_2,bridge_sat_k3_vs_neutral,secondary,bridge_saturation_k3,neutral,total effect,102,0.8235,0.6373,0.1863,0.1078,0.2745,21,2,6.6e-05

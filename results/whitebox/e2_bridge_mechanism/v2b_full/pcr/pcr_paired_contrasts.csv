@@ -1,0 +1,625 @@
+victim,dataset,contrast,question_set,cue_arm,control_arm,question,step,n_paired,control_pcr,cue_pcr,delta_pcr,ci_lower,ci_upper
+llama8b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,1,135,0.0,0.0,0.0,0.0,0.0
+llama8b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,2,135,0.2741,0.2444,-0.0296,-0.0667,0.0074
+llama8b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,3,135,0.6148,0.6074,-0.0074,-0.0519,0.037
+llama8b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,5,135,0.8148,0.8,-0.0148,-0.0519,0.0222
+llama8b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,10,135,0.963,0.9704,0.0074,-0.0148,0.037
+llama8b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,30,135,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,1,93,0.0,0.0,0.0,0.0,0.0
+llama8b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,2,93,0.2581,0.2473,-0.0108,-0.0538,0.0215
+llama8b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,3,93,0.6129,0.6237,0.0108,-0.0323,0.0538
+llama8b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,5,93,0.7957,0.7957,0.0,-0.0538,0.0538
+llama8b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,10,93,0.9462,0.957,0.0108,-0.0215,0.0433
+llama8b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,30,93,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,1,131,0.0076,0.0,-0.0076,-0.0229,0.0
+llama8b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,2,131,0.2519,0.2443,-0.0076,-0.0382,0.0229
+llama8b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,3,131,0.6489,0.6336,-0.0153,-0.0534,0.0305
+llama8b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,5,131,0.8092,0.8092,0.0,-0.0229,0.0229
+llama8b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,10,131,0.9618,0.9695,0.0076,0.0,0.0229
+llama8b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,30,131,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,1,93,0.0108,0.0,-0.0108,-0.0323,0.0
+llama8b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,2,93,0.2581,0.2473,-0.0108,-0.0538,0.0215
+llama8b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,3,93,0.6559,0.6237,-0.0323,-0.0968,0.0215
+llama8b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,5,93,0.8065,0.7957,-0.0108,-0.0323,0.0
+llama8b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,10,93,0.9462,0.957,0.0108,0.0,0.0323
+llama8b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,30,93,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,1,167,0.0,0.0,0.0,0.0,0.0
+llama8b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,2,167,0.2635,0.2395,-0.024,-0.0539,0.006
+llama8b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,3,167,0.5988,0.5988,0.0,-0.0299,0.0359
+llama8b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,5,167,0.7844,0.7844,0.0,-0.024,0.024
+llama8b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,10,167,0.9701,0.976,0.006,0.0,0.018
+llama8b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,30,167,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,1,93,0.0,0.0,0.0,0.0,0.0
+llama8b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,2,93,0.2688,0.2473,-0.0215,-0.0753,0.0215
+llama8b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,3,93,0.6129,0.6237,0.0108,-0.043,0.0645
+llama8b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,5,93,0.7742,0.7957,0.0215,0.0,0.0538
+llama8b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,10,93,0.9462,0.957,0.0108,0.0,0.0323
+llama8b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,30,93,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),1,166,0.0,0.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),2,166,0.2771,0.241,-0.0361,-0.0663,-0.012
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),3,166,0.6627,0.5964,-0.0663,-0.1084,-0.0241
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),5,166,0.8193,0.7831,-0.0361,-0.0723,0.0
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),10,166,0.9759,0.9759,0.0,-0.0181,0.0181
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),30,166,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),1,92,0.0,0.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),2,92,0.2717,0.25,-0.0217,-0.0543,0.0
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),3,92,0.663,0.6196,-0.0435,-0.1087,0.0109
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),5,92,0.7826,0.7935,0.0109,-0.0217,0.0543
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),10,92,0.9565,0.9565,0.0,-0.0326,0.0326
+llama8b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),30,92,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),1,143,0.007,0.0,-0.007,-0.021,0.0
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),2,143,0.2727,0.1678,-0.1049,-0.1608,-0.0559
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),3,143,0.6643,0.5245,-0.1399,-0.2098,-0.0769
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),5,143,0.8252,0.7832,-0.042,-0.0769,-0.014
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),10,143,0.979,0.972,-0.007,-0.021,0.0
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),30,143,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),1,93,0.0108,0.0,-0.0108,-0.0323,0.0
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),2,93,0.2796,0.1828,-0.0968,-0.1613,-0.043
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),3,93,0.6774,0.5484,-0.129,-0.2151,-0.0538
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),5,93,0.828,0.7849,-0.043,-0.086,-0.0108
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),10,93,0.9677,0.957,-0.0108,-0.0323,0.0
+llama8b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),30,93,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",1,143,0.0,0.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",2,143,0.2238,0.1678,-0.0559,-0.1049,-0.0138
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",3,143,0.5734,0.5245,-0.049,-0.1189,0.021
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",5,143,0.7552,0.7832,0.028,-0.007,0.0629
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",10,143,0.972,0.972,0.0,-0.021,0.021
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",30,143,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",1,93,0.0,0.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",2,93,0.2473,0.1828,-0.0645,-0.129,-0.0108
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",3,93,0.6237,0.5484,-0.0753,-0.1505,0.0
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",5,93,0.7957,0.7849,-0.0108,-0.0323,0.0
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",10,93,0.957,0.957,0.0,-0.0323,0.0323
+llama8b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",30,93,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,1,314,0.0191,0.0032,-0.0159,-0.0318,-0.0032
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,2,314,0.0732,0.2134,0.1401,0.1019,0.1815
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,3,314,0.2357,0.6051,0.3694,0.3185,0.4236
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,5,314,0.6911,0.8217,0.1306,0.0924,0.1688
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,10,314,0.965,0.9841,0.0191,0.0064,0.035
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,30,314,0.9968,1.0,0.0032,0.0,0.0096
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,1,91,0.011,0.0,-0.011,-0.033,0.0
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,2,91,0.0989,0.2637,0.1648,0.0989,0.2418
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,3,91,0.2418,0.6593,0.4176,0.3187,0.5165
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,5,91,0.6813,0.7802,0.0989,0.033,0.1758
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,10,91,0.9341,0.956,0.022,0.0,0.0549
+llama8b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,30,91,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,1,314,0.0191,0.0096,-0.0096,-0.0255,0.0064
+llama8b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,2,314,0.0732,0.2197,0.1465,0.1083,0.1879
+llama8b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,3,314,0.2357,0.6274,0.3917,0.3376,0.4459
+llama8b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,5,314,0.6911,0.8408,0.1497,0.1115,0.1911
+llama8b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,10,314,0.965,0.9904,0.0255,0.0096,0.0446
+llama8b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,30,314,0.9968,1.0,0.0032,0.0,0.0096
+llama8b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,1,91,0.011,0.011,0.0,-0.033,0.033
+llama8b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,2,91,0.0989,0.2747,0.1758,0.0989,0.2637
+llama8b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,3,91,0.2418,0.6703,0.4286,0.3297,0.5275
+llama8b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,5,91,0.6813,0.8242,0.1429,0.0769,0.2198
+llama8b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,10,91,0.9341,0.967,0.033,0.0,0.0769
+llama8b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,30,91,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,1,163,0.0123,0.0,-0.0123,-0.0307,0.0
+llama8b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,2,163,0.0859,0.227,0.1411,0.0798,0.2025
+llama8b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,3,163,0.2577,0.589,0.3313,0.2515,0.4049
+llama8b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,5,163,0.7117,0.7791,0.0675,0.0184,0.1166
+llama8b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,10,163,0.9571,0.9755,0.0184,0.0,0.0429
+llama8b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,30,163,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,1,91,0.011,0.0,-0.011,-0.033,0.0
+llama8b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,2,91,0.0989,0.2418,0.1429,0.0659,0.2198
+llama8b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,3,91,0.2418,0.6154,0.3736,0.2637,0.4725
+llama8b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,5,91,0.6813,0.7912,0.1099,0.044,0.1868
+llama8b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,10,91,0.9341,0.956,0.022,0.0,0.0549
+llama8b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,30,91,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,1,163,0.0123,0.0,-0.0123,-0.0307,0.0
+llama8b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,2,163,0.0859,0.2515,0.1656,0.1104,0.227
+llama8b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,3,163,0.2577,0.589,0.3313,0.2577,0.4049
+llama8b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,5,163,0.7117,0.7791,0.0675,0.0123,0.1227
+llama8b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,10,163,0.9571,0.9693,0.0123,0.0,0.0307
+llama8b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,30,163,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,1,91,0.011,0.0,-0.011,-0.033,0.0
+llama8b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,2,91,0.0989,0.2637,0.1648,0.0989,0.2527
+llama8b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,3,91,0.2418,0.6044,0.3626,0.2637,0.4615
+llama8b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,5,91,0.6813,0.7692,0.0879,0.011,0.1648
+llama8b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,10,91,0.9341,0.9451,0.011,0.0,0.033
+llama8b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,30,91,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,1,140,0.0143,0.0,-0.0143,-0.0357,0.0
+llama8b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,2,140,0.0857,0.25,0.1643,0.1,0.2357
+llama8b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,3,140,0.2429,0.5929,0.35,0.2643,0.4357
+llama8b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,5,140,0.7071,0.8,0.0929,0.0429,0.15
+llama8b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,10,140,0.9429,0.9643,0.0214,0.0,0.05
+llama8b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,30,140,0.9929,1.0,0.0071,0.0,0.0214
+llama8b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,1,91,0.011,0.0,-0.011,-0.033,0.0
+llama8b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,2,91,0.0989,0.2527,0.1538,0.0879,0.2308
+llama8b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,3,91,0.2418,0.6044,0.3626,0.2527,0.4615
+llama8b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,5,91,0.6813,0.7912,0.1099,0.044,0.1868
+llama8b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,10,91,0.9341,0.9451,0.011,0.0,0.033
+llama8b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,30,91,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,1,127,0.0079,0.0079,0.0,-0.0236,0.0236
+llama8b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,2,127,0.0945,0.2362,0.1417,0.0787,0.2047
+llama8b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,3,127,0.2756,0.6378,0.3622,0.2835,0.4409
+llama8b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,5,127,0.7008,0.8031,0.1024,0.0472,0.1575
+llama8b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,10,127,0.9528,0.9606,0.0079,0.0,0.0236
+llama8b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,30,127,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,1,91,0.011,0.011,0.0,-0.033,0.033
+llama8b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,2,91,0.0989,0.2527,0.1538,0.0769,0.2308
+llama8b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,3,91,0.2418,0.6484,0.4066,0.3077,0.5055
+llama8b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,5,91,0.6813,0.8022,0.1209,0.0549,0.1868
+llama8b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,10,91,0.9341,0.9451,0.011,0.0,0.033
+llama8b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,30,91,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,1,140,0.0071,0.0,-0.0071,-0.0214,0.0
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,2,140,0.0929,0.1571,0.0643,0.0,0.1214
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,3,140,0.25,0.5143,0.2643,0.1786,0.35
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,5,140,0.6929,0.7786,0.0857,0.0357,0.1429
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,10,140,0.95,0.9714,0.0214,0.0,0.05
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,30,140,1.0,1.0,0.0,0.0,0.0
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,1,91,0.011,0.0,-0.011,-0.033,0.0
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,2,91,0.0989,0.1758,0.0769,0.0,0.1538
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,3,91,0.2418,0.5385,0.2967,0.1758,0.4066
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,5,91,0.6813,0.7802,0.0989,0.033,0.1758
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,10,91,0.9341,0.956,0.022,0.0,0.0549
+llama8b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,30,91,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,1,137,0.0146,0.0146,0.0,0.0,0.0
+llama8b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,2,137,0.4818,0.4745,-0.0073,-0.0511,0.0365
+llama8b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,3,137,0.7518,0.7372,-0.0146,-0.0803,0.0511
+llama8b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,5,137,0.8978,0.8905,-0.0073,-0.0365,0.0292
+llama8b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,10,137,0.9854,0.9854,0.0,0.0,0.0
+llama8b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,30,137,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,1,50,0.04,0.04,0.0,0.0,0.0
+llama8b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,2,50,0.54,0.5,-0.04,-0.12,0.04
+llama8b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,3,50,0.78,0.72,-0.06,-0.16,0.04
+llama8b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,5,50,0.92,0.86,-0.06,-0.14,0.0
+llama8b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,10,50,0.98,0.98,0.0,0.0,0.0
+llama8b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,30,50,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,1,67,0.0299,0.0299,0.0,0.0,0.0
+llama8b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,2,67,0.4627,0.4776,0.0149,-0.0299,0.0746
+llama8b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,3,67,0.7463,0.7463,0.0,-0.0597,0.0597
+llama8b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,5,67,0.8657,0.8507,-0.0149,-0.0746,0.0299
+llama8b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,10,67,0.9701,0.9701,0.0,0.0,0.0
+llama8b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,30,67,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,1,50,0.04,0.04,0.0,0.0,0.0
+llama8b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,2,50,0.5,0.5,0.0,-0.06,0.06
+llama8b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,3,50,0.74,0.72,-0.02,-0.08,0.04
+llama8b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,5,50,0.88,0.86,-0.02,-0.1,0.04
+llama8b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,10,50,0.98,0.98,0.0,0.0,0.0
+llama8b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,30,50,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,1,147,0.0136,0.0136,0.0,0.0,0.0
+llama8b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,2,147,0.4558,0.4626,0.0068,-0.0136,0.0272
+llama8b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,3,147,0.7347,0.7347,0.0,-0.0408,0.0408
+llama8b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,5,147,0.8776,0.8844,0.0068,-0.0136,0.034
+llama8b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,10,147,0.9796,0.9796,0.0,0.0,0.0
+llama8b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,30,147,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,1,50,0.04,0.04,0.0,0.0,0.0
+llama8b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,2,50,0.5,0.5,0.0,-0.06,0.06
+llama8b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,3,50,0.76,0.72,-0.04,-0.12,0.04
+llama8b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,5,50,0.88,0.86,-0.02,-0.06,0.0
+llama8b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,10,50,0.98,0.98,0.0,0.0,0.0
+llama8b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,30,50,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),1,147,0.0272,0.0136,-0.0136,-0.034,0.0
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),2,147,0.4966,0.4626,-0.034,-0.0748,0.0
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),3,147,0.7755,0.7347,-0.0408,-0.1088,0.0204
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),5,147,0.898,0.8844,-0.0136,-0.0544,0.0204
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),10,147,0.9796,0.9796,0.0,0.0,0.0
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),30,147,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),1,50,0.08,0.04,-0.04,-0.1,0.0
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),2,50,0.56,0.5,-0.06,-0.14,0.02
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),3,50,0.84,0.72,-0.12,-0.24,0.0
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),5,50,0.94,0.86,-0.08,-0.16,-0.02
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),10,50,0.98,0.98,0.0,0.0,0.0
+llama8b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),30,50,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),1,125,0.024,0.016,-0.008,-0.024,0.0
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),2,125,0.528,0.456,-0.072,-0.12,-0.032
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),3,125,0.816,0.72,-0.096,-0.16,-0.032
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),5,125,0.896,0.872,-0.024,-0.064,0.008
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),10,125,0.984,0.984,0.0,0.0,0.0
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),30,125,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),1,49,0.0612,0.0408,-0.0204,-0.0612,0.0
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),2,49,0.5714,0.5102,-0.0612,-0.1429,0.0
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),3,49,0.8367,0.7347,-0.102,-0.2245,0.0204
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),5,49,0.9388,0.8571,-0.0816,-0.1633,-0.0204
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),10,49,0.9796,0.9796,0.0,0.0,0.0
+llama8b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),30,49,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",1,125,0.016,0.016,0.0,-0.024,0.024
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",2,125,0.488,0.456,-0.032,-0.088,0.016
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",3,125,0.736,0.72,-0.016,-0.08,0.048
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",5,125,0.896,0.872,-0.024,-0.056,0.008
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",10,125,0.984,0.984,0.0,0.0,0.0
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",30,125,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",1,49,0.0408,0.0408,0.0,-0.0612,0.0612
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",2,49,0.5102,0.5102,0.0,-0.0816,0.0816
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",3,49,0.7347,0.7347,0.0,-0.1224,0.1224
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",5,49,0.8776,0.8571,-0.0204,-0.102,0.0408
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",10,49,0.9796,0.9796,0.0,0.0,0.0
+llama8b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",30,49,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,1,316,0.0506,0.0222,-0.0285,-0.0475,-0.0127
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,2,316,0.1076,0.3861,0.2785,0.231,0.3292
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,3,316,0.2563,0.75,0.4937,0.4367,0.5475
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,5,316,0.7658,0.8987,0.1329,0.0949,0.1772
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,10,316,0.9747,0.9873,0.0127,0.0032,0.0253
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,30,316,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,1,49,0.1224,0.0816,-0.0408,-0.102,0.0
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,2,49,0.2245,0.551,0.3265,0.2041,0.449
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,3,49,0.3061,0.8367,0.5306,0.3878,0.6735
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,5,49,0.7755,0.9388,0.1633,0.0612,0.2653
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,10,49,0.9796,0.9796,0.0,0.0,0.0
+llama8b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,30,49,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,1,316,0.0506,0.0127,-0.038,-0.0601,-0.019
+llama8b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,2,316,0.1076,0.3987,0.2911,0.2405,0.3418
+llama8b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,3,316,0.2563,0.8101,0.5538,0.4999,0.6076
+llama8b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,5,316,0.7658,0.9209,0.1551,0.1139,0.1994
+llama8b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,10,316,0.9747,0.9873,0.0127,0.0032,0.0253
+llama8b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,30,316,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,1,49,0.1224,0.0612,-0.0612,-0.1429,0.0
+llama8b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,2,49,0.2245,0.5714,0.3469,0.2245,0.4898
+llama8b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,3,49,0.3061,0.8367,0.5306,0.3878,0.6735
+llama8b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,5,49,0.7755,0.9388,0.1633,0.0612,0.2653
+llama8b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,10,49,0.9796,0.9796,0.0,0.0,0.0
+llama8b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,30,49,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,1,145,0.069,0.0138,-0.0552,-0.0966,-0.0207
+llama8b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,2,145,0.1517,0.4552,0.3034,0.2207,0.3862
+llama8b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,3,145,0.2828,0.731,0.4483,0.3586,0.5379
+llama8b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,5,145,0.7586,0.8828,0.1241,0.0621,0.1864
+llama8b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,10,145,0.9655,0.9793,0.0138,0.0,0.0345
+llama8b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,30,145,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,1,49,0.1224,0.0408,-0.0816,-0.1633,-0.0204
+llama8b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,2,49,0.2245,0.4898,0.2653,0.1429,0.4082
+llama8b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,3,49,0.3061,0.7143,0.4082,0.2653,0.551
+llama8b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,5,49,0.7755,0.8571,0.0816,-0.0408,0.2041
+llama8b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,10,49,0.9796,0.9796,0.0,0.0,0.0
+llama8b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,30,49,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,1,145,0.069,0.0138,-0.0552,-0.0966,-0.0207
+llama8b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,2,145,0.1517,0.4483,0.2966,0.2138,0.3793
+llama8b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,3,145,0.2828,0.731,0.4483,0.3517,0.5448
+llama8b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,5,145,0.7586,0.8759,0.1172,0.0552,0.1793
+llama8b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,10,145,0.9655,0.9793,0.0138,0.0,0.0345
+llama8b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,30,145,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,1,49,0.1224,0.0408,-0.0816,-0.1633,-0.0204
+llama8b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,2,49,0.2245,0.4898,0.2653,0.1429,0.4082
+llama8b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,3,49,0.3061,0.7551,0.449,0.3061,0.5918
+llama8b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,5,49,0.7755,0.8776,0.102,-0.0204,0.2245
+llama8b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,10,49,0.9796,0.9796,0.0,0.0,0.0
+llama8b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,30,49,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,1,144,0.0694,0.0139,-0.0556,-0.0972,-0.0208
+llama8b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,2,144,0.1528,0.4722,0.3194,0.2361,0.4028
+llama8b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,3,144,0.2778,0.75,0.4722,0.3819,0.5556
+llama8b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,5,144,0.7708,0.8958,0.125,0.0694,0.1875
+llama8b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,10,144,0.9861,0.9861,0.0,0.0,0.0
+llama8b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,30,144,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,1,49,0.1224,0.0408,-0.0816,-0.1633,-0.0204
+llama8b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,2,49,0.2245,0.5306,0.3061,0.1837,0.449
+llama8b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,3,49,0.3061,0.7755,0.4694,0.3265,0.6122
+llama8b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,5,49,0.7755,0.9184,0.1429,0.0408,0.2653
+llama8b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,10,49,0.9796,0.9796,0.0,0.0,0.0
+llama8b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,30,49,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,1,65,0.0923,0.0308,-0.0615,-0.1231,-0.0154
+llama8b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,2,65,0.1692,0.4615,0.2923,0.1846,0.4154
+llama8b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,3,65,0.2769,0.7385,0.4615,0.3231,0.5846
+llama8b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,5,65,0.7385,0.8615,0.1231,0.0308,0.2154
+llama8b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,10,65,0.9538,0.9692,0.0154,0.0,0.0462
+llama8b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,30,65,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,1,49,0.1224,0.0408,-0.0816,-0.1633,-0.0204
+llama8b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,2,49,0.2245,0.5102,0.2857,0.1633,0.4286
+llama8b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,3,49,0.3061,0.7347,0.4286,0.2857,0.5714
+llama8b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,5,49,0.7755,0.8776,0.102,-0.0204,0.2245
+llama8b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,10,49,0.9796,0.9796,0.0,0.0,0.0
+llama8b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,30,49,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,1,124,0.0806,0.0161,-0.0645,-0.105,-0.0242
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,2,124,0.1774,0.4516,0.2742,0.1935,0.3548
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,3,124,0.2984,0.7177,0.4194,0.3306,0.5081
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,5,124,0.7419,0.871,0.129,0.0645,0.2016
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,10,124,0.9677,0.9839,0.0161,0.0,0.0403
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,30,124,1.0,1.0,0.0,0.0,0.0
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,1,48,0.125,0.0417,-0.0833,-0.1667,-0.0208
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,2,48,0.2292,0.5,0.2708,0.1458,0.3958
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,3,48,0.3125,0.7292,0.4167,0.2708,0.5625
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,5,48,0.7708,0.8542,0.0833,-0.0214,0.188
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,10,48,0.9792,0.9792,0.0,0.0,0.0
+llama8b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,30,48,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,1,160,0.4562,0.5625,0.1063,0.0375,0.175
+qwen14b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,2,160,0.8063,0.85,0.0437,-0.0062,0.0938
+qwen14b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,3,160,0.9187,0.9313,0.0125,-0.0312,0.0563
+qwen14b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,5,160,0.95,0.9625,0.0125,-0.0188,0.05
+qwen14b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,10,160,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,30,160,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,1,107,0.4579,0.5981,0.1402,0.0467,0.2336
+qwen14b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,2,107,0.785,0.8131,0.028,-0.028,0.0843
+qwen14b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,3,107,0.8972,0.8972,0.0,-0.0561,0.0654
+qwen14b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,5,107,0.9346,0.9439,0.0093,-0.0374,0.0561
+qwen14b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,1,131,0.4504,0.5802,0.1298,0.0611,0.1985
+qwen14b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,2,131,0.8092,0.8321,0.0229,-0.0305,0.084
+qwen14b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,3,131,0.916,0.916,0.0,-0.0458,0.0534
+qwen14b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,5,131,0.9771,0.9542,-0.0229,-0.0534,0.0
+qwen14b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,10,131,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,30,131,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,1,107,0.4486,0.5981,0.1495,0.0841,0.2336
+qwen14b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,2,107,0.7757,0.8131,0.0374,-0.028,0.0937
+qwen14b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,3,107,0.8972,0.8972,0.0,-0.0561,0.0561
+qwen14b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,5,107,0.972,0.9439,-0.028,-0.0654,0.0
+qwen14b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,1,177,0.5198,0.5367,0.0169,-0.0226,0.0621
+qwen14b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,2,177,0.8305,0.8475,0.0169,-0.0113,0.0452
+qwen14b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,3,177,0.9209,0.9379,0.0169,-0.0113,0.0452
+qwen14b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,5,177,0.9718,0.9661,-0.0056,-0.0169,0.0
+qwen14b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,10,177,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,30,177,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,1,107,0.5701,0.5981,0.028,-0.028,0.0841
+qwen14b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,2,107,0.8037,0.8131,0.0093,-0.028,0.0467
+qwen14b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,3,107,0.8785,0.8972,0.0187,-0.028,0.0654
+qwen14b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,5,107,0.9533,0.9439,-0.0093,-0.028,0.0
+qwen14b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),1,177,0.5819,0.5367,-0.0452,-0.113,0.0226
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),2,177,0.8927,0.8475,-0.0452,-0.0904,0.0056
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),3,177,0.9605,0.9379,-0.0226,-0.0565,0.0056
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),5,177,0.9831,0.9661,-0.0169,-0.0395,0.0056
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),10,177,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),30,177,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),1,107,0.5888,0.5981,0.0093,-0.0654,0.0841
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),2,107,0.8692,0.8131,-0.0561,-0.1215,0.0093
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),3,107,0.9533,0.8972,-0.0561,-0.1028,-0.0187
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),5,107,0.972,0.9439,-0.028,-0.0748,0.0093
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),1,152,0.5658,0.5724,0.0066,-0.0526,0.0592
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),2,152,0.8684,0.875,0.0066,-0.0461,0.0592
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),3,152,0.9539,0.9408,-0.0132,-0.0526,0.0197
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),5,152,0.9737,0.9737,0.0,-0.0197,0.0197
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),10,152,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),30,152,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),1,107,0.5794,0.5888,0.0093,-0.0561,0.0748
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),2,107,0.8505,0.8505,0.0,-0.0654,0.0748
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),3,107,0.9346,0.9252,-0.0093,-0.0561,0.0374
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),5,107,0.9626,0.9626,0.0,-0.028,0.028
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",1,151,0.5298,0.5695,0.0397,-0.0265,0.0995
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",2,151,0.8344,0.8742,0.0397,-0.0002,0.0861
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",3,151,0.9272,0.9404,0.0132,-0.0132,0.0397
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",5,151,0.9603,0.9735,0.0132,-0.0132,0.0397
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",10,151,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",30,151,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",1,107,0.5981,0.5888,-0.0093,-0.0748,0.0561
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",2,107,0.8131,0.8505,0.0374,-0.0187,0.0935
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",3,107,0.8972,0.9252,0.028,0.0,0.0654
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",5,107,0.9439,0.9626,0.0187,-0.0187,0.0561
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,1,278,0.2878,0.5216,0.2338,0.1799,0.2878
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,2,278,0.6871,0.8561,0.1691,0.1223,0.2194
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,3,278,0.8237,0.9281,0.1043,0.0683,0.1439
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,5,278,0.8957,0.964,0.0683,0.036,0.1007
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,10,278,0.9964,0.9964,0.0,-0.0108,0.0108
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,30,278,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,1,107,0.3364,0.5888,0.2523,0.1776,0.3364
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,2,107,0.7196,0.8692,0.1495,0.0841,0.2243
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,3,107,0.8411,0.9533,0.1121,0.0467,0.1776
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,5,107,0.9065,0.972,0.0654,0.0187,0.1215
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,1,278,0.2878,0.5036,0.2158,0.1655,0.2662
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,2,278,0.6871,0.8417,0.1547,0.1114,0.205
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,3,278,0.8237,0.9245,0.1007,0.0647,0.1403
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,5,278,0.8957,0.9496,0.054,0.0252,0.0863
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,10,278,0.9964,0.9964,0.0,0.0,0.0
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,30,278,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,1,107,0.3364,0.5794,0.243,0.1682,0.3271
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,2,107,0.7196,0.8505,0.1308,0.0561,0.2056
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,3,107,0.8411,0.9346,0.0935,0.0467,0.1495
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,5,107,0.9065,0.9626,0.0561,0.0187,0.1028
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,1,177,0.3051,0.5367,0.2316,0.1638,0.3051
+qwen14b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,2,177,0.7345,0.8475,0.113,0.0621,0.1695
+qwen14b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,3,177,0.8644,0.9379,0.0734,0.0282,0.1186
+qwen14b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,5,177,0.9322,0.9661,0.0339,0.0113,0.0621
+qwen14b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,10,177,0.9944,1.0,0.0056,0.0,0.0169
+qwen14b,2wiki,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,30,177,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,1,107,0.3364,0.5981,0.2617,0.1776,0.3554
+qwen14b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,2,107,0.7196,0.8131,0.0935,0.028,0.1589
+qwen14b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,3,107,0.8411,0.8972,0.0561,0.0,0.1215
+qwen14b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,5,107,0.9065,0.9439,0.0374,0.0093,0.0748
+qwen14b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,1,177,0.3051,0.5198,0.2147,0.1525,0.2825
+qwen14b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,2,177,0.7345,0.8305,0.096,0.0395,0.1525
+qwen14b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,3,177,0.8644,0.9209,0.0565,0.0056,0.1017
+qwen14b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,5,177,0.9322,0.9718,0.0395,0.0169,0.0678
+qwen14b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,10,177,0.9944,1.0,0.0056,0.0,0.0169
+qwen14b,2wiki,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,30,177,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,1,107,0.3364,0.5701,0.2336,0.1495,0.3178
+qwen14b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,2,107,0.7196,0.8037,0.0841,0.0187,0.1589
+qwen14b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,3,107,0.8411,0.8785,0.0374,-0.028,0.1028
+qwen14b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,5,107,0.9065,0.9533,0.0467,0.0093,0.0841
+qwen14b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,1,164,0.3232,0.4573,0.1341,0.0732,0.2012
+qwen14b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,2,164,0.75,0.7988,0.0488,-0.0061,0.1098
+qwen14b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,3,164,0.872,0.9146,0.0427,0.0,0.0854
+qwen14b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,5,164,0.9268,0.9451,0.0183,-0.0061,0.0428
+qwen14b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,10,164,0.9939,1.0,0.0061,0.0,0.0183
+qwen14b,2wiki,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,30,164,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,1,107,0.3364,0.4579,0.1215,0.0467,0.2056
+qwen14b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,2,107,0.7196,0.785,0.0654,0.0,0.1308
+qwen14b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,3,107,0.8411,0.8972,0.0561,0.0,0.1215
+qwen14b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,5,107,0.9065,0.9346,0.028,-0.0093,0.0748
+qwen14b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,1,131,0.3282,0.4504,0.1221,0.0458,0.1985
+qwen14b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,2,131,0.7328,0.8092,0.0763,0.0,0.1603
+qwen14b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,3,131,0.8626,0.916,0.0534,0.0076,0.1069
+qwen14b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,5,131,0.916,0.9771,0.0611,0.0229,0.1069
+qwen14b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,10,131,0.9924,1.0,0.0076,0.0,0.0229
+qwen14b,2wiki,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,30,131,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,1,107,0.3364,0.4486,0.1121,0.0374,0.1869
+qwen14b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,2,107,0.7196,0.7757,0.0561,-0.028,0.1404
+qwen14b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,3,107,0.8411,0.8972,0.0561,0.0,0.1121
+qwen14b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,5,107,0.9065,0.972,0.0654,0.0187,0.1121
+qwen14b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,1,152,0.3092,0.5724,0.2632,0.1908,0.3421
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,2,152,0.7303,0.875,0.1447,0.0855,0.2039
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,3,152,0.8553,0.9408,0.0855,0.0329,0.1447
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,5,152,0.9276,0.9737,0.0461,0.0132,0.0789
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,10,152,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,30,152,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,1,107,0.3364,0.5888,0.2523,0.1682,0.3458
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,2,107,0.7196,0.8505,0.1308,0.0654,0.215
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,3,107,0.8411,0.9252,0.0841,0.028,0.1498
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,5,107,0.9065,0.9626,0.0561,0.0187,0.1028
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,10,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,2wiki,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,30,107,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,1,118,0.3898,0.4746,0.0847,0.0085,0.161
+qwen14b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,2,118,0.7458,0.7627,0.0169,-0.0424,0.0847
+qwen14b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,3,118,0.8305,0.8559,0.0254,-0.0254,0.0763
+qwen14b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,5,118,0.8983,0.9322,0.0339,0.0,0.0763
+qwen14b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,10,118,1.0,0.9915,-0.0085,-0.0254,0.0
+qwen14b,hotpot,structure,all_paired,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,30,118,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,1,45,0.5111,0.5556,0.0444,-0.0667,0.1556
+qwen14b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,2,45,0.8,0.8222,0.0222,-0.0667,0.1333
+qwen14b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,3,45,0.8889,0.9111,0.0222,-0.0444,0.1111
+qwen14b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,5,45,0.9556,0.9778,0.0222,0.0,0.0667
+qwen14b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,10,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,structure,all_six_arms_ran,bridge_sufficiency_k3,entity_sufficiency,does relational structure matter?,30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,1,57,0.4035,0.5263,0.1228,0.0351,0.2281
+qwen14b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,2,57,0.7368,0.807,0.0702,-0.0351,0.1754
+qwen14b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,3,57,0.8421,0.8772,0.0351,-0.0526,0.1228
+qwen14b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,5,57,0.9649,0.9649,0.0,-0.0526,0.0526
+qwen14b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,10,57,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,truth,all_paired,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,30,57,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,1,45,0.4667,0.5556,0.0889,-0.0222,0.2
+qwen14b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,2,45,0.7333,0.8222,0.0889,-0.0222,0.2222
+qwen14b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,3,45,0.8444,0.9111,0.0667,-0.0222,0.1556
+qwen14b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,5,45,0.9778,0.9778,0.0,0.0,0.0
+qwen14b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,10,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,truth,all_six_arms_ran,bridge_sufficiency_k3,unsupported_sufficiency,does grounding in a true fact matter?,30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,1,124,0.4597,0.4677,0.0081,-0.0565,0.0645
+qwen14b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,2,124,0.7581,0.7661,0.0081,-0.0403,0.0565
+qwen14b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,3,124,0.8629,0.8548,-0.0081,-0.0484,0.0323
+qwen14b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,5,124,0.9516,0.9274,-0.0242,-0.0565,0.0
+qwen14b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,10,124,0.9919,0.9919,0.0,-0.0242,0.0242
+qwen14b,hotpot,selection,all_paired,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,30,124,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,1,45,0.5778,0.5556,-0.0222,-0.1333,0.0667
+qwen14b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,2,45,0.8667,0.8222,-0.0444,-0.1111,0.0
+qwen14b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,3,45,0.9333,0.9111,-0.0222,-0.0667,0.0
+qwen14b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,5,45,0.9778,0.9778,0.0,0.0,0.0
+qwen14b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,10,45,0.9778,1.0,0.0222,0.0,0.0667
+qwen14b,hotpot,selection,all_six_arms_ran,bridge_sufficiency_k3,bridge_sufficiency_k1,is the effect driven by best-of-K selection?,30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),1,124,0.5806,0.4677,-0.1129,-0.1935,-0.0323
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),2,124,0.8468,0.7661,-0.0806,-0.1452,-0.0242
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),3,124,0.9032,0.8548,-0.0484,-0.0968,-0.0081
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),5,124,0.9516,0.9274,-0.0242,-0.0645,0.0161
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),10,124,0.9839,0.9919,0.0081,0.0,0.0242
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_paired,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),30,124,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),1,45,0.6889,0.5556,-0.1333,-0.2667,0.0
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),2,45,0.8889,0.8222,-0.0667,-0.1778,0.0222
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),3,45,0.9333,0.9111,-0.0222,-0.0667,0.0
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),5,45,0.9778,0.9778,0.0,-0.0667,0.0667
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),10,45,0.9778,1.0,0.0222,0.0,0.0667
+qwen14b,hotpot,bridge_k3_vs_fixed_sufficiency,all_six_arms_ran,bridge_sufficiency_k3,fixed_sufficiency,dynamic vs fixed (Suff.),30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),1,102,0.6275,0.549,-0.0784,-0.1569,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),2,102,0.8431,0.8235,-0.0196,-0.0784,0.0297
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),3,102,0.9216,0.8824,-0.0392,-0.0784,-0.0098
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),5,102,0.9412,0.9412,0.0,-0.0392,0.0392
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),10,102,1.0,0.9902,-0.0098,-0.0294,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_paired,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),30,102,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),1,45,0.6889,0.6,-0.0889,-0.2,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),2,45,0.9111,0.8444,-0.0667,-0.1556,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),3,45,0.9556,0.9111,-0.0444,-0.1111,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),5,45,0.9778,0.9778,0.0,0.0,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),10,45,1.0,0.9778,-0.0222,-0.0667,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_fixed_saturation,all_six_arms_ran,bridge_saturation_k3,fixed_saturation,dynamic vs fixed (Sat.),30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",1,101,0.505,0.5446,0.0396,-0.0198,0.1089
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",2,101,0.8317,0.8218,-0.0099,-0.0693,0.0495
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",3,101,0.8911,0.8812,-0.0099,-0.0495,0.0297
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",5,101,0.9406,0.9406,0.0,-0.0297,0.0297
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",10,101,1.0,0.9901,-0.0099,-0.0297,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_paired,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",30,101,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",1,45,0.5556,0.6,0.0444,-0.0444,0.1333
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",2,45,0.8222,0.8444,0.0222,-0.0667,0.1111
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",3,45,0.9111,0.9111,0.0,-0.0667,0.0667
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",5,45,0.9778,0.9778,0.0,0.0,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",10,45,1.0,0.9778,-0.0222,-0.0667,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_bridge_suff_k3,all_six_arms_ran,bridge_saturation_k3,bridge_sufficiency_k3,"mechanism, dynamic cues",30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,1,247,0.2308,0.5547,0.3239,0.2591,0.3846
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,2,247,0.5466,0.7692,0.2227,0.1699,0.2834
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,3,247,0.7045,0.8664,0.1619,0.1093,0.2186
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,5,247,0.8704,0.9393,0.0688,0.0324,0.1093
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,10,247,0.9717,0.9879,0.0162,-0.004,0.0405
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_paired,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,30,247,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,1,45,0.3556,0.6889,0.3333,0.1778,0.4889
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,2,45,0.6444,0.8889,0.2444,0.1111,0.3778
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,3,45,0.8222,0.9333,0.1111,0.0222,0.2
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,5,45,0.9556,0.9778,0.0222,-0.0444,0.1111
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,10,45,1.0,0.9778,-0.0222,-0.0667,0.0
+qwen14b,hotpot,fixed_sufficiency_vs_neutral,all_six_arms_ran,fixed_sufficiency,neutral,replicates canonical fixed-cue effect,30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,1,247,0.2308,0.5506,0.3198,0.2632,0.3846
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,2,247,0.5466,0.7854,0.2389,0.1822,0.2996
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,3,247,0.7045,0.8704,0.166,0.1134,0.2186
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,5,247,0.8704,0.9393,0.0688,0.0324,0.1093
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,10,247,0.9717,1.0,0.0283,0.0081,0.0486
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_paired,fixed_saturation,neutral,replicates canonical fixed-cue effect,30,247,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,1,45,0.3556,0.6889,0.3333,0.2,0.4667
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,2,45,0.6444,0.9111,0.2667,0.1556,0.4
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,3,45,0.8222,0.9556,0.1333,0.0444,0.2444
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,5,45,0.9556,0.9778,0.0222,0.0,0.0667
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,10,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,fixed_saturation_vs_neutral,all_six_arms_ran,fixed_saturation,neutral,replicates canonical fixed-cue effect,30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,1,124,0.2581,0.4677,0.2097,0.1371,0.2903
+qwen14b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,2,124,0.5887,0.7661,0.1774,0.1048,0.2581
+qwen14b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,3,124,0.7258,0.8548,0.129,0.0645,0.2016
+qwen14b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,5,124,0.871,0.9274,0.0565,0.0081,0.1129
+qwen14b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,10,124,0.9839,0.9919,0.0081,-0.0161,0.0323
+qwen14b,hotpot,bridge_k3_vs_neutral,all_paired,bridge_sufficiency_k3,neutral,total effect,30,124,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,1,45,0.3556,0.5556,0.2,0.0889,0.3333
+qwen14b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,2,45,0.6444,0.8222,0.1778,0.0667,0.2889
+qwen14b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,3,45,0.8222,0.9111,0.0889,0.0,0.2
+qwen14b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,5,45,0.9556,0.9778,0.0222,0.0,0.0667
+qwen14b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,10,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_k3_vs_neutral,all_six_arms_ran,bridge_sufficiency_k3,neutral,total effect,30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,1,124,0.2581,0.4597,0.2016,0.129,0.2823
+qwen14b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,2,124,0.5887,0.7581,0.1694,0.0887,0.2581
+qwen14b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,3,124,0.7258,0.8629,0.1371,0.0726,0.2097
+qwen14b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,5,124,0.871,0.9516,0.0806,0.0323,0.1371
+qwen14b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,10,124,0.9839,0.9919,0.0081,-0.0161,0.0323
+qwen14b,hotpot,bridge_k1_vs_neutral,all_paired,bridge_sufficiency_k1,neutral,total effect,30,124,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,1,45,0.3556,0.5778,0.2222,0.1111,0.3556
+qwen14b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,2,45,0.6444,0.8667,0.2222,0.1111,0.3556
+qwen14b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,3,45,0.8222,0.9333,0.1111,0.0222,0.2
+qwen14b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,5,45,0.9556,0.9778,0.0222,0.0,0.0667
+qwen14b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,10,45,1.0,0.9778,-0.0222,-0.0667,0.0
+qwen14b,hotpot,bridge_k1_vs_neutral,all_six_arms_ran,bridge_sufficiency_k1,neutral,total effect,30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,1,127,0.252,0.378,0.126,0.0551,0.2047
+qwen14b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,2,127,0.5591,0.7244,0.1654,0.1024,0.2362
+qwen14b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,3,127,0.7165,0.8189,0.1024,0.0394,0.1654
+qwen14b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,5,127,0.8661,0.8976,0.0315,-0.0157,0.0787
+qwen14b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,10,127,0.9843,0.9921,0.0079,-0.0157,0.0394
+qwen14b,hotpot,entity_vs_neutral,all_paired,entity_sufficiency,neutral,total effect,30,127,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,1,45,0.3556,0.5111,0.1556,0.0444,0.2889
+qwen14b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,2,45,0.6444,0.8,0.1556,0.0667,0.2667
+qwen14b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,3,45,0.8222,0.8889,0.0667,-0.0444,0.1778
+qwen14b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,5,45,0.9556,0.9556,0.0,-0.0667,0.0667
+qwen14b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,10,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,entity_vs_neutral,all_six_arms_ran,entity_sufficiency,neutral,total effect,30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,1,57,0.3158,0.4035,0.0877,0.0,0.193
+qwen14b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,2,57,0.6316,0.7368,0.1053,0.0,0.2281
+qwen14b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,3,57,0.8246,0.8421,0.0175,-0.0702,0.1053
+qwen14b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,5,57,0.9298,0.9649,0.0351,0.0,0.0877
+qwen14b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,10,57,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,unsupported_vs_neutral,all_paired,unsupported_sufficiency,neutral,total effect,30,57,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,1,45,0.3556,0.4667,0.1111,0.0,0.2222
+qwen14b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,2,45,0.6444,0.7333,0.0889,-0.0222,0.2
+qwen14b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,3,45,0.8222,0.8444,0.0222,-0.0889,0.1333
+qwen14b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,5,45,0.9556,0.9778,0.0222,0.0,0.0667
+qwen14b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,10,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,unsupported_vs_neutral,all_six_arms_ran,unsupported_sufficiency,neutral,total effect,30,45,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,1,102,0.2941,0.549,0.2549,0.1667,0.3431
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,2,102,0.6373,0.8235,0.1863,0.1078,0.2745
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,3,102,0.7549,0.8824,0.1275,0.0588,0.2059
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,5,102,0.902,0.9412,0.0392,0.0098,0.0784
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,10,102,0.9902,0.9902,0.0,-0.0294,0.0294
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_paired,bridge_saturation_k3,neutral,total effect,30,102,1.0,1.0,0.0,0.0,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,1,45,0.3556,0.6,0.2444,0.1333,0.3778
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,2,45,0.6444,0.8444,0.2,0.0889,0.3333
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,3,45,0.8222,0.9111,0.0889,0.0,0.2
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,5,45,0.9556,0.9778,0.0222,0.0,0.0667
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,10,45,1.0,0.9778,-0.0222,-0.0667,0.0
+qwen14b,hotpot,bridge_sat_k3_vs_neutral,all_six_arms_ran,bridge_saturation_k3,neutral,total effect,30,45,1.0,1.0,0.0,0.0,0.0
