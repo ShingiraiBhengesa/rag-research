@@ -2,7 +2,8 @@
 
 This repository accompanies the MSc thesis *Sufficient by Design:
 Observation-Level Sufficiency Cues Manipulate Completion Decisions in Agentic
-RAG* (Saint Louis University, 2026).
+RAG* (Saint Louis University, 2026). Thesis PDF: `docs/thesis.pdf`
+*(placeholder: add the PDF or a link to the SLU repository)*.
 
 This project studies **completion manipulation** in agentic retrieval-augmented
 generation (RAG). A delegated Researcher decides for itself when it has
@@ -298,8 +299,40 @@ and `HANDOVER_NRP.md`.
 ## Results
 
 Results are in [`results/whitebox/`](results/whitebox/), one folder per
-experiment, as CSV tables with Markdown summaries that cite them. A summary of
-headline results will be added here once E2 v2 is complete.
+experiment, as CSV tables with Markdown summaries that cite them. Each thesis
+table and figure is mapped to its file in
+[`docs/THESIS_RESULTS_MAP.md`](docs/THESIS_RESULTS_MAP.md).
+
+**E1 — fixed-cue matrix (84,098 PCR-eligible runs).**
+
+* **Stopping can be manipulated.** Fixed Sufficiency made the Researcher stop
+  earlier than under Neutral on 23–82% of matched questions, across the 16
+  model–dataset combinations. All 16 are significant after Benjamini–Hochberg
+  correction.
+* **The effect depends on content and direction.** It follows a semantic
+  gradient: sufficiency > search match > epistemic confirmation > source
+  coverage. Continue Search reverses it. The Neutral-vs-Baseline placebo is
+  about a tenth the size on net earlier-minus-later stopping.
+* **Oracle calibration.** The cue still speeds up completion when all
+  annotated gold evidence is supplied before it appears (mean ASR 53.7%
+  across the 16 combinations). A local evidence gap is not needed for the
+  timing effect.
+* **The local evidence cost is modest.** EICR rises by up to 7.5 pp, which is
+  significant in 2 of 16 combinations after correction. Mean coverage loss at
+  the local stop is at most 5 pp.
+
+**E2 — bridge-anchored study (v2b, matched subsets).**
+
+* **Grounding is not needed.** Every condition, whether fixed or generated,
+  true or false, relational or entity-only, stopped earlier than Neutral in
+  every combination.
+* **No generated cue beats the fixed sentence.** Of the twelve structure,
+  truth and selection comparisons, only Structure on Qwen/2Wiki is
+  significant at q < 0.05. Where generated and fixed cues differ, the
+  generated cue is weaker.
+* **Whole-run premature stop (thesis Appendix A)** shows the same pattern. No
+  primary cell is significant, and three secondary cells show generated cues
+  weaker than fixed ones.
 
 ---
 
@@ -426,6 +459,7 @@ prematurestop/
 │
 └── docs/
     ├── SCOPE.md                         # what the thesis evaluates, and what it does not
+    ├── THESIS_RESULTS_MAP.md            # thesis table/figure → repository file
     ├── figures/agentic_rag_loop.png     # architecture diagram
     ├── MIGRATION_2026-10-16.md          # old → new path table for this layout
     ├── CHANGELOG_analysis.md            # analysis-code changelog
