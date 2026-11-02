@@ -1,0 +1,9 @@
+contrast,model,dataset,n_pairs,pct_earlier,pct_same,pct_later,ci_lower_earlier,ci_upper_earlier
+Bridge K3 vs Neutral,qwen14b,hotpot,124,44.35,49.19,6.452,35.91,53.14
+Bridge K3 vs Neutral,qwen14b,2wiki,177,39.55,55.93,4.52,32.64,46.9
+Bridge K3 vs Neutral,llama8b,hotpot,145,59.31,32.41,8.276,51.17,66.97
+Bridge K3 vs Neutral,llama8b,2wiki,163,49.08,42.94,7.975,41.52,56.69
+Fixed Sufficiency vs Neutral,qwen14b,hotpot,247,55.06,37.65,7.287,48.83,61.14
+Fixed Sufficiency vs Neutral,qwen14b,2wiki,278,43.17,53.6,3.237,37.48,49.04
+Fixed Sufficiency vs Neutral,llama8b,hotpot,316,61.08,34.49,4.43,55.6,66.29
+Fixed Sufficiency vs Neutral,llama8b,2wiki,314,56.37,41.72,1.911,50.84,61.75

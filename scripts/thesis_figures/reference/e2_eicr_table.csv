@@ -1,0 +1,13 @@
+model,dataset,arm,n_questions_matched,n_pairs,eicr_rate,ci_lower,ci_upper
+qwen14b,hotpot,Neutral,124,124,32.26,24.67,40.91
+qwen14b,hotpot,Fixed Sufficiency,124,124,39.52,31.35,48.31
+qwen14b,hotpot,Bridge K3,124,124,37.9,29.85,46.68
+qwen14b,2wiki,Neutral,177,177,62.71,55.39,69.5
+qwen14b,2wiki,Fixed Sufficiency,177,177,67.8,60.6,74.24
+qwen14b,2wiki,Bridge K3,177,177,66.1,58.85,72.67
+llama8b,hotpot,Neutral,145,145,34.48,27.24,42.53
+llama8b,hotpot,Fixed Sufficiency,145,145,40.69,33.03,48.83
+llama8b,hotpot,Bridge K3,145,145,39.31,31.73,47.44
+llama8b,2wiki,Neutral,163,163,42.33,35.01,50.01
+llama8b,2wiki,Fixed Sufficiency,163,163,46.01,38.54,53.67
+llama8b,2wiki,Bridge K3,163,163,45.4,37.95,53.06

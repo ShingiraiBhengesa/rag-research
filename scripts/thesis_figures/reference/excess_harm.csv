@@ -1,0 +1,41 @@
+contrast,model,dataset,n_pairs,gross_harm_cue,gross_harm_placebo,excess_harm,ci_lower_excess,ci_upper_excess,break_rate_cue,break_rate_placebo,n_broke,n_fixed,n_broke_placebo,n_fixed_placebo,ci_lower_gross_cue,ci_upper_gross_cue,ci_lower_gross_placebo,ci_upper_gross_placebo
+Fixed Sufficiency vs Neutral,qwen14b,hotpot,450,8.667,5.111,3.556,0,7.111,22.41,12.85,39,39,23,18,6.405,11.63,3.43,7.553
+Fixed Sufficiency vs Neutral,qwen14b,2wiki,449,11.14,6.236,4.9,0.8909,8.909,26.18,15.05,50,41,28,33,8.549,14.38,4.349,8.865
+Fixed Sufficiency vs Neutral,qwen14b,musique,447,8.054,6.935,1.119,-2.243,4.698,37.11,30.1,36,37,31,25,5.874,10.95,4.928,9.676
+Fixed Sufficiency vs Neutral,qwen14b,multihoprag,450,8.889,5.111,3.778,0.4444,7.333,23.81,14.74,40,36,23,35,6.596,11.88,3.43,7.553
+Fixed Sufficiency vs Neutral,qwen14b,pooled,1796,9.187,5.846,3.341,1.503,5.068,26.19,16.83,165,153,105,111,7.937,10.61,4.853,7.029
+Fixed Sufficiency vs Neutral,llama8b,hotpot,429,11.19,6.061,5.128,1.166,9.324,36.64,21.49,48,38,26,36,8.544,14.52,4.169,8.732
+Fixed Sufficiency vs Neutral,llama8b,2wiki,436,7.569,7.569,0,-3.67,3.899,31.13,28.7,33,44,33,24,5.44,10.44,5.44,10.44
+Fixed Sufficiency vs Neutral,llama8b,musique,419,6.205,4.773,1.432,-1.909,4.773,47.27,34.48,26,25,20,17,4.269,8.937,3.111,7.257
+Fixed Sufficiency vs Neutral,llama8b,multihoprag,416,8.413,6.25,2.163,-1.442,6.01,32.11,23.85,35,35,26,26,6.112,11.48,4.3,9
+Fixed Sufficiency vs Neutral,llama8b,pooled,1700,8.353,6.176,2.176,0.2941,4.059,35.41,26.05,142,142,105,103,7.13,9.764,5.128,7.423
+Fixed Sufficiency vs Neutral,gemma27b,hotpot,450,10,10,0,-4.222,4,27.95,26.63,45,56,45,37,7.558,13.12,7.558,13.12
+Fixed Sufficiency vs Neutral,gemma27b,2wiki,450,12.44,9.111,3.333,-0.8889,7.556,33.73,26.28,56,48,41,51,9.709,15.82,6.787,12.13
+Fixed Sufficiency vs Neutral,gemma27b,musique,400,9.75,9.25,0.5,-3.75,4.756,52.7,44.05,39,35,37,27,7.214,13.05,6.785,12.49
+Fixed Sufficiency vs Neutral,gemma27b,multihoprag,450,14.22,12.89,1.333,-3.556,6.444,43.24,39.19,64,45,58,58,11.3,17.75,10.1,16.3
+Fixed Sufficiency vs Neutral,gemma27b,pooled,1750,11.66,10.34,1.314,-0.8571,3.486,37.16,32.5,204,184,181,173,10.24,13.25,9.002,11.86
+Fixed Sufficiency vs Neutral,gpt_oss_20b,hotpot,355,11.27,9.577,1.69,-3.099,6.197,30.77,25,40,37,34,28,8.384,14.98,6.935,13.09
+Fixed Sufficiency vs Neutral,gpt_oss_20b,2wiki,450,8.444,10.67,-2.222,-6.222,1.778,24.84,29.81,38,50,48,40,6.214,11.38,8.14,13.86
+Fixed Sufficiency vs Neutral,gpt_oss_20b,musique,393,9.669,9.669,0,-4.326,4.071,56.72,52.78,38,25,38,33,7.126,12.99,7.126,12.99
+Fixed Sufficiency vs Neutral,gpt_oss_20b,multihoprag,359,12.26,13.37,-1.114,-6.407,4.178,33.59,36.64,44,44,48,48,9.258,16.05,10.23,17.28
+Fixed Sufficiency vs Neutral,gpt_oss_20b,pooled,1557,10.28,10.79,-0.5138,-2.826,1.798,33.26,33.6,160,156,168,149,8.864,11.88,9.344,12.43
+Suff.+Saturation vs Neutral,qwen14b,hotpot,450,7.111,5.111,2,-1.333,5.117,18.39,12.85,32,37,23,18,5.082,9.866,3.43,7.553
+Suff.+Saturation vs Neutral,qwen14b,2wiki,449,11.58,6.236,5.345,1.559,9.577,27.23,15.05,52,31,28,33,8.942,14.87,4.349,8.865
+Suff.+Saturation vs Neutral,qwen14b,musique,447,7.383,6.935,0.4474,-3.132,4.251,34.38,30.39,33,32,31,25,5.305,10.19,4.928,9.676
+Suff.+Saturation vs Neutral,qwen14b,multihoprag,450,8,5.111,2.889,-0.2222,6.222,21.43,14.74,36,41,23,35,5.834,10.88,3.43,7.553
+Suff.+Saturation vs Neutral,qwen14b,pooled,1796,8.519,5.846,2.673,0.8909,4.454,24.32,16.85,153,141,105,111,7.315,9.9,4.853,7.029
+Suff.+Saturation vs Neutral,llama8b,hotpot,429,11.66,6.061,5.594,1.632,9.79,38.17,21.49,50,34,26,36,8.953,15.04,4.169,8.732
+Suff.+Saturation vs Neutral,llama8b,2wiki,436,7.569,7.569,0,-3.44,3.67,31.13,28.7,33,37,33,24,5.44,10.44,5.44,10.44
+Suff.+Saturation vs Neutral,llama8b,musique,419,5.967,4.773,1.193,-1.909,4.535,45.45,34.48,25,28,20,17,4.074,8.66,3.111,7.257
+Suff.+Saturation vs Neutral,llama8b,multihoprag,416,9.135,6.25,2.885,-0.7212,6.731,34.86,23.85,38,33,26,26,6.727,12.29,4.3,9
+Suff.+Saturation vs Neutral,llama8b,pooled,1700,8.588,6.176,2.412,0.5294,4.353,36.41,26.05,146,132,105,103,7.348,10.02,5.128,7.423
+Suff.+Saturation vs Neutral,gemma27b,hotpot,450,10.89,10,0.8889,-3.333,5.111,30.43,26.63,49,53,45,37,8.335,14.1,7.558,13.12
+Suff.+Saturation vs Neutral,gemma27b,2wiki,350,11.43,8.857,2.571,-2,7.429,30.08,24.8,40,37,31,39,8.506,15.19,6.31,12.3
+Suff.+Saturation vs Neutral,gemma27b,musique,400,9.25,9.25,0,-4,4.25,50,44.05,37,41,37,27,6.785,12.49,6.785,12.49
+Suff.+Saturation vs Neutral,gemma27b,multihoprag,450,13.11,12.89,0.2222,-4.667,4.889,39.86,39.19,59,57,58,58,10.3,16.54,10.1,16.3
+Suff.+Saturation vs Neutral,gemma27b,pooled,1650,11.21,10.36,0.8485,-1.394,3.091,35.85,32.51,185,188,171,161,9.779,12.83,8.984,11.93
+Suff.+Saturation vs Neutral,gpt_oss_20b,hotpot,352,9.943,10.23,-0.2841,-4.83,4.261,26.72,26.28,35,48,36,30,7.236,13.51,7.479,13.83
+Suff.+Saturation vs Neutral,gpt_oss_20b,2wiki,450,7.556,10.67,-3.111,-7.111,0.8889,22.22,29.81,34,46,48,40,5.457,10.37,8.14,13.86
+Suff.+Saturation vs Neutral,gpt_oss_20b,musique,394,8.883,9.645,-0.7614,-5.33,3.553,53.03,54.29,35,25,38,34,6.457,12.1,7.107,12.96
+Suff.+Saturation vs Neutral,gpt_oss_20b,multihoprag,359,13.37,12.53,0.8357,-4.735,6.128,36.09,34.35,48,46,45,47,10.23,17.28,9.501,16.36
+Suff.+Saturation vs Neutral,gpt_oss_20b,pooled,1555,9.775,10.74,-0.9646,-3.28,1.286,31.47,33.47,152,165,167,151,8.396,11.35,9.296,12.38

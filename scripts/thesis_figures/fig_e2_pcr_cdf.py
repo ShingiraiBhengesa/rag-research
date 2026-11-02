@@ -1,7 +1,7 @@
 """Figure 5.3 (bridge-anchored study): PCR curves per cell for Neutral, Fixed Sufficiency and Bridge K3.
 
-Run from the repo root after thesis_restructure_e2.py:  PYTHONPATH=src python notes/reviewer_checks/fig_e2_pcr_cdf.py
-Data: notes/reviewer_checks/e2/e2_pcr_curves.csv. PCR_c(k) = % of the arm's valid runs (anchor-matched, PCR-eligible)
+Run from the repo root after thesis_restructure_e2.py:  PYTHONPATH=src python scripts/thesis_figures/fig_e2_pcr_cdf.py
+Data: results/thesis_tables/e2/e2_pcr_curves.csv. PCR_c(k) = % of the arm's valid runs (anchor-matched, PCR-eligible)
 completed by step k; every valid run of each arm is used (not matched pairs), so Bridge K3 covers only questions with
 a usable bridge fact. n per arm is in e2_pcr_curves.csv (not drawn).
 Output: results/figures/thesis_restructure_e2/fig_e2_pcr_cdf.{pdf,png} (300 dpi, PDF fonttype 42), plus one file per

@@ -1,15 +1,15 @@
 """Thesis results restructure: 9 CSVs (notes/reviewer_checks/) and 8 figures (results/figures/thesis_restructure/).
 
 Run from the repo root (whitebox env):
-    PYTHONPATH=src python notes/reviewer_checks/thesis_restructure.py
+    PYTHONPATH=src python scripts/thesis_figures/thesis_restructure.py
 
 Sources
   E1 runs     results/whitebox/e1_fixed_cue_matrix/evidence_hop_coverage{,_gemma_gptoss}/run_level_evidence_hops.csv
               (T_i, route, pcr_eligible, evidence at the Researcher's stop and at the final-report input)
-  E1 answers  local_data/evaluation/v3_final_completed_qwen_llama_20260910/answers/final_answer_predictions.jsonl
-              results/whitebox/e1_fixed_cue_matrix/gemma_gptoss/data/answer_run_level.csv  (same loader as answer_harm.py)
+  E1 answers  results/whitebox/e1_fixed_cue_matrix/qwen_llama/data/answer_run_level.csv  (Git LFS)
+              results/whitebox/e1_fixed_cue_matrix/gemma_gptoss/data/answer_run_level.csv.gz  (same loader as answer_harm.py)
   E1 char.    results/whitebox/e1_fixed_cue_matrix/*/data/pcr_paired_deltas_stepwise.csv
-  E2 runs     local_data/e2_bridge_mechanism/run_results/full/trajectories/run_labels.csv  (v2b full run)
+  E2 runs     results/whitebox/e2_bridge_mechanism/v2b_full/trajectories/run_labels.csv  (v2b full run)
 Definitions (printed again at run time)
   t        first post-observation completion step (RESEARCH_COMPLETE / NO_TOOL_DIRECT_EXIT); no completion = inf
   pair     same model x dataset x question, both runs PCR-eligible
@@ -35,10 +35,10 @@ from matplotlib.patches import Patch  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[2]
 E1 = REPO / "results/whitebox/e1_fixed_cue_matrix"
-E2_LABELS = REPO / "local_data/e2_bridge_mechanism/run_results/full/trajectories/run_labels.csv"
-QL_ANSWERS = REPO / "local_data/evaluation/v3_final_completed_qwen_llama_20260910/answers/final_answer_predictions.jsonl"
-GG_ANSWERS = E1 / "gemma_gptoss/data/answer_run_level.csv"
-OUTC = REPO / "notes/reviewer_checks"
+E2_LABELS = REPO / "results/whitebox/e2_bridge_mechanism/v2b_full/trajectories/run_labels.csv"
+QL_ANSWERS = E1 / "qwen_llama/data/answer_run_level.csv"  # Git LFS; identical labels to the local final_answer_predictions.jsonl
+GG_ANSWERS = E1 / "gemma_gptoss/data/answer_run_level.csv.gz"
+OUTC = REPO / "results/figures/thesis_restructure_csv"  # base-module CSVs; not used by the thesis pipeline
 OUTF = REPO / "results/figures/thesis_restructure"
 SEED, NB = 20260910, 2000
 
@@ -123,15 +123,11 @@ def load_e1():
     ev["final_full"] = b(ev.final_full_evidence)
     ev["missing"] = pd.to_numeric(ev.local_evidence_count_missing, errors="coerce")
     ans = {}
-    with QL_ANSWERS.open(encoding="utf-8") as fh:
-        for line in fh:
-            r = json.loads(line)
-            if r["condition"] in (CLEAN, NEU, FIX, SAT):
-                ans[(r["model"], r["dataset"], r["condition"], str(r["example_id"]))] = r["semantic_label"] == "correct"
-    gg = pd.read_csv(GG_ANSWERS, usecols=["model", "dataset", "condition", "example_id", "automatic_semantic_label"],
-                     dtype=str)
-    gg = gg[gg.condition.isin([CLEAN, NEU, FIX, SAT])]
-    ans.update({(m, d, c, q): l == "correct" for m, d, c, q, l in gg.itertuples(index=False)})
+    for path in (QL_ANSWERS, GG_ANSWERS):
+        gg = pd.read_csv(path, usecols=["model", "dataset", "condition", "example_id", "automatic_semantic_label"],
+                         dtype=str)
+        gg = gg[gg.condition.isin([CLEAN, NEU, FIX, SAT])]
+        ans.update({(m, d, c, q): l == "correct" for m, d, c, q, l in gg.itertuples(index=False)})
     keys = list(zip(ev.model, ev.dataset, ev.condition, ev.example_id))
     ev["correct"] = [ans.get(k, np.nan) for k in keys]
     return ev

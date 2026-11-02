@@ -63,3 +63,9 @@ CLAUDE.md
 
 # scratch output of scripts/thesis_figures (final figures live in results/thesis_figures/)
 /results/figures/
+
+# scripts/thesis_figures outputs that are outside the thesis scope (answers / harm) or run logs
+/results/thesis_tables/**/*harm*.csv
+/results/thesis_tables/e2/e2_accuracy.csv
+/results/thesis_tables/e2/e2_mechanism.csv
+/results/thesis_tables/**/*.txt

@@ -1,11 +1,11 @@
 """E2 (bridge-anchored study) rewritten to the advisor-agreed metrics reference.
 
 Run from the repo root (whitebox env):
-    PYTHONPATH=src python notes/reviewer_checks/thesis_restructure_e2.py > notes/reviewer_checks/e2/thesis_restructure_e2_log.txt
+    PYTHONPATH=src python scripts/thesis_figures/thesis_restructure_e2.py > results/thesis_tables/e2/thesis_restructure_e2_log.txt
 
 Reuses the E2 loading rules of thesis_restructure_v2.py (task7: local v2b run files, status == "ran" = d1 matched the
 anchor byte-for-byte) and its helpers (boot, mcnemar_p, bh, wilson). Existing scripts and outputs are not touched.
-Outputs: CSVs in notes/reviewer_checks/e2/, figures in results/figures/thesis_restructure_e2/ (PDF fonttype 42 + PNG).
+Outputs: CSVs in results/thesis_tables/e2/, figures in results/figures/thesis_restructure_e2/ (PDF fonttype 42 + PNG).
 
 Definitions (same as E1)
   cell   qwen14b / llama8b x hotpot / 2wiki; every metric per cell, never pooled across cells
@@ -34,7 +34,8 @@ from matplotlib.lines import Line2D  # noqa: E402
 
 plt.rcParams["pdf.fonttype"] = 42
 E2_DIR = V.E2_DIR
-OUTC = REPO / "notes/reviewer_checks/e2"
+OUTC = REPO / "results/thesis_tables/e2"
+REF = Path(__file__).resolve().parent / "reference"  # earlier outputs, read only by the VERIFY cross-checks
 OUTF = REPO / "results/figures/thesis_restructure_e2"
 CELLS = [(v, d) for v in ("qwen14b", "llama8b") for d in ("hotpot", "2wiki")]
 VNAME = {"qwen14b": "Qwen2.5-14B", "llama8b": "Llama-3.1-8B"}
@@ -261,7 +262,7 @@ def task3(L):
     asr = pd.DataFrame(rows)
     asr["q_bh"] = asr.groupby("arm").p_wilcoxon.transform(lambda p: bh(p.to_numpy()))
     save_csv(asr, "e2_asr_all.csv")
-    old = pd.read_csv(REPO / "notes/thesis_restructure/csv/e2_asr_table.csv")
+    old = pd.read_csv(REF / "e2_asr_table.csv")
     lab = {"Fixed Sufficiency vs Neutral": "fixed_sufficiency", "Bridge K3 vs Neutral": "bridge_sufficiency_k3"}
     j = old.assign(arm=old.contrast.map(lab)).merge(asr, on=["arm", "model", "dataset"], suffixes=("_old", ""))
     mx = (j.pct_earlier_old - j.pct_earlier).abs().max()
@@ -277,7 +278,7 @@ def task3(L):
 # --------------------------------------------------------------------------- Task 4
 def task4(L, k50):
     rule("TASK 4: five contrasts at k50")
-    old = pd.read_csv(REPO / "notes/reviewer_checks/v2/e2_contrasts.csv")
+    old = pd.read_csv(V.OUTC / "e2_contrasts.csv")
     rows = []
     for cid, label, B, A, tier in CONTRASTS:
         for v, d in CELLS:
@@ -398,7 +399,7 @@ def task5(L):
              "q_bh"]].to_string(index=False, float_format=lambda f: f"{f:.3g}"))
     # verification on the published definition (thesis_restructure.eicr_rows): questions valid in all of
     # Neutral / Fixed / K3, then each arm's completed, coverage-recorded runs. t uses t_i as in T.load_e2.
-    old = pd.read_csv(REPO / "notes/thesis_restructure/csv/e2_eicr_table.csv")
+    old = pd.read_csv(REF / "e2_eicr_table.csv")
     three = [NEU, "fixed_sufficiency", "bridge_sufficiency_k3"]
     worst, n_ok = 0.0, 0
     for v, d in CELLS:
@@ -485,7 +486,7 @@ def task6(L):
 def task7():
     rule("TASK 7: E1 alignment check (Wilcoxon on D_q vs sign test)")
     ev = V.load_e1_all()
-    old = pd.read_csv(REPO / "notes/reviewer_checks/v2/asr_table_all.csv")
+    old = pd.read_csv(V.OUTC / "asr_table_all.csv")
     rows = []
     for cue, ref, label, _ in V.CONTRASTS:
         p = V.pairs(ev, cue, ref)
@@ -607,7 +608,7 @@ def task_b_e2(L):
     return out
 
 
-OUTC_COV = REPO / "notes/reviewer_checks/cov"
+OUTC_COV = REPO / "results/thesis_tables/coverage"
 
 
 def main():

@@ -1,8 +1,8 @@
 """Figure 5.2: box plot of the paired step reduction D_q = t_Neutral - t_cue, Fixed Sufficiency vs Neutral,
 one box per model x dataset.
 
-Run from the repo root:  PYTHONPATH=src python notes/reviewer_checks/fig5_2_step_boxplot.py
-Data: notes/reviewer_checks/v2/step_pairs_all.csv (pairs: same question, both runs PCR-eligible; non-completion
+Run from the repo root:  PYTHONPATH=src python scripts/thesis_figures/fig5_2_step_boxplot.py
+Data: results/thesis_tables/e1/step_pairs_all.csv (pairs: same question, both runs PCR-eligible; non-completion
 coded t = 30). Boxes = IQR with median; whiskers = 1.5 x IQR; outliers as faint dots. Statistics use every pair; the
 y-axis is only clipped to [-6, +8] for legibility (points outside are counted in the printed summary / data CSV).
 Output: results/figures/thesis_restructure_v2/fig5_2_step_boxplot.{pdf,png} (300 dpi) + fig5_2_step_boxplot_data.csv

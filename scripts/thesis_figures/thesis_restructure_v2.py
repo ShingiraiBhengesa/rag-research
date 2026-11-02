@@ -1,10 +1,10 @@
 """Thesis restructure v2: Chapter 5 around attack success rate (ASR) and paired step reduction.
 
 Run from the repo root (whitebox env):
-    PYTHONPATH=src python notes/reviewer_checks/thesis_restructure_v2.py | tee notes/reviewer_checks/v2/thesis_restructure_v2_log.txt
+    PYTHONPATH=src python scripts/thesis_figures/thesis_restructure_v2.py | tee results/thesis_tables/e1/thesis_restructure_v2_log.txt
 
 Reuses the loaders/helpers of thesis_restructure.py (imported, not modified). Outputs:
-  CSVs     notes/reviewer_checks/v2/              (unrounded)
+  CSVs     results/thesis_tables/e1/              (unrounded)
   figures  results/figures/thesis_restructure_v2/ (PDF + PNG, 300 dpi)
 
 Definitions
@@ -34,7 +34,8 @@ from thesis_restructure import (CLEAN, DATASETS, E1, FIX, MODELS, NB, NEU, REPO,
 from matplotlib.colors import LinearSegmentedColormap  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
 
-OUTC = REPO / "notes/reviewer_checks/v2"
+OUTC = REPO / "results/thesis_tables/e1"
+REF = Path(__file__).resolve().parent / "reference"  # earlier outputs, read only by the VERIFY cross-checks
 OUTF = REPO / "results/figures/thesis_restructure_v2"
 E2_DIR = REPO / "results/whitebox/e2_bridge_mechanism/v2b_full"
 T_NC = 30  # non-completion code
@@ -168,7 +169,7 @@ def task1(ev):
     save_csv(mac, "asr_macro.csv")
 
     print("\nVERIFY 1a: Fixed/Saturation rows vs existing notes/reviewer_checks/asr_table.csv (tolerance 0.01)")
-    old = pd.read_csv(REPO / "notes/reviewer_checks/asr_table.csv")
+    old = pd.read_csv(REF / "asr_table.csv")
     j = old.merge(asr, on=["contrast", "model", "dataset"], suffixes=("_old", ""))
     worst = max((j[f"{c}_old"] - j[c]).abs().max() for c in ("pct_earlier", "pct_same", "pct_later"))
     worst_ci = max((j[f"{c}_old"] - j[c]).abs().max() for c in ("ci_lower_earlier", "ci_upper_earlier"))
@@ -296,7 +297,7 @@ def task4(ev):
         r = r[r.baseline == NEU]
         ident.update({(m, d, c, q): v == "True" for m, d, q, c, v in
                       zip(r.model, r.dataset, r.example_id, r.condition, r.identical_base_tool_message_hash)})
-    task1_old = pd.read_csv(REPO / "notes/reviewer_checks/task1_identical_d1_table.csv")
+    task1_old = pd.read_csv(REF / "task1_identical_d1_table.csv")
     rows, missing = [], 0
     for cue, ref, label, _ in TIMING[:2]:
         p = pairs(ev, cue, ref)
@@ -393,7 +394,7 @@ def task5(ev4):
     macro["dataset"] = "macro"
     macro["thesis_value"] = [THESIS_EICR[m][0] if a == "Neutral" else THESIS_EICR[m][1] if a == "Suff.+Saturation"
                              else np.nan for m, a in zip(macro.model, macro.arm)]
-    old = pd.read_csv(REPO / "notes/reviewer_checks/eicr_table.csv")
+    old = pd.read_csv(REF / "eicr_table.csv")
     oldm = old.groupby(["model", "arm"]).eicr_rate.mean()
     macro["existing_eicr_table"] = [oldm[(m, a)] for m, a in zip(macro.model, macro.arm)]
     out = pd.concat([r, macro], ignore_index=True)
@@ -439,12 +440,12 @@ def task6(ev4, char):
         columns={"gross_harm_cue": "gross_harm_rate", "excess_harm": "excess_harm_rate"})
     sup = sup.merge(cell, on=["model", "dataset"], how="left")
     save_csv(sup, "pre_post_supervisor_harm_saturation.csv")
-    old = pd.read_csv(REPO / "notes/reviewer_checks/excess_harm.csv")
+    old = pd.read_csv(REF / "excess_harm.csv")
     o = old[(old.contrast == con[0][2]) & (old.dataset != "pooled")].merge(cell, on=["model", "dataset"])
     mx = (o.excess_harm - o.excess_harm_rate).abs().max()
     print(f"\nVERIFY 6a: Saturation excess-harm columns vs existing excess_harm.csv, max |diff| = {mx:.4f}"
           f" -> {'PASS' if mx < 0.01 else 'FAIL'}")
-    fx = pd.read_csv(REPO / "notes/reviewer_checks/evidence_harm.csv")
+    fx = pd.read_csv(REF / "evidence_harm.csv")
     fx_new = T.harm_rows(ev4, [(FIX, NEU, "Fixed Sufficiency vs Neutral")], char, MODELS, DATASETS)
     mx = (fx.evidence_gap_rate.to_numpy() - fx_new.evidence_gap_rate.to_numpy())
     print(f"VERIFY 6b: same code reproduces the Fixed evidence_harm.csv, max |diff| gap rate = {np.nanmax(np.abs(mx)):.4f}")
@@ -560,7 +561,7 @@ def task7():
 
 
 # --------------------------------------------------------------------------- coverage loss (--cov)
-OUTC_COV = REPO / "notes/reviewer_checks/cov"
+OUTC_COV = REPO / "results/thesis_tables/coverage"
 
 
 def task_cov_e1():

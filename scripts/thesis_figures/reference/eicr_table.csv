@@ -1,0 +1,49 @@
+model,dataset,arm,n_questions_matched,n_pairs,eicr_rate,ci_lower,ci_upper
+qwen14b,hotpot,Neutral,440,440,32.5,28.29,37.01
+qwen14b,hotpot,Fixed Sufficiency,440,440,40,35.53,44.65
+qwen14b,hotpot,Suff.+Saturation,440,440,39.09,34.64,43.73
+qwen14b,2wiki,Neutral,447,447,55.03,50.4,59.58
+qwen14b,2wiki,Fixed Sufficiency,447,447,60.18,55.57,64.61
+qwen14b,2wiki,Suff.+Saturation,447,447,59.73,55.12,64.18
+qwen14b,musique,Neutral,431,431,67.98,63.43,72.21
+qwen14b,musique,Fixed Sufficiency,431,431,70.3,65.82,74.42
+qwen14b,musique,Suff.+Saturation,431,431,70.07,65.58,74.2
+qwen14b,multihoprag,Neutral,450,450,5.778,3.973,8.331
+qwen14b,multihoprag,Fixed Sufficiency,450,450,6.667,4.709,9.358
+qwen14b,multihoprag,Suff.+Saturation,450,450,8,5.834,10.88
+llama8b,hotpot,Neutral,420,420,45,40.31,49.78
+llama8b,hotpot,Fixed Sufficiency,420,420,50.95,46.18,55.7
+llama8b,hotpot,Suff.+Saturation,420,420,51.43,46.66,56.17
+llama8b,2wiki,Neutral,433,433,56.35,51.64,60.95
+llama8b,2wiki,Fixed Sufficiency,433,433,54.97,50.26,59.59
+llama8b,2wiki,Suff.+Saturation,433,433,55.43,50.72,60.04
+llama8b,musique,Neutral,407,405,68.64,63.97,72.97
+llama8b,musique,Fixed Sufficiency,407,407,75.43,71.02,79.36
+llama8b,musique,Suff.+Saturation,407,407,76.41,72.05,80.28
+llama8b,multihoprag,Neutral,418,418,5.263,3.501,7.84
+llama8b,multihoprag,Fixed Sufficiency,418,418,9.809,7.313,13.04
+llama8b,multihoprag,Suff.+Saturation,418,418,10.77,8.144,14.1
+gemma27b,hotpot,Neutral,450,450,33.33,29.14,37.81
+gemma27b,hotpot,Fixed Sufficiency,450,450,37.56,33.2,42.12
+gemma27b,hotpot,Suff.+Saturation,450,450,34.89,30.63,39.4
+gemma27b,2wiki,Neutral,350,350,31.14,26.52,36.18
+gemma27b,2wiki,Fixed Sufficiency,350,350,36,31.15,41.16
+gemma27b,2wiki,Suff.+Saturation,350,350,32.86,28.15,37.94
+gemma27b,musique,Neutral,400,400,68.5,63.79,72.86
+gemma27b,musique,Fixed Sufficiency,400,400,67.75,63.02,72.14
+gemma27b,musique,Suff.+Saturation,400,400,69,64.3,73.33
+gemma27b,multihoprag,Neutral,450,450,8.667,6.405,11.63
+gemma27b,multihoprag,Fixed Sufficiency,450,450,11.78,9.118,15.08
+gemma27b,multihoprag,Suff.+Saturation,450,450,12.22,9.512,15.57
+gpt_oss_20b,hotpot,Neutral,337,336,28.87,24.28,33.93
+gpt_oss_20b,hotpot,Fixed Sufficiency,337,337,28.19,23.65,33.22
+gpt_oss_20b,hotpot,Suff.+Saturation,337,336,31.85,27.09,37.01
+gpt_oss_20b,2wiki,Neutral,450,449,43.88,39.36,48.5
+gpt_oss_20b,2wiki,Fixed Sufficiency,450,448,47.54,42.96,52.17
+gpt_oss_20b,2wiki,Suff.+Saturation,450,449,50.56,45.95,55.16
+gpt_oss_20b,musique,Neutral,397,396,66.16,61.37,70.65
+gpt_oss_20b,musique,Fixed Sufficiency,397,397,69.27,64.56,73.61
+gpt_oss_20b,musique,Suff.+Saturation,397,396,66.67,61.88,71.13
+gpt_oss_20b,multihoprag,Neutral,372,372,8.065,5.707,11.28
+gpt_oss_20b,multihoprag,Fixed Sufficiency,372,372,9.677,7.072,13.11
+gpt_oss_20b,multihoprag,Suff.+Saturation,372,372,9.409,6.843,12.8
